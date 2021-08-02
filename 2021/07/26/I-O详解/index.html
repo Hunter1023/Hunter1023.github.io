@@ -145,17 +145,17 @@
 
 
 
-  <meta name="description" content="概述Java的I/O大概可以分成以下几类：  磁盘操作：File 字节操作：InputStream 和 OutputStream 字符操作：Reader 和 Writer 对象操作：Serializable 网络操作：Socket 新的输入/输出：NIO   磁盘操作File类可以用于表示文件和目录的信息，但是不表示文件的内容。 递归地列出一个目录下的所有文件： 123456789101112pu">
+  <meta name="description" content="概述Java的I/O大概可以分成以下几类：  磁盘操作：File 字节操作：InputStream 和 OutputStream 字符操作：Reader 和 Writer 对象操作：Serializable 网络操作：Socket 新的输入/输出：NIO   File 类java.io.FileFile类可以用于表示文件和目录路径名，但是不表示文件的内容。  静态成员变量 pathSeparato">
 <meta property="og:type" content="article">
 <meta property="og:title" content="I&#x2F;O详解">
 <meta property="og:url" content="https://hunter1023.github.io/2021/07/26/I-O详解/index.html">
 <meta property="og:site_name" content="特叔服务">
-<meta property="og:description" content="概述Java的I/O大概可以分成以下几类：  磁盘操作：File 字节操作：InputStream 和 OutputStream 字符操作：Reader 和 Writer 对象操作：Serializable 网络操作：Socket 新的输入/输出：NIO   磁盘操作File类可以用于表示文件和目录的信息，但是不表示文件的内容。 递归地列出一个目录下的所有文件： 123456789101112pu">
+<meta property="og:description" content="概述Java的I/O大概可以分成以下几类：  磁盘操作：File 字节操作：InputStream 和 OutputStream 字符操作：Reader 和 Writer 对象操作：Serializable 网络操作：Socket 新的输入/输出：NIO   File 类java.io.FileFile类可以用于表示文件和目录路径名，但是不表示文件的内容。  静态成员变量 pathSeparato">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-07-26T07:57:28.341Z">
+<meta property="og:updated_time" content="2021-08-02T16:06:57.252Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="I&#x2F;O详解">
-<meta name="twitter:description" content="概述Java的I/O大概可以分成以下几类：  磁盘操作：File 字节操作：InputStream 和 OutputStream 字符操作：Reader 和 Writer 对象操作：Serializable 网络操作：Socket 新的输入/输出：NIO   磁盘操作File类可以用于表示文件和目录的信息，但是不表示文件的内容。 递归地列出一个目录下的所有文件： 123456789101112pu">
+<meta name="twitter:description" content="概述Java的I/O大概可以分成以下几类：  磁盘操作：File 字节操作：InputStream 和 OutputStream 字符操作：Reader 和 Writer 对象操作：Serializable 网络操作：Socket 新的输入/输出：NIO   File 类java.io.FileFile类可以用于表示文件和目录路径名，但是不表示文件的内容。  静态成员变量 pathSeparato">
 
 
 
@@ -455,12 +455,24 @@
                 
               
 
-              <time title="创建时间：2021-07-26 14:50:14 / 修改时间：15:57:28" itemprop="dateCreated datePublished" datetime="2021-07-26T14:50:14+08:00">2021-07-26</time>
+              <time title="创建时间：2021-07-26 14:50:14" itemprop="dateCreated datePublished" datetime="2021-07-26T14:50:14+08:00">2021-07-26</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-08-03 00:06:57" itemprop="dateModified" datetime="2021-08-03T00:06:57+08:00">2021-08-03</time>
               
             
           </span>
@@ -549,11 +561,140 @@
 <li>新的输入/输出：NIO</li>
 </ul>
 <hr>
-<h2 id="磁盘操作"><a href="#磁盘操作" class="headerlink" title="磁盘操作"></a>磁盘操作</h2><p>File类可以用于<strong>表示文件和目录的信息</strong>，但是<strong>不表示文件的内容</strong>。</p>
-<p>递归地列出一个目录下的所有文件：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">listAllFiles</span><span class="params">(File dir)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (dir == <span class="keyword">null</span> || !dir.exists()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (dir.isFile()) &#123;</span><br><span class="line">        System.out.println(dir.getName());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (File file : dir.listFiles()) &#123;</span><br><span class="line">        listAllFiles(file);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>从 Java7 开始，可以使用 Paths 和 Files 代替 File。</p>
+<h2 id="File-类"><a href="#File-类" class="headerlink" title="File 类"></a>File 类</h2><p><code>java.io.File</code>File类可以用于<strong>表示文件和目录路径名</strong>，但是<strong>不表示文件的内容</strong>。</p>
 <hr>
+<h3 id="静态成员变量"><a href="#静态成员变量" class="headerlink" title="静态成员变量"></a>静态成员变量</h3><ul>
+<li><p><code>pathSeparator</code>：<strong>路径分隔符</strong></p>
+<ul>
+<li><p>Windows：<code>;</code></p>
+</li>
+<li><p>Linux：<code>:</code></p>
+</li>
+</ul>
+</li>
+<li><p><code>separator</code>：<strong>文件名称分隔符</strong></p>
+<ul>
+<li><p>Windows：<strong>反斜杠</strong><code>\</code></p>
+</li>
+<li><p>Linux：<strong>正斜杠</strong><code>/</code></p>
+<p>为了保证在不同系统中都能顺利执行，操作路径不能写死：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"C:"</span> + File.Separator + <span class="string">"develop"</span> + File.Separator + <span class="string">"a"</span> + File.Separator + <span class="string">"a.md"</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="绝对路径和相对路径"><a href="#绝对路径和相对路径" class="headerlink" title="绝对路径和相对路径"></a>绝对路径和相对路径</h3><ul>
+<li><p>绝对路径：一个完整地址</p>
+</li>
+<li><p>相对路径：简化的路径，<strong>将当前地址作为根目录</strong></p>
+</li>
+</ul>
+<hr>
+<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><ul>
+<li><p><code>File(String pathname)</code>：将给定的<strong>路径名</strong>字符串转换为抽象路径名来创建一个新File实例。</p>
+<p>  pathname可以<strong>以文件结尾</strong>，也可以<strong>以文件夹结尾</strong>；可以是<strong>相对</strong>路径，也可以是<strong>绝对</strong>路径；<strong>可以存在，也可以不存在</strong>。<strong>创建File对象，只是把字符串路径封装为File对象，无需考虑路径真假</strong>。</p>
+</li>
+<li><p><code>File(String parent, String child)</code></p>
+<p>  参数把路径分成了两部分，父路径和子路径可以单独书写，使用起来非常灵活。</p>
+</li>
+<li><p><code>File(File parent, String child)</code></p>
+<p>  父路径是File类型，<strong>可以使用File类的方法对路径进行一些操作</strong>。</p>
+</li>
+</ul>
+<hr>
+<h3 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h3><h4 id="获取方法"><a href="#获取方法" class="headerlink" title="获取方法"></a>获取方法</h4><ul>
+<li><p><code>String getAbsolutePath()</code>：返回此File的绝对路径名字符串</p>
+</li>
+<li><p><code>String getPath()</code>：将此File转换为<strong>路径名</strong>字符串(创建File时的pathname是什么样，就是什么样)</p>
+<p>  使用<code>toString</code>方法有相同的效果（调用了<code>getPath</code>方法）</p>
+</li>
+<li><p><code>String getName()</code>：返回File的构造方法传递的<strong>结尾部分</strong>（文件或目录的名称）</p>
+</li>
+<li><p><code>long length()</code>：返回File表示的<strong>文件的大小</strong>，以<strong>字节</strong>为单位</p>
+<p>  <strong>文件夹没有大小的概念</strong>，因此获取文件夹的大小会返回0；如果构造方法中给出的路径不存在，返回0。</p>
+</li>
+</ul>
+<hr>
+<h4 id="判断方法"><a href="#判断方法" class="headerlink" title="判断方法"></a>判断方法</h4><ul>
+<li><code>boolean exists()</code>：File表示的文件或者目录当前是否存在</li>
+<li><code>boolean isDirectory()</code>：File对象是否是目录</li>
+<li><code>boolean isFile()</code>：File对象是否是文件</li>
+</ul>
+<p><code>isDirectory()</code>和<code>isFile()</code>方法的<strong>正确发挥作用的前提是路径已存在，否则都会返回false</strong>。可以通过<code>exist()</code>先做判断：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">File f = <span class="keyword">new</span> File(<span class="string">"C:\\download\\xx.torrent"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果路径不存在，没有必要进行后续的判断</span></span><br><span class="line"><span class="keyword">if</span>(f.exists()) &#123;</span><br><span class="line">    System.out.println(f.isFile());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="创建和删除方法"><a href="#创建和删除方法" class="headerlink" title="创建和删除方法"></a>创建和删除方法</h4><ul>
+<li><p><code>boolean createNewFile()</code>：当且仅当具有该名称的文件不存在时，创建一个新的空文件。</p>
+</li>
+<li><p><code>boolean delete()</code>：删除由此File表示的文件或目录。</p>
+<p>  <strong>文件夹中有内容，则不会删除</strong>；路径不存在，会返回false。</p>
+<p>  delete方法是<strong>直接在硬盘删除文件/文件夹</strong>，不走回收站（<strong>直接永久删除</strong>），要<strong>慎用</strong>。</p>
+</li>
+<li><p><code>boolean mkdir()</code>：创建由此File表示的目录。</p>
+</li>
+<li><p><code>boolean mkdirs()</code>：创建由此File表示的<strong>目录</strong>，<strong>包括任何必需但不存在的父目录</strong>（相对于<code>mkdir()</code>，<strong>适用范围更广，推荐</strong>）。</p>
+</li>
+</ul>
+<hr>
+<h3 id="遍历目录"><a href="#遍历目录" class="headerlink" title="遍历目录"></a>遍历目录</h3><ul>
+<li><code>String[] list()</code>：返回一个<strong>String</strong>数组，表示该File目录中的<strong>所有子</strong>文件或目录（<strong>子目录下的内容不会获取</strong>）。</li>
+<li><code>File[] listFiles()</code>：返回一个<strong>File</strong>数组，表示该File目录中的<strong>所有子</strong>文件或目录。</li>
+</ul>
+<p>如果目录的<strong>路径不存在</strong>，或者<strong>路径不是一个目录</strong>，都会<strong>抛出空指针异常</strong>。</p>
+<hr>
+<h3 id="文件搜索"><a href="#文件搜索" class="headerlink" title="文件搜索"></a>文件搜索</h3><p><strong>递归</strong>地列出一个目录下的所有文件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">listAllFiles</span><span class="params">(File dir)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (dir == <span class="keyword">null</span> || !dir.exists()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (dir.isFile()) &#123;</span><br><span class="line">        System.out.println(dir.getName());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (File file : dir.listFiles()) &#123;</span><br><span class="line">        listAllFiles(file);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="文件过滤器"><a href="#文件过滤器" class="headerlink" title="文件过滤器"></a>文件过滤器</h3><ul>
+<li><p><code>java.io.FileFilter</code>是一个接口，是<strong>File的过滤器</strong>。该接口的对象<strong>可以传递给File类的<code>listFiles(FileFilter)</code>作为参数</strong>。</p>
+<p>  接口中的<strong>唯一方法</strong>：<code>boolean accept(File pathname)</code>：测试<strong>指定文件对象是否应该包含在当前File目录中</strong>。</p>
+<p>  listFiles方法会<strong>调用参数传递的过滤器中的方法accept</strong>。</p>
+</li>
+<li><p><code>java.io.FilenameFilter</code>是<strong>文件名称的过滤器</strong>。</p>
+<p>  接口中的<strong>唯一方法</strong>：<code>boolean accept(File dir, String name)</code>：测试<strong>指定文件是否应该包含在某一文件列表中</strong>。</p>
+</li>
+</ul>
+<p>两个过滤器接口没有实现类，需要自己写实现类，重写accept方法，<strong>自定义过滤规则</strong>。</p>
+<hr>
+<h2 id="IO-流概述"><a href="#IO-流概述" class="headerlink" title="IO 流概述"></a>IO 流概述</h2><p>数据的传输可以看作是一种数据的流动，根据<strong>数据的流向</strong>，可以分为<strong>输入流</strong>和<strong>输出流</strong>。根据<strong>数据的类型</strong>，可以分为<strong>字节流</strong>和<strong>字符流</strong>。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>输入流</th>
+<th>输出流</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>字节流</td>
+<td>InputStream</td>
+<td>OutputStream</td>
+</tr>
+<tr>
+<td>字符流</td>
+<td>Reader</td>
+<td>Writer</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="字节流"><a href="#字节流" class="headerlink" title="字节流"></a>字节流</h2><h3 id="字节输出流-OutputStream"><a href="#字节输出流-OutputStream" class="headerlink" title="字节输出流 OutputStream"></a>字节输出流 OutputStream</h3><p><code>java.io.OutputStream</code>是一个<strong>抽象类</strong>，定义了一些成员方法如下：</p>
+<ul>
+<li><code>void close()</code>：关闭输出流，并<strong>释放相关的系统资源</strong></li>
+<li><code>void flush()</code>：<strong>刷新</strong>输出流，并<strong>强制</strong>任何<strong>缓冲</strong>的输出字节被写出</li>
+<li><code>void write(byte[] b)</code>：将指定的字节数组写入此输出流</li>
+<li><code>void write(byte[] b, int off, int len)</code>：从指定的字节数组<strong>写入len字节</strong>，从<strong>偏移量off开始</strong>输出到输出流</li>
+<li><code>abstract void write(int b)</code>：将指定的字节输出流</li>
+</ul>
+<hr>
+<h4 id="文件字节输出流-FileOutputStream"><a href="#文件字节输出流-FileOutputStream" class="headerlink" title="文件字节输出流 FileOutputStream"></a>文件字节输出流 FileOutputStream</h4><h5 id="构造方法-1"><a href="#构造方法-1" class="headerlink" title="构造方法"></a>构造方法</h5><ul>
+<li><code>FileOutputStream(String name)</code>：创建一个向<strong>具有指定名称的文件</strong>中写入数据的文件输出流</li>
+<li><code>FileOutputStream(File file)</code>：创建一个向<strong>File对象表示的文件</strong>中写入数据的文件输出流</li>
+</ul>
+<hr>
+<h5 id="写出字节数据"><a href="#写出字节数据" class="headerlink" title="写出字节数据"></a>写出字节数据</h5><p>1.<strong>写出字节</strong>：<code>write(int b)</code>方法，每次可以<strong>写出一个字节</strong>数据：</p>
 <h2 id="字节操作"><a href="#字节操作" class="headerlink" title="字节操作"></a>字节操作</h2><h3 id="实现文件复制"><a href="#实现文件复制" class="headerlink" title="实现文件复制"></a>实现文件复制</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">copyFile</span><span class="params">(String src, String dist)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    FileInputStream in = <span class="keyword">new</span> FileInputStream(src);</span><br><span class="line">    FileOutputStream out = <span class="keyword">new</span> FileOutputStream(dist);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">20</span> * <span class="number">1024</span>];</span><br><span class="line">    <span class="keyword">int</span> cnt;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// read() 最多读取 buffer.length 个字节</span></span><br><span class="line">    <span class="comment">// 返回的是实际读取的个数</span></span><br><span class="line">    <span class="comment">// 返回 -1 的时候表示读到 eof，即文件尾</span></span><br><span class="line">    <span class="keyword">while</span> ((cnt = in.read(buffer, <span class="number">0</span>, buffer.length)) != -<span class="number">1</span>) &#123;</span><br><span class="line">        out.write(buffer, <span class="number">0</span>, cnt);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    in.close();</span><br><span class="line">    out.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="装饰者模式"><a href="#装饰者模式" class="headerlink" title="装饰者模式"></a>装饰者模式</h3><p>以InputStream为例，</p>
 <ul>
@@ -1003,7 +1144,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#磁盘操作"><span class="nav-number">2.</span> <span class="nav-text">磁盘操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字节操作"><span class="nav-number">3.</span> <span class="nav-text">字节操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现文件复制"><span class="nav-number">3.1.</span> <span class="nav-text">实现文件复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰者模式"><span class="nav-number">3.2.</span> <span class="nav-text">装饰者模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符操作"><span class="nav-number">4.</span> <span class="nav-text">字符操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编码与解码"><span class="nav-number">4.1.</span> <span class="nav-text">编码与解码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String的编码方式"><span class="nav-number">4.2.</span> <span class="nav-text">String的编码方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reader与-Writer"><span class="nav-number">4.3.</span> <span class="nav-text">Reader与 Writer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现逐行输出文本文件的内容"><span class="nav-number">4.3.1.</span> <span class="nav-text">实现逐行输出文本文件的内容</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象操作"><span class="nav-number">5.</span> <span class="nav-text">对象操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#序列化"><span class="nav-number">5.1.</span> <span class="nav-text">序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Serializable-接口"><span class="nav-number">5.2.</span> <span class="nav-text">Serializable 接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transient-关键字"><span class="nav-number">5.3.</span> <span class="nav-text">transient 关键字</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络操作"><span class="nav-number">6.</span> <span class="nav-text">网络操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#InetAddress"><span class="nav-number">6.1.</span> <span class="nav-text">InetAddress</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#URL"><span class="nav-number">6.2.</span> <span class="nav-text">URL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sockets"><span class="nav-number">6.3.</span> <span class="nav-text">Sockets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Datagram"><span class="nav-number">6.4.</span> <span class="nav-text">Datagram</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#File-类"><span class="nav-number">2.</span> <span class="nav-text">File 类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态成员变量"><span class="nav-number">2.1.</span> <span class="nav-text">静态成员变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绝对路径和相对路径"><span class="nav-number">2.2.</span> <span class="nav-text">绝对路径和相对路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造方法"><span class="nav-number">2.3.</span> <span class="nav-text">构造方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用方法"><span class="nav-number">2.4.</span> <span class="nav-text">常用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#获取方法"><span class="nav-number">2.4.1.</span> <span class="nav-text">获取方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#判断方法"><span class="nav-number">2.4.2.</span> <span class="nav-text">判断方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建和删除方法"><span class="nav-number">2.4.3.</span> <span class="nav-text">创建和删除方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遍历目录"><span class="nav-number">2.5.</span> <span class="nav-text">遍历目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件搜索"><span class="nav-number">2.6.</span> <span class="nav-text">文件搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件过滤器"><span class="nav-number">2.7.</span> <span class="nav-text">文件过滤器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO-流概述"><span class="nav-number">3.</span> <span class="nav-text">IO 流概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字节流"><span class="nav-number">4.</span> <span class="nav-text">字节流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字节输出流-OutputStream"><span class="nav-number">4.1.</span> <span class="nav-text">字节输出流 OutputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文件字节输出流-FileOutputStream"><span class="nav-number">4.1.1.</span> <span class="nav-text">文件字节输出流 FileOutputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#构造方法-1"><span class="nav-number">4.1.1.1.</span> <span class="nav-text">构造方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#写出字节数据"><span class="nav-number">4.1.1.2.</span> <span class="nav-text">写出字节数据</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字节操作"><span class="nav-number">5.</span> <span class="nav-text">字节操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现文件复制"><span class="nav-number">5.1.</span> <span class="nav-text">实现文件复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰者模式"><span class="nav-number">5.2.</span> <span class="nav-text">装饰者模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符操作"><span class="nav-number">6.</span> <span class="nav-text">字符操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编码与解码"><span class="nav-number">6.1.</span> <span class="nav-text">编码与解码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String的编码方式"><span class="nav-number">6.2.</span> <span class="nav-text">String的编码方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reader与-Writer"><span class="nav-number">6.3.</span> <span class="nav-text">Reader与 Writer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现逐行输出文本文件的内容"><span class="nav-number">6.3.1.</span> <span class="nav-text">实现逐行输出文本文件的内容</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象操作"><span class="nav-number">7.</span> <span class="nav-text">对象操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#序列化"><span class="nav-number">7.1.</span> <span class="nav-text">序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Serializable-接口"><span class="nav-number">7.2.</span> <span class="nav-text">Serializable 接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transient-关键字"><span class="nav-number">7.3.</span> <span class="nav-text">transient 关键字</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络操作"><span class="nav-number">8.</span> <span class="nav-text">网络操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#InetAddress"><span class="nav-number">8.1.</span> <span class="nav-text">InetAddress</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#URL"><span class="nav-number">8.2.</span> <span class="nav-text">URL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sockets"><span class="nav-number">8.3.</span> <span class="nav-text">Sockets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Datagram"><span class="nav-number">8.4.</span> <span class="nav-text">Datagram</span></a></li></ol></li></ol></div>
             
 
           </div>

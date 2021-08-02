@@ -152,7 +152,7 @@
 <meta property="og:site_name" content="特叔服务">
 <meta property="og:description" content="网络通信的要素 通信双方的地址  IP地址 端口号   通信协议  TCP/IP 参考模型  应用层   HTTP、FTP、SMTP  传输层   TCP、UDP  网络层   IP  数据链路层        IPIP地址的类：InetAddress  IP地址能唯一定位一台网络上的计算机  127.0.0.1：本机 localhost  IP地址的分类  IPV4/IPV6  公网/局域网">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-07-26T04:20:39.374Z">
+<meta property="og:updated_time" content="2021-07-26T16:22:57.259Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络编程详解">
 <meta name="twitter:description" content="网络通信的要素 通信双方的地址  IP地址 端口号   通信协议  TCP/IP 参考模型  应用层   HTTP、FTP、SMTP  传输层   TCP、UDP  网络层   IP  数据链路层        IPIP地址的类：InetAddress  IP地址能唯一定位一台网络上的计算机  127.0.0.1：本机 localhost  IP地址的分类  IPV4/IPV6  公网/局域网">
@@ -472,7 +472,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-07-26 12:20:39" itemprop="dateModified" datetime="2021-07-26T12:20:39+08:00">2021-07-26</time>
+                <time title="修改时间：2021-07-27 00:22:57" itemprop="dateModified" datetime="2021-07-27T00:22:57+08:00">2021-07-27</time>
               
             
           </span>
@@ -562,13 +562,13 @@
 <ul>
 <li><p>TCP/IP 参考模型</p>
 <ul>
-<li><p>应用层</p>
+<li><p><strong>应用层</strong></p>
 <p>  HTTP、FTP、SMTP</p>
 </li>
-<li><p>传输层</p>
+<li><p><strong>传输层</strong></p>
 <p>  TCP、UDP</p>
 </li>
-<li><p>网络层</p>
+<li><p><strong>网络层</strong></p>
 <p>  IP</p>
 </li>
 <li><p>数据链路层</p>
@@ -599,7 +599,71 @@
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//测试IP</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestIP</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//查询本机地址</span></span><br><span class="line">            InetAddress inetAddress1 = InetAddress.getByName(<span class="string">"localhost"</span>);</span><br><span class="line">            System.out.println(inetAddress1);</span><br><span class="line">            InetAddress inetAddress2 = InetAddress.getLocalHost();</span><br><span class="line">            System.out.println(inetAddress2);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//查询网站ip地址</span></span><br><span class="line">            InetAddress inetAddress3 = InetAddress.getByName(<span class="string">"www.baidu.com"</span>);</span><br><span class="line">            System.out.println(inetAddress3);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//常用方法</span></span><br><span class="line">            System.out.println(inetAddress3.getCanonicalHostName()); <span class="comment">//规范的主机名</span></span><br><span class="line">            System.out.println(inetAddress3.getHostAddress()); <span class="comment">// IP</span></span><br><span class="line">            System.out.println(inetAddress3.getHostName()); <span class="comment">// 域名或自己的计算机名</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (UnknownHostException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <hr>
-<h2 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h2>
+<h2 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h2><p>端口表示计算机上一个程序的<strong>对外的接口</strong>。</p>
+<ul>
+<li><p>不同的进程有不同的端口号，用来区分软件</p>
+</li>
+<li><p>规定端口号范围：0-65535</p>
+</li>
+<li><p><strong>相同协议下，端口号不能冲突</strong>（不同协议，可以使用相同端口号）</p>
+</li>
+<li><p>端口分类：</p>
+<ul>
+<li><p>公有端口：0-1023</p>
+<p>  一般会<strong>被内置的进程、服务器使用</strong>，尽量不要使用</p>
+<ul>
+<li>HTTP端口: 80</li>
+<li>HTTPS端口: 443</li>
+<li>FTP端口: 21</li>
+<li>SSH: 22</li>
+<li>Telent: 23</li>
+</ul>
+</li>
+<li><p>程序注册端口：1024-49151</p>
+<p>  <strong>分配给用户或程序</strong></p>
+<ul>
+<li>Tomcat: 8080</li>
+<li>MySQL: 3306</li>
+<li>Oracle: 1521</li>
+<li>SQL Server：1433</li>
+</ul>
+</li>
+<li><p>动态、私有端口：49152-65535</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">netstat -ano <span class="comment">#查看端口命令</span></span><br><span class="line">netstat -ano|findstr <span class="string">"5900"</span> <span class="comment">#查看指定的端口</span></span><br><span class="line">tasklist|findstr <span class="string">"1584"</span> <span class="comment">#查看指定端口的进程</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestSocketAddress</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        InetSocketAddress socketAddress = <span class="keyword">new</span> InetSocketAddress(<span class="string">"localhost"</span>, <span class="number">8080</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(socketAddress);</span><br><span class="line">        System.out.println(socketAddress.getAddress());</span><br><span class="line">        System.out.println(socketAddress.getHostName());</span><br><span class="line">        System.out.println(socketAddress.getPort()); <span class="comment">//获取端口</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="通信协议"><a href="#通信协议" class="headerlink" title="通信协议"></a>通信协议</h2><p>TCP/IP<strong>协议簇</strong>：</p>
+<ul>
+<li>TCP(Transmission Control Protocol) 传输控制协议</li>
+<li><p>UDP(User Datagram Protocol) 用户数据报协议</p>
+</li>
+<li><p>IP(Internet Protocol) 网络互连协议</p>
+</li>
+</ul>
+<h3 id="TCP-和-UDP-的对比"><a href="#TCP-和-UDP-的对比" class="headerlink" title="TCP 和 UDP 的对比"></a>TCP 和 UDP 的对比</h3><p>TCP（类比：打电话）</p>
+<ul>
+<li><p>需要连接，稳定</p>
+</li>
+<li><p><strong>三次握手</strong>，<strong>四次挥手</strong></p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 至少需要三次，保证稳定连接</span><br><span class="line">C：我喜欢你</span><br><span class="line">S：我也喜欢你</span><br><span class="line">C：我们在一起吧</span><br><span class="line"></span><br><span class="line">// 四次挥手</span><br><span class="line">C：我要走了</span><br><span class="line">S：我知道你要走了</span><br><span class="line">S：你已经走了吗？</span><br><span class="line">C：我已经走了</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>有明确的客户端和服务端角色</p>
+</li>
+<li><p><strong>传输完成后释放连接</strong>，效率低</p>
+</li>
+</ul>
+<p>UDP（类比：发短信）</p>
+<ul>
+<li>不需要连接，不稳定</li>
+</ul>
+<hr>
+<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3>
       
     </div>
 
@@ -958,7 +1022,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#网络通信的要素"><span class="nav-number">1.</span> <span class="nav-text">网络通信的要素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP"><span class="nav-number">2.</span> <span class="nav-text">IP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#端口"><span class="nav-number">3.</span> <span class="nav-text">端口</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#网络通信的要素"><span class="nav-number">1.</span> <span class="nav-text">网络通信的要素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP"><span class="nav-number">2.</span> <span class="nav-text">IP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#端口"><span class="nav-number">3.</span> <span class="nav-text">端口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通信协议"><span class="nav-number">4.</span> <span class="nav-text">通信协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-和-UDP-的对比"><span class="nav-number">4.1.</span> <span class="nav-text">TCP 和 UDP 的对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP"><span class="nav-number">4.2.</span> <span class="nav-text">TCP</span></a></li></ol></li></ol></div>
             
 
           </div>
