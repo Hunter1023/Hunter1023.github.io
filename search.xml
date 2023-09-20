@@ -285,6 +285,41 @@
       </tags>
   </entry>
   <entry>
+    <title>Java枚举类</title>
+    <url>/2023/09/20/Java%E6%9E%9A%E4%B8%BE%E7%B1%BB/</url>
+    <content><![CDATA[<p>枚举（enum）类型是Java 5新增的特性，它是一种新的类型，<strong>允许用常量来表示特定的数据片断</strong>，而且全部都以<strong>类型安全</strong>的形式来表示。</p>
+<h1 id="枚举类和静态常量的对比"><a href="#枚举类和静态常量的对比" class="headerlink" title="枚举类和静态常量的对比"></a>枚举类和静态常量的对比</h1><p>以一段代码为例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">SEASON_SPRING</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">SEASON_SUMMER</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">SEASON_FALL</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">SEASON_WINTER</span> <span class="operator">=</span> <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
+
+<p>使用常量会有缺陷：<strong>类型不安全</strong>。如果一个方法要求传入季节参数，开发者可以传入任意的int值，<strong>如果是枚举类型，就只能传入枚举类中包含的对象</strong>。</p>
+<hr>
+<h1 id="枚举的使用"><a href="#枚举的使用" class="headerlink" title="枚举的使用"></a>枚举的使用</h1><h2 id="定义枚举类"><a href="#定义枚举类" class="headerlink" title="定义枚举类"></a>定义枚举类</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Color</span> &#123;</span><br><span class="line">    RED, GREEN, BLANK, YELLOW</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用方式一"><a href="#使用方式一" class="headerlink" title="使用方式一"></a>使用方式一</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo1</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(isRed(Color.BLANK)) ;  <span class="comment">//结果： false</span></span><br><span class="line">        System.out.println(isRed(Color.RED)) ;    <span class="comment">//结果： true</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isRed</span><span class="params">(Color color)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Color.RED.equals(color)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span> ;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="使用方式二"><a href="#使用方式二" class="headerlink" title="使用方式二"></a>使用方式二</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo2</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        showColor(Color.RED);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">showColor</span><span class="params">(Color color)</span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (color) &#123;</span><br><span class="line">        <span class="keyword">case</span> BLANK:</span><br><span class="line">            System.out.println(color);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> RED :</span><br><span class="line">            System.out.println(color);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            System.out.println(color);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="自定义函数"><a href="#自定义函数" class="headerlink" title="自定义函数"></a>自定义函数</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Color</span> &#123;</span><br><span class="line">    RED(<span class="string">&quot;红色&quot;</span>, <span class="number">1</span>), </span><br><span class="line">    GREEN(<span class="string">&quot;绿色&quot;</span>, <span class="number">2</span>), </span><br><span class="line">    YELLOW(<span class="string">&quot;黄色&quot;</span>, <span class="number">3</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> index;</span><br><span class="line"></span><br><span class="line">    Color(String name, <span class="type">int</span> index) &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.index = index;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getIndex</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> index;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setIndex</span><span class="params">(<span class="type">int</span> index)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.index = index;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//输出某一枚举的值</span></span><br><span class="line">        System.out.println(Color.RED.getName());</span><br><span class="line">        System.out.println(Color.RED.getIndex());</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//遍历所有的枚举</span></span><br><span class="line">        <span class="keyword">for</span>(Color color : Color.values())&#123;</span><br><span class="line">            System.out.println(color + <span class="string">&quot;  name: &quot;</span> + color.getName() + <span class="string">&quot;  index: &quot;</span> + color.getIndex());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>Java全栈</category>
+        <category>JavaSE</category>
+      </categories>
+      <tags>
+        <tag>枚举</tag>
+        <tag>enumeration</tag>
+        <tag>enum</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ZooKeeper</title>
     <url>/2023/09/18/Zookeeper/</url>
     <content><![CDATA[<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>ZooKeeper是一个开源的<strong>分布式协调服务框架</strong>，它的设计目标是将那些复杂且容易出错的<strong>分布式一致性服务封装起来</strong>，构成一个高效可靠的<strong>原语集</strong>，并以一系列简单易用的接口提供给用户使用。 </p>
@@ -1294,6 +1329,9 @@
 <li><p><code>@ToString</code></p>
 </li>
 <li><p><code>@Getter</code>&#x2F;<code>@Setter</code></p>
+</li>
+<li><p><code>@Builder</code></p>
+<p>  可以类似于链式地调用对象进行赋值</p>
 </li>
 </ul>
 <hr>
@@ -6569,6 +6607,8 @@
 <li><p>每个线程<strong>在自己的工作内存交互</strong>，<strong>内存控制不当会造成数据不一致</strong></p>
 </li>
 </ul>
+<span id="more"></span>
+
 <hr>
 <h2 id="线程创建"><a href="#线程创建" class="headerlink" title="线程创建"></a>线程创建</h2><p>三种创建方式：</p>
 <ol>
@@ -6994,7 +7034,19 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 测试线程池</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestThreadPool</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//1. 创建服务，创建线程池</span></span><br><span class="line">        <span class="comment">//newFixedThreadPool 参数为线程池大小</span></span><br><span class="line">        <span class="type">ExecutorService</span> <span class="variable">service</span> <span class="operator">=</span> Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2. 通过服务执行线程（submit的方式见上方【实现Callable接口】章节）</span></span><br><span class="line">        service.execute(<span class="keyword">new</span> <span class="title class_">MyThread</span>());</span><br><span class="line">        service.execute(<span class="keyword">new</span> <span class="title class_">MyThread</span>());</span><br><span class="line">        service.execute(<span class="keyword">new</span> <span class="title class_">MyThread</span>());</span><br><span class="line">        service.execute(<span class="keyword">new</span> <span class="title class_">MyThread</span>());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//3. 关闭连接池</span></span><br><span class="line">        service.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyThread</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="JUC并发编程"><a href="#JUC并发编程" class="headerlink" title="JUC并发编程"></a>JUC并发编程</h2><h3 id="wait-和-sleep-方法的区别"><a href="#wait-和-sleep-方法的区别" class="headerlink" title="wait 和 sleep 方法的区别"></a>wait 和 sleep 方法的区别</h3><table>
+<h1 id="阻塞队列-BlockingQueue"><a href="#阻塞队列-BlockingQueue" class="headerlink" title="阻塞队列 BlockingQueue"></a>阻塞队列 BlockingQueue</h1><ul>
+<li>当队列中没有数据的情况下，<strong>消费者端的所有线程都会被自动阻塞（挂起）</strong>，直到有数据放入队列。</li>
+<li>当队列中填满数据的情况下，<strong>生产者端的所有线程都会被自动阻塞（挂起）</strong>，直到队列中有空的位置，线程被自动唤醒。</li>
+</ul>
+<hr>
+<h2 id="常见的BlockingQueue"><a href="#常见的BlockingQueue" class="headerlink" title="常见的BlockingQueue"></a>常见的BlockingQueue</h2><ol>
+<li><p>ArrayBlockingQueue</p>
+<p>  基于数组的阻塞队列实现，在ArrayBlockingQueue内部，维护了一个定长数组，以便缓存队列中的数据对象，这是一个常用的阻塞队列，除了一个定长数组外，ArrayBlockingQueue内部还保存着两个整形变量，分别<strong>标识着队列的头部和尾部在数组中的位置</strong>。</p>
+</li>
+</ol>
+<p><a href="https://www.cnblogs.com/KingIceMou/p/8075343.html">BlockingQueue - 不会就问咯 - 博客园 (cnblogs.com)</a></p>
+<hr>
+<h1 id="JUC并发编程"><a href="#JUC并发编程" class="headerlink" title="JUC并发编程"></a>JUC并发编程</h1><h2 id="wait-和-sleep-方法的区别"><a href="#wait-和-sleep-方法的区别" class="headerlink" title="wait 和 sleep 方法的区别"></a>wait 和 sleep 方法的区别</h2><table>
 <thead>
 <tr>
 <th></th>
@@ -7024,13 +7076,51 @@
 </tr>
 </tbody></table>
 <hr>
-<h3 id="实际开发中的多线程操作方式"><a href="#实际开发中的多线程操作方式" class="headerlink" title="实际开发中的多线程操作方式"></a>实际开发中的多线程操作方式</h3>]]></content>
+<h2 id="实际开发中的多线程操作方式"><a href="#实际开发中的多线程操作方式" class="headerlink" title="实际开发中的多线程操作方式"></a>实际开发中的多线程操作方式</h2><blockquote>
+<p>JDK中的Executors虽然提供了如<code>newFixedThreadPool()</code>、<code>newSingleThreadExecutor()</code>、<code>newCachedThreadPool()</code>等创建线程池的方法，但都有其局限性，不够灵活。</p>
+<p>使用ThreadPoolExecutor有助于大家明确线程池的运行规则，创建符合自己的业务场景需要的线程池，避免资源耗尽的风险。</p>
+</blockquote>
+<p><a href="https://www.cnblogs.com/dafanjoy/p/9729358.html">java线程池ThreadPoolExecutor类使用详解 - DaFanJoy - 博客园 (cnblogs.com)</a></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* corePoolSize: 线程池中的线程数量，它的数量决定了添加的任务是开辟新的线程去执行，还是放到workQueue任务队列中去；</span></span><br><span class="line"><span class="comment">* maximumPoolSize: 指定了线程池中的最大线程数量，这个参数会根据你使用的workQueue任务队列的类型，决定线程池会开辟的最大线程数量；</span></span><br><span class="line"><span class="comment">* keepAliveTime: 当线程池中空闲线程数量超过corePoolSize时，多余的线程会在多长时间内被销毁；</span></span><br><span class="line"><span class="comment">* unit: keepAliveTime的单位</span></span><br><span class="line"><span class="comment">* workQueue: 任务队列，被添加到线程池中，但尚未被执行的任务；它一般分为直接提交队列、有界任务队列、无界任务队列、优先任务队列几种</span></span><br><span class="line"><span class="comment">* threadFactory:线程工厂，用于创建线程，一般用默认即可；</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">ThreadPoolExecutor</span><span class="params">(<span class="type">int</span> corePoolSize,</span></span><br><span class="line"><span class="params">                              <span class="type">int</span> maximumPoolSize,</span></span><br><span class="line"><span class="params">                              <span class="type">long</span> keepAliveTime,</span></span><br><span class="line"><span class="params">                              TimeUnit unit,</span></span><br><span class="line"><span class="params">                              BlockingQueue&lt;Runnable&gt; workQueue,</span></span><br><span class="line"><span class="params">                              ThreadFactory threadFactory)</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
       <categories>
         <category>Java全栈</category>
         <category>JavaSE</category>
       </categories>
       <tags>
-        <tag>Thread, Lambda表达式, Runnable接口, static proxy, 同步, 死锁, Lock, 线程池</tag>
+        <tag>Thread</tag>
+        <tag>Lambda表达式</tag>
+        <tag>Runnable接口</tag>
+        <tag>static proxy</tag>
+        <tag>同步</tag>
+        <tag>死锁</tag>
+        <tag>Lock</tag>
+        <tag>线程池</tag>
       </tags>
   </entry>
   <entry>
@@ -7955,7 +8045,7 @@
 <li><a href="https://blog.csdn.net/qq_37751454/article/details/88541334">idea+tomcat实现热部署-修改java代码及时生效</a></li>
 </ol>
 <hr>
-<h2 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h2><p>设置快捷生成日志的提示：</p>
+<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><p>设置快捷生成日志的提示：</p>
 <ol>
 <li>File - Settings - Editor - Live Templates - 加号 - Live Template</li>
 </ol>
@@ -9395,8 +9485,8 @@
         <category>IDE</category>
       </categories>
       <tags>
-        <tag>MySQL</tag>
         <tag>Navicat</tag>
+        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
