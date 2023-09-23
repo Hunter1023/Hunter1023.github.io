@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://s2.loli.net/2023/09/12/HtTrMniGjZNR2om.png">
 <meta property="og:image" content="https://s2.loli.net/2023/09/12/ExS9yGXDhO4vBqR.png">
 <meta property="article:published_time" content="2023-09-12T02:09:33.000Z">
-<meta property="article:modified_time" content="2023-09-17T04:59:55.469Z">
+<meta property="article:modified_time" content="2023-09-22T16:34:48.488Z">
 <meta property="article:author" content="Hunter">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://s2.loli.net/2023/09/12/rkHTjSdKhG3bse1.png">
@@ -142,7 +142,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#NIO%E6%A1%86%E6%9E%B6%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">NIO框架存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%85%B3%E9%97%AD%E4%BC%9A%E5%AF%BC%E8%87%B4%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%A9%BA%E8%BD%AE%E8%AF%A2"><span class="nav-number">1.1.</span> <span class="nav-text">客户端关闭会导致服务端空轮询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B2%98%E5%8C%85%E3%80%81%E6%8B%86%E5%8C%85%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">粘包、拆包问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B5%B0%E8%BF%9BNetty%E6%A1%86%E6%9E%B6"><span class="nav-number">2.</span> <span class="nav-text">走进Netty框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ByteBuf%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.1.</span> <span class="nav-text">ByteBuf介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E6%93%8D%E4%BD%9C"><span class="nav-number">2.1.1.</span> <span class="nav-text">读写操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%92%E5%88%86%E6%93%8D%E4%BD%9C"><span class="nav-number">2.1.2.</span> <span class="nav-text">划分操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E6%89%A9%E5%AE%B9"><span class="nav-number">2.1.3.</span> <span class="nav-text">动态扩容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E6%B1%A0%E5%8C%96%E5%92%8C%E6%B1%A0%E5%8C%96-%E7%BC%93%E5%86%B2%E5%8C%BA%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-number">2.1.4.</span> <span class="nav-text">非池化和池化 缓冲区生成器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Netty%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">Netty工作模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Channel%E8%AF%A6%E8%A7%A3"><span class="nav-number">2.3.</span> <span class="nav-text">Channel详解</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#NIO%E6%A1%86%E6%9E%B6%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">NIO框架存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%85%B3%E9%97%AD%E4%BC%9A%E5%AF%BC%E8%87%B4%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%A9%BA%E8%BD%AE%E8%AF%A2"><span class="nav-number">1.1.</span> <span class="nav-text">客户端关闭会导致服务端空轮询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B2%98%E5%8C%85%E3%80%81%E6%8B%86%E5%8C%85%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">粘包、拆包问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B5%B0%E8%BF%9BNetty%E6%A1%86%E6%9E%B6"><span class="nav-number">2.</span> <span class="nav-text">走进Netty框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ByteBuf%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.1.</span> <span class="nav-text">ByteBuf介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E6%93%8D%E4%BD%9C"><span class="nav-number">2.1.1.</span> <span class="nav-text">读写操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%92%E5%88%86%E6%93%8D%E4%BD%9C"><span class="nav-number">2.1.2.</span> <span class="nav-text">划分操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E6%89%A9%E5%AE%B9"><span class="nav-number">2.1.3.</span> <span class="nav-text">动态扩容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E6%B1%A0%E5%8C%96%E5%92%8C%E6%B1%A0%E5%8C%96-%E7%BC%93%E5%86%B2%E5%8C%BA%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-number">2.1.4.</span> <span class="nav-text">非池化和池化 缓冲区生成器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Netty%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">Netty工作模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Channel%E8%AF%A6%E8%A7%A3"><span class="nav-number">2.3.</span> <span class="nav-text">Channel详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ctx-close-%E5%92%8C-ctx-channel-close"><span class="nav-number">2.4.</span> <span class="nav-text">ctx.close() 和 ctx.channel().close()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-ctx-close-%E4%BC%9A%E8%A7%A6%E5%8F%91%E5%BD%93%E5%89%8DHandler%E5%92%8C%E5%BD%93%E5%89%8DHandler%E4%B9%8B%E5%89%8D%E7%9A%84close%E4%BA%8B%E4%BB%B6%EF%BC%9B"><span class="nav-number">2.4.0.1.</span> <span class="nav-text">1. ctx.close()会触发当前Handler和当前Handler之前的close事件；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-channel-close-%E6%89%80%E6%9C%89Handler%E9%83%BD%E4%BC%9A%E8%A7%A6%E5%8F%91"><span class="nav-number">2.4.0.2.</span> <span class="nav-text">2. channel.close()所有Handler都会触发;</span></a></li></ol></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -155,7 +155,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-count">68</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -166,7 +166,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">107</span>
+        <span class="site-state-item-count">108</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -229,7 +229,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-09-17 12:59:55" itemprop="dateModified" datetime="2023-09-17T12:59:55+08:00">2023-09-17</time>
+      <time title="修改时间：2023-09-23 00:34:48" itemprop="dateModified" datetime="2023-09-23T00:34:48+08:00">2023-09-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -325,6 +325,17 @@
 <p>方法调用了之后就直接返回，那么操作的结果如何获取？答案是通过<code>ChannelFuture</code>。</p>
 </li>
 </ol>
+<hr>
+<h2 id="ctx-close-和-ctx-channel-close"><a href="#ctx-close-和-ctx-channel-close" class="headerlink" title="ctx.close() 和 ctx.channel().close()"></a>ctx.close() 和 ctx.channel().close()</h2><h4 id="1-ctx-close-会触发当前Handler和当前Handler之前的close事件；"><a href="#1-ctx-close-会触发当前Handler和当前Handler之前的close事件；" class="headerlink" title="1. ctx.close()会触发当前Handler和当前Handler之前的close事件；"></a>1. <code>ctx.close()</code>会触发当前Handler和当前Handler之前的close事件；</h4><h4 id="2-channel-close-所有Handler都会触发"><a href="#2-channel-close-所有Handler都会触发" class="headerlink" title="2. channel.close()所有Handler都会触发;"></a>2. <code>channel.close()</code>所有Handler都会触发;</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ch.<span class="title function_ invoke__">pipeline</span>().<span class="title function_ invoke__">addLast</span>(<span class="keyword">new</span> <span class="title class_">InboundHandler1</span>());  </span><br><span class="line">ch.<span class="title function_ invoke__">pipeline</span>().<span class="title function_ invoke__">addLast</span>(<span class="keyword">new</span> <span class="title class_">InboundHandler2</span>()); </span><br><span class="line">ch.<span class="title function_ invoke__">pipeline</span>().<span class="title function_ invoke__">addLast</span>(<span class="keyword">new</span> <span class="title class_">OutboundHandler1</span>());  </span><br><span class="line">ch.<span class="title function_ invoke__">pipeline</span>().<span class="title function_ invoke__">addLast</span>(<span class="keyword">new</span> <span class="title class_">OutboundHandler2</span>()); </span><br><span class="line"></span><br><span class="line">链表中的顺序为head-&gt;in1-&gt;in2-&gt;out1-&gt;out2-&gt;tail</span><br></pre></td></tr></table></figure>
+
+<p>如果在InboundHandler2中执行的是ctx.channel().writeAndFlush，执行顺序是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">InboundHandler1 </span><br><span class="line">InboundHandler2 </span><br><span class="line">OutboundHandler2</span><br><span class="line">OutboundHandler1</span><br></pre></td></tr></table></figure>
+
+<p>如果在InboundHandler2中执行的是ctx.writeAndFlush，执行顺序是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">InboundHandler1 </span><br><span class="line">InboundHandler2 </span><br></pre></td></tr></table></figure>
+
+<p>这样的顺序对于write操作和close都是一样道理的。</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/fdbdbf8bcf8a">Netty4中Handler的执行顺序以及ctx.close() 与 ctx.channel().close()的区别 - 简书 (jianshu.com)</a></p>
 
     </div>
 
