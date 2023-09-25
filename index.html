@@ -148,18 +148,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-count">71</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-count">110</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -339,6 +339,546 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/03/18/%E4%BC%98%E9%9B%85%E4%BD%BF%E7%94%A8Windows-10/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/09/26/SQL%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/09/26/SQL%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/" class="post-title-link" itemprop="url">SQL优化手段</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-09-26 00:06:32 / 修改时间：00:31:59" itemprop="dateCreated datePublished" datetime="2023-09-26T00:06:32+08:00">2023-09-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="优化慢SQL"><a href="#优化慢SQL" class="headerlink" title="优化慢SQL"></a>优化慢SQL</h1><p>慢查询日志记录了执行时间超过<code>long_query_time</code>(<strong>默认10s</strong>，<strong>通常设置为1s</strong>)的所有查询语句，在解决SQL慢查询问题时经常会用到。</p>
+<ul>
+<li><p><strong>查询慢查询日志是否开启 (默认关闭)</strong></p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> variables <span class="keyword">like</span> &quot;slow_query_log;</span><br></pre></td></tr></table></figure>
+
+<p>  <strong>开启慢查询日志</strong></p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET GLOBAL slow_query_log=ON;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看慢查询的<strong>超时时间</strong></p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &quot;%long_query_time%&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>  修改<code>long_query_time</code>参数：</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET GLOBAL long_query_time=1;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查询当前<strong>慢查询语句的个数</strong></p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show global status like &quot;%Slow_queries%&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查询慢查询日志存放位置</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE &quot;slow_query_log_file&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>无论是否超时，<strong>未被索引的记录也被记录</strong></p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET GLOBAL log_queries_not_using_indexes = &quot;ON&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>慢查询仅记录扫描<strong>行数&gt;此参数</strong>的SQL</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET SESSION min_examined_row_limit = 100;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>设置完成后，可以用<code>SHOW VARIABLES LIKE &quot;slow%&quot;;</code>命令查看。</strong></p>
+<hr>
+<h2 id="故意执行一条慢查询并查看日志"><a href="#故意执行一条慢查询并查看日志" class="headerlink" title="故意执行一条慢查询并查看日志"></a>故意执行一条慢查询并查看日志</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 故意在百万数据量的表中执行一条 未使用索引的排序语句</span><br><span class="line">SELECT score, name</span><br><span class="line">FROM cus_order</span><br><span class="line">ORDER BY score DESC;</span><br></pre></td></tr></table></figure>
+
+<p>查看日志路径，并去实际查看日志记录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE &quot;slow_query_log_file&quot;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Time: 2023-09-25T15:30:40.620921Z</span><br><span class="line"># User@Host: root[root] @  [172.17.0.1]  Id:    18</span><br><span class="line"># Query_time: 0.637583  Lock_time: 0.000002 Rows_sent: 1002000  Rows_examined: 2004000</span><br><span class="line">SET timestamp=1695655839;</span><br><span class="line"># 故意在百万数据量的表中执行一条 未使用索引的排序语句</span><br><span class="line">SELECT score, name</span><br><span class="line">FROM cus_order</span><br><span class="line">ORDER BY score DESC;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>Query_time</code> 这段代码的运行时长。</li>
+<li><code>Lock_time</code> 执行这段代码时，锁定了多久。</li>
+<li><code>Rows_sent</code> 慢查询返回的记录数量。</li>
+<li><code>Rows_examined</code> 慢查询扫描过的行数。</li>
+</ul>
+<p>实际项目中，慢查询日志通常会比较复杂，需要借助一些工具对其进行分析。比如MySQL内置的**<code>mysqldumpslow</code>工具**，可以将相同的SQL归为一类，并统计出归类项的执行次数和每次执行的耗时等一系列对应的情况。</p>
+<blockquote>
+<p><strong>执行计划</strong>：一条语句在经过<strong>MySQL查询优化器</strong>的优化后，具体的执行方式。执行计划通常用于<strong>SQL性能分析、优化</strong>等场景。</p>
+</blockquote>
+<p>通过<code>EXPAIN</code>命令，可以获取执行计划的相关信息。可以了解到如数据表的查询顺序、数据查询操作的操作类型、哪些索引可以被命中、哪些索引实际会命中、每个数据表有多少行记录被查询等信息。</p>
+<p>找到了慢SQL后，可以通过<code>EXPLAIN</code>命令分析对应的语句。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT score, name</span><br><span class="line">FROM cus_order</span><br><span class="line">ORDER BY score DESC;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.loli.net/2023/09/25/21bVZFhgkiscotW.png" alt="EXPLAIN命令分析对应的语句的结果"></p>
+<ul>
+<li><code>select_type</code> 查询的类型<ul>
+<li><code>SIMPLE</code>: 普通查询（即没有联合查询、子查询）</li>
+<li><code>PRIMARY</code>：主查询</li>
+<li><code>UNION</code> （UNION中后面的查询）</li>
+<li><code>SUBQUERY</code></li>
+</ul>
+</li>
+<li><code>table</code> 查询涉及的表或衍生表</li>
+<li><code>type</code> <strong>执行方式，判断查询是否高效的重要参考指标，结果值从差到好：</strong><ol>
+<li>ALL</li>
+<li>index</li>
+<li>range~index_range</li>
+<li>ref</li>
+<li>eq_ref</li>
+<li>const</li>
+<li>system</li>
+</ol>
+</li>
+<li><code>rows</code> SQL<strong>要查找到结果集需要扫描读取的数据行数</strong>，原则上rows越少越好。</li>
+</ul>
+<hr>
+<h2 id="避免使用-SELECT"><a href="#避免使用-SELECT" class="headerlink" title="避免使用 SELECT *"></a>避免使用 SELECT *</h2><ul>
+<li>需要解析更多的对象、字段、权限、属性等相关内容，会消耗更多的CPU</li>
+<li>无用字段增加网络带宽资源消耗、增加数据传输时间，尤其是大字段（varchar、blob、text）</li>
+<li><strong>无法使用 MySQL优化器覆盖索引 的优化</strong></li>
+</ul>
+<hr>
+<h2 id="分页优化"><a href="#分页优化" class="headerlink" title="分页优化"></a>分页优化</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> score, `name`</span><br><span class="line"><span class="keyword">FROM</span> cus_order</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> score <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">1000000</span>, <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<p>使用<strong>延迟关联</strong>来优化这个分页查询语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT score, name</span><br><span class="line">FROM cus_order AS a, (SELECT id </span><br><span class="line">                      FROM cus_order</span><br><span class="line">                      ORDER BY score DESC</span><br><span class="line">                      LIMIT 1000000, 10) AS b</span><br><span class="line">WHERE a.id = b.id;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>先提取主键</strong></li>
+<li>再将这个主键表与原数据表关联</li>
+</ol>
+<hr>
+<h2 id="尽量避免多表做join"><a href="#尽量避免多表做join" class="headerlink" title="尽量避免多表做join"></a>尽量避免多表做join</h2><p>join的效率比较低，主要是因为使用<strong>嵌套循环（Nested Loop）</strong>来实现关联查询，效率都不是很高。实际业务场景避免多表join常见的作法有<strong>2种</strong>：</p>
+<ol>
+<li><p><strong>单表查询后，在内存中自己做关联</strong>。</p>
+<p> 对数据库做单表查询，再根据查询结进行二次查询。以此类推，最后再进行关联。</p>
+<ul>
+<li><strong>拆分后的单表查询代码可复用性更高</strong>。</li>
+<li><strong>单表查询更利于后续的维护</strong>。</li>
+</ul>
+</li>
+<li><p><strong>数据冗余</strong></p>
+<p> 把一些重要的数据在表中做冗余，尽可能避免关联查询。<strong>很笨的一种做法</strong>，表结构比较稳定的清苦那个下才会考虑。</p>
+</li>
+</ol>
+<hr>
+<h2 id="建议不要使用外键与级联"><a href="#建议不要使用外键与级联" class="headerlink" title="建议不要使用外键与级联"></a>建议不要使用外键与级联</h2><p>不建议使用外键的主要原因是<strong>对分库分表不友好</strong>，性能方面影响较小。</p>
+<hr>
+<h2 id="选择合适的字段类型"><a href="#选择合适的字段类型" class="headerlink" title="选择合适的字段类型"></a>选择合适的字段类型</h2><ol>
+<li><p>某些<strong>字符串</strong>可以<strong>转换成数字类型存储</strong>，比如<strong>IP地址</strong>。</p>
+<p> 数字是连续的，性能更好，占用空间叶更小。</p>
+<p> MySQL提供了两个方法来处理IP地址：</p>
+<ol>
+<li><code>INET_ATON()</code>：<strong>把ip转为无符号整型（4-8位）</strong></li>
+<li><code>INET_NTOA()</code>：<strong>把整型的ip转为地址</strong></li>
+</ol>
+</li>
+<li><p>对于非负的数据（自增ID、整型IP、年龄）来说，要<strong>优先使用无符号整型</strong>来存储</p>
+<p> <strong>无符号（SIGNED INT）</strong>相对于<strong>有符号（UNSIGNED INT）</strong>多出了一倍的存储空间 </p>
+</li>
+<li><p><strong>小数值</strong>类型（年龄、状态表示如0&#x2F;1）<strong>优先使用<code>TINYINT</code>类型</strong></p>
+</li>
+<li><p><strong>日期类型</strong>一定不要用字符串存储，可以考虑<code>DATETIME</code>、<code>TIMESTAMP</code>和数值型<strong>时间戳</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>存储空间</th>
+<th>日期格式</th>
+<th>日期范围</th>
+<th>是否携带时区</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DATETIME</td>
+<td>5-8字节</td>
+<td>YYYY-MM-DD hh:mm:ss[.fraction]</td>
+<td>1000-01-01 00:00:00[.000000] ~ 9999-12-31 23:59:59[.999999]</td>
+<td>否</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td>4-7字节</td>
+<td>YYYY-MM-DD hh:mm:ss[.fraction]</td>
+<td>1970-01-01 00:00:01[.000000] ~2038-01-19 03:14:07[.999999]</td>
+<td>是</td>
+</tr>
+<tr>
+<td>数值型时间戳</td>
+<td>4字节</td>
+<td>全数字</td>
+<td>1970-01-01 00:00:01之后的时间</td>
+<td>否</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>金额字段用<strong>decimal</strong>，避免精度丢失</p>
+<p> Java中，对应<code>BigDecimal</code></p>
+</li>
+<li><p><strong>尽量使用自增id作为主键（分布式场景不建议）</strong></p>
+<p> 主键如果是<strong>自增id</strong>，每次都会将数据加在<strong>B+树尾部</strong>（本质是双向链表），时间复杂度为<code>O(1)</code>。在写满一个数据页的时候，直接申请另一个新数据页接着写就可以了。</p>
+<p> 如果主键是<strong>非自增id，为了让新加入数据后，B+树的叶子节点还能保持有序，需要往叶子节点的中间找，查找过程的时间复杂度是O($ \log n$)<strong>。如果数据页被写满，</strong>需要进行页分裂</strong>。<strong>页分裂操作需要加悲观锁</strong>，性能非常低。</p>
+<p> 但是<strong>像分库分表这类场景就不建议使用自增id作为主键，应该使用分布式id，比如uuid</strong>。</p>
+</li>
+<li><p>不建议使用NULL作为列默认值</p>
+<ul>
+<li><p><strong>NULL需要占用空间</strong>，空字符串<code>&#39;&#39;</code>反而不用占用空间。</p>
+</li>
+<li><p>NULL会影响聚合函数的结果。</p>
+<p>  <code>SUM</code>、<code>AVG</code>等函数会忽略NULL值，<code>COUNT(列名)</code>也会忽略NULL，但<code>COUNT(*)</code>会统计所有的记录数。</p>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="尽量用UNION-ALL-代替UNION"><a href="#尽量用UNION-ALL-代替UNION" class="headerlink" title="尽量用UNION ALL 代替UNION"></a>尽量用UNION ALL 代替UNION</h2><p>UNION会把两个结果集放在一个临时表中再进行去重操作，更耗时、消耗CPU资源。</p>
+<hr>
+<h2 id="批量操作"><a href="#批量操作" class="headerlink" title="批量操作"></a>批量操作</h2><p>批量操作能减少请求数据库的次数，提高性能。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO cus_order(id, score, name)</span><br><span class="line">VALUES (1, 3512, &quot;user1&quot;), (2, 34335, &quot;user2&quot;), (3, 320985, &quot;user3&quot;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Show-PROFILE-分析SQL执行性能"><a href="#Show-PROFILE-分析SQL执行性能" class="headerlink" title="Show PROFILE 分析SQL执行性能"></a>Show PROFILE 分析SQL执行性能</h2><blockquote>
+<p><code>SHOW PROFILE</code>和<code>SHOW PROFILES</code>已经被弃用，未来的MySQL版本中可能会删除，取代它的是Performance Schema。</p>
+</blockquote>
+<p><code>SHOW PROFILE</code>和<code>SHOW PROFILES</code>展示<strong>SQL语句的资源使用情况</strong>，展示的消息包括CPU的使用、CPU上下文切换、IO等待、内存使用等。</p>
+<ul>
+<li><p>查看是否支持<code>profiling</code></p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@have_profiling;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看profiling是否开启</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 0是关闭，1是开启</span><br><span class="line">SELECT @@profiling;</span><br><span class="line"></span><br><span class="line">SET @@profiling = 1;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>SHOW PROFILES</code>展示<strong>当前Session下所有</strong>SQL语句的简要信息（Query_ID、Duration）</p>
+</li>
+<li><p><code>SHOW PROFILE</code>展示一个SQL语句的执行耗时细节</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">SHOW PROFILE [type [, type] ...]</span><br><span class="line">	[FOR QUERY n] # 展示Query_ID为n的执行情况，默认展示最新的一次SQL执行情况</span><br><span class="line">	[LIMIT row_count [OFFSET offset]]</span><br><span class="line"></span><br><span class="line">type: &#123; # 具体某类资源的消耗情况</span><br><span class="line">	ALL</span><br><span class="line">	BLOCK IO</span><br><span class="line">	CONTEXT SWITCHES</span><br><span class="line">	CPU</span><br><span class="line">	IPC</span><br><span class="line">	MEMORY</span><br><span class="line">	PAGE FAULTS</span><br><span class="line">	SOURCE</span><br><span class="line">	SWAPS</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h1 id="正确使用索引"><a href="#正确使用索引" class="headerlink" title="正确使用索引"></a>正确使用索引</h1><p>正确的索引可以大大加快数据的检索速度。</p>
+<h2 id="选择合适的字段创建索引"><a href="#选择合适的字段创建索引" class="headerlink" title="选择合适的字段创建索引"></a>选择合适的字段创建索引</h2><ol>
+<li><p>不为NULL的字段</p>
+</li>
+<li><p><strong>被频繁查询</strong>的字段</p>
+</li>
+<li><p><strong>被作为条件</strong>查询的字段</p>
+</li>
+<li><p><strong>频繁需要排序</strong>的字段（<strong>索引已经排序</strong>）</p>
+</li>
+<li><p><strong>被频繁用于连接</strong>的字段</p>
+<p> 提高多表连接查询的效率。</p>
+</li>
+</ol>
+<hr>
+<h2 id="被频繁更新的字段应该慎重建立索引"><a href="#被频繁更新的字段应该慎重建立索引" class="headerlink" title="被频繁更新的字段应该慎重建立索引"></a>被频繁更新的字段应该慎重建立索引</h2><p>维护索引的成本不小。</p>
+<hr>
+<h2 id="尽可能考虑建立-联合索引-而不是单列索引"><a href="#尽可能考虑建立-联合索引-而不是单列索引" class="headerlink" title="尽可能考虑建立 联合索引 而不是单列索引"></a>尽可能考虑建立 联合索引 而不是单列索引</h2><p>可以简单理解为<strong>每个索引都对着一棵B+树</strong>。如果一个表的字段过多，索引过多，当表数据达到一个体量之后，<strong>索引占用的空间也会很多，且修改索引的耗时也会很多</strong>。如果是联合索引，会节约很大的磁盘空间，且修改数据的效率也会提升。</p>
+<hr>
+<h2 id="避免冗余索引"><a href="#避免冗余索引" class="headerlink" title="避免冗余索引"></a>避免冗余索引</h2><p>冗余索引指的是索引功能相同，**能够命中索引(a,b)就肯定能命中索引(a)**。在大多数情况下，都应该尽量扩展已有的索引，而不是创建新索引。</p>
+<hr>
+<h2 id="考虑在-字符串类型-的字段上使用-前缀索引-代替普通索引"><a href="#考虑在-字符串类型-的字段上使用-前缀索引-代替普通索引" class="headerlink" title="考虑在 字符串类型 的字段上使用 前缀索引 代替普通索引"></a>考虑在 字符串类型 的字段上使用 前缀索引 代替普通索引</h2><hr>
+<h2 id="避免索引失效"><a href="#避免索引失效" class="headerlink" title="避免索引失效"></a>避免索引失效</h2><p>索引失效也是慢查询的主要原因之一。常见的导致索引失效的情况：</p>
+<ol>
+<li><code>SELECT *</code></li>
+<li>创建了组合索引，但<strong>查询条件未遵守最左匹配原则</strong> （查询中<strong>未使用了该索引的第一列</strong>）</li>
+<li>在索引列上进行计算、函数、类型转换等操作</li>
+<li>以<code>%</code>开头的LIKE查询</li>
+<li>查询条件中使用OR，<strong>且OR的前后条件中有一个列没有索引</strong>，涉及的索引都不会被使用到</li>
+<li>发生隐式转换 （操作符左右两边的数据类型不一致时，<strong>左边为字符类型时发生转换</strong>，<strong>会导致索引失效，效率极低</strong>）</li>
+</ol>
+<hr>
+<h2 id="删除长期未使用的索引"><a href="#删除长期未使用的索引" class="headerlink" title="删除长期未使用的索引"></a>删除长期未使用的索引</h2><p>可以通过查询<code>sys</code>库的<code>schema_unused_indexes</code>视图来查询哪些索引从未被使用。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/09/25/MySQL%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/09/25/MySQL%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" class="post-title-link" itemprop="url">MySQL存储引擎</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-09-25 17:11:07 / 修改时间：23:56:28" itemprop="dateCreated datePublished" datetime="2023-09-25T17:11:07+08:00">2023-09-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>MySQL支持多种存储引擎，可以通过<code>SHOW ENGINES</code>命令查看MySQL所支持的所有存储引擎。</p>
+<p>MySQL 当前默认的存储引擎是 InnoDB。并且，所有的存储引擎中只有 InnoDB 是<strong>事务性存储引擎</strong>，也就是说<strong>只有 InnoDB 支持事务</strong>。</p>
+<blockquote>
+<p>MySQL <strong>5.5.5 之前</strong>，<strong>MyISAM 是 MySQL 的默认存储引擎</strong>。5.5.5 版本之后，InnoDB 是 MySQL 的默认存储引擎。</p>
+</blockquote>
+<hr>
+<h1 id="MySQL存储引擎架构"><a href="#MySQL存储引擎架构" class="headerlink" title="MySQL存储引擎架构"></a>MySQL存储引擎架构</h1><p>MySQL存储引擎采用的是<strong>插件式架构</strong>，支持多种存储引擎。存储引擎是<strong>基于表的，不是基于数据库的</strong>。</p>
+<hr>
+<h2 id="MyISAM和InnoDB有什么区别"><a href="#MyISAM和InnoDB有什么区别" class="headerlink" title="MyISAM和InnoDB有什么区别"></a>MyISAM和InnoDB有什么区别</h2><p>MySQL 5.5之前，MyISAM引擎是默认存储引擎，但是<strong>MyISAM不支持事务和行级锁，且崩溃后无法安全恢复</strong>。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>InnoDB</th>
+<th>MyISAM</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>行级</strong>锁</td>
+<td>支持</td>
+<td>只有<strong>表级锁</strong>，在并发写的情况下，性能极差</td>
+</tr>
+<tr>
+<td>事务</td>
+<td>支持（默认使用<strong>可重读隔离级别</strong>，可以解决幻读问题的发生）</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>外键</td>
+<td>支持（外键对于维护数据一致性非常有帮助，<strong>但是对性能有一定的损耗</strong>，因此通常情况下，不建议在实际生产项目中使用外键，而<strong>在业务代码中进行约束</strong>）</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>安全恢复</td>
+<td>支持（数据库在异常崩溃后，**重启时会保证数据库恢复到崩溃前的状态，这个过程依赖于<code>redo log</code>**）</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>索引实现</td>
+<td>使用<strong>B+树</strong>作为索引结构，<strong>数据文件本身就是索引文件</strong>。</td>
+<td>使用B+树，索引文件和数据文件分离。</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>随着CPU核数的增加，InnoDB的读写能力呈线性增长。</td>
+<td><strong>读写不能并发</strong>，所以处理能力和CPU核数无关。</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="InnoDB存储引擎对MVCC的实现"><a href="#InnoDB存储引擎对MVCC的实现" class="headerlink" title="InnoDB存储引擎对MVCC的实现"></a>InnoDB存储引擎对MVCC的实现</h1><p><strong>MVCC, Multi-Version Concurrency Control 多版本并发控制</strong>。MVCC是一种用于<strong>多个并发事务同时读写数据库时，保持数据的一致性和隔离性</strong>的机制。它通过<strong>在每个数据行上维护多个版本的数据</strong>来实现。当一个事务要对数据库中的数据进行修改时，<strong>MVCC会为该事务创建一个数据快照，而不是直接修改实际的数据行</strong>。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/09/25/MySQL%E6%97%A5%E5%BF%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/09/25/MySQL%E6%97%A5%E5%BF%97/" class="post-title-link" itemprop="url">MySQL日志</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-09-25 17:06:47 / 修改时间：23:58:19" itemprop="dateCreated datePublished" datetime="2023-09-25T17:06:47+08:00">2023-09-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>MySQL中常见的日志类型主要有下面几类（针对InnoDB存储引擎）：</p>
+<ol>
+<li><strong>慢查询</strong>日志 (slow query log)</li>
+<li><strong>二进制</strong>日志 (binlog)</li>
+<li><strong>事务</strong>日志<ul>
+<li><strong>重做</strong>日志 (redo log)</li>
+<li><strong>撤销</strong>日志 (undo log)</li>
+</ul>
+</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/09/25/MySQL%E6%97%A5%E5%BF%97/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -598,7 +1138,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-09-19 16:26:00" itemprop="dateModified" datetime="2023-09-19T16:26:00+08:00">2023-09-19</time>
+      <time title="修改时间：2023-09-23 21:26:58" itemprop="dateModified" datetime="2023-09-23T21:26:58+08:00">2023-09-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -826,14 +1366,53 @@
 <li><p><code>delete</code> 删除节点</p>
 <p> 需要被删除的节点没有子节点</p>
 <p> <code>delete /node1</code></p>
-<hr>
-<h1 id="ZooKeeper的Java客户端Curator"><a href="#ZooKeeper的Java客户端Curator" class="headerlink" title="ZooKeeper的Java客户端Curator"></a>ZooKeeper的Java客户端Curator</h1><p> 相比于ZooKeeper自带的客户端zookeeper来说，Curator的封装更加完善，各种API都能比较方便地使用。</p>
- <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- zookeeper的java客户端 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.curator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>curator-framework<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.curator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>curator-recipes<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p> ​</p>
 </li>
 </ol>
-<p>	</p>
+<hr>
+<h1 id="ZooKeeper的Java客户端Curator"><a href="#ZooKeeper的Java客户端Curator" class="headerlink" title="ZooKeeper的Java客户端Curator"></a>ZooKeeper的Java客户端Curator</h1><p>相比于ZooKeeper自带的客户端zookeeper来说，Curator的封装更加完善，各种API都能比较方便地使用。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- zookeeper的java客户端 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.curator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>curator-framework<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.curator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>curator-recipes<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="创建客户端"><a href="#创建客户端" class="headerlink" title="创建客户端"></a>创建客户端</h2><p>Curator的创建会话方式与原生的API和ZkClient的创建方式区别很大。Curator创建客户端是通过<code>CuratorFrameworkFactory</code>工厂类来实现的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 提供重试策略的接口，重试3次，并在两次重试之间等待100毫秒 </span></span><br><span class="line"><span class="type">RetryPolicy</span> <span class="variable">retryPolicy</span>  <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RetryNTimes</span>(<span class="number">3</span>,<span class="number">100</span>);</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">CuratorFramework</span> <span class="variable">Client</span> <span class="operator">=</span> CuratorFrameworkFactory.builder()</span><br><span class="line">            .connectString(<span class="string">&quot;hadoop1:2181,hadoop2:2181,hadoop3:2181&quot;</span>) <span class="comment">// zk的server地址，多个server之间使用英文逗号分隔开</span></span><br><span class="line">            .connectionTimeoutMs(<span class="number">5000</span>) <span class="comment">// 连接超时时间</span></span><br><span class="line">            .sessionTimeoutMs(<span class="number">3000</span>) <span class="comment">// 会话超时时间</span></span><br><span class="line">            .retryPolicy(retryPolicy) <span class="comment">// 失败重试策略</span></span><br><span class="line">            .build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 阻塞到创建会话成功为止</span></span><br><span class="line">client.start(); </span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="创建节点"><a href="#创建节点" class="headerlink" title="创建节点"></a>创建节点</h2><h3 id="创建一个初始内容为空的节点"><a href="#创建一个初始内容为空的节点" class="headerlink" title="创建一个初始内容为空的节点"></a>创建一个初始内容为空的节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.create().forPath(path);</span><br></pre></td></tr></table></figure>
+
+<p>Curator默认创建的是<strong>持久节点</strong>，内容为空。 </p>
+<hr>
+<h3 id="创建一个包含内容的节点"><a href="#创建一个包含内容的节点" class="headerlink" title="创建一个包含内容的节点"></a>创建一个包含内容的节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.create().forPath(path, <span class="string">&quot;我是内容&quot;</span>.getBytes());</span><br></pre></td></tr></table></figure>
+
+<p>Curator和ZkClient不同的是依旧采用Zookeeper原生API的风格，内容使用byte[]作为方法参数。 </p>
+<hr>
+<h3 id="创建临时节点，并递归创建父节点"><a href="#创建临时节点，并递归创建父节点" class="headerlink" title="创建临时节点，并递归创建父节点"></a>创建临时节点，并递归创建父节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(path);</span><br></pre></td></tr></table></figure>
+
+<p>此处Curator和ZkClient一样封装了递归创建父节点的方法。在递归创建父节点时，<strong>父节点为持久节点</strong>。</p>
+<hr>
+<h2 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h2><h3 id="删除一个子节点"><a href="#删除一个子节点" class="headerlink" title="删除一个子节点"></a>删除一个子节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.delete().forPath(path);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="删除节点并递归删除其子节点"><a href="#删除节点并递归删除其子节点" class="headerlink" title="删除节点并递归删除其子节点"></a>删除节点并递归删除其子节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.delete().deletingChildrenIfNeeded().forPath(path);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="指定版本进行删除"><a href="#指定版本进行删除" class="headerlink" title="指定版本进行删除"></a>指定版本进行删除</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.delete().withVersion(<span class="number">1</span>).forPath(path);</span><br></pre></td></tr></table></figure>
+
+<p>如果此版本已经不存在，则删除异常，异常信息如下：<code>org.apache.zookeeper.KeeperException$BadVersionException: KeeperErrorCode = BadVersion for</code></p>
+<hr>
+<h3 id="强制保证删除一个节点"><a href="#强制保证删除一个节点" class="headerlink" title="强制保证删除一个节点"></a>强制保证删除一个节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.delete().guaranteed().forPath(path);</span><br></pre></td></tr></table></figure>
+
+<p>只要客户端会话有效，那么Curator会在后台<strong>持续进行删除操作，直到节点删除成功</strong>。比如遇到一些网络异常的情况，此guaranteed的强制删除就会很有效果。</p>
+<hr>
+<h2 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h2><p>Curator提供了传入一个Stat，使用节点当前的Stat替换到传入的Stat的方法，查询方法执行完成之后，Stat引用已经执行当前最新的节点Stat。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 普通查询</span></span><br><span class="line">client.getData().forPath(path);</span><br><span class="line"><span class="comment">// 包含状态查询</span></span><br><span class="line"><span class="type">Stat</span> <span class="variable">stat</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Stat</span>();</span><br><span class="line">client.getData().storingStatIn(stat()).forPath(path);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="更新数据"><a href="#更新数据" class="headerlink" title="更新数据"></a>更新数据</h2><p>更新数据，<strong>如果未传入version参数，那么更新当前最新版本</strong>，如果传入version则更新指定version，如果version已经变更，则抛出异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 普通更新</span></span><br><span class="line">client.setData().forPath(path,<span class="string">&quot;新内容&quot;</span>.getBytes());</span><br><span class="line"><span class="comment">// 指定版本更新</span></span><br><span class="line">client.setData().withVersion(<span class="number">1</span>).forPath(path);</span><br></pre></td></tr></table></figure>
+
+<p>版本不一直异常信息：<code>org.apache.zookeeper.KeeperException$BadVersionException: KeeperErrorCode = BadVersion for</code></p>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/8666288.html">Zookeeper框架Curator使用 - 扎心了，老铁 - 博客园 (cnblogs.com)</a></p>
 
       
     </div>
@@ -1060,294 +1639,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/09/12/Netty%E6%A1%86%E6%9E%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/09/12/Netty%E6%A1%86%E6%9E%B6/" class="post-title-link" itemprop="url">Netty框架</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-09-12 10:09:33" itemprop="dateCreated datePublished" datetime="2023-09-12T10:09:33+08:00">2023-09-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-09-23 00:34:48" itemprop="dateModified" datetime="2023-09-23T00:34:48+08:00">2023-09-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="NIO框架存在的问题"><a href="#NIO框架存在的问题" class="headerlink" title="NIO框架存在的问题"></a>NIO框架存在的问题</h1><h2 id="客户端关闭会导致服务端空轮询"><a href="#客户端关闭会导致服务端空轮询" class="headerlink" title="客户端关闭会导致服务端空轮询"></a>客户端关闭会导致<strong>服务端空轮询</strong></h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/09/12/Netty%E6%A1%86%E6%9E%B6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/08/30/NIO%E5%9F%BA%E7%A1%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/08/30/NIO%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">NIO基础</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-08-30 02:20:31" itemprop="dateCreated datePublished" datetime="2023-08-30T02:20:31+08:00">2023-08-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-09-17 13:00:32" itemprop="dateModified" datetime="2023-09-17T13:00:32+08:00">2023-09-17</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="缓冲区"><a href="#缓冲区" class="headerlink" title="缓冲区"></a>缓冲区</h1><h2 id="Buffer类及其实现"><a href="#Buffer类及其实现" class="headerlink" title="Buffer类及其实现"></a>Buffer类及其实现</h2><p>Buffer类是缓冲区的实现，类似于Java中的数组，也是用于存放和获取数据的。但它包含了一系列对于数组的快捷操作。</p>
-<p>Buffer是一个抽象类，它的核心内容：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Buffer</span> &#123;</span><br><span class="line">    <span class="comment">// Invariants: mark &lt;= position &lt;= limit &lt;= capacity</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">mark</span> <span class="operator">=</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">position</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> limit;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> capacity;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 直接缓冲区实现子类的数据内存地址</span></span><br><span class="line">    <span class="type">long</span> address;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/08/30/NIO%E5%9F%BA%E7%A1%80/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/08/30/%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/08/30/%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-08-30 02:03:01" itemprop="dateCreated datePublished" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="常见的语义分割评价指标"><a href="#常见的语义分割评价指标" class="headerlink" title="常见的语义分割评价指标"></a>常见的语义分割评价指标</h2><ol>
-<li><p>Pixel Accuracy 像素准确率</p>
-<p>  ${\Sigma_i n_{ii}}\over {\Sigma_i t_i}$</p>
-<ul>
-<li>$n_{ij}$：类别i被预测称类别j的像素个数</li>
-<li>$t_i$：目标类别i的总像素个数（<strong>真实</strong>标签）</li>
-</ul>
-</li>
-<li><p>mean Accuracy 平均准确率</p>
-<p> ${1\over n_{cls}}\cdot \Sigma_i {n_{ii}\over t_i}$</p>
-<ul>
-<li>$n_{cls}$：目标类别个数（含<strong>背景</strong>）</li>
-</ul>
-</li>
-<li><p><strong>mean IoU</strong> 平均并集上的交集率</p>
-<p> ${1\over n_{cls}}\cdot \Sigma_i {n_{ii}\over t_i+\Sigma_j n_{ij} - n_{ii}}$</p>
-<p> <img src="https://s2.loli.net/2022/08/16/WnGRBmpsKfwujF4.png" alt="真实标签与预测标签"></p>
-<ul>
-<li>绿色：真实标签$t_i$</li>
-<li>蓝色：预测标签$\Sigma_j n_{ij}$</li>
-<li>重叠：准确预测的部分$n_{ii}$</li>
-</ul>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

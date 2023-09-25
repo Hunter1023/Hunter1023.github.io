@@ -148,18 +148,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-count">71</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-count">110</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -176,6 +176,577 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2020/02/01/C%E8%AF%AD%E8%A8%80%E5%92%8CC++%E7%9A%84%E6%AF%94%E8%BE%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/02/01/C%E8%AF%AD%E8%A8%80%E5%92%8CC++%E7%9A%84%E6%AF%94%E8%BE%83/" class="post-title-link" itemprop="url">C语言和C++的比较</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-01 13:36:33" itemprop="dateCreated datePublished" datetime="2020-02-01T13:36:33+08:00">2020-02-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h2><table>
+<thead>
+<tr>
+<th>C语言</th>
+<th>C++</th>
+<th>比较</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>scanf函数<br />printf函数</strong></td>
+<td>cin<br />cout</td>
+<td>cin 和 cout <strong>无需指定输入输出格式</strong>，<br />但<strong>消耗的时间</strong>比 scanf 和 printf <strong>多得多</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2><table>
+<thead>
+<tr>
+<th>内容</th>
+<th>C语言</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>输入输出库</td>
+<td>#include &lt;stdio.h&gt;</td>
+<td><strong>#include &lt;cstdio&gt;</strong><br /><strong>#include &lt;iostream&gt;</strong></td>
+</tr>
+<tr>
+<td>数学函数</td>
+<td>#include &lt;math.h&gt;</td>
+<td><strong>#include &lt;cmath&gt;</strong></td>
+</tr>
+<tr>
+<td>字符串有关函数</td>
+<td>#include &lt;string.h&gt;</td>
+<td><strong>#include &lt;cstring&gt;</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="变量类型"><a href="#变量类型" class="headerlink" title="变量类型"></a>变量类型</h2><h3 id="布尔型变量"><a href="#布尔型变量" class="headerlink" title="布尔型变量"></a>布尔型变量</h3><table>
+<thead>
+<tr>
+<th>C语言</th>
+<th>C++</th>
+<th>比较</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>#include &lt;stdbool.h&gt;</td>
+<td><strong>可直接使用</strong></td>
+<td>true(存储时为1)<br />false(存储时为0)</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><table>
+<thead>
+<tr>
+<th>内容</th>
+<th>C语言</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>表示方法</td>
+<td>通过 字符数组 表示</td>
+<td>通过 string类 表示</td>
+</tr>
+<tr>
+<td>字符串长度的表示</td>
+<td>#include &lt;string.h&gt;<br />strlen(str)</td>
+<td>#include &lt;string&gt;<br />str.length()</td>
+</tr>
+<tr>
+<td>字符串拼接</td>
+<td>#include &lt;string.h&gt;<br />strcat(str1, str2); &#x2F;&#x2F;把str2拼接到str1之后</td>
+<td>str1 +&#x3D; str2;</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="排序函数"><a href="#排序函数" class="headerlink" title="排序函数"></a>排序函数</h2><ul>
+<li>C语言 — qsort</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">cmp</span><span class="params">(<span class="type">const</span> <span class="type">void</span> *a, <span class="type">const</span> <span class="type">void</span> *b)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> *(<span class="type">int</span> *)a - *(<span class="type">int</span> *)b; <span class="comment">//升序</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">qsort(排序数组, 元素数量, 每个元素的大小(可用<span class="keyword">sizeof</span>获得), 比较函数cmp);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>C++ — sort</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">cmp</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a &gt; b; <span class="comment">//降序</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">sort</span>(首元素地址, 尾元素地址的下一个地址, 比较函数<span class="built_in">cmp</span>(非必填));</span><br></pre></td></tr></table></figure>
+
+
+
+<table>
+<thead>
+<tr>
+<th>cmp函数的区别</th>
+<th>C语言</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>返回值类型</td>
+<td>int</td>
+<td>bool</td>
+</tr>
+<tr>
+<td>排序的判断</td>
+<td>返回值 &gt; 0, a 将被排在b后面;<br />返回值 &lt; 0, a 将被排在b前面;</td>
+<td><strong>默认升序</strong><br />返回值为<strong>true</strong>时，a将被排在b<strong>前面</strong></td>
+</tr>
+<tr>
+<td>比较方式</td>
+<td>元素<strong>相减</strong><br />不能用$&gt;$、$&lt;$比较符（<strong>返回无负值</strong>）</td>
+<td>$&gt;$、$&lt;$比较符</td>
+</tr>
+</tbody></table>
+<p><code>qsort</code>函数的使用需要运用指针，且写法上没有<code>sort</code>函数简洁。<code>sort</code>函数<strong>根据具体情形使用不同的排序方法</strong>，效率较高，在实现中<strong>规避了经典快速排序中可能出现的会导致实际复杂度退化到$O(n^2)$的极端情况</strong>。</p>
+<p>因此<strong>更推荐使用C++的<code>sort</code>函数</strong>进行代码编写。</p>
+<hr>
+<h2 id="申请动态内存空间"><a href="#申请动态内存空间" class="headerlink" title="申请动态内存空间"></a>申请动态内存空间</h2><p><strong>内存泄露</strong>是指申请到的内存空间在<strong>使用过后没有释放</strong>，导致一些程序<strong>内存消耗过快，最后无内存可分配</strong>的情况。一般考试中，分配的内存空间在程序结束时即被释放，因此即便不是放空间，也不会产生什么影响，并且内存大小一般也足够一道题的使用。但是<strong>从编程习惯上，需要养成即时释放空间的习惯</strong>。</p>
+<ul>
+<li><p>C语言</p>
+<p><code>&lt;stdlib.h&gt;</code></p>
+<ul>
+<li><p>申请内存空间 — <code>malloc</code>函数：</p>
+<p>以<strong>需要申请的内存空间</strong>为参数，返回<strong>指向这块空间的指针</strong>，因为<strong>返回的指针是<code>void*</code>型，因此需要强制转换为对应类型</strong>：<code>typename* p = (typename*)malloc(sizeof(typename));</code></p>
+<p>示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>* p = (<span class="type">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">node* p = (node*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(node));</span><br></pre></td></tr></table></figure>
+
+<p>通常情况下，内存空间的申请不会失败。失败一般发生在使用<code>malloc</code><strong>申请了较大的动态数组</strong>，如：<code>int* p = (int*)malloc(1000000 * sizeof(int));</code>。**申请失败会返回空指针<code>NULL</code>**。</p>
+</li>
+<li><p>释放内存 — <code>free</code>函数：</p>
+<p>以<strong>需要释放的内存空间的指针变量</strong>为参数：<code>free(p);</code>，执行之后，**指针变量<code>p</code>没有消失，只是指向了空地址<code>NULL</code>**。</p>
+</li>
+</ul>
+</li>
+<li><p>C++</p>
+<ul>
+<li><p>申请内存空间 — <code>new</code>运算符：</p>
+<p>使用<strong>new + 类型名</strong>即可分配一块该类型的内存空间，<strong>返回申请的同变量类型的指针</strong>：<code>typename* p = new typename;</code></p>
+<p>示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>* p = <span class="keyword">new</span> <span class="type">int</span>;</span><br><span class="line">node* p = <span class="keyword">new</span> node;</span><br></pre></td></tr></table></figure>
+
+<p>通常情况下，内存空间的申请不会失败。失败一般发生在使用<code>new</code><strong>申请了较大的动态数组</strong>，如：<code>int* p = new int[1000000];</code>。<strong>申请失败会发生异常</strong>。</p>
+</li>
+<li><p>释放内存 — <code>delete</code>运算符：</p>
+<p>以<strong>需要释放的内存空间的指针变量</strong>为参数：<code>delete(p);</code>，执行之后，**指针变量<code>p</code>没有消失，只是指向了空地址<code>NULL</code>**。</p>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2020/01/17/%E5%90%AF%E5%8A%A8U%E7%9B%98%E5%AE%89%E8%A3%85Ubuntu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/01/17/%E5%90%AF%E5%8A%A8U%E7%9B%98%E5%AE%89%E8%A3%85Ubuntu/" class="post-title-link" itemprop="url">启动U盘安装Ubuntu(单系统)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-17 20:40:24" itemprop="dateCreated datePublished" datetime="2020-01-17T20:40:24+08:00">2020-01-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8E%E8%BD%AF%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">操作系统与软件</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>由于<strong>PE方式只适用于安装windows</strong>，因此选择常规的<strong>制作启动U盘</strong>进行Ubuntu的安装。</p>
+<h3 id="操作系统镜像下载（桌面版，文件名后缀-iso-torrent）"><a href="#操作系统镜像下载（桌面版，文件名后缀-iso-torrent）" class="headerlink" title="操作系统镜像下载（桌面版，文件名后缀 .iso.torrent）"></a>操作系统镜像下载（桌面版，文件名后缀 .iso.torrent）</h3><ul>
+<li>方式一：<a target="_blank" rel="noopener" href="https://ubuntu.com/#download">Ubuntu官网直接下载镜像</a></li>
+<li>方式二：<a target="_blank" rel="noopener" href="http://releases.ubuntu.com/18.04/">Ubuntu官网下载镜像种子</a> + 迅雷下载镜像 （速度快，<strong>推荐</strong>）</li>
+</ul>
+<h3 id="3G及以上空间的U盘-x2F-移动硬盘-用于装载系统镜像"><a href="#3G及以上空间的U盘-x2F-移动硬盘-用于装载系统镜像" class="headerlink" title="3G及以上空间的U盘&#x2F;移动硬盘(用于装载系统镜像)"></a><strong>3G及以上空间</strong>的U盘&#x2F;移动硬盘(用于装载系统镜像)</h3><h3 id="制作启动U盘"><a href="#制作启动U盘" class="headerlink" title="制作启动U盘"></a>制作启动U盘</h3><ul>
+<li><p>方式一：<strong>Windows 10 可以直接打开 iso镜像文件，不用下载任何工具</strong></p>
+<ol>
+<li><p>格式化U盘</p>
+</li>
+<li><p>双击ISO文件，然后选中打开的所有文件，复制到U盘即可</p>
+</li>
+</ol>
+</li>
+<li><p>方式二：<a target="_blank" rel="noopener" href="http://rufus.ie/">下载U盘制作制作工具Rufus</a>(<strong>无需安装，可直接运行</strong>)</p>
+<ol>
+<li><p>选择设备(需要被制作的U盘&#x2F;移动硬盘)</p>
+<ul>
+<li>只有一个外接设备时会自动读取</li>
+<li>如果<strong>外接设备是移动硬盘</strong>，需要<strong>显示高级设备选项 — 显示USB外置硬盘</strong></li>
+</ul>
+</li>
+<li><p>选择操作系统镜像</p>
+</li>
+<li><p><strong>分区类型</strong>（<strong>理论上</strong>（联想Y480不知道为什么无法通过UEFI成功安装））</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av45677113">硬盘格式与引导方式、MBR与GPT、UEFI 与LEGACY bios的区别</a></p>
+<ul>
+<li><p>若选择GPT，之后系统安装时选择<strong>UEFI启动</strong>（<strong>推荐</strong>）</p>
+</li>
+<li><p>若选择MBR，之后系统安装时<strong>选择BIOS启动，否则报错</strong>（该模式一定能够安装成功）</p>
+</li>
+</ul>
+</li>
+<li><p>其余选项默认，点击<strong>开始</strong>，即可制作启动U盘</p>
+</li>
+</ol>
+<img src="https://i.loli.net/2020/01/17/9KOmaTAQcIqdkpo.png" alt="Rufus制作启动U盘" style="zoom:80%;" /></li>
+</ul>
+<hr>
+<h2 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h2><ol>
+<li><p>重启电脑，进入<strong>选择启动方式界面</strong>（联想笔记本：F12；惠普笔记本：F9）</p>
+</li>
+<li><p>选择启动U盘</p>
+<ul>
+<li>想要安装系统的硬盘的格式为<strong>GPT</strong>，选择<strong>UEFI启动，即 EFI USB Device</strong></li>
+<li>启动U盘分区类型为<strong>MBR</strong>，选择<strong>BIOS启动，即 选择对应的U盘</strong></li>
+</ul>
+</li>
+<li><p>欢迎 — 中文 — 安装Ubuntu</p>
+</li>
+<li><p>键盘布局 — 汉语</p>
+</li>
+<li><p>无线 — 不连接</p>
+</li>
+<li><p>更新和其他软件 — <strong>最小安装</strong></p>
+</li>
+<li><p>安装类型 — 其他选项 — 进行分区</p>
+<p>硬盘大小110GB</p>
+<ul>
+<li><p><strong>UEFI</strong>启动：</p>
+<table>
+<thead>
+<tr>
+<th>空间大小</th>
+<th>主分区&#x2F;逻辑分区</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200MB</td>
+<td><strong>逻辑分区</strong></td>
+<td><strong>EFI</strong></td>
+</tr>
+<tr>
+<td>8GB<br />（和内存大小一致）</td>
+<td>主分区</td>
+<td>swap(交换)</td>
+</tr>
+<tr>
+<td>40GB</td>
+<td>逻辑分区</td>
+<td>ext4<br />挂载至 “&#x2F;”</td>
+</tr>
+<tr>
+<td>剩余空间</td>
+<td>逻辑分区</td>
+<td>ext4<br />挂载至 “&#x2F;home”</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>BIOS</strong>启动：</p>
+<table>
+<thead>
+<tr>
+<th>空间大小</th>
+<th>主分区&#x2F;逻辑分区</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200MB</td>
+<td><strong>主分区</strong></td>
+<td><strong>biosxx</strong></td>
+</tr>
+<tr>
+<td>8GB （和内存大小一致）</td>
+<td>主分区</td>
+<td>swap(交换)</td>
+</tr>
+<tr>
+<td>40GB</td>
+<td>逻辑分区</td>
+<td>ext4 挂载至 “&#x2F;”</td>
+</tr>
+<tr>
+<td>剩余空间</td>
+<td>逻辑分区</td>
+<td>ext4 挂载至 “&#x2F;home”</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+<li><p>完成安装，根据提示重启即可(可拔去启动U盘&#x2F;硬盘，避免再次从启动U盘启动)</p>
+</li>
+</ol>
+<hr>
+<h2 id="将-从主服务器下载-更换为-国内镜像站点下载"><a href="#将-从主服务器下载-更换为-国内镜像站点下载" class="headerlink" title="将 从主服务器下载 更换为 国内镜像站点下载"></a>将 从主服务器下载 更换为 国内镜像站点下载</h2><p>​	显示应用程序 - 软件和更新 - Ubuntu软件 - 下载自 - 其他站点 - 选择最佳服务器（自动选择最合适的站点）</p>
+<hr>
+<h2 id="更新系统文件"><a href="#更新系统文件" class="headerlink" title="更新系统文件"></a>更新系统文件</h2><p><strong>打开终端</strong>的快捷键：<code>Ctrl</code>+<code>Alt</code>+<code>T</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="获得各种开发工具"><a href="#获得各种开发工具" class="headerlink" title="获得各种开发工具"></a>获得各种开发工具</h2><p><code>sudo apt-get install build-essential</code></p>
+<ul>
+<li><p>安装<strong>文字编辑器vim</strong>和<strong>浏览器chromium</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install vim</span><br><span class="line">sudo apt-get install chromium-browser</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>树视图</p>
+<p><code>sudo apt-get install tree</code></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2019/04/16/Cmder/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/04/16/Cmder/" class="post-title-link" itemprop="url">Cmder</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-16 17:38:25" itemprop="dateCreated datePublished" datetime="2019-04-16T17:38:25+08:00">2019-04-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8E%E8%BD%AF%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">操作系统与软件</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>官网下载Cmder（压缩包，解压即用），有两种不同的版本可供选择：</p>
+<ul>
+<li>Mini</li>
+<li>Full（附带msysgit工具）</li>
+</ul>
+<p>可根据设备是否已安装git自行选择</p>
+<hr>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="添加系统环境变量"><a href="#添加系统环境变量" class="headerlink" title="添加系统环境变量"></a>添加系统环境变量</h3><p>我的电脑 - 右键属性 - 高级系统设置 - 环境变量 - 系统变量，在<code>Path</code>中添加Cmder路径</p>
+<p><img src="https://i.loli.net/2019/04/16/5cb5a739330de.png"></p>
+<hr>
+<h3 id="添加Cmder到右键菜单"><a href="#添加Cmder到右键菜单" class="headerlink" title="添加Cmder到右键菜单"></a>添加Cmder到右键菜单</h3><ol>
+<li><code>Win + R</code> - 输入<code>Cmder</code>，确认，打开Cmder</li>
+<li>点击右下方的<code>Create new console</code></li>
+<li>Startup command or {Task} name - {bash::bash}</li>
+<li>Run as administrator</li>
+<li>Start，即打开一个管理员权限的控制台 <img src="https://i.loli.net/2019/04/17/5cb6b470b7f0f.png"></li>
+<li>输入 <code>Cmder.exe /REGISTER ALL</code>，回车。即可在每个文件夹中鼠标右键右键 - <code>Cmder here</code>，打开Cmder</li>
+</ol>
+<hr>
+<h2 id="默认开启设置"><a href="#默认开启设置" class="headerlink" title="默认开启设置"></a>默认开启设置</h2><p>Cmder窗口右下角右键<code>Show system menu</code> - General - Choose your startup task or even a shell with arguments: - {bash::bash} - Save settings</p>
+<p><img src="https://i.loli.net/2019/04/17/5cb6bbe028a30.png"></p>
+<hr>
+<h2 id="关闭Tab不提示"><a href="#关闭Tab不提示" class="headerlink" title="关闭Tab不提示"></a>关闭Tab不提示</h2><p>Cmder窗口右下角右键<code>Show system menu</code> - General - Confirm - Close confirmations下的复选框全不勾选 - Save settings</p>
+<p><img src="https://i.loli.net/2019/04/17/5cb6bd25b23b6.png"></p>
+<hr>
+<p>参考：<a target="_blank" rel="noopener" href="http://weikeqin.cn/2017/04/28/cmder-notes/">Cmder 使用 笔记</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1947,104 +2518,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2018/06/14/%E6%A0%B9%E6%8D%AE%E8%AF%B7%E6%B1%82%E7%9A%84%E5%85%B7%E4%BD%93%E6%89%A9%E5%B1%95%E5%90%8D%E3%80%81%E8%AF%B7%E6%B1%82%E5%A4%B4%E4%B8%8D%E5%90%8C%EF%BC%8C%E8%BF%94%E5%9B%9E%E4%B8%8D%E5%90%8C%E6%A0%BC%E5%BC%8F%E7%9A%84%E7%9B%B8%E5%90%8C%E5%86%85%E5%AE%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/06/14/%E6%A0%B9%E6%8D%AE%E8%AF%B7%E6%B1%82%E7%9A%84%E5%85%B7%E4%BD%93%E6%89%A9%E5%B1%95%E5%90%8D%E3%80%81%E8%AF%B7%E6%B1%82%E5%A4%B4%E4%B8%8D%E5%90%8C%EF%BC%8C%E8%BF%94%E5%9B%9E%E4%B8%8D%E5%90%8C%E6%A0%BC%E5%BC%8F%E7%9A%84%E7%9B%B8%E5%90%8C%E5%86%85%E5%AE%B9/" class="post-title-link" itemprop="url">根据请求的具体扩展名、请求头不同，返回不同格式的相同内容</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-06-14 22:48:32" itemprop="dateCreated datePublished" datetime="2018-06-14T22:48:32+08:00">2018-06-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java-Web/" itemprop="url" rel="index"><span itemprop="name">Java Web</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java-Web/Spring-MVC/" itemprop="url" rel="index"><span itemprop="name">Spring MVC</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java-Web/Spring-MVC/%E8%A7%86%E5%9B%BE/" itemprop="url" rel="index"><span itemprop="name">视图</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="内容协商多视图"><a href="#内容协商多视图" class="headerlink" title="内容协商多视图"></a>内容协商多视图</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yu412346928/article/details/20637439">SpringMVC配置多视图-内容协商原理</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean class=&quot;org.springframework.web.servlet.view.ContentNegotiatingViewResolver&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;contentNegotiationManager&quot; ref=&quot;contentNegotiationManager&quot;/&gt;</span><br><span class="line">   ...</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://junq.io/spring-mvc%E5%AE%9E%E7%8E%B0http%E5%86%85%E5%AE%B9%E5%8D%8F%E5%95%86-content-negotiation.html">Spring MVC三种方式实现HTTP内容协商(Content Negotiation)</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
