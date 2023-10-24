@@ -148,18 +148,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">76</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">110</span>
+        <span class="site-state-item-count">118</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -176,6 +176,542 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/05/29/JSON/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/05/29/JSON/" class="post-title-link" itemprop="url">JSON</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-05-29 19:40:40" itemprop="dateCreated datePublished" datetime="2023-05-29T19:40:40+08:00">2023-05-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/SSM%E6%A1%86%E6%9E%B6/" itemprop="url" rel="index"><span itemprop="name">SSM框架</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>JSON（JavaScript Object Notation, JS 对象标记）是一种轻量级的<strong>数据交换格式</strong>，目前使用特别广泛。</p>
+<ul>
+<li>采用完全独立于编程语言的<strong>文本格式</strong>来存储和表示数据。</li>
+<li>简洁和清晰的层次结构使得JSON成为理想的数据交换语言。</li>
+</ul>
+<p>在JavaScript语言中，一切都是对象，因此任何JavaScript支持的类型都可以通过JSON来表示，例如字符串、数字、对象、数组等。语法格式如下：</p>
+<ol>
+<li>对象表示为键值对，数据由逗号分隔</li>
+<li>花括号<code>&#123;&#125;</code><strong>保存对象</strong></li>
+<li>方括号<code>[]</code><strong>保存数组</strong></li>
+</ol>
+<p><strong>JSON键值对</strong>是用来保存JavaScript对象的一种方式，和JavaScript对象的写法大同小异，键值对组合中的键名在前，<strong>用双引号<code>&quot;&quot;</code>包裹</strong>，使用<strong>冒号<code>:</code>分隔</strong>，之后跟着对应的值。</p>
+<hr>
+<h1 id="Controller返回JSON数据"><a href="#Controller返回JSON数据" class="headerlink" title="Controller返回JSON数据"></a>Controller返回JSON数据</h1><h2 id="Jackson"><a href="#Jackson" class="headerlink" title="Jackson"></a>Jackson</h2><p>Jackson是目前比较好的json解析工具。</p>
+<h3 id="导包"><a href="#导包" class="headerlink" title="导包"></a>导包</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.15.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/05/25/Spring5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/05/25/Spring5/" class="post-title-link" itemprop="url">Spring5</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-05-25 01:01:02" itemprop="dateCreated datePublished" datetime="2023-05-25T01:01:02+08:00">2023-05-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-09-17 13:01:39" itemprop="dateModified" datetime="2023-09-17T13:01:39+08:00">2023-09-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/SSM%E6%A1%86%E6%9E%B6/" itemprop="url" rel="index"><span itemprop="name">SSM框架</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Spring的理念：使现有的技术更加容易使用，<strong>本身是一个大杂烩，整合了现有的技术框架</strong>。</p>
+<ul>
+<li>Spring是一个开源的免费框架</li>
+<li>Spring是一个轻量级的、非侵入式的框架</li>
+<li>重要特性：IoC（控制反转）、AOP（面向切面编程）</li>
+<li>支持事务的处理。支持整合框架</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/25/Spring5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/05/05/MyBatis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/05/05/MyBatis/" class="post-title-link" itemprop="url">MyBatis与MyBatis-Plus</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-05-05 21:46:54" itemprop="dateCreated datePublished" datetime="2023-05-05T21:46:54+08:00">2023-05-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-10-12 21:41:07" itemprop="dateModified" datetime="2023-10-12T21:41:07+08:00">2023-10-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/SSM%E6%A1%86%E6%9E%B6/" itemprop="url" rel="index"><span itemprop="name">SSM框架</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>MyBatis是一款优秀的<strong>持久层框架</strong>。它支持<strong>定制化SQL、存储过程以及高级映射</strong>。</p>
+<p>MyBatis免除了几乎所有的JDBC代码以及设置参数和获取结果集的工作。MyBatis可以通过简单的<strong>XML</strong>或<strong>注解</strong>来配置和映射<strong>原始类型、接口和Java POJO</strong>（Plain Old Java Objects，普通老式Java对象）为<strong>数据库中的记录</strong>。</p>
+<p><strong>持久化</strong></p>
+<ul>
+<li>持久化就是将程序的数据在<strong>持久状态</strong>和<strong>瞬时状态</strong>转化的过程。</li>
+<li>由于内存有断电之后数据就会丢失的特点，有一些对象不能丢失，需要将其持久化。</li>
+</ul>
+<p><strong>持久层</strong></p>
+<ul>
+<li>完成持久化工作的代码块就是持久层。</li>
+</ul>
+<p>传统的JDBC代码太复杂，MyBatis简化了将数据存入数据库这一过程。MyBatis<strong>将sql和代码分离</strong>，提高了可维护性；提供了映射标签，支持对象与数据库的字段关系的映射(<strong>ORM</strong>，Object Relation Mapping)；<strong>提供xml标签，支持编写动态sql</strong>。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/05/MyBatis/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2022/03/29/Filter%E4%B8%8EListener/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/29/Filter%E4%B8%8EListener/" class="post-title-link" itemprop="url">Filter与Listener</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-29 00:38:31" itemprop="dateCreated datePublished" datetime="2022-03-29T00:38:31+08:00">2022-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-09-17 13:07:03" itemprop="dateModified" datetime="2023-09-17T13:07:03+08:00">2023-09-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/" itemprop="url" rel="index"><span itemprop="name">JavaWeb</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h2><p>Filter，过滤器，顾名思义，是用来过滤网站数据的：</p>
+<ul>
+<li>处理中文乱码</li>
+<li>登录验证</li>
+<li>……</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/29/Filter%E4%B8%8EListener/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2022/03/27/MVC%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/27/MVC%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84/" class="post-title-link" itemprop="url">MVC三层架构</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-27 20:56:14" itemprop="dateCreated datePublished" datetime="2022-03-27T20:56:14+08:00">2022-03-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/" itemprop="url" rel="index"><span itemprop="name">JavaWeb</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="JavaBean"><a href="#JavaBean" class="headerlink" title="JavaBean"></a>JavaBean</h2><p>JavaBean是一个有如下特征的<strong>实体类</strong>：</p>
+<ul>
+<li>必须有一个<strong>无参构造函数</strong></li>
+<li>属性必须私有化</li>
+<li>必须有对应的<code>get</code>&#x2F;<code>set</code>方法</li>
+</ul>
+<p>一般用于<strong>和数据库的字段做映射</strong>。</p>
+<p>ORM（Object Relation Mapping，对象关系映射）：</p>
+<ul>
+<li>表 —-&gt; 类</li>
+<li>字段 —-&gt; 属性</li>
+<li>行记录 —-&gt; 对象</li>
+</ul>
+<hr>
+<h2 id="什么是MVC架构"><a href="#什么是MVC架构" class="headerlink" title="什么是MVC架构"></a>什么是MVC架构</h2><ul>
+<li><p>M：Model 模型</p>
+<ul>
+<li>业务处理：Service层</li>
+<li>数据持久化：DAO（Data Access Object）层</li>
+</ul>
+</li>
+<li><p>V：View 视图</p>
+<p>  JSP，用于<strong>展示数据，提供可供操作的请求</strong>。</p>
+</li>
+<li><p>C：Controller 控制器</p>
+<p>  Servlet，<strong>接收用户的请求，将请求交给业务层，控制视图的跳转</strong>。</p>
+</li>
+</ul>
+<p> <img src="https://s2.loli.net/2022/03/29/vEHPmaKSkne8h7j.png" alt="MVC三层架构"></p>
+<p>由架构示意图可知，由于<strong>JSP就是一种Servlet</strong>，因此控制器和视图会存在功能重合，为了易于维护和使用，做了人为规定：</p>
+<ul>
+<li><strong>Servlet专注于处理请求，以及控制视图跳转</strong></li>
+<li><strong>JSP专注于展示数据</strong></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -798,1175 +1334,6 @@
 <hr>
 <h4 id="实现重定向"><a href="#实现重定向" class="headerlink" title="实现重定向"></a>实现重定向</h4><p>请求重定向就是通过<code>HttpServletResponse</code>对象<strong>发送给客户端一个新的URL地址，让其重新请求</strong>。对客户端来说，是<strong>两次请求，两次响应</strong>。</p>
 <p>请求重定向的方法：<code>resp.sendRedirect(&quot;绝对路径&quot;);</code>，其中路径<strong>需要写明tomcat设置的application context前缀</strong>，可用<code>req.getContextPath()</code>获取绝对路径前缀。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2022/01/09/Maven/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/09/Maven/" class="post-title-link" itemprop="url">Maven</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-01-09 22:47:44" itemprop="dateCreated datePublished" datetime="2022-01-09T22:47:44+08:00">2022-01-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/" itemprop="url" rel="index"><span itemprop="name">JavaWeb</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="Maven是什么"><a href="#Maven是什么" class="headerlink" title="Maven是什么"></a>Maven是什么</h2><p>Maven是一个免费、开源的，用<strong>Java编写的项目构建和依赖管理工具</strong>。</p>
-<h3 id="Maven的特点"><a href="#Maven的特点" class="headerlink" title="Maven的特点"></a>Maven的特点</h3><ul>
-<li>默认的目录结构</li>
-<li>第三方依赖管理<br>  通过配置<code>pom.xml</code>文件，从远程仓库下载相关Jar包。<strong>解决了依赖维护问题</strong>。</li>
-<li>提供了一致的项目构建管理方式<br>  生命周期。<strong>减少了构建工作量</strong>。</li>
-<li>插件式架构，大量的可重用插件</li>
-<li>方便地集成于IDE</li>
-</ul>
-<hr>
-<h2 id="MAVEN的安装及配置"><a href="#MAVEN的安装及配置" class="headerlink" title="MAVEN的安装及配置"></a>MAVEN的安装及配置</h2><ol>
-<li><p>官网下载压缩包，解压到合适文件目录下。</p>
-</li>
-<li><p>配置环境变量 - 系统变量</p>
-<ul>
-<li><code>M2_HOME = 文件目录</code></li>
-<li>添加<code>%M2_HOME%/bin</code>到Path</li>
-</ul>
-</li>
-<li><p>配置maven的阿里云镜像</p>
-<p> 配置方式见<a target="_blank" rel="noopener" href="https://developer.aliyun.com/mvn/guide?spm=a2c6h.13651104.0.0.435836a4w3khHd">阿里云仓库服务</a>，修改maven配置文件<code>conf\settings.xml</code>即可</p>
- <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>aliyunmaven<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>*<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>阿里云公共仓库<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://maven.aliyun.com/repository/public<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>建立本地仓库</p>
-<p> 本地仓库也是在<code>conf\settings.xml</code>中配置，默认地址为<code>$&#123;user.home&#125;/.m2/repository</code></p>
- <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- localRepository</span></span><br><span class="line"><span class="comment">   | The path to the local repository maven will use to store artifacts.</span></span><br><span class="line"><span class="comment">   |</span></span><br><span class="line"><span class="comment">   | Default: $&#123;user.home&#125;/.m2/repository</span></span><br><span class="line"><span class="comment">  &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br></pre></td></tr></table></figure></li>
-</ol>
-<hr>
-<h2 id="基本操作命令"><a href="#基本操作命令" class="headerlink" title="基本操作命令"></a>基本操作命令</h2><table>
-<thead>
-<tr>
-<th>命令</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>mvn archetype:generate</code></td>
-<td>使用模板生成项目</td>
-</tr>
-<tr>
-<td><code>mvn compile</code></td>
-<td>编译源代码</td>
-</tr>
-<tr>
-<td><code>mvn test</code></td>
-<td>单元测试</td>
-</tr>
-<tr>
-<td><code>mvn package</code></td>
-<td>打包项目，Java项目→Jar；Web项目→War</td>
-</tr>
-<tr>
-<td><code>mvn deploy</code></td>
-<td>部署，把打包后的项目上传发布到远程仓库</td>
-</tr>
-<tr>
-<td><code>mvn site</code></td>
-<td>生成项目相关的站点、在线文档</td>
-</tr>
-<tr>
-<td><code>mvn clean</code></td>
-<td>清理，删除构建的Jar包、class文件等</td>
-</tr>
-<tr>
-<td><code>mvn install</code></td>
-<td>把打包的目录拷到本地仓库</td>
-</tr>
-</tbody></table>
-<hr>
-<h2 id="在IDEA中使用Maven"><a href="#在IDEA中使用Maven" class="headerlink" title="在IDEA中使用Maven"></a>在IDEA中使用Maven</h2><h3 id="创建一个Maven项目"><a href="#创建一个Maven项目" class="headerlink" title="创建一个Maven项目"></a>创建一个Maven项目</h3><h4 id="方式一：Create-from-archetype"><a href="#方式一：Create-from-archetype" class="headerlink" title="方式一：Create from archetype"></a>方式一：Create from archetype</h4><p>是一种<strong>后续省心</strong>的创建方式。</p>
-<p><img src="https://s2.loli.net/2022/01/11/FV6QCApiuMtT9wr.png" alt="image-20220111011500763"></p>
-<p>创建后，目前默认产生的<code>src/main/webapp/WEB-INF/web.xml</code>文件的内容<strong>比较老旧</strong>，如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">web-app</span> <span class="keyword">PUBLIC</span></span></span><br><span class="line"><span class="meta"> <span class="string">&quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot;</span></span></span><br><span class="line"><span class="meta"> <span class="string">&quot;http://java.sun.com/dtd/web-app_2_3.dtd&quot;</span> &gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">display-name</span>&gt;</span>Archetype Created Web Application<span class="tag">&lt;/<span class="name">display-name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>需要更新为如下较新的版本：</strong></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">version</span>=<span class="string">&quot;4.0&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>另外，需要在<code>src/main</code>目录下创建两个目录：<code>java</code>和<code>resources</code>。2021.3.2版本的IDEA在main目录上右键 - New - Directory，就会默认出现这两个目录名，选中创建即可。</p>
-<hr>
-<h4 id="方式二：不勾选Create-from-archetype"><a href="#方式二：不勾选Create-from-archetype" class="headerlink" title="方式二：不勾选Create from archetype"></a>方式二：不勾选Create from archetype</h4><p>原生态一点，<strong>直接打包好的项目可能会缺少部分文件</strong>，需要手动添加才能保证项目的顺利运行。</p>
-<ol>
-<li><p>创建完成后，右键项目文件夹 - Add Framwork Support…</p>
-<p> <img src="https://s2.loli.net/2022/03/27/CgPZqafBAzG1bSV.png" alt="Add Framwork Support..."></p>
-</li>
-<li><p>勾选<code>Web Application</code> - Versions:<code>4.0</code> - <code>Create web.xml</code> - OK</p>
-<p> <img src="https://s2.loli.net/2022/03/27/MIfNPB3ivROtoen.png" alt="Web Application"></p>
-</li>
-<li><p>会在项目文件夹下，生成一个web文件夹</p>
-<p> 可以在<code>web/WEB-INF/web.xml</code>中看到[方式一](#方式一：Create from archetype)更新的内容。</p>
-</li>
-<li><p>在<code>pom.xml</code>中添加了需要的依赖之后，<strong>需要手动添加依赖的jar包到<code>WEB-INF/lib</code>文件夹下</strong></p>
-<ul>
-<li><p>File - Project Structure - Project Settings - Artifacts - 选择目标web应用 - Output Layout - Avaliable Elements</p>
-<p>  可以看到项目，<strong>项目下是由依赖关系添加的Jar包</strong>：</p>
-<p>  <img src="https://s2.loli.net/2022/03/27/l3tFvTqjbRUBw2L.png" alt="Avaliable Elements"></p>
-</li>
-<li><p>双击这些Jar包，它们就会自动添加到左边的<code>WBE-INF/lib</code>目录下（首次添加时会<strong>自动创建lib目录</strong>），OK关闭窗口即可</p>
-<p>  <img src="https://s2.loli.net/2022/03/27/p4x8Zm3V9tugbDJ.png" alt="添加Jar包到"></p>
-</li>
-</ul>
-</li>
-</ol>
-<p>只有这样，最后打包的项目中才有依赖的Jar包，项目才能正常运行。</p>
-<blockquote>
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36339023/article/details/81006423">Idea使用maven创建项目常见错误和注意点</a></p>
-</blockquote>
-<hr>
-<h3 id="选择自定义的maven配置文件"><a href="#选择自定义的maven配置文件" class="headerlink" title="选择自定义的maven配置文件"></a>选择自定义的maven配置文件</h3><p>File - Settings - 搜索maven：</p>
-<ul>
-<li><p><code>Maven home path</code>：选择使用的maven的路径</p>
-<ul>
-<li><code>Bundled(Maven 3)</code>是IDEA捆绑的Maven</li>
-<li>也可选择自己下载的Maven</li>
-</ul>
-</li>
-<li><p><code>User settings file</code>：用户配置文件</p>
-<p>  IDEA默认的maven配置文件为<code>$&#123;user.home&#125;/.m2/settings.xml</code>。上文<a href="#MAVEN%E7%9A%84%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE">MAVEN的安装及配置</a>中提到的为了快速下载依赖而配置的<strong>maven的阿里云镜像</strong>想要继续生效，<strong>有3种方式</strong>：</p>
-<ol>
-<li>修改<code>$&#123;user.home&#125;/.m2/settings.xml</code>（默认文件，是<strong>最省心</strong>的方式）</li>
-<li>IDEA中修改maven配置文件的路径，更改为maven目录下的<code>conf\settings.xml</code></li>
-<li>在便于管理的目录下，自定义一个maven配置的<code>xml</code>文件（私以为<code>$&#123;user.home&#125;/.m2/</code>目录下就很好）</li>
-</ol>
-</li>
-</ul>
-<hr>
-<h2 id="pom-xml"><a href="#pom-xml" class="headerlink" title="pom.xml"></a>pom.xml</h2><p>pom（project object model, 项目对象模型），是Maven的核心配置文件。</p>
-<ul>
-<li><code>groupId</code>、<code>artifactId</code>和<code>version</code>构成项目的唯一标识（坐标），不能重复。</li>
-</ul>
-<hr>
-<h2 id="Maven的生命周期"><a href="#Maven的生命周期" class="headerlink" title="Maven的生命周期"></a>Maven的生命周期</h2><p>maven有三套独立的生命周期</p>
-<ol>
-<li>clean(删除构建的Jar包、class文件等)<br> pre-clean → clean → post-clean</li>
-<li>site(生成站点文档)<br> pre-site → site → post-site → site-deploy</li>
-<li>default<ol>
-<li>validate （验证项目是否正确，所需信息是否有缺失）</li>
-<li>process-resources（将资源文件复制到项目目录下，之后打包用）</li>
-<li>compile （编译源代码）</li>
-<li>test （单元测试）</li>
-<li>package （打包）</li>
-<li>install （把打包的项目拷到本地仓库下）</li>
-<li>deploy （把打包的项目上传到远程仓库）</li>
-</ol>
-</li>
-</ol>
-<hr>
-<h2 id="Maven的问题"><a href="#Maven的问题" class="headerlink" title="Maven的问题"></a>Maven的问题</h2><p>由于Maven的<strong>约定大于配置</strong>，可能会遇到配置文件<strong>无法导出或无法生效的问题</strong>。</p>
-<p>解决方案：<strong>在<code>&lt;build&gt;</code>中配置<code>&lt;resource&gt;</code>节点</strong>，防止资源导出失败的问题。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">excludes</span>&gt;</span></span><br><span class="line">            	<span class="tag">&lt;<span class="name">exclude</span>&gt;</span>**/*.properties<span class="tag">&lt;/<span class="name">exclude</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">exclude</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">exclude</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">excludes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">            	<span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.properties<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2022/01/09/Tomcat/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/09/Tomcat/" class="post-title-link" itemprop="url">Tomcat</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-01-09 16:47:01" itemprop="dateCreated datePublished" datetime="2022-01-09T16:47:01+08:00">2022-01-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/" itemprop="url" rel="index"><span itemprop="name">JavaWeb</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="Tomcat简介"><a href="#Tomcat简介" class="headerlink" title="Tomcat简介"></a>Tomcat简介</h2><p>市场上有很多<strong>支持<a href="/2022/03/27/JSP/" title="JSP">JSP</a>和<a href="/2022/03/21/Servlet/" title="Servlet">Servlet</a>开发的Web服务器</strong>，Tomcat就是其中之一，并且是免费的。</p>
-<hr>
-<h2 id="安装及配置"><a href="#安装及配置" class="headerlink" title="安装及配置"></a>安装及配置</h2><p>官网下载压缩包，解压到合适的目录文件下，运行<code>bin</code>目录下的<code>startup.bat</code>&#x2F;<code>shutdown.bat</code>，即可启动&#x2F;关闭 Tomcat。</p>
-<h3 id="conf文件夹"><a href="#conf文件夹" class="headerlink" title="conf文件夹"></a>conf文件夹</h3><p>conf文件夹下放置tomcat的配置文件，其中<code>server.xml</code>是服务器核心配置文件。</p>
-<ul>
-<li><p>连接端口相关设置</p>
-</li>
-<li><p>主机相关设置</p>
-<p>  默认端口号为<code>8080</code>.</p>
-  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Serveice</span> <span class="attr">name</span>=<span class="string">&quot;Catalina&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 默认端口号：8080 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">&quot;8080&quot;</span> <span class="attr">protocol</span>=<span class="string">&quot;HTTP/1.1&quot;</span> </span></span><br><span class="line"><span class="tag">               <span class="attr">connectionTimeout</span>=<span class="string">&quot;20000&quot;</span></span></span><br><span class="line"><span class="tag">               <span class="attr">redirectPort</span>=<span class="string">&quot;8443&quot;</span> /&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 默认主机名称：localhost 等价于127.0.0.1 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 默认网站应用存放的根目录：webapps --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">&quot;localhost&quot;</span> <span class="attr">appBase</span>=<span class="string">&quot;webapps&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">unpackWARs</span>=<span class="string">&quot;true&quot;</span> <span class="attr">autoDeploy</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Serveice</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-<hr>
-<h3 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h3><p>环境变量的配置<strong>可选</strong>，真实的开发环境，都是在IDEA中操作。</p>
-<p>如有需要，后续补充</p>
-<hr>
-<h2 id="部署项目到Tomcat"><a href="#部署项目到Tomcat" class="headerlink" title="部署项目到Tomcat"></a>部署项目到Tomcat</h2><p><strong>一般的项目结构：</strong></p>
-<ul>
-<li><p>webapps：Tomcat服务器的web目录</p>
-<ul>
-<li><p>ROOT</p>
-</li>
-<li><p>项目名</p>
-<ul>
-<li><p>WEB-INF</p>
-<ul>
-<li>classes：java程序</li>
-<li>lib：依赖的jar包</li>
-<li>web.xml：网站的配置文件</li>
-</ul>
-</li>
-<li><p>index.html：默认的首页</p>
-</li>
-<li><p>static</p>
-<ul>
-<li>css<ul>
-<li>style.css</li>
-</ul>
-</li>
-<li>js</li>
-<li>img</li>
-</ul>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="手动"><a href="#手动" class="headerlink" title="手动"></a>手动</h3><p>将自己写的网页放到tomcat中网站应用(webapps)文件夹下，就可以访问了。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2021/12/06/Git/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/12/06/Git/" class="post-title-link" itemprop="url">Git</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-12-06 22:44:03" itemprop="dateCreated datePublished" datetime="2021-12-06T22:44:03+08:00">2021-12-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" itemprop="url" rel="index"><span itemprop="name">版本控制</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="版本控制工具"><a href="#版本控制工具" class="headerlink" title="版本控制工具"></a>版本控制工具</h2><p>版本控制是一种<strong>记录一个或若干文件内容变化</strong>，以便<strong>将来查阅特定版本修订情况</strong>的系统。版本控制能方便<strong>查看更改历史，备份以及恢复以前的版本</strong>，保证<strong>多人协作</strong>不出问题。</p>
-<p>Git对待数据的方式，更像是<strong>把数据看作是对小型文件系统的一组快照</strong>。每次提交更新或者在Git中保存项目状态时，它主要对当时的<strong>全部文件制作一个快照</strong>并<strong>保存这个快照的索引</strong>。为了高效，<strong>如果文件没有修改，Git不再重新存储该文件，而只是保留一个链接指向之前存储的文件</strong>，Git对待数据更像是一个<strong>快照流</strong>。</p>
-<hr>
-<h2 id="安装Git和TortoiseGit"><a href="#安装Git和TortoiseGit" class="headerlink" title="安装Git和TortoiseGit"></a>安装Git和TortoiseGit</h2><h3 id="TortoiseGit"><a href="#TortoiseGit" class="headerlink" title="TortoiseGit"></a>TortoiseGit</h3><p>TortoiseGit提供了Git的图形化操作界面，Git<strong>工作区的目录和文件的图标符加了标识版本控制状态的图像，可以非常直观地看到哪些文件被更改了需要提交</strong>。通过对右键菜单的扩展，可以非常方便操作Git版本库。</p>
-<p>通过设置，选择Git提供的ssh客户端，这样**在下载ssh协议的代码仓库时，命令行与图形界面都可以使用同一套公钥和密钥。</p>
-<hr>
-<h2 id="Git基本配置"><a href="#Git基本配置" class="headerlink" title="Git基本配置"></a>Git基本配置</h2><h3 id="3种配置等级"><a href="#3种配置等级" class="headerlink" title="3种配置等级"></a>3种配置等级</h3><ol>
-<li><p><strong>系统</strong>配置：<code>git config --system</code></p>
-<p> 对<strong>所有用户</strong>都有效，存放在<strong>git的安装目录</strong>下：<code>%Git%/etc/gitconfig</code></p>
-</li>
-<li><p><strong>用户</strong>配置：<code>git config --global</code></p>
-<p> 只对<strong>当前用户</strong>有效，存放在<strong>用户目录</strong>下：<code>~/.gitconfig</code></p>
-</li>
-<li><p><strong>仓库</strong>配置：<code>git config --local</code></p>
-</li>
-</ol>
-<p>​	只对<strong>当前项目</strong>有效，存放在<strong>项目目录</strong>下：<code>.git/config</code></p>
-<hr>
-<h3 id="配置个人身份"><a href="#配置个人身份" class="headerlink" title="配置个人身份"></a>配置个人身份</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;Hunter&quot;</span></span><br><span class="line">git config --global user.email hspecial@163.com</span><br></pre></td></tr></table></figure>
-
-<p>这个配置信息会<strong>在Git仓库提交的修改信息中体现</strong>，<strong>和Git服务器认证使用的密码或者公钥密码无关</strong>。</p>
-<hr>
-<h3 id="文本换行符配置"><a href="#文本换行符配置" class="headerlink" title="文本换行符配置"></a>文本换行符配置</h3><p>这一节的内容仍然是给我造成困惑的部分，感觉从参考资料来看，<strong>跨平台的项目开发应该要自动转换换行符</strong>。但是在我目前有限的开发经验来看，似乎并没有对项目造成影响，怀疑可能是IDE完成了相应的工作。</p>
-<p><strong>默认</strong>的配置状态为：<code>core.autocrlf=true</code>，暂且不去作修改，待日后有了深刻的理解再来完善本节内容。</p>
-<hr>
-<h3 id="编码配置"><a href="#编码配置" class="headerlink" title="编码配置"></a>编码配置</h3><ul>
-<li><p>中文编码支持</p>
-<ul>
-<li><p><code>git config --global gui.encoding utf-8</code></p>
-<p>  图形化界面采用的编码</p>
-</li>
-<li><p><code>git config --global i18n.commitencoding utf-8</code></p>
-<p>  git commit log存储时，采用的编码</p>
-</li>
-<li><p><code>git config --global i18n.logoutputencoding utf-8</code></p>
-<p>  查看git log时，显示所采用的编码</p>
-</li>
-</ul>
-</li>
-<li><p>显示路径中的中文</p>
-<p>  <code>git config --global core.quotepath false</code></p>
-</li>
-</ul>
-<hr>
-<h3 id="与服务器的认证配置"><a href="#与服务器的认证配置" class="headerlink" title="与服务器的认证配置"></a>与服务器的认证配置</h3><h4 id="http-x2F-https协议认证"><a href="#http-x2F-https协议认证" class="headerlink" title="http&#x2F;https协议认证"></a>http&#x2F;https协议认证</h4><p>添加HTTPS证书信任：<code>git config http.sslverify false</code></p>
-<hr>
-<h4 id="SSH协议认证"><a href="#SSH协议认证" class="headerlink" title="SSH协议认证"></a>SSH协议认证</h4><p><strong>使用公钥认证，无需输入密码，加密传输</strong>，操作便利又保证安全性。</p>
-<hr>
-<h5 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h5><ol>
-<li><p>生成公钥</p>
-<p> 在bash命令行中输入如下命令：</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;hspecial@163.com&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p> 一路回车，就能在用户目录下<code>~/.ssh</code>中，生成公钥<code>id_rsa.pub</code></p>
-</li>
-<li><p>添加<strong>公钥</strong><code>id_rsa.pub</code>中的内容到代码平台</p>
-</li>
-</ol>
-<hr>
-<h5 id="新增公钥"><a href="#新增公钥" class="headerlink" title="新增公钥"></a>新增公钥</h5><p>出于某些情况，你可能要在另外的平台或者另外的项目，使用不同的邮箱来生成公钥，以便<strong>和代码平台的账号相匹配</strong>。</p>
-<ol>
-<li><p>生成公钥</p>
-<p> 提示<code>Enter file in which to save the key</code>（输入要保存密钥的<strong>文件</strong>，即<strong>id_rsa文件</strong>）”时，输入密钥文件的保存位置。<strong>为了和用户配置等级的密钥区分</strong>，我选择在默认公钥的目录下<strong>创建对应的平台或项目名的文件夹</strong>。输入保存密钥的<strong>文件绝对路径</strong>即可。</p>
-</li>
-<li><p>添加<strong>公钥</strong><code>id_rsa.pub</code>中的内容到代码平台</p>
-</li>
-</ol>
-<hr>
-<h2 id="Git基本命令"><a href="#Git基本命令" class="headerlink" title="Git基本命令"></a>Git基本命令</h2><h3 id="Git版本控制下的工程区域"><a href="#Git版本控制下的工程区域" class="headerlink" title="Git版本控制下的工程区域"></a>Git版本控制下的工程区域</h3><ol>
-<li><p>暂存区 stage</p>
-<p> 一般存放在工程根目录<code>.git/index</code>文件中，因此也可以把暂存区叫做索引。</p>
-</li>
-<li><p>工作区 working directory</p>
-<p> 日常工作的代码文件或者文档所在的文件夹。</p>
-</li>
-<li><p>版本库 Repository</p>
-<p> <code>.git</code>文件夹就是Git的版本库，也可以叫<strong>本地仓库</strong>。</p>
-</li>
-</ol>
-<hr>
-<h3 id="Git版本控制下的三种文件状态"><a href="#Git版本控制下的三种文件状态" class="headerlink" title="Git版本控制下的三种文件状态"></a>Git版本控制下的三种文件状态</h3><ol>
-<li><p>已修改 modified</p>
-<p> 修改了某个文件，但还没有提交保存</p>
-</li>
-<li><p>已暂存 staged</p>
-<p> 把已修改的文件放在下次提交时要保存的清单中</p>
-</li>
-<li><p>已提交 committed</p>
-<p> 文件已经被安全地保存在本地数据库中</p>
-</li>
-</ol>
-<hr>
-<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><h4 id="工程准备"><a href="#工程准备" class="headerlink" title="工程准备"></a>工程准备</h4><ul>
-<li><p><code>git init</code>：本地目录下新建git项目仓库</p>
-</li>
-<li><p><code>git clone [URL]</code>：<strong>复制远端工程</strong>到本地</p>
-<p>  如果所在的项目Git服务器已支持<code>git-lfs</code>，<strong>对二进制文件进行了区别管理</strong>，那么复制工程的时候**务必使用<code>git lfs clone [URL]</code>**，否则克隆操作无法下载到工程中的二进制文件，工程内容不完整。</p>
-</li>
-</ul>
-<hr>
-<h4 id="查看修改"><a href="#查看修改" class="headerlink" title="查看修改"></a>查看修改</h4><ul>
-<li><p><code>git diff</code>：查看工作区的<strong>修改内容</strong>(当前索引与上次提交&#x2F;任意两个节点(分支)之间的差异)</p>
-<ul>
-<li><code>git diff --cached</code>：当前索引与上次提交之间的差异</li>
-</ul>
-<p>  添加<code>--name-status</code>参数，可以只看文件列表</p>
-</li>
-<li><p><code>git status</code>：查看<strong>工作区和暂存区</strong>的文件状态</p>
-<p>  该命令能看到修改的git文件是否已被暂存，新增的文件是否纳入了git版本库的管理。</p>
-<ul>
-<li><code>Untracked files</code>：新建但未被跟踪的文件</li>
-<li><code>Changes not staged for commit</code>：修改但未被暂存的文件</li>
-<li><code>Changes to be committed</code>：已修改并已暂存的文件</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h4 id="文件修改后提交推送"><a href="#文件修改后提交推送" class="headerlink" title="文件修改后提交推送"></a>文件修改后提交推送</h4><ul>
-<li><p><code>git add</code>：<strong>新增</strong>文件到<strong>暂存区</strong></p>
-<p>  把文件添加到暂存区，是提交修改文件之前的必要操作。如果文件<strong>已经被git追踪，即曾经提交过</strong>，在Git的<strong>早期版本中</strong>，需要<code>git add</code>再提交；在<strong>较新的版本中，无需<code>git add</code>即可提交</strong>。</p>
-</li>
-<li><p><code>git rm</code>：<strong>删除</strong>文件到<strong>暂存区</strong></p>
-<p>  执行<code>git rm</code>后，通过<code>git status</code>查看时，会有<code>deleted: xxx</code>的提醒。之后进行提交，<strong>对应的文件就不再受git工程的管理</strong>。<strong>直接从硬盘中删除文件</strong>，然后对该文件执行<code>git commit</code>，git会自动将删除的文件从索引中移除，<strong>效果相同</strong>。</p>
-</li>
-<li><p><code>git mv</code>：<strong>移动</strong>文件到<strong>暂存区</strong></p>
-<p>  相当于<strong>在<code>mv</code>操作的基础上</strong>，用git将操作传入了暂存区。</p>
-</li>
-<li><p><code>git commit</code>：<strong>提交</strong>更改的文件</p>
-<p>  将暂存区中的文件改动提交到本地的版本库，一般<strong>需要附带提交描述信息</strong>，所以常见的用法是：</p>
-<p>  <code>git commit file_name -m &quot;commit message&quot;</code></p>
-<p>  如果要一次性提交所有在暂存区改动的文件到版本库，可以执行<code>git commit -am &quot;commit message&quot;</code></p>
-</li>
-<li><p><code>git push</code>：将本地版本库的分支推送到远端对应的分支</p>
-<p>  常见的推送命令格式：<code>git push origin branch_name:new_branch_name</code></p>
-<p>  <code>new_branch_name</code>是推送成功后，<strong>在远端服务器上的分支名</strong>，<code>:new_branch_name</code>可以不写，远端分支名就和本地分支名相同。</p>
-</li>
-</ul>
-<hr>
-<h3 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h3><ul>
-<li><p><code>git log</code>：查看<strong>当前分支上</strong>的提交日志</p>
-<p>  <code>git log</code><strong>默认</strong>按提交时间的<strong>由近到远</strong>列出所有的历史提交日志，每个日志基本包含：</p>
-<ol>
-<li>提交节点</li>
-<li>作者信息</li>
-<li>提交时间</li>
-<li>提交说明</li>
-</ol>
-<ul>
-<li><p><code>--name-status</code></p>
-<p> 能列出涉及改动的具体文件</p>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h3><ul>
-<li><p><code>git branch</code>：列出<strong>所有本地</strong>分支</p>
-<p>  如果想查看<strong>远端</strong>服务器上的分支，<code>-r</code>即可，返回的<strong>分支名带origin前缀，即表示在远端</strong>。如果想查看远端和本地的所有分支，<code>-a</code>即可。</p>
-</li>
-<li><p><strong>新建</strong>分支</p>
-<p>  默认<strong>基于当前节点</strong>创建分支</p>
-<ul>
-<li><code>git checkout -b new_branch_name</code> 新建后<strong>会自动切换到新分支</strong></li>
-<li><code>git branch new_branch_name</code> 新建后不会切换到新分支</li>
-</ul>
-</li>
-<li><p><strong>删除</strong>分支</p>
-<ul>
-<li><p><code>git branch -d branch_name</code></p>
-</li>
-<li><p><code>git branch -D branch_name</code> <strong>大写的D</strong>表示强制删除</p>
-<p>  当目标分支上<strong>包含未合并的改动</strong>，则需要通过<strong>强制删除</strong>来操作。</p>
-</li>
-<li><p><code>git branch -d -r branch_name</code> <strong>删除服务器上的远程分支</strong></p>
-<p>  删除后<strong>还需要推送到服务器</strong>：<code>git push origin : branch_name</code></p>
-</li>
-</ul>
-</li>
-<li><p><strong>切换</strong>分支</p>
-<ul>
-<li><p><code>git checkout branch_name</code></p>
-</li>
-<li><p><code>git checkout -f branch_name</code></p>
-<p>  如果当前分支<strong>工作区存在修改未提交的文件</strong>，与目的分支上的内容冲突，会导致<strong>切换失败</strong>，则需要使用<code>git checkout -f</code>进行<strong>强制切换</strong>。</p>
-</li>
-</ul>
-<p>  checkout的对象<strong>可以是分支，也可以是某个提交节点或者节点下的某个文件</strong>。</p>
-</li>
-<li><p>从远端<strong>更新</strong>分支</p>
-<ul>
-<li><p><code>git pull origin remote_branch:local_branch</code></p>
-<p>  从远端服务器中获取某个分支的更新，再**与本地指定的分支进行自动合并(merge)**，如果远程指定的分支与本地指定的分支相同，则可以直接执行<code>git pull origin remote_branch</code></p>
-</li>
-<li><p><code>git fetch origin remote_branch:local_branch</code></p>
-<p>  与<code>git pull</code>不同，<code>git fetch</code>在获取到更新后，<strong>不会自动合并</strong>，而是<strong>留给用户一个操作空间，确认<code>git fetch</code>内容符合预期后，再决定是否手动合并节点</strong>。</p>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="分支合并"><a href="#分支合并" class="headerlink" title="分支合并"></a>分支合并</h3><p><strong>合并目标分支内容到当前分支</strong>，以下两种方式<strong>都可以达到目的</strong></p>
-<ul>
-<li><p><code>git merge branch_name</code></p>
-<p>  git会将指定的分支与当前分支进行比较，找出二者<strong>最近的一个共同节点base</strong>，之后将指定分支在base之后分离的节点<strong>合并到当前分支上</strong>，<strong>实际上是分支之间，差异提交的节点的合并</strong>。</p>
-</li>
-<li><p><code>git rebase branch_name</code></p>
-</li>
-</ul>
-<p>但是二者的<strong>实现机制和对合并后节点造成的影响有很大差异，有者各自的风险</strong>。</p>
-<hr>
-<h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><ul>
-<li><p><code>git reset commit_id</code></p>
-<p>  可将工作区内容回退到<strong>历史提交节点</strong></p>
-</li>
-<li><p><code>git checkout .</code></p>
-<p>  <strong>回退本地所有未提交的修改</strong>。这是一条<strong>有风险</strong>的命令，<strong>不给用户任何确认机会</strong>。它会<strong>取消本地工作区的修改，用暂存区的所有文件直接覆盖本地文件，达到回退内容的目的</strong>。</p>
-<p>  如果仅仅想回退<strong>某个文件的未提交改动</strong>，可以使用<code>git checkout -filename</code>；如果想将工作区回退到某个提交版本，可以使用<code>git checkout commit_id</code>。</p>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2021/08/29/%E6%B0%B4%E6%9D%89%E7%A0%81%E5%9B%AD%E5%85%A5%E5%9D%91%E6%8C%87%E5%8C%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/08/29/%E6%B0%B4%E6%9D%89%E7%A0%81%E5%9B%AD%E5%85%A5%E5%9D%91%E6%8C%87%E5%8C%97/" class="post-title-link" itemprop="url">水杉码园入坑指北</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-08-29 21:12:02" itemprop="dateCreated datePublished" datetime="2021-08-29T21:12:02+08:00">2021-08-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Go%E8%AF%AD%E8%A8%80/" itemprop="url" rel="index"><span itemprop="name">Go语言</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>水杉码园使用Go语言，基于Gitea开发。本文用于记录如何入坑开发。</p>
-<hr>
-<h2 id="开发机"><a href="#开发机" class="headerlink" title="开发机"></a>开发机</h2><p>先用Cisco的VPN登录，再连接开发机。</p>
-<p>待完善……</p>
-<hr>
-<h2 id="Windows环境下clone代码"><a href="#Windows环境下clone代码" class="headerlink" title="Windows环境下clone代码"></a>Windows环境下clone代码</h2><p>水杉码园的代码存储在gitlab上：<a target="_blank" rel="noopener" href="https://code.kfcoding.com/ShuiShan/Gitea/gitea">ShuiShan &#x2F; Gitea &#x2F; gitea · GitLab</a>。并且该地址需要<strong>拥有项目管理权限</strong>的人员（徐柴笛、周成义、李苗进、顾业鸣）<strong>进行授权</strong>才可访问。</p>
-<p>clone代码的操作：</p>
-<ol>
-<li>安装Git</li>
-<li><code>Clone With HTTPS</code><ol>
-<li>先在命令行执行<code>git config --global http.sslVerify false</code></li>
-<li><code>git clone https://code.kfcoding.com/ShuiShan/Gitea/gitea.git</code></li>
-</ol>
-</li>
-</ol>
-<hr>
-<h2 id="Windows下环境搭建"><a href="#Windows下环境搭建" class="headerlink" title="Windows下环境搭建"></a>Windows下环境搭建</h2><ol>
-<li><p>安装go</p>
-</li>
-<li><p>安装node.js(<strong>一定要勾选会附带安装chocolatey的选项</strong>)</p>
-</li>
-<li><p>安装make（<code>choco install make</code>）</p>
-</li>
-<li><p><strong>设置npm的国内镜像代理</strong><code>npm config set registry https://registry.npm.taobao.org</code></p>
-</li>
-<li><p>在<strong>Clone的项目文件夹下</strong>(<code>\gitea</code>)，执行<code>TAGS=&quot;bindata&quot; make build</code></p>
-</li>
-<li><p>本地测试，执行<code>./gitea web</code></p>
-</li>
-<li><p>浏览器访问<code>http://localhost:3000/</code></p>
-</li>
-<li><p>登录水杉码园，<strong>配置本地数据库信息</strong>，记住要在<strong>可选设置</strong>中设置管理员账号</p>
-<p> <img src="https://i.loli.net/2021/09/01/ubDl6fozgNEYdMy.png" alt="管理员账号设置"></p>
-</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/120843490">node版本如何升级 - 知乎</a></p>
-<hr>
-<h2 id="使用VS-Code进行开发"><a href="#使用VS-Code进行开发" class="headerlink" title="使用VS Code进行开发"></a>使用VS Code进行开发</h2><ul>
-<li><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/37f1d9265fd0">解决 VS Code 中 golang.org 被墙导致的 Go 插件安装失败问题 - 简书</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u014701663/article/details/105491314">vscode在windows10系统下进行go语言编程(无法代码提示)_新广州人的网络安全-CSDN博客</a></p>
-</li>
-<li><p>安装git历史提交记录插件 GitLens</p>
-</li>
-</ul>
-<hr>
-<h2 id="课程批量导入学生"><a href="#课程批量导入学生" class="headerlink" title="课程批量导入学生"></a>课程批量导入学生</h2><ul>
-<li>入口：<code>/org/:org/teams/new_all_student</code></li>
-</ul>
-<p>导入完成后，课程团队下会生成指定的团队：</p>
-<p>团队为<strong>成员-仓库</strong>的形式</p>
-<ul>
-<li><p>Owners</p>
-<p>  管理员-管理的仓库</p>
-</li>
-<li><p>AllStuRead</p>
-<p>  教师有操作权限，学生只有读权限。用于老师布置作业，分享数据、资料。</p>
-</li>
-<li><p>AllStuWrite</p>
-<p>  所有学生都有操作权限</p>
-</li>
-</ul>
-<p>课程中的仓库，除了AllStuWrite和AllStuRead这两个公开仓库之外，每个学生还有自己的个人仓库，目前<strong>以学号作为仓库名</strong>。仓库描述为<code>student u.Name(学号) u.FullName(用户名)&#39;s repo</code>。</p>
-<hr>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><ol>
-<li><p><code>routes.go</code>下，<code>m.Post(&quot;/teams/new_all_student&quot;, bindIgnErr(auth.CreateAllStuTeamForm&#123;&#125;), org.NewAllStuTeamPost)</code></p>
-<ul>
-<li><p><code>auth.CreateAllStuTeamForm&#123;&#125;</code>相当于是前端的表单</p>
-<p>  其中的Studentlist表示的上传的excel文件</p>
-</li>
-</ul>
-<p> 这个Post函数将前端的表单传入后端的<code>NewAllStuTeamPost</code>函数，</p>
-</li>
-<li><p>细看一下NewAllStuTeamPost方法</p>
-<ul>
-<li><p>首先是通过前端的form获取相应的基本信息</p>
-</li>
-<li><p>再来我们可以先看一下这个函数最后的部分<code>GetCache().Set</code></p>
-<p>  这里把课程ID(<code>Organization.ID</code>)设置了1分钟的缓存</p>
-</li>
-<li><p>再回过头来看上边的代码，如果能在缓存中获取到课程ID的缓存，说明之前一分钟内有过成功导入的记录，就会给出一个不要多次导入的提示并结束导入学生的操作</p>
-</li>
-<li></li>
-</ul>
-</li>
-</ol>
-<hr>
-<h2 id="批量移除选中的仓库"><a href="#批量移除选中的仓库" class="headerlink" title="批量移除选中的仓库"></a>批量移除选中的仓库</h2><hr>
-<h2 id="批量删除成员"><a href="#批量删除成员" class="headerlink" title="批量删除成员"></a>批量删除成员</h2>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2021/07/26/%E5%89%91%E6%8C%87Offer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/07/26/%E5%89%91%E6%8C%87Offer/" class="post-title-link" itemprop="url">剑指Offer</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-07-26 20:10:59" itemprop="dateCreated datePublished" datetime="2021-07-26T20:10:59+08:00">2021-07-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%AE%97%E6%B3%95/%E5%89%91%E6%8C%87Offer/" itemprop="url" rel="index"><span itemprop="name">剑指Offer</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="数组与矩阵"><a href="#数组与矩阵" class="headerlink" title="数组与矩阵"></a>数组与矩阵</h2><h3 id="5-替换空格"><a href="#5-替换空格" class="headerlink" title="5. 替换空格"></a>5. 替换空格</h3><blockquote>
-<p>请实现一个函数，把字符串 <code>s</code> 中的每个空格替换成”%20”。</p>
-<p>示例1：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：s = &quot;We are happy.&quot;</span><br><span class="line">输出：&quot;We%20are%20happy.&quot;</span><br></pre></td></tr></table></figure>
-
-<p><strong>限制：</strong></p>
-<p>0 &lt;&#x3D; s 的长度 &lt;&#x3D; 10000</p>
-</blockquote>
-<p>在网络编程中，如果URL参数中含有特殊字符，如空格、#等，则可能导致服务器端无法获得正确的参数值。我们需要<strong>将这些特殊符号转换成服务器可以识别的字符</strong>。转换的规则是在后面<strong>跟上ASCII码的两位十六进制的表示</strong>。比如空格的ASCII码是32,即十六进制的0x20,因此空格被替换成”%20”。再比如#的ASCII码为35，即十六进制的0x23，它在URL中被替换为”%23”。</p>
-<p>如果是<strong>在原来的字符串上进行替换，就有可能覆盖修改在该字符串后面的内存</strong>。如果是创建新的字符串并在新的字符串上进行替换，那么我们可以自己分配足够多的内存。由于有这样两种不同的解决方案，我们应该向面试官问清楚，让他明确告诉我们他的需求。<strong>假设面试官让我们在原来的字符串上进行替换，并且保证输入的字符串后面有足够多的空余内存</strong>。</p>
-<p>最直观的做法是从头到尾扫描字符串，每次碰到空格时进行替换。这样做，每次碰到空格就需要把空格后面的所有字符都后移2字节。假设字符串的长度是n。对每个空格字符，需要移动后面$O(n)$个字符，因此对于含有$O(n)$个空格字符的字符串而言，总的时间效率是$O(n^2)$。这显然不是一个好的解决方案。</p>
-<p>那么，怎么操作能减少移动次数呢？—— 试试把从前向后替换改成<strong>从后向前替换</strong>。(对于Java来说，<strong>String是不可变的</strong>，因此，严谨地说，OJ题提供的方法头的参数应该由String改为StringBuffer。)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">replaceSpace</span><span class="params">(String s)</span> &#123;</span><br><span class="line">	<span class="type">StringBuffer</span> <span class="variable">str</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>(s); <span class="comment">//将String转换为StringBuffer（可变长度）</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">P1</span> <span class="operator">=</span> str.length() - <span class="number">1</span>; <span class="comment">//模拟指针</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt;= P1; i++)</span><br><span class="line">        <span class="keyword">if</span> (str.charAt(i) == <span class="string">&#x27; &#x27;</span>) </span><br><span class="line">            str.append(<span class="string">&quot;  &quot;</span>); <span class="comment">//出现一个空格，就在字符串末尾添加2个任意字符</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">P2</span> <span class="operator">=</span> str.length() - <span class="number">1</span>; <span class="comment">// 模拟指针，初始指向 将空格替换后的最后一位</span></span><br><span class="line">    <span class="keyword">while</span> (P1 &gt;= <span class="number">0</span> &amp;&amp; P2 &gt; P1) &#123; <span class="comment">//从后往前遍历，能保证原来的字符串不会因为替换字符而改变</span></span><br><span class="line">        <span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> str.charAt(P1--); <span class="comment">// 获取原始字符串的最后一位字符</span></span><br><span class="line">        <span class="keyword">if</span> (c == <span class="string">&#x27; &#x27;</span>) &#123;</span><br><span class="line">            str.setCharAt(P2--, <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            str.setCharAt(P2--, <span class="string">&#x27;2&#x27;</span>);</span><br><span class="line">            str.setCharAt(P2--, <span class="string">&#x27;%&#x27;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            str.setCharAt(P2--, c);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> str.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度和空间复杂度都是$O(n)$​。</p>
-<hr>
-<h3 id="29-顺时针打印矩阵"><a href="#29-顺时针打印矩阵" class="headerlink" title="29. 顺时针打印矩阵"></a>29. 顺时针打印矩阵</h3><blockquote>
-<p>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字。</p>
-<p>示例 1：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：matrix = [[1,2,3],[4,5,6],[7,8,9]]</span><br><span class="line">输出：[1,2,3,6,9,8,7,4,5]</span><br></pre></td></tr></table></figure>
-
-<p>示例 2：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]</span><br><span class="line">输出：[1,2,3,4,8,12,11,10,9,5,6,7]</span><br></pre></td></tr></table></figure>
-
-<p>限制：</p>
-<ul>
-<li>0 &lt;&#x3D; matrix.length &lt;&#x3D; 100</li>
-<li>0 &lt;&#x3D; matrix[i].length &lt;&#x3D; 100</li>
-</ul>
-</blockquote>
-<p><strong>矩阵不一定是方阵，四个顶点的坐标是临界点</strong>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] spiralOrder(<span class="type">int</span>[][] matrix) &#123;</span><br><span class="line">        <span class="keyword">if</span> (matrix.length == <span class="number">0</span>) &#123; <span class="comment">// 矩阵为空</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> matrix[<span class="number">0</span>].length - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">top</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">bottom</span> <span class="operator">=</span> matrix.length - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span>[] result = <span class="keyword">new</span> <span class="title class_">int</span>[(right + <span class="number">1</span>) * (bottom + <span class="number">1</span>)];</span><br><span class="line">        <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> left; i &lt;= right; i++)  <span class="comment">// 遍历top行</span></span><br><span class="line">                result[index++] = matrix[top][i];</span><br><span class="line">            <span class="keyword">if</span> (++top &gt; bottom) <span class="comment">// 没有新的行，则遍历完成</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> top; i &lt;= bottom; i++) </span><br><span class="line">                result[index++] = matrix[i][right];</span><br><span class="line">            <span class="keyword">if</span> (--right &lt; left) <span class="comment">// 没有新的列</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> right; i &gt;= left; i--) </span><br><span class="line">                result[index++] = matrix[bottom][i];</span><br><span class="line">            <span class="keyword">if</span> (--bottom &lt; top) <span class="comment">// 没有新的行</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> bottom; i &gt;= top; i--) </span><br><span class="line">                result[index++] = matrix[i][left];</span><br><span class="line">            <span class="keyword">if</span> (++left &gt; right) <span class="comment">// 没有新的列</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="50-第一个只出现一次的字符位置"><a href="#50-第一个只出现一次的字符位置" class="headerlink" title="50. 第一个只出现一次的字符位置"></a>50. 第一个只出现一次的字符位置</h3><blockquote>
-<p>在字符串 s 中找出<strong>第一个</strong>只出现一次的字符。如果没有，返回一个单空格。 s 只包含小写字母。</p>
-<p>示例:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s = &quot;abaccdeff&quot;</span><br><span class="line">返回 &quot;b&quot;</span><br><span class="line"></span><br><span class="line">s = &quot;&quot; </span><br><span class="line">返回 &quot; &quot;</span><br></pre></td></tr></table></figure>
-
-
-<p>限制：</p>
-<p>0 &lt;&#x3D; s 的长度 &lt;&#x3D; 50000</p>
-</blockquote>
-<p><strong>统计字符是否仅出现一次</strong>，可以<strong>用容器存放每个字符是否只出现一次</strong>。这个容器<strong>可以根据&lt;字符&gt;来存放&lt;是否多次出现&gt;的信息</strong>。因此，可以利用<strong>哈希表</strong>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">char</span> <span class="title function_">firstUniqChar</span><span class="params">(String s)</span> &#123;</span><br><span class="line">    HashMap&lt;Character, Boolean&gt; hm = <span class="keyword">new</span> <span class="title class_">HashMap</span>(); <span class="comment">// 用布尔值表示是否只有一个字符，比用Integer统计出现次数节约空间</span></span><br><span class="line">    <span class="type">char</span>[] s2c = s.toCharArray();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">char</span> c : s2c) &#123;</span><br><span class="line">        hm.put(c, !hm.containsKey(c)); <span class="comment">// 如果已有该字符，false；否则true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">char</span> c : s2c) &#123; <span class="comment">// 按字符顺序遍历，能返回第一个只出现一次的字符</span></span><br><span class="line">        <span class="keyword">if</span>(hm.get(c) == <span class="literal">true</span>)</span><br><span class="line">            <span class="keyword">return</span> c;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度$O(n)$​，空间复杂度$O(1)$​</p>
-<hr>
-<h2 id="栈、队列、堆"><a href="#栈、队列、堆" class="headerlink" title="栈、队列、堆"></a>栈、队列、堆</h2><h3 id="9-用两个栈实现队列"><a href="#9-用两个栈实现队列" class="headerlink" title="9. 用两个栈实现队列"></a>9. 用两个栈实现队列</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/">剑指 Offer 09. 用两个栈实现队列 - 力扣（LeetCode）</a></p>
-<ul>
-<li>栈是LIFO（后进先出），队列是FIFO（先进先出）。</li>
-<li>将一个栈专门用于插入整数，另一个栈专门用于删除整数</li>
-<li><strong>Stack类已被Java不推荐使用</strong>，<strong>LinkedList</strong>基于双向链表实现，只能顺序访问，但可以<strong>快速插入和删除元素</strong>。LinkedList<strong>可用作栈、队列和双向队列</strong>。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> LinkedList&lt;Integer&gt; list1, list2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">CQueue</span><span class="params">()</span> &#123;</span><br><span class="line">    list1 = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">    list2 = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">appendTail</span><span class="params">(<span class="type">int</span> value)</span> &#123;</span><br><span class="line">    list1.addLast(value); <span class="comment">// 加到链表尾部</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">deleteHead</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!list2.isEmpty()) &#123; <span class="comment">//list2中的元素都在list1之前进入栈中</span></span><br><span class="line">        <span class="keyword">return</span> list2.removeLast();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (list1.isEmpty()) &#123; <span class="comment">//模拟的队列中没有元素了</span></span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!list1.isEmpty()) &#123; <span class="comment">//将list1中已存在的元素都移入list2中</span></span><br><span class="line">        list2.addLast(list1.removeLast());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> list2.removeLast();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$（deleteHead()函数在N次队首元素删除操作中总共需完成N个元素的倒序），空间复杂度$O(n)$。</p>
-<hr>
-<h3 id="30-包含min函数的栈"><a href="#30-包含min函数的栈" class="headerlink" title="30. 包含min函数的栈"></a>30. 包含min函数的栈</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/bao-han-minhan-shu-de-zhan-lcof/">剑指 Offer 30. 包含min函数的栈 - 力扣（LeetCode）</a></p>
-<p>既然是定义栈，那么push和pop功能显然不用再变动，<strong>重点在于实现min函数</strong>。栈中的最小元素<strong>会随着元素的入栈和出栈动态变化</strong>，因此需要<strong>记录每个状态对应的当前最小元素</strong>。可以<strong>构造一个辅助栈</strong>来实现。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> LinkedList&lt;Integer&gt; stack, minStack;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">MinStack</span><span class="params">()</span> &#123;</span><br><span class="line">    stack = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">    minStack = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">push</span><span class="params">(<span class="type">int</span> x)</span> &#123; <span class="comment">//插入元素，同时记录当前最小的元素</span></span><br><span class="line">    stack.addLast(x);</span><br><span class="line">    minStack.addLast(minStack.isEmpty() ? x : Math.min(minStack.getLast(), x));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">pop</span><span class="params">()</span> &#123; <span class="comment">// 同步更新最小值</span></span><br><span class="line">    stack.removeLast();</span><br><span class="line">    minStack.removeLast();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">top</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> stack.getLast();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">min</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> minStack.getLast();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="31-栈的压入、弹出序列"><a href="#31-栈的压入、弹出序列" class="headerlink" title="31. 栈的压入、弹出序列"></a>31. 栈的压入、弹出序列</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zhan-de-ya-ru-dan-chu-xu-lie-lcof/">剑指 Offer 31. 栈的压入、弹出序列 - 力扣（LeetCode）</a></p>
-<p>一个序列<strong>是否为栈的弹出序列</strong>的规律：</p>
-<ol>
-<li>如果当前栈顶的数字是下一个弹出的数字，则弹出；</li>
-<li>如果当前栈顶的数字不是下一个弹出的数字，<strong>把还未入栈的数字压入栈中，直至栈顶的数字是下一个弹出的数字</strong></li>
-<li><strong>如果所有数字都入栈的过程中，栈顶数字始终不是需要弹出的数字，则不可能是弹出序列</strong></li>
-<li><strong>栈中数字全部顺利出栈，则为弹出序列</strong></li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">validateStackSequences</span><span class="params">(<span class="type">int</span>[] pushed, <span class="type">int</span>[] popped)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(pushed.length == <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    LinkedList&lt;Integer&gt; stack = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt; ();</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> num : pushed) &#123; <span class="comment">// 遍历入栈顺序数组</span></span><br><span class="line">        stack.addFirst(num); <span class="comment">// 入栈</span></span><br><span class="line">        <span class="keyword">while</span>(!stack.isEmpty() &amp;&amp; stack.getFirst() == popped[i]) &#123; <span class="comment">// 当前栈不为空，且 栈顶元素为出栈元素时</span></span><br><span class="line">            stack.removeFirst(); <span class="comment">// 出栈</span></span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> stack.isEmpty(); <span class="comment">// 如果都顺利出栈，则说明弹出序列是正确的</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$（每个元素最多进栈1次，出栈1次，$O(2n)$）​；空间复杂度：$O(n)$</p>
-<hr>
-<h3 id="40-最小的K个数"><a href="#40-最小的K个数" class="headerlink" title="40. 最小的K个数"></a>40. 最小的K个数</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/">剑指 Offer 40. 最小的k个数 - 力扣（LeetCode）</a></p>
-<p>快速排序<strong>每次都能将选定的哨兵置于排序完成后的最终位置</strong>，当前的哨兵最终位置索引为K时，<strong>比它小的K个数将全在左侧</strong>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] getLeastNumbers(<span class="type">int</span>[] arr, <span class="type">int</span> k) &#123;</span><br><span class="line">        <span class="keyword">if</span> (k &gt;= arr.length)</span><br><span class="line">            <span class="keyword">return</span> arr; <span class="comment">//不限制输出顺序</span></span><br><span class="line">        <span class="keyword">return</span> quickSort(arr, k, <span class="number">0</span>, arr.length - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span>[] quickSort(<span class="type">int</span>[] arr, <span class="type">int</span> k, <span class="type">int</span> left, <span class="type">int</span> right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> left, j = right;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j) &#123; <span class="comment">// 分别从左右开始，直至&quot;相遇&quot;；默认取第一个元素为哨兵（arr[left]）</span></span><br><span class="line">            <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[j] &gt;= arr[left]) &#123; <span class="comment">// 从右往左，找到比哨兵小的数（且保证左右未相遇）</span></span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[i] &lt;= arr[left]) &#123; <span class="comment">// 从左往右，找到比哨兵大的数</span></span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">            swap(arr, i, j); <span class="comment">// 交换位置（比哨兵小的放在左边，大的放在右边）</span></span><br><span class="line">        &#125;</span><br><span class="line">        swap(arr, i, left); <span class="comment">// 将哨兵置于最终位置i</span></span><br><span class="line">        <span class="comment">// 【递归判断】优化时间复杂度的关键</span></span><br><span class="line">        <span class="keyword">if</span> (i &gt; k) &#123; <span class="comment">// 确认最终位置的哨兵，其左侧的数 &gt; k，比最终需要的数多，继续递归</span></span><br><span class="line">            <span class="keyword">return</span> quickSort(arr, k, left, i - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; k) &#123;</span><br><span class="line">            <span class="keyword">return</span> quickSort(arr, k, i + <span class="number">1</span>, right);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Arrays.copyOf(arr, k); <span class="comment">//哨兵左侧的数 = k 个，复制数组左侧的k个数，无需再进行完整的排序</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">swap</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> i, <span class="type">int</span> j)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">tmp</span> <span class="operator">=</span> arr[i];</span><br><span class="line">        arr[i] = arr[j];</span><br><span class="line">        arr[j] = tmp;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>时间复杂度$O(n)$： 其中n为数组元素数量；对于长度为n的数组执行哨兵划分操作的时间复杂度为$O(N)$；每轮哨兵划分后根据k和i的大小关系选择递归，由于i分布的随机性，则向下递归子数组的平均长度为$\frac{N}{2}$；因此平均情况下，哨兵划分操作一共有$N + \frac{N}{2} + \frac{N}{4} + … + \frac{N}{N} &#x3D; \frac{N - \frac{1}{2}}{1 - \frac{1}{2}} &#x3D; 2N - 1$（等比数列求和），即总体时间复杂度为$O(n)$。</li>
-<li>空间复杂度$O(\log n)$：划分函数的平均递归深度为$O(\log n)$。</li>
-</ul>
-<hr>
-<h3 id="41-数据流中的中位数"><a href="#41-数据流中的中位数" class="headerlink" title="41. 数据流中的中位数"></a>41. 数据流中的中位数</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shu-ju-liu-zhong-de-zhong-wei-shu-lcof/">剑指 Offer 41. 数据流中的中位数 - 力扣（LeetCode）</a></p>
-<ul>
-<li><p>通过建立一个<strong>大顶堆</strong>和一个<strong>小顶堆</strong>（<code>PriorityQueue</code>），将数据流拆分为两部分，<strong>根据两个堆顶元素就能得到中位数</strong>。</p>
-</li>
-<li><p>添加元素过程中，要<strong>保证两个堆的大小平衡</strong></p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Queue&lt;Integer&gt; minHeap, maxHeap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">MedianFinder</span><span class="params">()</span> &#123;</span><br><span class="line">    minHeap = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;(); <span class="comment">// 默认构造小顶堆，保存较大的一半</span></span><br><span class="line">    maxHeap = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;((x, y) -&gt; (y - x)); <span class="comment">//lambda表达式，大顶堆，保存较小的一半</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addNum</span><span class="params">(<span class="type">int</span> num)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (minHeap.size() == maxHeap.size()) &#123; <span class="comment">// 添加新的整数后，会是奇数个数值</span></span><br><span class="line">        maxHeap.offer(num);</span><br><span class="line">        minHeap.offer(maxHeap.poll()); <span class="comment">//取出最大堆中最大的数放入最小堆中 --&gt; 中位数在最小堆的堆顶</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; <span class="comment">// 添加新的整数后，会是偶数个数值（奇数个数值时，最小堆的数值更多）</span></span><br><span class="line">        minHeap.offer(num);</span><br><span class="line">        maxHeap.offer(minHeap.poll()); <span class="comment">// 取出最小堆中的最大数放入最大堆</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">double</span> <span class="title function_">findMedian</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> minHeap.size() == maxHeap.size() ? (minHeap.peek() + maxHeap.peek()) / <span class="number">2.0</span> : minHeap.peek();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：</p>
-<ul>
-<li>查找中位数$O(1)$：获取堆顶元素使用$O(1)$时间；</li>
-<li>添加数字$O(\log N)$：堆的插入和弹出操作使用$O(\log N)$时间。</li>
-</ul>
-<p>空间复杂度：$O(N)$</p>
-<hr>
-<h3 id="59-1-滑动窗口的最大值"><a href="#59-1-滑动窗口的最大值" class="headerlink" title="59.1 滑动窗口的最大值"></a>59.1 滑动窗口的最大值</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/hua-dong-chuang-kou-de-zui-da-zhi-lcof/solution/mian-shi-ti-59-i-hua-dong-chuang-kou-de-zui-da-1-6/">剑指 Offer 59 - I. 滑动窗口的最大值（单调队列，清晰图解） - 滑动窗口的最大值 - 力扣（LeetCode）</a></p>
-<p>如何在窗口<strong>每次滑动</strong>时，<strong>获取最大值</strong>？使用<strong>双端队列</strong>存储<strong>当前滑动窗口</strong>中的<strong>最大值</strong>以及<strong>在后续窗口中潜在的最大值</strong>。</p>
-<p>每轮窗口滑动：</p>
-<ol>
-<li>如果<strong>滑出窗口的数是队首数字</strong>，则队首数字也出队（<strong>队列的大小必然&lt;&#x3D;窗口大小</strong>）</li>
-<li>如果新进入窗口的数<strong>比队尾的数大</strong>，说明<strong>队尾的数不可能成为某个窗口的最大值</strong>。将队尾元素移除，<strong>直到队尾的数字&gt;&#x3D;新进入窗口的数</strong>或<strong>队列已空</strong>。</li>
-<li>如果新进入窗口的数<strong>比队尾的数小</strong>，说明<strong>等之前的数滑出窗口后</strong>，<strong>有可能会成为后续窗口中的最大值，因此，直接加入队尾</strong>。</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Deque&lt;Integer&gt; deque;</span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] maxSlidingWindow(<span class="type">int</span>[] nums, <span class="type">int</span> k) &#123;</span><br><span class="line">    <span class="keyword">if</span>(nums.length == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span>[] result = <span class="keyword">new</span> <span class="title class_">int</span>[nums.length - k + <span class="number">1</span>];</span><br><span class="line">    <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    deque = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;(); <span class="comment">//双端队列，存储每个窗口中的最大值</span></span><br><span class="line">    <span class="comment">// 先形成一个窗口</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">        <span class="keyword">while</span>(!deque.isEmpty() &amp;&amp; deque.getLast() &lt; nums[i]) &#123; <span class="comment">// 队列不为空，且队尾元素 &lt; 当前进入窗口的数字</span></span><br><span class="line">            deque.removeLast();</span><br><span class="line">        &#125;</span><br><span class="line">        deque.addLast(nums[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    result[index++] = deque.getFirst(); <span class="comment">// 第一个窗口中的最大值入队</span></span><br><span class="line">    <span class="comment">// 窗口形成后</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> k; i &lt; nums.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(nums[i - k] == deque.getFirst()) <span class="comment">// 如果滑出窗口的数是队首数字</span></span><br><span class="line">            deque.removeFirst(); <span class="comment">// 队首数字也出队</span></span><br><span class="line">        <span class="keyword">while</span>(!deque.isEmpty() &amp;&amp; deque.getLast() &lt; nums[i]) &#123; <span class="comment">// 队列不为空，且队尾元素 &lt; 当前进入窗口的数字</span></span><br><span class="line">            deque.removeLast();</span><br><span class="line">        &#125;</span><br><span class="line">        deque.addLast(nums[i]);</span><br><span class="line">        result[index++] = deque.getFirst();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$</p>
-<p>空间复杂度：$O(n)$</p>
-<hr>
-<h2 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h2><h3 id="57-1-和为S的两个数字"><a href="#57-1-和为S的两个数字" class="headerlink" title="57.1 和为S的两个数字"></a>57.1 和为S的两个数字</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/he-wei-sde-liang-ge-shu-zi-lcof/">剑指 Offer 57. 和为s的两个数字 - 力扣（LeetCode）</a></p>
-<p><strong>递增</strong>排序的数组，查找两个数使得和为s——<strong>双指针</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(left &lt; right) &#123;</span><br><span class="line">        <span class="keyword">if</span>(nums[left] + nums[right] == target) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[] &#123;nums[left], nums[right]&#125;;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[left] + nums[right] &lt; target) &#123; <span class="comment">//需要更大的数</span></span><br><span class="line">            left++;</span><br><span class="line">        &#125; <span class="keyword">else</span> (nums[left] + nums[right] &gt; target) &#123; <span class="comment">//需要更小的数</span></span><br><span class="line">            right--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$</p>
-<p>空间复杂度：$O(1)$</p>
-<hr>
-<h3 id="57-2-和为s的连续正数序列"><a href="#57-2-和为s的连续正数序列" class="headerlink" title="57.2 和为s的连续正数序列"></a>57.2 和为s的连续正数序列</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/he-wei-sde-lian-xu-zheng-shu-xu-lie-lcof/">剑指 Offer 57 - II. 和为s的连续正数序列 - 力扣（LeetCode）</a></p>
-<p><strong>连续正整数</strong>序列 &amp; <strong>求和</strong>——<strong>双指针</strong></p>
-<ul>
-<li><p>遍历的<strong>终点</strong>：序列中最小的数 * 2 + 1 &gt; target</p>
-</li>
-<li><p>双指针可以<strong>模拟滑动窗口</strong></p>
-<p>  滑动窗口的<strong>右指针无需向左移动，必然能遍历所有解</strong>。</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[][] findContinuousSequence(<span class="type">int</span> target) &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">1</span>, right = <span class="number">2</span>;</span><br><span class="line">    List&lt;<span class="type">int</span>[]&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">3</span>; <span class="comment">// 初始滑动窗口中数字的和</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt;= target / <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (sum == target) &#123;</span><br><span class="line">            <span class="type">int</span>[] result = <span class="keyword">new</span> <span class="title class_">int</span>[right - left + <span class="number">1</span>];</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; right - left + <span class="number">1</span>; i++) &#123;</span><br><span class="line">                result[i] = left + i;</span><br><span class="line">            &#125;</span><br><span class="line">            list.add(result);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (sum &lt; target) &#123; <span class="comment">// 向右移动右指针</span></span><br><span class="line">            sum += ++right;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 连续正数的和 &gt;= target</span></span><br><span class="line">            sum -= left++; <span class="comment">//向右移动左指针</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> list.toArray(<span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">0</span>][]); <span class="comment">//参数为 返回的数组类型(存储数组的数组)，不指定则为Object</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$</p>
-<p>空间复杂度：$O(n)$</p>
-<hr>
-<h3 id="58-1-翻转单词顺序列"><a href="#58-1-翻转单词顺序列" class="headerlink" title="58.1 翻转单词顺序列"></a>58.1 翻转单词顺序列</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/fan-zhuan-dan-ci-shun-xu-lcof/">剑指 Offer 58 - I. 翻转单词顺序 - 力扣（LeetCode）</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">reverseWords</span><span class="params">(String s)</span> &#123;</span><br><span class="line">    s = s.trim(); <span class="comment">// 去除首尾空格</span></span><br><span class="line">    <span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> s.length() - <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i;</span><br><span class="line">    <span class="keyword">while</span> (i &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span>(i &gt;= <span class="number">0</span> &amp;&amp; s.charAt(i) != <span class="string">&#x27; &#x27;</span>) &#123; <span class="comment">//找到句中空格或遍历结束</span></span><br><span class="line">            i--;</span><br><span class="line">        &#125;</span><br><span class="line">        sb.append(s.substring(i+<span class="number">1</span>, j + <span class="number">1</span>) + <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">        <span class="keyword">while</span>(i &gt;= <span class="number">0</span> &amp;&amp; s.charAt(i) == <span class="string">&#x27; &#x27;</span>) &#123; <span class="comment">//跳过多余的空格</span></span><br><span class="line">            i--;</span><br><span class="line">        &#125;</span><br><span class="line">        j = i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sb.toString().trim();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$</p>
-<p>空间复杂度：$O(n)$</p>
-<hr>
-<h3 id="58-2-左旋转字符串"><a href="#58-2-左旋转字符串" class="headerlink" title="58.2 左旋转字符串"></a>58.2 左旋转字符串</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/">剑指 Offer 58 - II. 左旋转字符串 - 力扣（LeetCode）</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">reverseLeftWords</span><span class="params">(String s, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">    <span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">    sb.append(s.substring(n, s.length()));</span><br><span class="line">    sb.append(s.substring(<span class="number">0</span>, n));</span><br><span class="line">    <span class="keyword">return</span> sb.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$</p>
-<p>空间复杂度：$O(n)$</p>
-<hr>
-<h2 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h2><h3 id="6-从尾到头打印链表"><a href="#6-从尾到头打印链表" class="headerlink" title="6. 从尾到头打印链表"></a>6. 从尾到头打印链表</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/">剑指 Offer 06. 从尾到头打印链表 - 力扣（LeetCode）</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] reversePrint(ListNode head) &#123;</span><br><span class="line">    List&lt;Integer&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">while</span>(head != <span class="literal">null</span>) &#123;</span><br><span class="line">        list.add(head.val);</span><br><span class="line">        head = head.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span>[] result = <span class="keyword">new</span> <span class="title class_">int</span>[list.size()];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> result.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        result[i] = list.get(result.length - <span class="number">1</span> - i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$</p>
-<p>空间复杂度：$O(n)$</p>
-<hr>
-<h3 id="18-删除链表的节点"><a href="#18-删除链表的节点" class="headerlink" title="18. 删除链表的节点"></a>18. 删除链表的节点</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof/">剑指 Offer 18. 删除链表的节点 - 力扣（LeetCode）</a></p>
-<ul>
-<li>无需存储所有节点，<strong>找到被删的节点，修改前一个节点的next节点即可</strong>——<strong>双指针</strong></li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">deleteNode</span><span class="params">(ListNode head, <span class="type">int</span> val)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(head.val == val) &#123; <span class="comment">// 头结点即为被删的节点</span></span><br><span class="line">        <span class="keyword">return</span> head.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">pre</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">cur</span> <span class="operator">=</span> pre.next;</span><br><span class="line">    <span class="keyword">while</span>(cur.val != val) &#123;</span><br><span class="line">        pre = cur;</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    pre.next = cur.next;</span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$</p>
-<p>空间复杂度：$O(1)$​</p>
-<hr>
-<h3 id="22-链表中倒数第K个节点"><a href="#22-链表中倒数第K个节点" class="headerlink" title="22. 链表中倒数第K个节点"></a>22. 链表中倒数第K个节点</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/">剑指 Offer 22. 链表中倒数第k个节点 - 力扣（LeetCode）</a></p>
-<p><strong>双指针</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">getKthFromEnd</span><span class="params">(ListNode head, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">right</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">left</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; k; i++) &#123; <span class="comment">//只要让第二个指针落后于第一个指针k位，遍历完成时，即能得到倒数第k个节点</span></span><br><span class="line">        right = right.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(right != <span class="literal">null</span>) &#123;</span><br><span class="line">        right = right.next;</span><br><span class="line">        left = left.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$</p>
-<p>空间复杂度：$O(1)$</p>
-<hr>
-<h3 id="23-链表中环的入口节点"><a href="#23-链表中环的入口节点" class="headerlink" title="23. 链表中环的入口节点"></a>23. 链表中环的入口节点</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/c32eOV/">剑指 Offer II 022. 链表中环的入口节点 - 力扣（LeetCode）</a></p>
-<p>方式一：利用<strong>HashSet</strong>存储ListNode，判断后续遍历的节点是否已经在集合中。时间复杂度：$O(n\log n)$；空间复杂度$O(n)$。</p>
-<p><strong>方式二</strong>：<strong>一快一慢的双指针</strong>。</p>
-<ul>
-<li><p>一快一慢的指针，<strong>让快的速度是慢的2倍</strong>，<strong>如果存在环，快的指针将会追上慢的指针</strong>。</p>
-</li>
-<li><p>指针到达相同节点后，<strong>如何得知入口节点</strong>？</p>
-<p>  <strong>当前指针继续往前走向入口节点的距离 &#x3D;&#x3D; 头结点到达入口节点的距离</strong></p>
-<blockquote>
-<p>假设环入口节点为$y_1$，相遇所在节点为$z_1$。(<strong>头结点到达入口节点的距离为$X$，入口节点到达相遇节点的距离为$Y$，相遇节点到达入口节点的距离为$Z$</strong>)</p>
-<p>假设快指针 fast 在圈内<strong>绕了$N$圈</strong>，则总路径长度为$X+NY+(N-1)Z$​。$Z$为$N-1 $倍是因为快慢指针最后已经在$z_1$节点相遇了，后面就不需要再走了。</p>
-<p>而慢指针slow总路径长度为$X+Y$。</p>
-<p>因为快指针是慢指针的两倍，因此$X+NY+(N-1)Z &#x3D; 2(X+Y)$。</p>
-<p>我们要找的是<strong>环入口节点</strong>$y_1$​​​，也可以看成寻找长度$X$​​的值，因此我们先将上面的等式转换为：$X&#x3D;(N-2)Y+(N-1)Z &#x3D; (N-2)(Y+Z)+Z$​​​。$Y+Z$​​​是<strong>圆环的总长度</strong>，<strong>右边可以看作从相遇点$z_1$​开始在圆环中走过$N-2$​圈，再走长度为$Z$​​​的长度</strong>。<strong>可以发现如果让两个指针同时从起点$x_1$​和相遇点$z_1$​开始，每次只走过一个距离，那么最后他们会在环入口节点相遇</strong>。</p>
-</blockquote>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">detectCycle</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head; <span class="comment">// 创建一快一慢的指针，快的速度是慢的2倍</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="keyword">while</span>(fast != <span class="literal">null</span> &amp;&amp; slow != <span class="literal">null</span>) &#123;</span><br><span class="line">        fast = fast.next.next; <span class="comment">// 一次前进两个节点</span></span><br><span class="line">        slow = slow.next; <span class="comment">// 一次前进一个节点</span></span><br><span class="line">        <span class="keyword">if</span>(fast == slow) &#123; <span class="comment">// 快的指针追上了慢的指针，说明存在环</span></span><br><span class="line">            slow = head;</span><br><span class="line">            <span class="keyword">while</span> (slow != fast) &#123;</span><br><span class="line">                slow = slow.next;</span><br><span class="line">                fast = fast.next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> fast;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$</p>
-<p>空间复杂度：$O(1)$​</p>
-<hr>
-<h3 id="24-反转链表"><a href="#24-反转链表" class="headerlink" title="24. 反转链表"></a>24. 反转链表</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/">剑指 Offer 24. 反转链表 - 力扣（LeetCode）</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">reverseList</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">cur</span> <span class="operator">=</span> head; <span class="comment">// 1</span></span><br><span class="line">    <span class="keyword">if</span>(cur == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">nextNode</span> <span class="operator">=</span> cur.next; <span class="comment">// 2</span></span><br><span class="line">    head.next = <span class="literal">null</span>;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">preNode</span> <span class="operator">=</span> head; <span class="comment">// 1</span></span><br><span class="line">    <span class="keyword">while</span>(nextNode != <span class="literal">null</span>) &#123;</span><br><span class="line">        cur = nextNode; <span class="comment">// 2</span></span><br><span class="line">        nextNode = nextNode.next; <span class="comment">// 3</span></span><br><span class="line">        cur.next = preNode; <span class="comment">// 1</span></span><br><span class="line">        preNode = cur; </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cur;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$</p>
-<p>空间复杂度：$O(1)$</p>
-<hr>
-<h3 id="25-合并两个排序的链表"><a href="#25-合并两个排序的链表" class="headerlink" title="25. 合并两个排序的链表"></a>25. 合并两个排序的链表</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/">剑指 Offer 25. 合并两个排序的链表 - 力扣（LeetCode）</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> &#123;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">head</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(<span class="number">1</span>); <span class="comment">// 创建一个任意的节点</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">cur</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="keyword">while</span>(l1 != <span class="literal">null</span> &amp;&amp; l2 != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(l1.val &lt;= l2.val) &#123;</span><br><span class="line">            cur.next = l1;</span><br><span class="line">            l1 = l1.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cur.next = l2;</span><br><span class="line">            l2 = l2.next;</span><br><span class="line">        &#125;</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    cur.next = l1 != <span class="literal">null</span> ? l1 : l2;</span><br><span class="line">    <span class="keyword">return</span> head.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$</p>
-<p>空间复杂度：$O(1)$</p>
-<hr>
-<h3 id="35-复杂链表的复制"><a href="#35-复杂链表的复制" class="headerlink" title="35. 复杂链表的复制"></a>35. 复杂链表的复制</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/fu-za-lian-biao-de-fu-zhi-lcof/">剑指 Offer 35. 复杂链表的复制 - 力扣（LeetCode）</a></p>
-<ul>
-<li><strong>利用哈希表</strong>，构建<strong>原链表节点</strong>和<strong>新链表对应节点</strong>的<strong>映射</strong>关系。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Node <span class="title function_">copyRandomList</span><span class="params">(Node head)</span> &#123;</span><br><span class="line">    Map&lt;Node, Node&gt; hm = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="type">Node</span> <span class="variable">cur</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="literal">null</span>) &#123; <span class="comment">// 构建节点的映射</span></span><br><span class="line">        hm.put(cur, <span class="keyword">new</span> <span class="title class_">Node</span>(cur.val)); </span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    cur = head;</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="literal">null</span>) &#123;</span><br><span class="line">        hm.get(cur).next = hm.get(cur.next); <span class="comment">// 只有这样，才能获得新地址下的Node</span></span><br><span class="line">        hm.get(cur).random = hm.get(cur.random);</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> hm.get(head);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$</p>
-<p>空间复杂度：$O(n)$</p>
-<hr>
-<h3 id="52-两个链表的第一个公共节点"><a href="#52-两个链表的第一个公共节点" class="headerlink" title="52. 两个链表的第一个公共节点"></a>52. 两个链表的第一个公共节点</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/liang-ge-lian-biao-de-di-yi-ge-gong-gong-jie-dian-lcof/">剑指 Offer 52. 两个链表的第一个公共节点 - 力扣（LeetCode）</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">getIntersectionNode</span><span class="params">(ListNode headA, ListNode headB)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">step1</span> <span class="operator">=</span> <span class="number">0</span>, step2 = <span class="number">0</span>;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">A</span> <span class="operator">=</span> headA, B = headB;</span><br><span class="line">    <span class="keyword">while</span>(A != <span class="literal">null</span>) &#123;</span><br><span class="line">        step1++;</span><br><span class="line">        A = A.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(B != <span class="literal">null</span>) &#123;</span><br><span class="line">        step2++;</span><br><span class="line">        B = B.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="variable">step</span> <span class="operator">=</span> step1 - step2;</span><br><span class="line">    A = headA;</span><br><span class="line">    B = headB;</span><br><span class="line">    <span class="keyword">if</span>(step &lt; <span class="number">0</span>) &#123; <span class="comment">// 第一个链表比较短</span></span><br><span class="line">        <span class="keyword">while</span>(step != <span class="number">0</span>) &#123;</span><br><span class="line">            B = B.next;</span><br><span class="line">            step++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(step &gt; <span class="number">0</span>) &#123; <span class="comment">// 第一个链表比较长</span></span><br><span class="line">        <span class="keyword">while</span> (step != <span class="number">0</span>) &#123;</span><br><span class="line">            A = A.next;</span><br><span class="line">            step--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (A != B) &#123;</span><br><span class="line">        A = A.next;</span><br><span class="line">        B = B.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> A;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n+m)$</p>
-<p>空间复杂度：$O(1)$</p>
-<hr>
-<h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><h3 id="11-旋转数组的最小数字"><a href="#11-旋转数组的最小数字" class="headerlink" title="11. 旋转数组的最小数字"></a>11. 旋转数组的最小数字</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/">剑指 Offer 11. 旋转数组的最小数字 - 力扣（LeetCode）</a></p>
-<hr>
-<h2 id="分治"><a href="#分治" class="headerlink" title="分治"></a>分治</h2><hr>
-<h2 id="数学"><a href="#数学" class="headerlink" title="数学"></a>数学</h2><h3 id="39-数组中出现次数超过一半的数字"><a href="#39-数组中出现次数超过一半的数字" class="headerlink" title="39. 数组中出现次数超过一半的数字"></a>39. 数组中出现次数超过一半的数字</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">majorityElement</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">target</span> <span class="operator">=</span> nums[<span class="number">0</span>], times = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (target != nums[i]) &#123;</span><br><span class="line">            times--;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            times++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (times == <span class="number">0</span>) &#123;</span><br><span class="line">            target = nums[i];</span><br><span class="line">            times = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> target;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度：$O(n)$</p>
-<p>空间复杂度：$O(1)$​</p>
-<hr>
-<h3 id="43-1-n整数中1出现的次数"><a href="#43-1-n整数中1出现的次数" class="headerlink" title="43. 1~n整数中1出现的次数"></a>43. 1~n整数中1出现的次数</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/1nzheng-shu-zhong-1chu-xian-de-ci-shu-lcof/">剑指 Offer 43. 1～n 整数中 1 出现的次数 - 力扣（LeetCode）</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">countDigitOne</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">digit</span> <span class="operator">=</span> <span class="number">1</span>, res = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">high</span> <span class="operator">=</span> n / <span class="number">10</span>, cur = n % <span class="number">10</span>, low = <span class="number">0</span>; <span class="comment">// 高位，当前位，低位；从个位开始统计</span></span><br><span class="line">    <span class="keyword">while</span>(high != <span class="number">0</span> || cur != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(cur == <span class="number">0</span>) &#123; <span class="comment">// 当前位最大为0</span></span><br><span class="line">            res += high * digit; <span class="comment">// 该位出现1的次数，由高位决定</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(cur == <span class="number">1</span>) &#123; <span class="comment">//当前位最大为1</span></span><br><span class="line">            res += high * digit + low + <span class="number">1</span>; <span class="comment">// 该位出现1的次数 由高位和低位决定</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 当前位最大 &gt; 1</span></span><br><span class="line">            res += (high + <span class="number">1</span>) * digit;</span><br><span class="line">        &#125;</span><br><span class="line">        low += cur * digit;</span><br><span class="line">        cur = high % <span class="number">10</span>;</span><br><span class="line">        high /= <span class="number">10</span>;</span><br><span class="line">        digit *= <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
 
       
     </div>

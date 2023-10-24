@@ -148,18 +148,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">76</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">110</span>
+        <span class="site-state-item-count">118</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -344,6 +344,557 @@
             </div>
           <!--/noindex-->
         
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/10/24/jmap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/10/24/jmap/" class="post-title-link" itemprop="url">jmap</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-10-24 17:03:49 / 修改时间：18:02:51" itemprop="dateCreated datePublished" datetime="2023-10-24T17:03:49+08:00">2023-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>jmap命令是一个可以输出所有内存中对象的工具，甚至可以将JVM中的heap，以二进制输出成文本。打印出某个java进程（使用pid）内存内的所有对象的情况（如：产生哪些对象，及其数量）。</p>
+<hr>
+<h1 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> jmap [option] &lt;pid&gt;</span><br><span class="line">    (to connect to running process) 连接到正在运行的进程</span><br><span class="line"></span><br><span class="line">jmap [option] &lt;executable &lt;core&gt;</span><br><span class="line">    (to connect to a core file)     连接到核心文件</span><br><span class="line"></span><br><span class="line">jmap [option] [server_id@]&lt;remote server IP or hostname&gt;</span><br><span class="line">    (to connect to remote debug server) 连接到远程调试服务</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h1><h2 id="输出jvm的heap内容到文件"><a href="#输出jvm的heap内容到文件" class="headerlink" title="输出jvm的heap内容到文件"></a>输出jvm的heap内容到文件</h2><p><code>jmap -dump:live,format=b,file=[outputFileName.hprof] [pid]</code></p>
+<p>使用<strong>hprof二进制形式</strong>输出jvm的heap内容到文件。live子选项是可选的，只输出活的对象到文件。</p>
+<hr>
+<h2 id="打印正等候回收的对象的信息"><a href="#打印正等候回收的对象的信息" class="headerlink" title="打印正等候回收的对象的信息"></a>打印正等候回收的对象的信息</h2><p><code>jmap -finalizerinfo [pid]</code></p>
+<hr>
+<h2 id="打印heap的概要信息"><a href="#打印heap的概要信息" class="headerlink" title="打印heap的概要信息"></a>打印heap的概要信息</h2><p>JDK 8: <code>jmap -heap [pid]</code></p>
+<p>JDK 9往后：<code>jhsdb jmap --heap --pid [pid]</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">root@PC:~<span class="comment"># jhsdb jmap --heap --pid 51266</span></span><br><span class="line">Attaching to process ID 51266, please <span class="built_in">wait</span>...</span><br><span class="line">Debugger attached successfully.</span><br><span class="line">Server compiler detected.</span><br><span class="line">JVM version is 17.0.8.1+1-Ubuntu-0ubuntu122.04</span><br><span class="line"></span><br><span class="line">using thread-local object allocation.</span><br><span class="line">Garbage-First (G1) GC with 10 thread(s)</span><br><span class="line"></span><br><span class="line">Heap Configuration: <span class="comment">#堆配置情况，也就是JVM参数配置的结果[平常说的tomcat配置JVM参数，就是在配置这些]</span></span><br><span class="line">   MinHeapFreeRatio         = 40 <span class="comment">#最小堆可用比例</span></span><br><span class="line">   MaxHeapFreeRatio         = 70 <span class="comment">#最大堆可用比例</span></span><br><span class="line">   MaxHeapSize              = 4169138176 (3976.0MB) <span class="comment">#最大堆空间大小</span></span><br><span class="line">   NewSize                  = 1363144 (1.2999954223632812MB) <span class="comment">#新生代分配大小</span></span><br><span class="line">   MaxNewSize               = 2499805184 (2384.0MB) <span class="comment">#最大新生代分配大小</span></span><br><span class="line">   OldSize                  = 5452592 (5.1999969482421875MB) <span class="comment">#老年代大小</span></span><br><span class="line">   NewRatio                 = 2 <span class="comment">#新生代比例</span></span><br><span class="line">   SurvivorRatio            = 8 <span class="comment">#新生代与suvivor的比例</span></span><br><span class="line">   MetaspaceSize            = 22020096 (21.0MB)</span><br><span class="line">   CompressedClassSpaceSize = 1073741824 (1024.0MB)</span><br><span class="line">   MaxMetaspaceSize         = 17592186044415 MB</span><br><span class="line">   G1HeapRegionSize         = 2097152 (2.0MB)</span><br><span class="line"></span><br><span class="line">Heap Usage: <span class="comment">#堆使用情况【堆内存实际的使用情况】</span></span><br><span class="line">G1 Heap:</span><br><span class="line">   regions  = 1988</span><br><span class="line">   capacity = 4169138176 (3976.0MB)</span><br><span class="line">   used     = 38374400 (36.5966796875MB)</span><br><span class="line">   free     = 4130763776 (3939.4033203125MB)</span><br><span class="line">   0.9204396299673038% used</span><br><span class="line">G1 Young Generation:</span><br><span class="line">Eden Space:</span><br><span class="line">   regions  = 3</span><br><span class="line">   capacity = 117440512 (112.0MB)</span><br><span class="line">   used     = 6291456 (6.0MB)</span><br><span class="line">   free     = 111149056 (106.0MB)</span><br><span class="line">   5.357142857142857% used</span><br><span class="line">Survivor Space:</span><br><span class="line">   regions  = 1</span><br><span class="line">   capacity = 2097152 (2.0MB)</span><br><span class="line">   used     = 2097152 (2.0MB)</span><br><span class="line">   free     = 0 (0.0MB)</span><br><span class="line">   100.0% used</span><br><span class="line">G1 Old Generation:</span><br><span class="line">   regions  = 16</span><br><span class="line">   capacity = 71303168 (68.0MB)</span><br><span class="line">   used     = 29985792 (28.5966796875MB)</span><br><span class="line">   free     = 41317376 (39.4033203125MB)</span><br><span class="line">   42.05394071691177% used</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="打印每个class的实例数目、内存占用、类名信息"><a href="#打印每个class的实例数目、内存占用、类名信息" class="headerlink" title="打印每个class的实例数目、内存占用、类名信息"></a>打印每个class的实例数目、内存占用、类名信息</h2><p><code>jmap -histo:live [pid]</code></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/10/24/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8DOOM%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/10/24/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8DOOM%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">如何快速定位OOM问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-10-24 14:01:08 / 修改时间：18:02:56" itemprop="dateCreated datePublished" datetime="2023-10-24T14:01:08+08:00">2023-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="OOM的原因"><a href="#OOM的原因" class="headerlink" title="OOM的原因"></a>OOM的原因</h1><h2 id="一次性申请过多的对象"><a href="#一次性申请过多的对象" class="headerlink" title="一次性申请过多的对象"></a>一次性申请过多的对象</h2><p>更改申请对象的数量。（分页）</p>
+<hr>
+<h2 id="内存资源耗尽-未释放"><a href="#内存资源耗尽-未释放" class="headerlink" title="内存资源耗尽 未释放"></a>内存资源耗尽 未释放</h2><p>找到未释放的对象进行释放。</p>
+<hr>
+<h2 id="本身资源不够"><a href="#本身资源不够" class="headerlink" title="本身资源不够"></a>本身资源不够</h2><p>查看堆信息：</p>
+<p>JDK 8: <code>jmap -heap [pid]</code></p>
+<p>JDK 11往后：<code>jhsdb jmap --heap --pid [pid]</code></p>
+<img src="https://s2.loli.net/2023/10/24/Vjm8txXY65EWwKO.png" alt="image-20231024141116327" style="zoom:50%;" />
+
+<hr>
+<h1 id="通过dump定位"><a href="#通过dump定位" class="headerlink" title="通过dump定位"></a>通过dump定位</h1><h2 id="系统已经OOM挂掉了"><a href="#系统已经OOM挂掉了" class="headerlink" title="系统已经OOM挂掉了"></a>系统已经OOM挂掉了</h2><ol>
+<li><p>提前设置<code>-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=[指定的存放路径]</code></p>
+<p> 需要保证服务器的硬盘空间够大，因为该设置会<strong>记录系统在整个运行过程中所有的对象信息</strong>，占用空间。</p>
+<p> 发生OOM后，会生成<code>java_pidxxxxx.hprof</code>的heap dump文件。</p>
+</li>
+<li><p>使用JProfiler进行查看</p>
+ <img src="https://s2.loli.net/2023/10/24/MdjfG6qhgXyPY7B.png" alt="image-20231024162807712" style="zoom:80%;" />
+</li>
+<li><p>找到与业务相关的类 - 右键，使用选定对象</p>
+ <img src="https://s2.loli.net/2023/10/24/U2ZczJIsgBX5Eu8.png" alt="image-20231024163513439" style="zoom:80%;" />
+</li>
+<li><p>选择 传入引用，确定。</p>
+ <img src="https://s2.loli.net/2023/10/24/VnjkM8pRcK25l9N.png" alt="image-20231024163605325" style="zoom: 80%;" />
+</li>
+<li><p>显示到GC根(GC Root)的路径，确定</p>
+ <img src="https://s2.loli.net/2023/10/24/hg4Rb2ntxTeiu5U.png" alt="image-20231024163702041" style="zoom:50%;" />
+</li>
+<li><p>根据显示的线程堆栈，查看代码进行分析。</p>
+ <img src="https://s2.loli.net/2023/10/24/YMNnVuEgICtPrhS.png" alt="image-20231024163834286" style="zoom: 50%;" /></li>
+</ol>
+<hr>
+<h2 id="系统运行中，还未OOM"><a href="#系统运行中，还未OOM" class="headerlink" title="系统运行中，还未OOM"></a>系统运行中，还未OOM</h2><h3 id="方式一-导出dump文件"><a href="#方式一-导出dump文件" class="headerlink" title="方式一 导出dump文件"></a>方式一 导出dump文件</h3><p><code>jmap -dump:format=b,file=[outputFileName.hprof] [pid]</code></p>
+<p>在系统运行阶段导出dump文件，会造成一次FullGC、STW（Stop The World，所有线程中断）。但不导出dump文件的话，时间成本要增高很多</p>
+<hr>
+<h3 id="方式二-Arthas"><a href="#方式二-Arthas" class="headerlink" title="方式二 Arthas"></a>方式二 Arthas</h3>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/10/17/RabbitMQ/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/10/17/RabbitMQ/" class="post-title-link" itemprop="url">RabbitMQ</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-10-17 16:47:26" itemprop="dateCreated datePublished" datetime="2023-10-17T16:47:26+08:00">2023-10-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-10-24 18:02:44" itemprop="dateModified" datetime="2023-10-24T18:02:44+08:00">2023-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/" itemprop="url" rel="index"><span itemprop="name">JavaWeb</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>消息队列提供一个<strong>异步通信机制</strong>，消息的发送者不必一直等待到消息被成功处理才返回，而是立即返回。消息中间件负责处理网络通信，如果网络连接不可用，消息被暂存于队列当中，当网络畅通时，将消息转发给相应的应用程序或者服务。</p>
+<p>如果在商品服务和订单服务之间使用消息中间件，既可以提高并发量，又降低服务之间的耦合度。</p>
+<p>RabbitMQ是一个开源的<strong>消息代理的队列服务器</strong>，用来通过普通协议在完全不同的应用之间<strong>共享数据</strong>。</p>
+<hr>
+<h1 id="Docker下相关命令"><a href="#Docker下相关命令" class="headerlink" title="Docker下相关命令"></a>Docker下相关命令</h1><ul>
+<li><p>下载</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 要选择带management的版本，带管理页面</span></span><br><span class="line">docker pull rabbitmq:3.12-management</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建用户</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_user [username] [password]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 赋予管理员权限</span></span><br><span class="line">rabbitmqctl set_user_tags [username] administrator</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h1 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h1><p><img src="https://s2.loli.net/2023/10/18/RHp6Mq9bzDKVuUj.png" alt="image-20231018100910521"></p>
+<hr>
+<h2 id="交换机-exchange"><a href="#交换机-exchange" class="headerlink" title="交换机 exchange"></a>交换机 exchange</h2><h3 id="发布订阅模式-fanout"><a href="#发布订阅模式-fanout" class="headerlink" title="发布订阅模式 fanout"></a>发布订阅模式 fanout</h3><p>发布一次，消费多个。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/10/12/JMeter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/10/12/JMeter/" class="post-title-link" itemprop="url">JMeter</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-10-12 16:59:11" itemprop="dateCreated datePublished" datetime="2023-10-12T16:59:11+08:00">2023-10-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-10-14 11:40:22" itemprop="dateModified" datetime="2023-10-14T11:40:22+08:00">2023-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/" itemprop="url" rel="index"><span itemprop="name">JavaWeb</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">压力测试</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p><a target="_blank" rel="noopener" href="https://jmeter.apache.org/download_jmeter.cgi">Apache JMeter - Download Apache JMeter</a></p>
+<p>选择二进制文件包。</p>
+<hr>
+<h1 id="Windows下"><a href="#Windows下" class="headerlink" title="Windows下"></a>Windows下</h1><p>windows下，解压后运行”\apache-jmeter-5.6.2\bin\jmeter.bat”。</p>
+<p>Options- choose language - 选择中文。</p>
+<hr>
+<img src="https://s2.loli.net/2023/10/12/6FgcLv3z9byxqZt.png" alt="image-20231012172118257" style="zoom:80%;" />
+
+
+
+<img src="https://s2.loli.net/2023/10/12/DKc39arFioHEgX6.png" alt="image-20231012172258211" style="zoom:80%;" />
+
+<p><img src="https://s2.loli.net/2023/10/12/8A2mZ3J9n6zq1ib.png" alt="image-20231012172436339"></p>
+<p><img src="https://s2.loli.net/2023/10/12/DcVjF1qENSCkt53.png" alt="image-20231012172550539"></p>
+<hr>
+<h1 id="Linux下"><a href="#Linux下" class="headerlink" title="Linux下"></a>Linux下</h1><p>解压后运行<code>apache-jmeter-5.6.2/bin/jmeter.sh -n -t first.jmx -l result.jtl</code></p>
+<ul>
+<li><code>-n</code>  命令行下执行</li>
+<li><code>-t</code> 要运行的测试脚本文件</li>
+<li><code>-l</code> 记录结果的文件</li>
+</ul>
+<p>查看result.jtl文件，要将文件拷出到windows，在监听器 - 聚合报告 下，打开文件浏览</p>
+<p><img src="https://s2.loli.net/2023/10/13/H9T4ZRljqychvfb.png" alt="image-20231013013107361"></p>
+<h2 id="配置不同用户进行测试"><a href="#配置不同用户进行测试" class="headerlink" title="配置不同用户进行测试"></a>配置不同用户进行测试</h2><p><img src="https://s2.loli.net/2023/10/13/ZpHMvkRcELe9Q7i.png" alt="image-20231013121242660"></p>
+<p>cookie管理器中，通过<code>$&#123;&#125;</code>获取CSV中设置的变量值</p>
+<p><img src="https://s2.loli.net/2023/10/13/PvWXwu4Kj7TtHmI.png" alt="image-20231013121417139"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/10/10/Springboot%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/10/10/Springboot%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">Springboot全局异常统一处理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-10-10 11:12:40" itemprop="dateCreated datePublished" datetime="2023-10-10T11:12:40+08:00">2023-10-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-10-11 11:03:55" itemprop="dateModified" datetime="2023-10-11T11:03:55+08:00">2023-10-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/Springboot/" itemprop="url" rel="index"><span itemprop="name">Springboot</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>以往的Java Web开发中，异常处理通常是通过try-catch语句块来实现。这种方法在应用程序规模较小的情况下还可以，但是在大型应用中，可能存在大量的代码重复和不一致问题。此外，在抛出未处理的异常时，用户会看到系统生成的默认错误页面，用户体验差。</p>
+<hr>
+<h1 id="全局异常统一处理"><a href="#全局异常统一处理" class="headerlink" title="全局异常统一处理"></a>全局异常统一处理</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li><p>有助于保持代码整洁和规模化</p>
+<p>  如果没有全局异常处理，每个Controller的方法都需要实现自己的异常处理，当程序变得越来越复杂时，这种代码会导致代码冗余和混乱的异常处理逻辑。</p>
+</li>
+<li><p>提升用户体验</p>
+<p>  全局异常处理<strong>允许应用程序捕获未处理的异常，并提供更友好的异常提示信息</strong>。</p>
+</li>
+<li><p>便于日志记录和监控</p>
+<p>  全局异常处理可以帮助应用程序捕获和记录异常信息，在出现问题时快速定位。此外，还可以和监控系统继承，以实时跟踪应用程序中出现的异常情况。</p>
+</li>
+<li><p>增强安全性</p>
+<p>  全局异常处理可以防止应用程序出现潜在的安全漏洞，例如SQL注入和XSS攻击。</p>
+</li>
+</ul>
+<hr>
+<h2 id="实操"><a href="#实操" class="headerlink" title="实操"></a>实操</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--  web组件   --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义一个异常类"><a href="#自定义一个异常类" class="headerlink" title="自定义一个异常类"></a>自定义一个异常类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GlobalException</span> <span class="keyword">extends</span> <span class="title class_">RuntimeException</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> RespBeanEnum respBeanEnum;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> RespBeanEnum <span class="title function_">getRespBeanEnum</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> respBeanEnum;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setRespBeanEnum</span><span class="params">(RespBeanEnum respBeanEnum)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.respBeanEnum = respBeanEnum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="编写统一异常处理类，统一捕获处理返回"><a href="#编写统一异常处理类，统一捕获处理返回" class="headerlink" title="编写统一异常处理类，统一捕获处理返回"></a>编写统一异常处理类，统一捕获处理返回</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestControllerAdvice</span> <span class="comment">// 表明统一处理异常</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GlobalExceptionHandler</span> &#123;</span><br><span class="line">    <span class="meta">@ExceptionHandler(Exception.class)</span> <span class="comment">// 希望捕获的异常类</span></span><br><span class="line">    <span class="keyword">public</span> RespBean <span class="title function_">exceptionHandler</span><span class="params">(Exception e)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (e <span class="keyword">instanceof</span> GlobalException) &#123;</span><br><span class="line">            <span class="type">GlobalException</span> <span class="variable">ex</span> <span class="operator">=</span> (GlobalException) e;</span><br><span class="line">            <span class="keyword">return</span> RespBean.error(ex.getRespBeanEnum());</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e <span class="keyword">instanceof</span> MethodArgumentNotValidException) &#123;</span><br><span class="line">            <span class="type">MethodArgumentNotValidException</span> <span class="variable">ex</span> <span class="operator">=</span> (MethodArgumentNotValidException) e;</span><br><span class="line">            <span class="type">RespBean</span> <span class="variable">respBean</span> <span class="operator">=</span> RespBean.error(RespBeanEnum.BIND_ERROR);</span><br><span class="line">            respBean.setMessage(<span class="string">&quot;参数校验异常：&quot;</span> + ex.getBindingResult().getAllErrors().get(<span class="number">0</span>).getDefaultMessage());</span><br><span class="line">            <span class="keyword">return</span> respBean;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> RespBean.error(RespBeanEnum.ERROR);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
       
     </div>
 
@@ -706,9 +1257,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2023-09-25 17:11:07 / 修改时间：23:56:28" itemprop="dateCreated datePublished" datetime="2023-09-25T17:11:07+08:00">2023-09-25</time>
+      <time title="创建时间：2023-09-25 17:11:07" itemprop="dateCreated datePublished" datetime="2023-09-25T17:11:07+08:00">2023-09-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-09-26 01:20:48" itemprop="dateModified" datetime="2023-09-26T01:20:48+08:00">2023-09-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -758,7 +1315,7 @@
 </tr>
 <tr>
 <td>事务</td>
-<td>支持（默认使用<strong>可重读隔离级别</strong>，可以解决幻读问题的发生）</td>
+<td>支持（默认使用<strong>可重读隔离级别</strong>，可以解决<strong>幻读</strong>问题的发生）</td>
 <td>不支持</td>
 </tr>
 <tr>
@@ -838,9 +1395,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2023-09-25 17:06:47 / 修改时间：23:58:19" itemprop="dateCreated datePublished" datetime="2023-09-25T17:06:47+08:00">2023-09-25</time>
+      <time title="创建时间：2023-09-25 17:06:47" itemprop="dateCreated datePublished" datetime="2023-09-25T17:06:47+08:00">2023-09-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-09-26 01:21:49" itemprop="dateModified" datetime="2023-09-26T01:21:49+08:00">2023-09-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -884,744 +1447,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/09/22/%E5%BF%83%E8%B7%B3%E6%9C%BA%E5%88%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/09/22/%E5%BF%83%E8%B7%B3%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">心跳机制</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2023-09-22 15:44:41 / 修改时间：15:53:01" itemprop="dateCreated datePublished" datetime="2023-09-22T15:44:41+08:00">2023-09-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>在分布式系统中，分布在不同主机上的节点需要检测其他节点的状态，如服务器节点需要检测从节点是否失效。<strong>为了检测对方节点的有效性，每隔固定时间就发送一个固定信息给对方，对方回复一个固定信息，如果长事件没有收到对方的回复，则断开与对方的连接</strong>。</p>
-<p>因为是每隔固定时间发送一次，类似心跳，所以发送的固定信息称为<strong>心跳包</strong>。一般而言，<strong>应该客户端主动向服务器发送心跳包，因为服务器发送会影响性能</strong>。</p>
-<hr>
-<h1 id="心跳机制的实现方式"><a href="#心跳机制的实现方式" class="headerlink" title="心跳机制的实现方式"></a>心跳机制的实现方式</h1><h2 id="基于TCP自带的心跳包"><a href="#基于TCP自带的心跳包" class="headerlink" title="基于TCP自带的心跳包"></a>基于TCP自带的心跳包</h2><p>TCP的<code>SO_KEEPLIVE</code>选项可以，系统默认的跳帧频率为<strong>2小时</strong>，超过2小时后，本地的TCP实现会发送一个数据包给远程的Socket。如果远程Socket没有响应，TCP实现就会持续尝试11分钟直到接收到响应，否则自动断开Socket连接。</p>
-<p>但TCP自带的心跳包无法检测比较敏感地知道对方的状态，默认2小时的空闲时间，对于大多数的应用而言太长了。可以手工开启KeepAlive功能并设置合理的KeepAlive参数。</p>
-<hr>
-<h2 id="应用层自己进行实现"><a href="#应用层自己进行实现" class="headerlink" title="应用层自己进行实现"></a>应用层自己进行实现</h2><ol>
-<li>Client使用定时器发送心跳</li>
-<li>Server收到心跳后，回复一个包</li>
-<li>Server为每个Client启动超时定时器，如果在指定时间内没有收到Client的心跳包，则Client失效。</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/codingexperience/p/5939059.html">Java实现心跳机制 - 苍穹2018 - 博客园 (cnblogs.com)</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/09/20/Java%E6%9E%9A%E4%B8%BE%E7%B1%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/09/20/Java%E6%9E%9A%E4%B8%BE%E7%B1%BB/" class="post-title-link" itemprop="url">Java枚举类</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2023-09-20 21:34:42 / 修改时间：22:23:03" itemprop="dateCreated datePublished" datetime="2023-09-20T21:34:42+08:00">2023-09-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>枚举（enum）类型是Java 5新增的特性，它是一种新的类型，<strong>允许用常量来表示特定的数据片断</strong>，而且全部都以<strong>类型安全</strong>的形式来表示。</p>
-<h1 id="枚举类和静态常量的对比"><a href="#枚举类和静态常量的对比" class="headerlink" title="枚举类和静态常量的对比"></a>枚举类和静态常量的对比</h1><p>以一段代码为例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">SEASON_SPRING</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">SEASON_SUMMER</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">SEASON_FALL</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">SEASON_WINTER</span> <span class="operator">=</span> <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
-
-<p>使用常量会有缺陷：<strong>类型不安全</strong>。如果一个方法要求传入季节参数，开发者可以传入任意的int值，<strong>如果是枚举类型，就只能传入枚举类中包含的对象</strong>。</p>
-<hr>
-<h1 id="枚举的使用"><a href="#枚举的使用" class="headerlink" title="枚举的使用"></a>枚举的使用</h1><h2 id="定义枚举类"><a href="#定义枚举类" class="headerlink" title="定义枚举类"></a>定义枚举类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Color</span> &#123;</span><br><span class="line">    RED, GREEN, BLANK, YELLOW</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用方式一"><a href="#使用方式一" class="headerlink" title="使用方式一"></a>使用方式一</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo1</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(isRed(Color.BLANK)) ;  <span class="comment">//结果： false</span></span><br><span class="line">        System.out.println(isRed(Color.RED)) ;    <span class="comment">//结果： true</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isRed</span><span class="params">(Color color)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Color.RED.equals(color)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span> ;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="使用方式二"><a href="#使用方式二" class="headerlink" title="使用方式二"></a>使用方式二</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo2</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        showColor(Color.RED);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">showColor</span><span class="params">(Color color)</span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (color) &#123;</span><br><span class="line">        <span class="keyword">case</span> BLANK:</span><br><span class="line">            System.out.println(color);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> RED :</span><br><span class="line">            System.out.println(color);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            System.out.println(color);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="自定义函数"><a href="#自定义函数" class="headerlink" title="自定义函数"></a>自定义函数</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Color</span> &#123;</span><br><span class="line">    RED(<span class="string">&quot;红色&quot;</span>, <span class="number">1</span>), </span><br><span class="line">    GREEN(<span class="string">&quot;绿色&quot;</span>, <span class="number">2</span>), </span><br><span class="line">    YELLOW(<span class="string">&quot;黄色&quot;</span>, <span class="number">3</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> index;</span><br><span class="line"></span><br><span class="line">    Color(String name, <span class="type">int</span> index) &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.index = index;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getIndex</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> index;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setIndex</span><span class="params">(<span class="type">int</span> index)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.index = index;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//输出某一枚举的值</span></span><br><span class="line">        System.out.println(Color.RED.getName());</span><br><span class="line">        System.out.println(Color.RED.getIndex());</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//遍历所有的枚举</span></span><br><span class="line">        <span class="keyword">for</span>(Color color : Color.values())&#123;</span><br><span class="line">            System.out.println(color + <span class="string">&quot;  name: &quot;</span> + color.getName() + <span class="string">&quot;  index: &quot;</span> + color.getIndex());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/09/18/Zookeeper/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/09/18/Zookeeper/" class="post-title-link" itemprop="url">ZooKeeper</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-09-18 21:17:07" itemprop="dateCreated datePublished" datetime="2023-09-18T21:17:07+08:00">2023-09-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-09-23 21:26:58" itemprop="dateModified" datetime="2023-09-23T21:26:58+08:00">2023-09-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/ZooKeeper/" itemprop="url" rel="index"><span itemprop="name">ZooKeeper</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>ZooKeeper是一个开源的<strong>分布式协调服务框架</strong>，它的设计目标是将那些复杂且容易出错的<strong>分布式一致性服务封装起来</strong>，构成一个高效可靠的<strong>原语集</strong>，并以一系列简单易用的接口提供给用户使用。 </p>
-<p>ZooKeeper通常被用于实现诸如数据发布&#x2F;订阅、负载均衡、命名服务、分布式协调&#x2F;通知、集群管理、Master选举、分布式锁和分布式队列等功能。这些功能的实现主要依赖于ZooKeeper提供的<strong>数据存储 + 事件监听</strong>功能。</p>
-<p>ZooKeeper将数据保存在内存中，性能不错。<strong>协调服务</strong>的典型场景是读多于写，更能凸显ZooKeeper的优势。</p>
-<hr>
-<h1 id="重要概念"><a href="#重要概念" class="headerlink" title="重要概念"></a>重要概念</h1><h2 id="数据模型-Data-model"><a href="#数据模型-Data-model" class="headerlink" title="数据模型 Data model"></a>数据模型 Data model</h2><p>ZK的数据模型采用层次化的多叉树型结构，每个节点上都可以存储数据，这些数据可以是<strong>数字、字符串或者是二级制序列。</strong></p>
-<p>每个节点可以拥有N个子节点，最上层是根节点，以<code>/</code>来代表。每个数据节点在ZK中被称为znode，它是ZK中<strong>数据的最小单元</strong>。并且，每个<code>znode</code>都有一个唯一的路径标识。</p>
-<p>ZK主要是用来<strong>协调服务</strong>的，而不是用来存储业务数据的，所以不要放比较大的数据在znode上，ZK给出的<strong>上限是每个节点的数据大小为1M</strong>。</p>
-<hr>
-<h2 id="数据节点-znode"><a href="#数据节点-znode" class="headerlink" title="数据节点 znode"></a>数据节点 znode</h2><p>通常将znode分为<strong>4</strong>大类：</p>
-<ul>
-<li><p><strong>持久节点 PERSISTENT</strong></p>
-<p>  一旦创建就一直存在，即使ZK集群宕机也是如此，直到将其删除。</p>
-</li>
-<li><p><strong>临时节点 EPHEMERAL</strong></p>
-<p>  临时节点的生命周期<strong>与客户端会话（Session）绑定</strong>，Session消失则节点消失。并且，<strong>临时节点只能做叶子节点</strong>，不能创建子节点。</p>
-</li>
-<li><p><strong>持久顺序节点 PERSISTENT_SEQUENTIAL</strong></p>
-<p>  除了具有持久节点的特性之外，<strong>子节点的名称还具有顺序性</strong>，比如<code>/node1/app0000001</code>、<code>/node/app0000002</code>。</p>
-</li>
-<li><p><strong>临时顺序节点 EPHEMERAL_SEQUENTIAL</strong></p>
-<p>  除了具有临时节点的特性之外，<strong>子节点的名称还具有顺序性</strong>。</p>
-</li>
-</ul>
-<p>每个znode由两部分组成：</p>
-<ol>
-<li>stat 状态信息</li>
-<li>data 节点存放的数据的具体内容</li>
-</ol>
-<hr>
-<h2 id="版本-version"><a href="#版本-version" class="headerlink" title="版本 version"></a>版本 version</h2><p>stat中记录了znode的三个相关版本：</p>
-<ol>
-<li><p><strong>dataVersion</strong> </p>
-<p> 当前znode节点的版本号</p>
-</li>
-<li><p><strong>cversion</strong></p>
-<p> 当前znode<strong>子节点</strong>的版本</p>
-</li>
-<li><p><strong>aclVersion</strong></p>
-<p> 当前znode的ACL版本</p>
-</li>
-</ol>
-<hr>
-<h2 id="权限控制-ACL"><a href="#权限控制-ACL" class="headerlink" title="权限控制 ACL"></a>权限控制 ACL</h2><p>ZK采用ACL(AccessControlLists)策略来进行权限控制，类似于UNIX文件系统的权限控制。</p>
-<p>ZK提供了<strong>5种znode的操作权限</strong>：</p>
-<ol>
-<li><strong>CREATE</strong>	能创建<strong>子节点</strong></li>
-<li><strong>READ</strong>        能获取节点数据和<strong>列出其子节点</strong></li>
-<li><strong>WRITE</strong>      能设置&#x2F;更新节点数据</li>
-<li><strong>DELETE</strong>    能删除<strong>子节点</strong></li>
-<li><strong>ADMIN</strong>     能设置节点ACL的权限</li>
-</ol>
-<p>ZK还提供了<strong>4种身份认证</strong>的方式：</p>
-<ol>
-<li><strong>world</strong> <strong>默认</strong>，所有用户都可以访问</li>
-<li><strong>auth</strong> 不使用任何id，表示<strong>任何已认证的用户</strong></li>
-<li><strong>digest</strong> <code>用户名:密码</code>认证方式</li>
-<li><strong>ip</strong>  对指定ip进行限制</li>
-</ol>
-<hr>
-<h2 id="事件监听器-Watcher"><a href="#事件监听器-Watcher" class="headerlink" title="事件监听器 Watcher"></a>事件监听器 Watcher</h2><p>ZK允许用户在指定节点上注册一些Watcher，并且在一些特定事件触发的时候，ZK服务端将事件通知到感兴趣的客户端上。该机制<strong>是ZK实现分布式协调服务的重要特性</strong>。</p>
-<hr>
-<h2 id="会话-Session"><a href="#会话-Session" class="headerlink" title="会话 Session"></a>会话 Session</h2><p>Session可以看作是ZK服务器与客户端之间的<strong>一个TCP长连接</strong>，通过这个连接，<strong>客户端能够通过心跳检测与服务器保持有效的会话，也能向ZK服务器发送请求并接收响应，同时还能够通过该连接接收来自服务器的Watcher事件通知</strong>。</p>
-<p>在为客户端创建会话之前，服务端首先会为每个客户端都分配一个<code>sessionID</code>。<code>sessionID</code>是ZK会话的一个重要标识，许多与会话相关的运行机制都基于这个<code>sessionID</code>，因此，**<code>sessionID</code>的分配务必保证全局唯一**。</p>
-<hr>
-<h1 id="ZooKeeper集群"><a href="#ZooKeeper集群" class="headerlink" title="ZooKeeper集群"></a>ZooKeeper集群</h1><p>通常3台服务器就可以构成一个ZK集群，每台服务器都会在内存中维护当前的服务器状态，并且服务器之间都保持着通信。集群之间通过ZAB协议（ZooKeeper Atomic Broadcast）来保持数据的一致性。</p>
-<hr>
-<h2 id="集群角色"><a href="#集群角色" class="headerlink" title="集群角色"></a>集群角色</h2><p><strong>最典型的集群模式：Master&#x2F;Slave 模式（主备模式）</strong>。这种模式中，通常Master服务器作为主服务器提供<strong>写服务</strong>，其他Slave服务器作为从服务器<strong>通过异步复制的方式获取Master服务器最新的数据提供读服务</strong>。但是ZK中没有选择传统的Master&#x2F;Slave概念，而是引入了Leader、Follower、Observer三种角色。</p>
-<img src="https://s2.loli.net/2023/09/19/QzmecGN7Mv4ULWs.png" alt="image-20230919104014780" style="zoom:80%;" />
-
-<p>ZK集群中的所有机器通过一个<strong>Leader选举过程</strong>来选定一台称为Leader的机器。</p>
-<table>
-<thead>
-<tr>
-<th>角色</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Leader</td>
-<td>为客户端提供读、写服务。<strong>负责选举过程的投票发起和决议，更新系统状态</strong>。</td>
-</tr>
-<tr>
-<td>Follower</td>
-<td>为客户端提供读服务，如果是<strong>写服务则转发给Leader</strong>。<strong>参与选举过程中的投票</strong>。</td>
-</tr>
-<tr>
-<td>Observer</td>
-<td>为客户端提供读服务，如果是<strong>写服务则转发给Leader</strong>。<strong>不参与选举过程中的投票，也不参与写操作的“过半写成功”策略</strong>，因此Observer<strong>可以在不影响写性能的情况下提升集群的读性能</strong>。ZK 3.3新增的角色。</td>
-</tr>
-</tbody></table>
-<hr>
-<h2 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h2><p>当Leader服务器出现<strong>网络中断、崩溃退出、重启</strong>等异常情况时，就会进入Leader选举过程，产生新的Leader服务器。Leader选举过程如下：</p>
-<ol>
-<li><p><strong>Leader election (选举阶段)</strong></p>
-<p> 节点在一开始都处于选举阶段，只要有一个节点得到<strong>超半数节点的票数</strong>，就可以<strong>当选准Leader</strong>。</p>
-</li>
-<li><p><strong>Discovery (发现阶段)</strong></p>
-<p> follower跟准Leader进行通信，<strong>同步follower最近接收的事务提议</strong>。</p>
-</li>
-<li><p><strong>Synchronization (同步阶段)</strong></p>
-<p> 利用Leader前一阶段获得的最新提议历史，同步集群中所有的副本。<strong>同步完成后，准Leader称为真正的Leader</strong>。</p>
-</li>
-<li><p><strong>Broadcast (广播阶段)</strong></p>
-<p>  ZK<strong>正式对外提供事务服务</strong>，并且Leader可以进行<strong>消息广播</strong>。如果有新节点加入，对新节点进行同步。</p>
-</li>
-</ol>
-<p>ZK集群中的服务器状态有<strong>4种</strong>：</p>
-<ol>
-<li><strong>LOOKING</strong> 寻找Leader</li>
-<li><strong>LEADING</strong> leader状态</li>
-<li><strong>FOLLOWING</strong> Follower状态</li>
-<li><strong>OBSERVING</strong> Observer状态</li>
-</ol>
-<hr>
-<h3 id="ZK集群为什么最好奇数台？"><a href="#ZK集群为什么最好奇数台？" class="headerlink" title="ZK集群为什么最好奇数台？"></a>ZK集群为什么最好奇数台？</h3><p>ZK集群在宕机了几个ZK服务器后，如果<strong>剩下的ZK服务器个数＞宕机的服务器个数，ZK才依然可用</strong>。奇数台能更高效地保持ZK集群的稳定性（3服务器，允许宕机1台，4服务器也只能允许宕机1台，偶数台对ZK集群的稳定性没有提升）。</p>
-<hr>
-<h3 id="选举的过半机制-防止脑裂"><a href="#选举的过半机制-防止脑裂" class="headerlink" title="选举的过半机制 防止脑裂"></a>选举的过半机制 防止脑裂</h3><p>对于一个集群，通常会将多台机器部署在不同机房，来提高这个集群的可用性。如果发生一种机房间网络线路故障，导致机房之间的网络不不通，<strong>集群被割裂成几个小集群</strong>，这时候<strong>子集群各自选主，当网络恢复的时候，会有多个主节点，仿佛是大脑分裂，故称脑裂现象</strong>。脑裂期间，<strong>各个主节点都可能对外提供了服务，会带来数据一致性等问题</strong>。</p>
-<p>ZK的过半机制导致不可能产生2个leader。</p>
-<hr>
-<h1 id="ZAB-协议"><a href="#ZAB-协议" class="headerlink" title="ZAB 协议"></a>ZAB 协议</h1><p>ZAB (ZooKeeper Atomic Broadcast 原子广播)协议是为分布式协调服务ZK专门设计的一种<strong>支持崩溃恢复</strong>的原子广播协议。ZK主要<strong>依赖ZAB协议来实现分布式数据一致性</strong>。基于该协议，ZK实现了一种<strong>主备模式的系统架构</strong>来保持集群中各个副本之间的数据一致性。</p>
-<p>ZAB协议包括两种基本的模式：</p>
-<ol>
-<li><p><strong>崩溃恢复</strong></p>
-<p> 当整个服务框架在启动过程中，或是Leader服务器出现网络中断、崩溃退出、重启等异常情况，ZAB协议就会进入恢复模式并选举产生新的Leader服务器。</p>
-<p> <strong>当选举产生了新的Leader服务器，同时集群中已经有过半的机器完成了状态同步（数据同步）</strong>，ZAB协议就退出恢复模式。</p>
-</li>
-<li><p><strong>消息广播</strong></p>
-<p> 当集群中已经有过半的Follower服务器完成了和Leader服务器的状态同步，整个服务框架就可以进入消息广播模式。</p>
-</li>
-</ol>
-<hr>
-<h1 id="一致性问题"><a href="#一致性问题" class="headerlink" title="一致性问题"></a>一致性问题</h1><p>设计一个分布式系统一定会遇到一个问题：因为<strong>分区容忍性（partition tolerance）</strong>的存在，就必定要求我们需要在<strong>系统可用性（availability）</strong>和<strong>数据一致性（consistency）</strong>中做出权衡。</p>
-<hr>
-<h1 id="典型应用场景"><a href="#典型应用场景" class="headerlink" title="典型应用场景"></a>典型应用场景</h1><h2 id="选主"><a href="#选主" class="headerlink" title="选主"></a>选主</h2><p>由于ZK的强一致性，能够很好地保证<strong>在高并发的情况下，保证节点创建的全局唯一性（即无法重复创建一样的节点）</strong>。</p>
-<ol>
-<li>利用这个特性，可以<strong>让多个客户端创建一个指定的临时节点</strong>，创建成功的就是Master。</li>
-<li>让不是master的节点<strong>监听master节点的状态</strong>（比如监听这个临时节点的父节点，如果子节点数变了，就表示master挂了，触发回调函数重新进行选举；或者直接监听节点的状态，通过节点是否已经失去连接来爬暖master是否挂了）</li>
-</ol>
-<hr>
-<h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><h3 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h3><ol>
-<li>由于创建节点的唯一性，可以让多个客户端同时创建一个临时节点，<strong>创建成功的说明获取到了锁</strong>。</li>
-<li>没有获取到锁的客户端创建一个watcher进行节点状态的监听，如果这个互斥锁被释放了（客户端宕机了，或者客户端主动释放了锁），可以调用回调函数重新获得锁。</li>
-</ol>
-<hr>
-<h3 id="同时实现共享锁和互斥锁"><a href="#同时实现共享锁和互斥锁" class="headerlink" title="同时实现共享锁和互斥锁"></a>同时实现共享锁和互斥锁</h3><ol>
-<li>创建有序节点。</li>
-<li>读请求时（需要获取共享锁），如果<strong>没有比自己更小的节点，或者比自己小的节点都是读请求</strong>，就可以获取到共享锁。如果比自己小的节点中有写请求，则当前客户端无法获取到共享锁，只能等待写请求完成。</li>
-<li>写请求时（需要获取互斥锁），如果没有比自己更小的节点，就可以获取到互斥锁，对数据进行修改。如果发现有比自己更小的节点，无论读写操作，都不能获取到互斥的写锁，等待所有前面的操作完成。</li>
-</ol>
-<p>这样就很好地同时实现了共享锁和互斥锁。但是当一个锁得到释放，它会通知所有等待地客户端，从而造成<strong>羊群效应</strong>，可以<strong>让等待的节点只监听他们前面的节点</strong>。</p>
-<hr>
-<h2 id="命名服务"><a href="#命名服务" class="headerlink" title="命名服务"></a><strong>命名服务</strong></h2><p>如何给一个对象设置ID，大家可能都会想到UUID，但是UUID太长了。<strong>可以使用节点的全路径作为命名方式</strong>，由于路径是可以自定义的，对于有些语义的对象的ID设置可以提高可读性。</p>
-<hr>
-<h2 id="集群管理和注册中心"><a href="#集群管理和注册中心" class="headerlink" title="集群管理和注册中心"></a>集群管理和注册中心</h2><ul>
-<li><p>集群管理</p>
-<p>  可能我们会有这样的需求，需要了解整个集群中有多少机器在工作，我们想对集群中的每台机器的运行时状态进行数据采集，对集群中的机器进行上下线等操作。</p>
-<p>  ZK天然支持的watcher和临时节点能很好地实现这些需求。我们可以为每台机器创建临时节点，并监控其父节点，如果子节点列表有变动，可以使用在其父节点绑定的watcher进行状态监控和回调。</p>
-</li>
-<li><p>注册中心</p>
-<p>  让<strong>服务提供者</strong>在ZK中创建一个<strong>临时节点</strong>，并将自己的<strong>ip、port、调用方式</strong>写入节点，当<strong>服务消费者</strong>需要调用的时候，<strong>通过注册中心找到相应的服务的地址列表 ，并缓存到本地（方便以后调用）</strong>，当消费者调用服务时，不再去请求注册中心，直接通过负载均衡算法从地址列表中取一个服务提供者的服务器调用服务。</p>
-<p>  当服务提供者的某台服务器宕机或者下线时，相应的地址会从服务提供者地址列表中移除。同时，<strong>注册中心会将新的服务地址列表发送给服务消费者的机器并缓存在消费者本机</strong>（也可以让消费者进行节点监听）</p>
-</li>
-</ul>
-<hr>
-<h2 id="数据发布-x2F-订阅"><a href="#数据发布-x2F-订阅" class="headerlink" title="数据发布&#x2F;订阅"></a>数据发布&#x2F;订阅</h2><p>通过<strong>Watcher机制</strong>，可以方便地实现数据发布&#x2F;订阅。将数据发布到ZK被监听的节点上，其他机器可以通过监听节点上的变化来实现配置的动态更新。</p>
-<hr>
-<h1 id="Docker安装ZooKeeper"><a href="#Docker安装ZooKeeper" class="headerlink" title="Docker安装ZooKeeper"></a>Docker安装ZooKeeper</h1><ol>
-<li><code>docker pull zookeeper</code></li>
-<li><code>docker run -d -name=zookeeper -p 2181:2181 zookeeper</code></li>
-</ol>
-<hr>
-<h1 id="连接ZooKeeper服务"><a href="#连接ZooKeeper服务" class="headerlink" title="连接ZooKeeper服务"></a>连接ZooKeeper服务</h1><ol>
-<li><code>docker ps</code>查看ZooKeeper容器的ID</li>
-<li><code>docker exec -it ContainerId bash</code>启动并进入容器</li>
-<li><code>./bin/zkCli.sh -server 127.0.0.1:2181</code>命令连接至ZooKeeper服务</li>
-</ol>
-<hr>
-<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><ol>
-<li><p><code>ls</code> 查看节点结构</p>
-</li>
-<li><p><code>create</code> 创建节点</p>
-<ul>
-<li><p>在根目录创建了node1节点，与之关联的字符串是”node1”</p>
-<p>  <code>create /node1 &quot;node1&quot;</code></p>
-</li>
-<li><p>在node1节点下创建node1.1节点，与之关联的内容是数字123</p>
-<p>  <code>create /node1/node1.1 123</code></p>
-</li>
-</ul>
-</li>
-<li><p><code>set</code> 更新节点数据内容</p>
-<p> <code>set /node1 &quot;set node1&quot;</code></p>
-</li>
-<li><p><code>get</code> 获取节点的数据</p>
-<p> <code>get -s /node1</code></p>
-<p> -s 额外显示节点状态信息</p>
-</li>
-<li><p><code>stat</code> 查看节点状态</p>
-</li>
-<li><p><code>delete</code> 删除节点</p>
-<p> 需要被删除的节点没有子节点</p>
-<p> <code>delete /node1</code></p>
-</li>
-</ol>
-<hr>
-<h1 id="ZooKeeper的Java客户端Curator"><a href="#ZooKeeper的Java客户端Curator" class="headerlink" title="ZooKeeper的Java客户端Curator"></a>ZooKeeper的Java客户端Curator</h1><p>相比于ZooKeeper自带的客户端zookeeper来说，Curator的封装更加完善，各种API都能比较方便地使用。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- zookeeper的java客户端 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.curator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>curator-framework<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.curator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>curator-recipes<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="创建客户端"><a href="#创建客户端" class="headerlink" title="创建客户端"></a>创建客户端</h2><p>Curator的创建会话方式与原生的API和ZkClient的创建方式区别很大。Curator创建客户端是通过<code>CuratorFrameworkFactory</code>工厂类来实现的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 提供重试策略的接口，重试3次，并在两次重试之间等待100毫秒 </span></span><br><span class="line"><span class="type">RetryPolicy</span> <span class="variable">retryPolicy</span>  <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RetryNTimes</span>(<span class="number">3</span>,<span class="number">100</span>);</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">CuratorFramework</span> <span class="variable">Client</span> <span class="operator">=</span> CuratorFrameworkFactory.builder()</span><br><span class="line">            .connectString(<span class="string">&quot;hadoop1:2181,hadoop2:2181,hadoop3:2181&quot;</span>) <span class="comment">// zk的server地址，多个server之间使用英文逗号分隔开</span></span><br><span class="line">            .connectionTimeoutMs(<span class="number">5000</span>) <span class="comment">// 连接超时时间</span></span><br><span class="line">            .sessionTimeoutMs(<span class="number">3000</span>) <span class="comment">// 会话超时时间</span></span><br><span class="line">            .retryPolicy(retryPolicy) <span class="comment">// 失败重试策略</span></span><br><span class="line">            .build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 阻塞到创建会话成功为止</span></span><br><span class="line">client.start(); </span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="创建节点"><a href="#创建节点" class="headerlink" title="创建节点"></a>创建节点</h2><h3 id="创建一个初始内容为空的节点"><a href="#创建一个初始内容为空的节点" class="headerlink" title="创建一个初始内容为空的节点"></a>创建一个初始内容为空的节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.create().forPath(path);</span><br></pre></td></tr></table></figure>
-
-<p>Curator默认创建的是<strong>持久节点</strong>，内容为空。 </p>
-<hr>
-<h3 id="创建一个包含内容的节点"><a href="#创建一个包含内容的节点" class="headerlink" title="创建一个包含内容的节点"></a>创建一个包含内容的节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.create().forPath(path, <span class="string">&quot;我是内容&quot;</span>.getBytes());</span><br></pre></td></tr></table></figure>
-
-<p>Curator和ZkClient不同的是依旧采用Zookeeper原生API的风格，内容使用byte[]作为方法参数。 </p>
-<hr>
-<h3 id="创建临时节点，并递归创建父节点"><a href="#创建临时节点，并递归创建父节点" class="headerlink" title="创建临时节点，并递归创建父节点"></a>创建临时节点，并递归创建父节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(path);</span><br></pre></td></tr></table></figure>
-
-<p>此处Curator和ZkClient一样封装了递归创建父节点的方法。在递归创建父节点时，<strong>父节点为持久节点</strong>。</p>
-<hr>
-<h2 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h2><h3 id="删除一个子节点"><a href="#删除一个子节点" class="headerlink" title="删除一个子节点"></a>删除一个子节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.delete().forPath(path);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="删除节点并递归删除其子节点"><a href="#删除节点并递归删除其子节点" class="headerlink" title="删除节点并递归删除其子节点"></a>删除节点并递归删除其子节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.delete().deletingChildrenIfNeeded().forPath(path);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="指定版本进行删除"><a href="#指定版本进行删除" class="headerlink" title="指定版本进行删除"></a>指定版本进行删除</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.delete().withVersion(<span class="number">1</span>).forPath(path);</span><br></pre></td></tr></table></figure>
-
-<p>如果此版本已经不存在，则删除异常，异常信息如下：<code>org.apache.zookeeper.KeeperException$BadVersionException: KeeperErrorCode = BadVersion for</code></p>
-<hr>
-<h3 id="强制保证删除一个节点"><a href="#强制保证删除一个节点" class="headerlink" title="强制保证删除一个节点"></a>强制保证删除一个节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.delete().guaranteed().forPath(path);</span><br></pre></td></tr></table></figure>
-
-<p>只要客户端会话有效，那么Curator会在后台<strong>持续进行删除操作，直到节点删除成功</strong>。比如遇到一些网络异常的情况，此guaranteed的强制删除就会很有效果。</p>
-<hr>
-<h2 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h2><p>Curator提供了传入一个Stat，使用节点当前的Stat替换到传入的Stat的方法，查询方法执行完成之后，Stat引用已经执行当前最新的节点Stat。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 普通查询</span></span><br><span class="line">client.getData().forPath(path);</span><br><span class="line"><span class="comment">// 包含状态查询</span></span><br><span class="line"><span class="type">Stat</span> <span class="variable">stat</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Stat</span>();</span><br><span class="line">client.getData().storingStatIn(stat()).forPath(path);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="更新数据"><a href="#更新数据" class="headerlink" title="更新数据"></a>更新数据</h2><p>更新数据，<strong>如果未传入version参数，那么更新当前最新版本</strong>，如果传入version则更新指定version，如果version已经变更，则抛出异常。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 普通更新</span></span><br><span class="line">client.setData().forPath(path,<span class="string">&quot;新内容&quot;</span>.getBytes());</span><br><span class="line"><span class="comment">// 指定版本更新</span></span><br><span class="line">client.setData().withVersion(<span class="number">1</span>).forPath(path);</span><br></pre></td></tr></table></figure>
-
-<p>版本不一直异常信息：<code>org.apache.zookeeper.KeeperException$BadVersionException: KeeperErrorCode = BadVersion for</code></p>
-<hr>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/8666288.html">Zookeeper框架Curator使用 - 扎心了，老铁 - 博客园 (cnblogs.com)</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/09/18/JDK%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%9C%BA%E5%88%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/09/18/JDK%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">JDK动态代理机制</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-09-18 14:29:29" itemprop="dateCreated datePublished" datetime="2023-09-18T14:29:29+08:00">2023-09-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-09-19 16:25:17" itemprop="dateModified" datetime="2023-09-19T16:25:17+08:00">2023-09-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h1><p>代理模式简单来说就是，使用代理对象代替真实对象的访问。可以在<strong>不修改原目标对象的前提下，提供额外的功能操作，扩展目标对象的功能</strong>，比如在某个方法执行前后，可以增加一些自定义的操作。</p>
-<h1 id="静态代理-多线程详解-md-x2F-静态代理模式-static-proxy"><a href="#静态代理-多线程详解-md-x2F-静态代理模式-static-proxy" class="headerlink" title="[静态代理](多线程详解.md&#x2F;#静态代理模式 static proxy)"></a>[静态代理](多线程详解.md&#x2F;#静态代理模式 static proxy)</h1><h1 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h1><p>静态代理中，对目标对象的每个方法的扩展都是<strong>手动完成</strong>的，非常不灵活（比如一旦新增方法，目标对象和代理对象都要进行修改）、麻烦（需要对每个目标类都单独写一个代理类）。<strong>日常开发几乎看不到使用静态代理的场景</strong>。</p>
-<p>相比于静态代理来说，动态代理更加灵活。不需要针对每个目标类都单独创建一个代理类，并且也不需要我们必须实现接口，可以直接代理实现类（CGLIB 动态代理机制）。从JVM角度说，动态代理是<strong>在运行时 动态生成类字节码，并加载到JVM中</strong>。</p>
-<p>Spring AOP、RPC框架的实现都依赖了动态代理。<strong>动态代理在日常开发中使用相对较少，但在框架中是必用的一门技术，对于各种框架原理的理解和学习很有帮助。</strong>就Java来说，动态代理的实现方式有很多种，比如<strong>JDK 动态代理、CGLIB 动态代理</strong>。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/09/18/JDK%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%9C%BA%E5%88%B6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/09/17/Kryo%E5%BA%8F%E5%88%97%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/09/17/Kryo%E5%BA%8F%E5%88%97%E5%8C%96/" class="post-title-link" itemprop="url">Kryo序列化</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-09-17 15:11:12" itemprop="dateCreated datePublished" datetime="2023-09-17T15:11:12+08:00">2023-09-17</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-09-21 16:18:22" itemprop="dateModified" datetime="2023-09-21T16:18:22+08:00">2023-09-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Kryo的注册"><a href="#Kryo的注册" class="headerlink" title="Kryo的注册"></a>Kryo的注册</h1><p>和很多其他的序列化框架一样，Kryo 为了提供性能和减小序列化结果体积，提供注册的序列化对象类的方式。<strong>在注册时，会为该序列化类生成 int ID，后续在序列化时使用 int ID 唯一标识该类型</strong>。注册的方式如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kryo.register(SomeClass.class);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="线程不安全"><a href="#线程不安全" class="headerlink" title="线程不安全"></a>线程不安全</h1><p>Kryo 不是线程安全的。每个线程都应该有自己的 Kryo 对象、输入和输出实例。因此在多线程环境中，可以考虑使用 ThreadLocal 或者对象池来保证线程安全性。</p>
-<p>ThreadLocal 是一种典型的牺牲空间来换取并发安全的方式，它会为每个线程都单独创建本线程专用的 kryo 对象。对于每条线程的每个 kryo 对象来说，都是顺序执行的，因此天然避免了并发安全问题。创建方法如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">private</span> <span class="keyword">final</span> ThreadLocal&lt;Kryo&gt; kryos = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;Kryo&gt;() &#123;</span><br><span class="line">  <span class="keyword">protected</span> Kryo <span class="title function_">initialValue</span><span class="params">()</span> &#123;</span><br><span class="line">     <span class="type">Kryo</span> <span class="variable">kryo</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Kryo</span>();</span><br><span class="line">     <span class="comment">// 在此处配置kryo对象的使用示例，如循环引用等</span></span><br><span class="line">     <span class="keyword">return</span> kryo;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">Kryo</span> <span class="variable">kryo</span> <span class="operator">=</span> kryos.get();</span><br></pre></td></tr></table></figure>
-
-<p>之后，仅需要通过 <code>kryos.get()</code> 方法从线程上下文中取出对象即可使用。</p>
-<hr>
-<h1 id="Kryo相关配置参数详解"><a href="#Kryo相关配置参数详解" class="headerlink" title="Kryo相关配置参数详解"></a>Kryo相关配置参数详解</h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35433456">深入理解RPC之序列化篇–Kryo - 知乎 (zhihu.com)</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kryo.setRegistrationRequired(<span class="literal">false</span>);<span class="comment">//关闭注册行为</span></span><br><span class="line">kryo.setReferences(<span class="literal">true</span>);<span class="comment">//支持循环引用</span></span><br></pre></td></tr></table></figure>
-
-<p>Kryo支持注册行为，如<code>kryo.register(SomeClazz.class);</code>，这<strong>会赋予该Class一个从0开始的编号</strong>。但Kryo使用注册行为最大的问题在于，其<strong>不保证同一个Class每一次注册的号码相同</strong>，这与注册的顺序有关，也就意味着在不同的机器、同一个机器重启前后都有可能拥有不同的编号，这会导致序列化产生问题，所以在分布式项目中，一般关闭注册行为。</p>
-<p>第二个注意点在于循环引用，Kryo为了追求高性能，可以关闭循环引用的支持。不过我并不认为关闭它是一件好的选择，大多数情况下，请保持<code>kryo.setReferences(true)</code>。</p>
-<blockquote>
-<p> Kryo默认情况下是不启用对象引用的。这意味着如果一个对象多次出现在一个对象图中，它将被多次写入，并将被反序列化为多个不同的对象。</p>
-<p>举个例子，<strong>当开启了引用属性</strong>，每个对象第一次出现在对象图中，会在记录时写入一个 varint，用于标记。当此后有同一对象出现时，只会记录一个 varint，以此达到节省空间的目标。此举<strong>虽然会节省序列化空间，但是是一种用时间换空间的做法，会影响序列化的性能</strong>，这是因为在写入&#x2F;读取对象时都需要进行追踪。</p>
-<p>开发者可以使用 kryo 自带的 <code>setReferences</code> 方法来决定是否启用 Kryo 的引用功能。</p>
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6993647089431347237">深入浅出序列化（2）——Kryo序列化</a></p>
-</blockquote>
-
       
     </div>
 
