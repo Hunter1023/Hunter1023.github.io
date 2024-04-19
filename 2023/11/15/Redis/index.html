@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Redis基础什么是RedisRedis是基于C语言开发的NoSQL数据库，它是一种存储KV键值对数据的内存数据库，因此读写速度非常快，被广泛应用于分布式缓存方向。 Redis内置了多种数据类型实现：  5种基础数据类型 String List Set Hash Zset （有序集合）   3种特殊数据类型 HyperLogLog（基数统计） Bitmap（位图） Geospatial (地理位置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis">
+<meta property="og:url" content="https://hunter1023.github.io/2023/11/15/Redis/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="Redis基础什么是RedisRedis是基于C语言开发的NoSQL数据库，它是一种存储KV键值对数据的内存数据库，因此读写速度非常快，被广泛应用于分布式缓存方向。 Redis内置了多种数据类型实现：  5种基础数据类型 String List Set Hash Zset （有序集合）   3种特殊数据类型 HyperLogLog（基数统计） Bitmap（位图） Geospatial (地理位置">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2023/11/15/2iSVrqBb7d1yMjk.png">
+<meta property="article:published_time" content="2023-11-15T02:32:56.000Z">
+<meta property="article:modified_time" content="2023-11-27T08:24:23.563Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2023/11/15/2iSVrqBb7d1yMjk.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2023/11/15/Redis/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2023/11/15/Redis/","path":"2023/11/15/Redis/","title":"Redis"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Redis | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">Redis基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFRedis"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%9F%E5%BA%A6%E5%BF%AB%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">Redis为什么速度快？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">Redis持久化机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RDB-%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">2.1.</span> <span class="nav-text">RDB 持久化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOF%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">2.2.</span> <span class="nav-text">AOF持久化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">Redis线程模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%AD%96%E7%95%A5"><span class="nav-number">4.</span> <span class="nav-text">常见的缓存更新策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cache-Aside-Pattern-%E6%97%81%E8%B7%AF%E7%BC%93%E5%AD%98%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">Cache Aside Pattern 旁路缓存模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Read-x2F-Write-Through-Pattern-%E8%AF%BB%E5%86%99%E7%A9%BF%E9%80%8F%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.2.</span> <span class="nav-text">Read&#x2F;Write Through Pattern 读写穿透模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Write-Behind-Pattern-%E5%BC%82%E6%AD%A5%E7%BC%93%E5%AD%98%E5%86%99%E5%85%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.3.</span> <span class="nav-text">Write Behind Pattern 异步缓存写入模式</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">80</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">124</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/11/15/Redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Redis | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-11-15 10:32:56" itemprop="dateCreated datePublished" datetime="2023-11-15T10:32:56+08:00">2023-11-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-11-27 16:24:23" itemprop="dateModified" datetime="2023-11-27T16:24:23+08:00">2023-11-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Redis基础"><a href="#Redis基础" class="headerlink" title="Redis基础"></a>Redis基础</h1><h2 id="什么是Redis"><a href="#什么是Redis" class="headerlink" title="什么是Redis"></a>什么是Redis</h2><p>Redis是基于C语言开发的NoSQL数据库，它是一种<strong>存储KV键值对数据</strong>的内存数据库，因此读写速度非常快，被广泛应用于<strong>分布式缓存</strong>方向。</p>
+<p>Redis内置了多种数据类型实现：</p>
+<ul>
+<li>5种基础数据类型<ol>
+<li>String</li>
+<li>List</li>
+<li>Set</li>
+<li>Hash</li>
+<li>Zset （有序集合）</li>
+</ol>
+</li>
+<li>3种特殊数据类型<ol>
+<li>HyperLogLog（基数统计）</li>
+<li>Bitmap（位图）</li>
+<li>Geospatial (地理位置)</li>
+</ol>
+</li>
+</ul>
+<p>Reids还支持事务、<strong>持久化（将内存数据保存在磁盘中，重启时可以再次加载使用）</strong>、Lua脚本、多种开箱即用的集群方案（Redis Sentinel、Redis Cluster）。</p>
+<hr>
+<h2 id="Redis为什么速度快？"><a href="#Redis为什么速度快？" class="headerlink" title="Redis为什么速度快？"></a>Redis为什么速度快？</h2><ol>
+<li><p>Redis基于内存，内存的访问速度是磁盘的上千倍。</p>
+</li>
+<li><p>Redis基于Reactor模式，设计开发了一套高效的<strong>事件处理模型</strong>，主要是<strong>单线程事件循环</strong>和<strong>IO多路复用</strong>。</p>
+<p> <img src="https://s2.loli.net/2023/11/15/2iSVrqBb7d1yMjk.png" alt="image-20231115104527768"></p>
+</li>
+<li><p>Redis内置了多种优化过后的数据类型&#x2F;结构实现，性能非常高。</p>
+</li>
+</ol>
+<hr>
+<h1 id="Redis持久化机制"><a href="#Redis持久化机制" class="headerlink" title="Redis持久化机制"></a>Redis持久化机制</h1><p>使用缓存的时候，我们经常需要对内存中的数据进行持久化，也就是<strong>将内存中的数据写入到硬盘中</strong>。大部分原因是为了之后<strong>重用数据</strong>（比如重启机器、机器故障之后恢复数据），或者是为了做<strong>数据同步</strong>（比如 Redis 集群的<strong>主从节点通过 RDB 文件同步数据</strong>）。</p>
+<p>Redis 支持 3 种持久化方式:</p>
+<ul>
+<li>快照（snapshotting，RDB）</li>
+<li>只追加文件（append-only file, AOF）</li>
+<li>RDB 和 AOF 的混合持久化(Redis 4.0 新增）</li>
+</ul>
+<hr>
+<h2 id="RDB-持久化"><a href="#RDB-持久化" class="headerlink" title="RDB 持久化"></a>RDB 持久化</h2><p>Redis 可以通过<strong>创建快照</strong>来获得存储在内存里面的数据在 <strong>某个时间点</strong> 上的副本。Redis 创建快照之后，可以对快照进行备份，可以将快照复制到其他服务器从而创建具有相同数据的服务器副本（Redis 主从结构，主要用来提高 Redis 性能），还可以将快照留在原地以便重启服务器的时候使用。</p>
+<p>快照持久化是 Redis 默认采用的持久化方式，在 <code>redis.conf</code> 配置文件中默认有此下配置：</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">save <span class="number">900</span> <span class="number">1</span>           #在<span class="number">900</span>秒(<span class="number">15</span>分钟)之后，如果至少有<span class="number">1</span>个key发生变化，Redis就会自动触发bgsave命令创建快照。</span><br><span class="line"></span><br><span class="line">save <span class="number">300</span> <span class="number">10</span>          #在<span class="number">300</span>秒(<span class="number">5</span>分钟)之后，如果至少有<span class="number">10</span>个key发生变化，Redis就会自动触发bgsave命令创建快照。</span><br><span class="line"></span><br><span class="line">save <span class="number">60</span> <span class="number">10000</span>        #在<span class="number">60</span>秒(<span class="number">1</span>分钟)之后，如果至少有<span class="number">10000</span>个key发生变化，Redis就会自动触发bgsave命令</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h2><p>与快照持久化相比，AOF （append only file）持久化的<strong>实时性更好</strong>。Redis 6.0 之后默认开启了AOF持久化，可以通过 <code>appendonly</code> 参数开启：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">appendonly <span class="built_in">yes</span></span><br></pre></td></tr></table></figure>
+
+<p>开启 AOF 持久化后，每执行一条会更改 Redis 中的数据的命令，Redis 就会将该命令<strong>写入到 AOF 缓冲区 <code>server.aof_buf</code> 中，然后再写入到 AOF 文件中</strong>（此时还在系统内核缓存区未同步到磁盘），最后再根据持久化方式（ <code>fsync</code>策略）的配置来决定何时将系统内核缓存区的数据同步到硬盘中的。</p>
+<p>只有同步到磁盘中才算持久化保存了，否则依然存在数据丢失的风险，比如说：系统内核缓存区的数据还未同步，磁盘机器就宕机了，那这部分数据就算丢失了。</p>
+<p>AOF 文件的保存位置和 RDB 文件的位置相同，都是通过 <code>dir</code> 参数设置的，默认的文件名是 <code>appendonly.aof</code>。</p>
+<hr>
+<h1 id="Redis线程模型"><a href="#Redis线程模型" class="headerlink" title="Redis线程模型"></a>Redis线程模型</h1><p>对于<strong>读写命令</strong>来说，Redis 一直是<strong>单线程模型</strong>。在 Redis <strong>4.0</strong> 版本之后引入了多线程来执行一些<strong>大键值对的异步删除操作</strong>， Redis <strong>6.0</strong> 版本之后引入了多线程来<strong>处理网络请求（提高网络 IO 读写性能）</strong>。</p>
+<hr>
+<ol>
+<li><p>内存是有限的，如果缓存中的所有数据都是一直保存的话，分分钟直接 Out of memory。</p>
+<p><strong>Redis 中除了字符串类型有自己独有设置过期时间的命令 <code>setex</code> 外，其他方法都需要依靠 <code>expire</code> 命令来设置过期时间 。另外， <code>persist</code> 命令可以移除一个键的过期时间。</strong></p>
+</li>
+<li><p>很多时候，我们的业务场景就是需要某个数据只在某一时间段内存在，比如我们的短信验证码可能只在 1 分钟内有效，用户登录的 Token 可能只在 1 天内有效。</p>
+<p> 如果使用传统的数据库来处理的话，一般都是自己判断过期，这样更麻烦并且性能要差很多。</p>
+</li>
+</ol>
+<hr>
+<h1 id="常见的缓存更新策略"><a href="#常见的缓存更新策略" class="headerlink" title="常见的缓存更新策略"></a>常见的缓存更新策略</h1><h2 id="Cache-Aside-Pattern-旁路缓存模式"><a href="#Cache-Aside-Pattern-旁路缓存模式" class="headerlink" title="Cache Aside Pattern 旁路缓存模式"></a>Cache Aside Pattern 旁路缓存模式</h2><p>比较适合<strong>读比较多</strong>的场景。</p>
+<p>Cache Aside Pattern中，服务端需要<strong>同时维系数据库和缓存</strong>，并且<strong>以db为准</strong>。</p>
+<ul>
+<li><p><strong>写</strong>步骤：</p>
+<ol>
+<li><p>更新db</p>
+</li>
+<li><p><strong>直接删除</strong>cache</p>
+<p> Cache Aside Pattern 旁路缓存模式下，写数据的时候，为什么选择删除cache，而不是更新cache？</p>
+<ul>
+<li><p>对服务端造成资源浪费</p>
+<p>  删除cache更直接，如果频繁修改db，就会导致需要频繁更新cache，而cache中的数据可能都没有被访问到。</p>
+</li>
+<li><p>产生数据不一致问题</p>
+<p>  并发场景下，更新cache产生数据不一致问题的概率会更大。</p>
+</li>
+</ul>
+<p> 在写数据的过程中，可以<strong>先删除cache，后更新db</strong>吗？</p>
+<p> 不行，可能会造成<strong>数据库和缓存数据不一致</strong>。</p>
+<ol>
+<li>请求1先把cache中的A数据删除；</li>
+<li>请求2从db中读取数据；</li>
+<li>请求1再把db中的A数据更新。</li>
+</ol>
+<p> 在写数据的过程中，<strong>先更新db，后删除cache</strong>就没问题了吗？</p>
+<p> 还是可能出现数据不一致的问题，不过<strong>概率很小</strong>，因为缓存写入速度比数据库写入速度快很多。</p>
+<ol>
+<li>请求1从db中<strong>读</strong>取数据 （说明此时cache没有缓存该数据）</li>
+<li>请求2<strong>更新</strong>db中的数据，删除缓存 </li>
+<li>请求1将读取的数据写入cache （<strong>步骤2很难比步骤3快，因为写数据库一般会先加锁</strong>）</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p><strong>读</strong>步骤：</p>
+<ol>
+<li>从cache中读，读取到直接返回</li>
+<li>cache中读取不到，就从db读</li>
+<li>把db中读取到的数据放到cache中</li>
+</ol>
+</li>
+</ul>
+<p>Cache Aside Pattern 旁路缓存模式 的<strong>缺陷</strong>：</p>
+<ol>
+<li><p>首次请求的数据<strong>一定不在</strong>cache中。</p>
+<p> 可以将热点数据提前放入cache。</p>
+</li>
+<li><p>如果写操作比较频繁，会导致<strong>cache中的数据被频繁删除，影响缓存命中率</strong>。</p>
+<ol>
+<li><p>数据库和缓存数据强一致 </p>
+<p> 加一个锁&#x2F;分布式锁，更新db的时候，同样更新cache，保证不存在线程安全问题。</p>
+</li>
+<li><p>短暂地允许数据库和缓存数据不一致</p>
+<p> 更新db的时候，同样更新cache，<strong>给缓存加一个比较短的过期时间</strong>，即使数据不一致，影响也比较小。</p>
+</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h2 id="Read-x2F-Write-Through-Pattern-读写穿透模式"><a href="#Read-x2F-Write-Through-Pattern-读写穿透模式" class="headerlink" title="Read&#x2F;Write Through Pattern 读写穿透模式"></a>Read&#x2F;Write Through Pattern 读写穿透模式</h2><p>读写穿透模式中，<strong>服务端把cache视为主要数据存储</strong>，从中读取数据并将数据写入其中。<strong>cache服务负责将此数据读取和写入db</strong>，从而减轻应用程序的职责。</p>
+<p>这个模式在平时开发过程中<strong>非常少见</strong>，大概率是因为Redis没有提供cache将数据写入db的功能。</p>
+<p>Read-Through Pattern实际只是在Cache Aside Pattern之上进行了封装。在Cache<br>Aside Pattern下，发生读请求的时候，如果cache中不存在对应的数据，是<strong>由客户端自己负责把数据写入cache</strong>，而Read Through Pattern则是<strong>cache服务自己来写入缓存的，这对客户端是透明的</strong>。</p>
+<hr>
+<h2 id="Write-Behind-Pattern-异步缓存写入模式"><a href="#Write-Behind-Pattern-异步缓存写入模式" class="headerlink" title="Write Behind Pattern 异步缓存写入模式"></a>Write Behind Pattern 异步缓存写入模式</h2><p>Write Behind Pattern 异步缓存写入模式 和 Read&#x2F;Write Through Pattern 读写穿透模式很相似，两者都是由cache服务负责cache和db的读写。</p>
+<p>但是读写穿透模式<strong>同步更新cache和db</strong>，而<strong>异步缓存写入模式只是更新缓存，不直接更新db，改为异步批量的方式更新db</strong>。</p>
+<p>这对数据一致性带来了更大的挑战，比如cache数据可能还没异步更新db，但cache服务就挂掉了。</p>
+<p>这种策略在我们平时开发过程中也非常非常少见，但是不代表它的应用场景少。比如消息队列中消息的异步写入磁盘、MySQL的Innodb Buffer Pool机制都用到了这种策略。</p>
+<p>Write Behind Pattern下db的<strong>写性能非常高</strong>，非常适合一些数据经常变化又对数据一致性要求没那么高的场景，比如浏览量、点赞量。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Redis/" rel="tag"># Redis</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/10/28/Spring-Boot/" rel="prev" title="Spring Boot">
+                  <i class="fa fa-angle-left"></i> Spring Boot
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/01/31/%E5%8A%A8%E6%89%8B%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="next" title="动手深度学习">
+                  动手深度学习 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

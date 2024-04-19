@@ -148,18 +148,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">76</span>
+          <span class="site-state-item-count">80</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">34</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-count">124</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -176,6 +176,592 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2020/01/17/%E5%90%AF%E5%8A%A8U%E7%9B%98%E5%AE%89%E8%A3%85Ubuntu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/01/17/%E5%90%AF%E5%8A%A8U%E7%9B%98%E5%AE%89%E8%A3%85Ubuntu/" class="post-title-link" itemprop="url">启动U盘安装Ubuntu(单系统)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-17 20:40:24" itemprop="dateCreated datePublished" datetime="2020-01-17T20:40:24+08:00">2020-01-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8E%E8%BD%AF%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">操作系统与软件</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>由于<strong>PE方式只适用于安装windows</strong>，因此选择常规的<strong>制作启动U盘</strong>进行Ubuntu的安装。</p>
+<h3 id="操作系统镜像下载（桌面版，文件名后缀-iso-torrent）"><a href="#操作系统镜像下载（桌面版，文件名后缀-iso-torrent）" class="headerlink" title="操作系统镜像下载（桌面版，文件名后缀 .iso.torrent）"></a>操作系统镜像下载（桌面版，文件名后缀 .iso.torrent）</h3><ul>
+<li>方式一：<a target="_blank" rel="noopener" href="https://ubuntu.com/#download">Ubuntu官网直接下载镜像</a></li>
+<li>方式二：<a target="_blank" rel="noopener" href="http://releases.ubuntu.com/18.04/">Ubuntu官网下载镜像种子</a> + 迅雷下载镜像 （速度快，<strong>推荐</strong>）</li>
+</ul>
+<h3 id="3G及以上空间的U盘-x2F-移动硬盘-用于装载系统镜像"><a href="#3G及以上空间的U盘-x2F-移动硬盘-用于装载系统镜像" class="headerlink" title="3G及以上空间的U盘&#x2F;移动硬盘(用于装载系统镜像)"></a><strong>3G及以上空间</strong>的U盘&#x2F;移动硬盘(用于装载系统镜像)</h3><h3 id="制作启动U盘"><a href="#制作启动U盘" class="headerlink" title="制作启动U盘"></a>制作启动U盘</h3><ul>
+<li><p>方式一：<strong>Windows 10 可以直接打开 iso镜像文件，不用下载任何工具</strong></p>
+<ol>
+<li><p>格式化U盘</p>
+</li>
+<li><p>双击ISO文件，然后选中打开的所有文件，复制到U盘即可</p>
+</li>
+</ol>
+</li>
+<li><p>方式二：<a target="_blank" rel="noopener" href="http://rufus.ie/">下载U盘制作制作工具Rufus</a>(<strong>无需安装，可直接运行</strong>)</p>
+<ol>
+<li><p>选择设备(需要被制作的U盘&#x2F;移动硬盘)</p>
+<ul>
+<li>只有一个外接设备时会自动读取</li>
+<li>如果<strong>外接设备是移动硬盘</strong>，需要<strong>显示高级设备选项 — 显示USB外置硬盘</strong></li>
+</ul>
+</li>
+<li><p>选择操作系统镜像</p>
+</li>
+<li><p><strong>分区类型</strong>（<strong>理论上</strong>（联想Y480不知道为什么无法通过UEFI成功安装））</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av45677113">硬盘格式与引导方式、MBR与GPT、UEFI 与LEGACY bios的区别</a></p>
+<ul>
+<li><p>若选择GPT，之后系统安装时选择<strong>UEFI启动</strong>（<strong>推荐</strong>）</p>
+</li>
+<li><p>若选择MBR，之后系统安装时<strong>选择BIOS启动，否则报错</strong>（该模式一定能够安装成功）</p>
+</li>
+</ul>
+</li>
+<li><p>其余选项默认，点击<strong>开始</strong>，即可制作启动U盘</p>
+</li>
+</ol>
+<img src="https://i.loli.net/2020/01/17/9KOmaTAQcIqdkpo.png" alt="Rufus制作启动U盘" style="zoom:80%;" /></li>
+</ul>
+<hr>
+<h2 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h2><ol>
+<li><p>重启电脑，进入<strong>选择启动方式界面</strong>（联想笔记本：F12；惠普笔记本：F9）</p>
+</li>
+<li><p>选择启动U盘</p>
+<ul>
+<li>想要安装系统的硬盘的格式为<strong>GPT</strong>，选择<strong>UEFI启动，即 EFI USB Device</strong></li>
+<li>启动U盘分区类型为<strong>MBR</strong>，选择<strong>BIOS启动，即 选择对应的U盘</strong></li>
+</ul>
+</li>
+<li><p>欢迎 — 中文 — 安装Ubuntu</p>
+</li>
+<li><p>键盘布局 — 汉语</p>
+</li>
+<li><p>无线 — 不连接</p>
+</li>
+<li><p>更新和其他软件 — <strong>最小安装</strong></p>
+</li>
+<li><p>安装类型 — 其他选项 — 进行分区</p>
+<p>硬盘大小110GB</p>
+<ul>
+<li><p><strong>UEFI</strong>启动：</p>
+<table>
+<thead>
+<tr>
+<th>空间大小</th>
+<th>主分区&#x2F;逻辑分区</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200MB</td>
+<td><strong>逻辑分区</strong></td>
+<td><strong>EFI</strong></td>
+</tr>
+<tr>
+<td>8GB<br />（和内存大小一致）</td>
+<td>主分区</td>
+<td>swap(交换)</td>
+</tr>
+<tr>
+<td>40GB</td>
+<td>逻辑分区</td>
+<td>ext4<br />挂载至 “&#x2F;”</td>
+</tr>
+<tr>
+<td>剩余空间</td>
+<td>逻辑分区</td>
+<td>ext4<br />挂载至 “&#x2F;home”</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>BIOS</strong>启动：</p>
+<table>
+<thead>
+<tr>
+<th>空间大小</th>
+<th>主分区&#x2F;逻辑分区</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200MB</td>
+<td><strong>主分区</strong></td>
+<td><strong>biosxx</strong></td>
+</tr>
+<tr>
+<td>8GB （和内存大小一致）</td>
+<td>主分区</td>
+<td>swap(交换)</td>
+</tr>
+<tr>
+<td>40GB</td>
+<td>逻辑分区</td>
+<td>ext4 挂载至 “&#x2F;”</td>
+</tr>
+<tr>
+<td>剩余空间</td>
+<td>逻辑分区</td>
+<td>ext4 挂载至 “&#x2F;home”</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+<li><p>完成安装，根据提示重启即可(可拔去启动U盘&#x2F;硬盘，避免再次从启动U盘启动)</p>
+</li>
+</ol>
+<hr>
+<h2 id="将-从主服务器下载-更换为-国内镜像站点下载"><a href="#将-从主服务器下载-更换为-国内镜像站点下载" class="headerlink" title="将 从主服务器下载 更换为 国内镜像站点下载"></a>将 从主服务器下载 更换为 国内镜像站点下载</h2><p>​	显示应用程序 - 软件和更新 - Ubuntu软件 - 下载自 - 其他站点 - 选择最佳服务器（自动选择最合适的站点）</p>
+<hr>
+<h2 id="更新系统文件"><a href="#更新系统文件" class="headerlink" title="更新系统文件"></a>更新系统文件</h2><p><strong>打开终端</strong>的快捷键：<code>Ctrl</code>+<code>Alt</code>+<code>T</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="获得各种开发工具"><a href="#获得各种开发工具" class="headerlink" title="获得各种开发工具"></a>获得各种开发工具</h2><p><code>sudo apt-get install build-essential</code></p>
+<ul>
+<li><p>安装<strong>文字编辑器vim</strong>和<strong>浏览器chromium</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install vim</span><br><span class="line">sudo apt-get install chromium-browser</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>树视图</p>
+<p><code>sudo apt-get install tree</code></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2019/04/16/Cmder/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/04/16/Cmder/" class="post-title-link" itemprop="url">Cmder</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-16 17:38:25" itemprop="dateCreated datePublished" datetime="2019-04-16T17:38:25+08:00">2019-04-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8E%E8%BD%AF%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">操作系统与软件</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>官网下载Cmder（压缩包，解压即用），有两种不同的版本可供选择：</p>
+<ul>
+<li>Mini</li>
+<li>Full（附带msysgit工具）</li>
+</ul>
+<p>可根据设备是否已安装git自行选择</p>
+<hr>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="添加系统环境变量"><a href="#添加系统环境变量" class="headerlink" title="添加系统环境变量"></a>添加系统环境变量</h3><p>我的电脑 - 右键属性 - 高级系统设置 - 环境变量 - 系统变量，在<code>Path</code>中添加Cmder路径</p>
+<p><img src="https://i.loli.net/2019/04/16/5cb5a739330de.png"></p>
+<hr>
+<h3 id="添加Cmder到右键菜单"><a href="#添加Cmder到右键菜单" class="headerlink" title="添加Cmder到右键菜单"></a>添加Cmder到右键菜单</h3><ol>
+<li><code>Win + R</code> - 输入<code>Cmder</code>，确认，打开Cmder</li>
+<li>点击右下方的<code>Create new console</code></li>
+<li>Startup command or {Task} name - {bash::bash}</li>
+<li>Run as administrator</li>
+<li>Start，即打开一个管理员权限的控制台 <img src="https://i.loli.net/2019/04/17/5cb6b470b7f0f.png"></li>
+<li>输入 <code>Cmder.exe /REGISTER ALL</code>，回车。即可在每个文件夹中鼠标右键右键 - <code>Cmder here</code>，打开Cmder</li>
+</ol>
+<hr>
+<h2 id="默认开启设置"><a href="#默认开启设置" class="headerlink" title="默认开启设置"></a>默认开启设置</h2><p>Cmder窗口右下角右键<code>Show system menu</code> - General - Choose your startup task or even a shell with arguments: - {bash::bash} - Save settings</p>
+<p><img src="https://i.loli.net/2019/04/17/5cb6bbe028a30.png"></p>
+<hr>
+<h2 id="关闭Tab不提示"><a href="#关闭Tab不提示" class="headerlink" title="关闭Tab不提示"></a>关闭Tab不提示</h2><p>Cmder窗口右下角右键<code>Show system menu</code> - General - Confirm - Close confirmations下的复选框全不勾选 - Save settings</p>
+<p><img src="https://i.loli.net/2019/04/17/5cb6bd25b23b6.png"></p>
+<hr>
+<p>参考：<a target="_blank" rel="noopener" href="http://weikeqin.cn/2017/04/28/cmder-notes/">Cmder 使用 笔记</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2019/04/16/Dev-Cpp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/04/16/Dev-Cpp/" class="post-title-link" itemprop="url">Dev-C++</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-16 16:37:07" itemprop="dateCreated datePublished" datetime="2019-04-16T16:37:07+08:00">2019-04-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8E%E8%BD%AF%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">操作系统与软件</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Dev-C++是一个SourceForge的项目，<strong>早已停止更新</strong>。</p>
+<p>缺点：</p>
+<ul>
+<li>分辨率低，脱节于屏幕素质的提升，使用感官不佳</li>
+<li>中文注释容易乱码，且没有明显的选项用来修改编码格式</li>
+</ul>
+<hr>
+<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><p>安装过程中的语言没有中文选项，选择English即可，按照默认选项安装。首次运行时，选择<strong>使用软件时的语言</strong>为简体中文即可，按照默认选项完成初运行配置。</p>
+<hr>
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><ul>
+<li>菜单栏 - 工具 - 编辑器选项 - 语法 - 预设 - Obsidian 黑曜石主题</li>
+</ul>
+<p><img src="https://i.loli.net/2019/04/16/5cb598b4cba28.png" alt="工具 - 编辑器选项"></p>
+<p><img src="https://i.loli.net/2019/04/16/5cb599bfef712.png" alt="语法 - 预设 - Obsidian 黑曜石主题"></p>
+<ul>
+<li><p>菜单栏 - 工具 - 编辑器选项 - 基本</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 显示编辑器提示</li>
+<li><input checked="" disabled="" type="checkbox"> 显示函数提示</li>
+<li>高亮显示当前行 - 色彩 - Black</li>
+</ul>
+<p><img src="https://i.loli.net/2019/04/16/5cb59bb680afc.png"></p>
+</li>
+</ul>
+<hr>
+<h2 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h2><p>菜单栏 - 工具 - 编辑器选项 - 显示 - 字体 - YaHei Consolas Hybrid</p>
+<p>字体下载： <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1kldCHl7A5SIZaCLJniLzwQ"><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1kldCHl7A5SIZaCLJniLzwQ">Consolas和微软雅黑混合字体</a></a></p>
+<hr>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>快捷键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>自动整理代码</td>
+<td>Ctrl + Shift + A</td>
+</tr>
+<tr>
+<td>代码补全</td>
+<td>Ctrl + Space(<strong>和输入法切换快捷键冲突</strong>)</td>
+</tr>
+</tbody></table>
+<p>自定义快捷键：工具 - 快捷键选项 - 菜单项的底部 - Show Code Completion(代码补全)，自定义即可。</p>
+<hr>
+<h2 id="添加-C99-x2F-C-11-标准"><a href="#添加-C99-x2F-C-11-标准" class="headerlink" title="添加 C99&#x2F;C++11 标准"></a>添加 C99&#x2F;C++11 标准</h2><p>工具 - 编译选项 - 编译时加入以下命令 - <code>-std=c99</code>或<code>-std=C++11</code></p>
+<p><img src="https://i.loli.net/2019/04/16/5cb59e4d63a98.png"></p>
+<hr>
+<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><h3 id="初次启用调试，出现“项目没有调试信息，您想打开项目调试选项并重新生成吗”"><a href="#初次启用调试，出现“项目没有调试信息，您想打开项目调试选项并重新生成吗”" class="headerlink" title="初次启用调试，出现“项目没有调试信息，您想打开项目调试选项并重新生成吗”"></a>初次启用调试，出现“项目没有调试信息，您想打开项目调试选项并重新生成吗”</h3><p>菜单栏 - 工具 - 编译选项 - 代码生成&#x2F;优化 - 连接器 - 产生调试信息 - Yes</p>
+<p><img src="https://i.loli.net/2019/04/17/5cb6d8b4f11b0.png"></p>
+<h3 id="调试窗口查看变量的实时数据"><a href="#调试窗口查看变量的实时数据" class="headerlink" title="调试窗口查看变量的实时数据"></a>调试窗口查看变量的实时数据</h3><p>开启调试后，有三种方式可以查看变量的实时数据：</p>
+<ol>
+<li>左侧调试窗口 - 空白处鼠标右键 - 添加查看</li>
+<li>下侧调试窗口 - 添加查看</li>
+<li>代码界面鼠标在变量名处停留，会显示当前变量值</li>
+</ol>
+<p><img src="https://i.loli.net/2019/04/17/5cb6dc99352a7.png"></p>
+<hr>
+<p>参考：</p>
+<ul>
+<li><del><a target="_blank" rel="noopener" href="https://ice1000.org/2016/10/28/DevCpp/">如何正确使用 DEV C++</a></del></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/MonkeyWang98/article/details/80202024">DEV-C++调试时出现“项目没有调试信息，你想打开调试选项并重新生成吗”</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2019/03/18/%E6%96%B0%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E9%AA%8C%E6%9C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/03/18/%E6%96%B0%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E9%AA%8C%E6%9C%BA/" class="post-title-link" itemprop="url">新笔记本电脑验机</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-03-18 12:32:24" itemprop="dateCreated datePublished" datetime="2019-03-18T12:32:24+08:00">2019-03-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%AA%8C%E6%9C%BA%E4%B8%8E%E7%BB%AD%E5%91%BD/" itemprop="url" rel="index"><span itemprop="name">验机与续命</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>准备：下载<strong>卡硬工具箱免安装版</strong>至U盘或其他移动设备。</p>
+<p><strong>以下任何一步有问题，退货。</strong></p>
+<ol>
+<li>检查笔记本外壳是否有<strong>指纹、裂痕、凹陷</strong>，机身是否有<strong>变形</strong>，屏幕是否<strong>完好</strong>。</li>
+<li>USB接口是否有抽插痕迹。</li>
+<li><strong>不插电源，直接按电源键</strong>，若<strong>能开机，则很可能是二手</strong>。</li>
+<li>插上电源，按电源键开机。</li>
+<li>进入系统，系统初始化设置（<strong>若没有设置界面，直接进入了系统，二手</strong>）。</li>
+<li><strong>不连接网络</strong>，防止后续检查有问题无法退货。</li>
+<li>进入桌面后，插上有卡硬工具箱的U盘。<ol>
+<li>显示器工具 - 检测屏幕坏点。</li>
+<li>硬盘工具 - Diskinfo - 检查通电次数和通电时间（<strong>一般通电时间在24小时内，通电次数在150次以内，可以判定为新机硬盘</strong>）。</li>
+</ol>
+</li>
+</ol>
+<p><strong>上述步骤没有出现问题后，依然不要联网，在无理由退货时间内使用电脑，以便后续使用不满意时方便退货。</strong></p>
+<hr>
+<p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40181275">笔记本电脑验机指南</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1805,7 +2391,7 @@
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2023</span>
+    <span itemprop="copyrightYear">2024</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
