@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">80</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -159,7 +159,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">124</span>
+        <span class="site-state-item-count">127</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -369,6 +369,714 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2024/07/15/HTTP%E8%AF%B7%E6%B1%82%E5%87%BA%E7%8E%B0HttpMediaTypeNotAcceptableException%E6%8A%A5%E9%94%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/07/15/HTTP%E8%AF%B7%E6%B1%82%E5%87%BA%E7%8E%B0HttpMediaTypeNotAcceptableException%E6%8A%A5%E9%94%99/" class="post-title-link" itemprop="url">HTTP请求出现HttpMediaTypeNotAcceptableException报错</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-07-15 14:54:19" itemprop="dateCreated datePublished" datetime="2024-07-15T14:54:19+08:00">2024-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-07-16 12:13:24" itemprop="dateModified" datetime="2024-07-16T12:13:24+08:00">2024-07-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/" itemprop="url" rel="index"><span itemprop="name">JavaWeb</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/%E7%96%91%E9%9A%BE-%E6%9D%82%E7%97%87/" itemprop="url" rel="index"><span itemprop="name">疑难&杂症</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>发起HTTP请求调用，控制台报错：</p>
+<blockquote>
+<p>org.springframework.web.HttpMediaTypeNotAcceptableException: No acceptable representation</p>
+<p>​	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor.writeWithMessageConverters(AbstractMessageConverterMethodProcessor.java:322) ~[spring-webmvc-6.1.10.jar:6.1.10]</p>
+</blockquote>
+<hr>
+<h2 id="解决方式"><a href="#解决方式" class="headerlink" title="解决方式"></a>解决方式</h2><h3 id="定位报错位置"><a href="#定位报错位置" class="headerlink" title="定位报错位置"></a>定位报错位置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor#writeWithMessageConverters(T value, MethodParameter returnType, ServletServerHttpRequest inputMessage, ServletServerHttpResponse outputMessage)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (body != <span class="literal">null</span>) &#123;</span><br><span class="line">    Set&lt;MediaType&gt; producibleMediaTypes =</span><br><span class="line">            (Set&lt;MediaType&gt;) inputMessage.getServletRequest()</span><br><span class="line">                    .getAttribute(HandlerMapping.PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (isContentTypePreset || !CollectionUtils.isEmpty(producibleMediaTypes)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">HttpMessageNotWritableException</span>(</span><br><span class="line">                <span class="string">&quot;No converter for [&quot;</span> + valueType + <span class="string">&quot;] with preset Content-Type &#x27;&quot;</span> + contentType + <span class="string">&quot;&#x27;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">HttpMediaTypeNotAcceptableException</span>(getSupportedMediaTypes(body.getClass()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由报错位置可知，是body不为空引起。同时找到该方法正常return的位置如下。可见，正常返回与body是否为空无关，而是<strong>需要存在一个能写入指定类的转换器</strong>，**以及前提条件<code>selectedMediaType != null</code>**。</p>
+<p><img src="https://s2.loli.net/2024/07/15/tcjyaD87VmRoXu2.png" alt="image-20240715160320214"></p>
+<hr>
+<h3 id="排查报错"><a href="#排查报错" class="headerlink" title="排查报错"></a>排查报错</h3><h4 id="没有消息转换器可以写入指定类"><a href="#没有消息转换器可以写入指定类" class="headerlink" title="没有消息转换器可以写入指定类"></a>没有消息转换器可以写入指定类</h4><p>通过debug可知，实际HTTP请求的场景：</p>
+<img src="https://s2.loli.net/2024/07/15/4Jp89QsUqDSmtdK.png" alt="image-20240715172942529" style="zoom:80%;" />
+
+<p>当 <code>selectedMediaType</code> 被设置为 <code>&quot;application/octet-stream&quot;</code> 时，这通常意味着请求或响应的<strong>内容类型被指定为二进制流，这种类型通常用于非文本数据，如图片、音频、视频等文件</strong>。也就是说，报错是因为<strong>没有消息转换器<code>messageConvert</code>可以写入指定类</strong>。</p>
+<blockquote>
+<p>项目中实际涉及的消息转换器：</p>
+<ol>
+<li>ByteArrayHttpMessageConverter 只能转换字节数组。</li>
+<li>StringHttpMessageConverter 只能转换字符串对象。</li>
+<li>ResourceHttpMessageConverter 只能转换Resource类及其子类。</li>
+<li>ResourceRegionHttpMessageConverter 不支持转换 非泛型类型且不是ResourceRegion类及其子类的对象。</li>
+<li>AllEncompassingFromHttpMessageConverter 只能转换MultiValueMap类及其子类。</li>
+<li><strong>MappingJackson2HttpMessageConverter 支持 *&#x2F;*, application&#x2F;json, application&#x2F;*+json。</strong></li>
+</ol>
+</blockquote>
+<p>但是实际期望响应的内容类型为<code>application/json</code>，<strong>Jackson 的主要功能是处理结构化的文本格式，例如 JSON 和 XML</strong>，响应能被<code>MappingJackson2HttpMessageConverter</code>处理才对，需要继续溯源。而<code>acceptableTypes</code>来源于请求，请求没有限制，那么就只能是**<code>producibleTypes</code>不符合预期**。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">List&lt;MediaType&gt; producibleTypes = getProducibleMediaTypes(request, valueType, targetType);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span> List&lt;MediaType&gt; <span class="title function_">getProducibleMediaTypes</span><span class="params">(</span></span><br><span class="line"><span class="params">    HttpServletRequest request, Class&lt;?&gt; valueClass, <span class="meta">@Nullable</span> Type targetType)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 遍历消息转换器，查找能写入指定类的转换器</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 由于找不到能写入的messageConvert，因此producibleTypes只包含了&#123;&quot;*/*&quot;&#125;</span></span><br><span class="line">    <span class="keyword">return</span> (result.isEmpty() ? Collections.singletonList(MediaType.ALL) : <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(result));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="响应无法被MappingJackson2HttpMessageConverter-处理"><a href="#响应无法被MappingJackson2HttpMessageConverter-处理" class="headerlink" title="响应无法被MappingJackson2HttpMessageConverter 处理"></a>响应无法被<code>MappingJackson2HttpMessageConverter </code>处理</h4><p>那么，为什么响应无法被<code>MappingJackson2HttpMessageConverter </code>处理呢？</p>
+<img src="https://s2.loli.net/2024/07/16/yShrZocWAQsq9jU.png" alt="image-20240716112418095" style="zoom:80%;" />
+
+<p>梳理代码可知，<code>MappingJackson2HttpMessageConverter</code>继承自<code>AbstractJackson2HttpMessageConverter</code>。<strong>由于<code>AbstractJackson2HttpMessageConverter</code>的<code>canWrite()</code>方法返回false，导致无法获得Jackson2Http消息转换器的支持媒体类型。</strong>而<code>canWrite()</code>的本质是<strong>有对应的序列化器就能写入指定对象</strong>，由于实际项目中没有使用注解的序列化器，因此是通过<code>findBeanOrAddOnSerializer()</code>方法获得序列化器。</p>
+<img src="https://s2.loli.net/2024/07/16/iOSE2tZDJqU7yTn.png" alt="image-20240716113551448" style="zoom:80%;" />
+
+<p>获取Bean序列化器，首先就是查找属性。<strong>由于从<code>POJOPropertiesCollector</code>中获取到的<code>_properties</code>为空，导致<code>BeanSerializerBuilder</code>无法构建Bean序列化器，进而导致无法写入指定对象。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> JsonSerializer&lt;?&gt; build() &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_properties == <span class="literal">null</span> || _properties.isEmpty()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (_anyGetter == <span class="literal">null</span> &amp;&amp; _objectIdWriter == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">// NOTE! Caller may still call `createDummy()` later on</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="POJOPropertiesCollector中-properties为空"><a href="#POJOPropertiesCollector中-properties为空" class="headerlink" title="POJOPropertiesCollector中_properties为空"></a><code>POJOPropertiesCollector</code>中<code>_properties</code>为空</h4><p>需要找到设置<code>_properties</code>属性的位置，代码中仅<code>POJOPropertiesCollector#collectAll</code>方法进行了设置。而<code>collectAll</code>方法调用的位置很多，通过debug进行排查梳理，发现是**<code>findSerializerByAnnotations()</code>方法中有调用**。</p>
+<img src="https://s2.loli.net/2024/07/16/562odVmvzjMgDqU.png" alt="image-20240716120202785" style="zoom:80%;" />
+
+<p><code>POJOPropertiesCollector</code>的<code>collectAll</code>方法，首先会将指定对象的属性添加到<code>props</code>中。<strong>重点来了！！<code>removeUnwantedProperties()</code>方法会调用<code>POJOPropertyBuilder#anyVisible</code>方法，将未提供get或set方法的private字段，认定为不想要的属性进行移除，进而设置<code>_properties</code>属性为null</strong>。</p>
+<p>查看指定对象的类，只有private属性和构造器…真相大白。提供get方法后，HTTP请求终于可以正常处理。</p>
+<p><img src="https://s2.loli.net/2024/07/16/RbiMdjmltzwBVk2.png" alt="image-20240716120959156"></p>
+<hr>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2024/06/24/Lombok/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/06/24/Lombok/" class="post-title-link" itemprop="url">Lombok</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-06-24 16:49:39 / 修改时间：16:52:09" itemprop="dateCreated datePublished" datetime="2024-06-24T16:49:39+08:00">2024-06-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/%E6%8A%80%E5%B7%A7/" itemprop="url" rel="index"><span itemprop="name">技巧</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="Lombok介绍"><a href="#Lombok介绍" class="headerlink" title="Lombok介绍"></a>Lombok介绍</h2><p>Lombok 项目其实就是一个 java 库，它可以自动插入到编辑器和构建工具中，增强 java 的性能。以后你 <strong>只需要一些简单的注解，就可以再也不用在类中反复去写 getter、equals 等方法</strong>，让代码变得简介，不用过多地去关注相应的方法。属性修改时，也简化了维护这些属性所生成的 get、set 方法。</p>
+<p>使用方式：</p>
+<ol>
+<li><p>IDEA 下载 Lombok 插件</p>
+</li>
+<li><p>项目中导入 Lombok 的 jar 包</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.18.26<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在 <strong>实体类</strong> 上使用 Lombok 注解</p>
+</li>
+</ol>
+<hr>
+<h2 id="Lombok-注解"><a href="#Lombok-注解" class="headerlink" title="Lombok 注解"></a>Lombok 注解</h2><ul>
+<li><p><code>@Data</code></p>
+<p>  自动创建无参构造函数、get、set、toString、hashcode、equals 方法</p>
+</li>
+<li><p><code>@AllArgsConstructor</code></p>
+<p>  自动创建所有参数的构造函数。可以通过access属性指定访问级别：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor(access = AccessLevel.PRIVATE)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>@NoArgsConstructor</code></p>
+<p>  自动创建无参构造函数，可以通过access属性指定访问级别。</p>
+</li>
+<li><p><code>@EqualsAndHashCode</code></p>
+<p>  可以通过<code>of</code>属性指定参与<code>equals</code>和<code>hashcode</code>的字段：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EqualsAndHashCode(of = &#123;&quot;name&quot;, &quot;sex&quot;&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>@ToString</code></p>
+</li>
+<li><p><code>@Getter</code>&#x2F;<code>@Setter</code></p>
+</li>
+<li><p><code>@Singular</code></p>
+<p>  在集合属性上使用该注解，可以往集合中单独增加元素。</p>
+</li>
+<li><p><code>@Builder</code></p>
+<p>  可以类似于链式地调用对象进行赋值。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Builder</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> score;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Singular(&quot;addHobby&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; hobby;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Student</span> <span class="variable">stu</span> <span class="operator">=</span> Student.builder().name(<span class="string">&quot;HELLO&quot;</span>).age(<span class="number">8</span>).addHobby(<span class="string">&quot;read&quot;</span>).addHobby(<span class="string">&quot;dance&quot;</span>).build();</span><br><span class="line">        log.info(<span class="string">&quot;stu: &#123;&#125;&quot;</span>, stu);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>@SneakyThrows</code></p>
+<p>  异常处理。</p>
+</li>
+<li><p><code>@Accessors</code></p>
+<p>  可以通过<code>chain</code>属性，对属性进行<strong>链式操作</strong>：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@Accessors(chain = true)</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Student</span> <span class="variable">stu</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Student</span>();</span><br><span class="line">        stu.setName(<span class="string">&quot;老王&quot;</span>).setAge(<span class="number">10</span>);</span><br><span class="line">        log.info(<span class="string">&quot;stu: &#123;&#125;&quot;</span>, stu);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>@FieldNameConstants</code></p>
+<p>  提供<strong>字符串形式的类的属性名</strong>的常量。使用方式是<code>Fields.</code>：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Builder</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@FieldNameConstants</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        </span><br><span class="line">        log.info(Fields.age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2024/06/23/%E5%8F%8C%E5%86%92%E5%8F%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/06/23/%E5%8F%8C%E5%86%92%E5%8F%B7/" class="post-title-link" itemprop="url">双冒号</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-06-23 21:15:11" itemprop="dateCreated datePublished" datetime="2024-06-23T21:15:11+08:00">2024-06-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-06-24 14:43:40" itemprop="dateModified" datetime="2024-06-24T14:43:40+08:00">2024-06-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/%E6%8A%80%E5%B7%A7/" itemprop="url" rel="index"><span itemprop="name">技巧</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="“-”-的含义"><a href="#“-”-的含义" class="headerlink" title="“::” 的含义"></a>“::” 的含义</h2><p>在 Java 中，双冒号 “::” 是 <strong>方法引用的语法</strong>。方法引用是一种 <strong>简化 Lambda 表达式的语法结构</strong>，使代码更加简洁易读。并且在使用方法引用时，<strong>会根据上下文推断参数类型</strong>，因此 <strong>特别适用于直接引用已有方法的情况</strong>。</p>
+<hr>
+<h2 id="“-”-的用法"><a href="#“-”-的用法" class="headerlink" title="“::” 的用法"></a>“::” 的用法</h2><p>方法引用的一般形式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClassName::methodName</span><br></pre></td></tr></table></figure>
+
+<p>其中，<code>ClassName</code> 是包含方法 <code>methodName</code> 的类名。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2024/06/20/Optional%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/06/20/Optional%E7%9A%84%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">Optional的使用</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-06-20 15:07:26" itemprop="dateCreated datePublished" datetime="2024-06-20T15:07:26+08:00">2024-06-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-06-24 15:39:37" itemprop="dateModified" datetime="2024-06-24T15:39:37+08:00">2024-06-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/%E6%8A%80%E5%B7%A7/" itemprop="url" rel="index"><span itemprop="name">技巧</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Optional 被设计出来，主要是为了<strong>解决空指针异常</strong>。</p>
+<p>以一个 Student 类为例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> score;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Student</span><span class="params">(String name, <span class="type">int</span> age, <span class="type">int</span> score)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">        <span class="built_in">this</span>.score = score;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Student</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="代替-if-语句判空"><a href="#代替-if-语句判空" class="headerlink" title="代替 if 语句判空"></a>代替 if 语句判空</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">optionalBasicUsage</span><span class="params">(Student student)</span> &#123;</span><br><span class="line">    <span class="comment">// if 语句判空</span></span><br><span class="line">    <span class="keyword">if</span> (student != <span class="literal">null</span>) &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;一般方法：&quot;</span> + student.getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用 Optional 无需判空</span></span><br><span class="line">    Optional&lt;Student&gt; optionalStudent = Optional.ofNullable(student);</span><br><span class="line">    <span class="comment">// 如果Name存在，执行一段逻辑</span></span><br><span class="line">    optionalStudent.map(Student::getName).ifPresent(<span class="built_in">this</span>::callOther);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Object <span class="title function_">callOther</span><span class="params">(String name)</span> &#123;</span><br><span class="line">    LOGGER.info(<span class="string">&quot;call other api &#123;&#125;...&quot;</span>, name);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="判空时，通过-orElseGet-方法进行懒加载"><a href="#判空时，通过-orElseGet-方法进行懒加载" class="headerlink" title="判空时，通过 orElseGet 方法进行懒加载"></a>判空时，通过 orElseGet 方法进行懒加载</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">optionalAdvanceUsage</span><span class="params">(Student student)</span> &#123;</span><br><span class="line">    Optional&lt;Student&gt; optionalStudent = Optional.ofNullable(student);</span><br><span class="line">    <span class="comment">// 如果存在，执行一段逻辑</span></span><br><span class="line">    optionalStudent.ifPresent(<span class="built_in">this</span>::callOther);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// orElseGet实行懒加载，orElse不会懒加载，因此orElseGet性能更好</span></span><br><span class="line">    <span class="comment">// Student student1 = optionalStudent.orElse(createStudent());</span></span><br><span class="line">    <span class="type">Student</span> <span class="variable">student1</span> <span class="operator">=</span> optionalStudent.orElseGet(<span class="built_in">this</span>::createStudent);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Student <span class="title function_">createStudent</span><span class="params">()</span> &#123;</span><br><span class="line">    LOGGER.info(<span class="string">&quot;called from createStudent&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Student</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Object <span class="title function_">callOther</span><span class="params">(Student student)</span> &#123;</span><br><span class="line">    LOGGER.info(<span class="string">&quot;call other api &#123;&#125;...&quot;</span>, student);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="使用-filter-进行过滤"><a href="#使用-filter-进行过滤" class="headerlink" title="使用 filter 进行过滤"></a>使用 filter 进行过滤</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">optionalAdvanceUsage</span><span class="params">(Student student)</span> &#123;</span><br><span class="line">    Optional&lt;Student&gt; optionalStudent = Optional.ofNullable(student);</span><br><span class="line">    <span class="comment">// 如果存在，执行一段逻辑</span></span><br><span class="line">    optionalStudent.ifPresent(<span class="built_in">this</span>::callOther);</span><br><span class="line">	</span><br><span class="line">     <span class="comment">// 过滤</span></span><br><span class="line">    optionalStudent.filter(stu -&gt; stu.getAge() &gt; <span class="number">10</span>)</span><br><span class="line">            .ifPresent(stu -&gt; LOGGER.info(<span class="string">&quot;age &gt; 10 &#123;&#125;&quot;</span>, stu.getName()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="map-和-flatMap-方法"><a href="#map-和-flatMap-方法" class="headerlink" title="map 和 flatMap 方法"></a>map 和 flatMap 方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;U&gt; Optional&lt;U&gt; <span class="title function_">map</span><span class="params">(Function&lt;? <span class="built_in">super</span> T, ? extends U&gt; mapper)</span> &#123;</span><br><span class="line">    Objects.requireNonNull(mapper);</span><br><span class="line">    <span class="keyword">if</span> (!isPresent()) &#123;</span><br><span class="line">        <span class="keyword">return</span> empty();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Optional.ofNullable 会自动在外层用Optional进行封装</span></span><br><span class="line">        <span class="keyword">return</span> Optional.ofNullable(mapper.apply(value));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;U&gt; Optional&lt;U&gt; <span class="title function_">flatMap</span><span class="params">(Function&lt;? <span class="built_in">super</span> T, ? extends Optional&lt;? extends U&gt;&gt; mapper)</span> &#123;</span><br><span class="line">    Objects.requireNonNull(mapper);</span><br><span class="line">    <span class="keyword">if</span> (!isPresent()) &#123;</span><br><span class="line">        <span class="keyword">return</span> empty();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">        <span class="comment">// mapper的apply方法要求返回值类型是Optional&lt;? extends U&gt;，所以无需再用Optional封装</span></span><br><span class="line">        Optional&lt;U&gt; r = (Optional&lt;U&gt;) mapper.apply(value);</span><br><span class="line">        <span class="keyword">return</span> Objects.requireNonNull(r);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2024/06/07/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/06/07/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" class="post-title-link" itemprop="url">分布式事务</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-06-07 22:59:19" itemprop="dateCreated datePublished" datetime="2024-06-07T22:59:19+08:00">2024-06-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-06-16 11:12:50" itemprop="dateModified" datetime="2024-06-16T11:12:50+08:00">2024-06-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="基础理论"><a href="#基础理论" class="headerlink" title="基础理论"></a>基础理论</h1><h2 id="CAP理论和BASE理论"><a href="#CAP理论和BASE理论" class="headerlink" title="CAP理论和BASE理论"></a>CAP理论和BASE理论</h2><h2 id="一致性的三种级别"><a href="#一致性的三种级别" class="headerlink" title="一致性的三种级别"></a>一致性的三种级别</h2><ul>
+<li><p>强一致性</p>
+<p>  系统写入了什么，读出来就是什么。</p>
+</li>
+<li><p>弱一致性</p>
+<p>  不一定可以读取到最新写入的值，也不保证多少时间之后能读取到最新的，只尽量保证某个时刻达到数据一致的状态。</p>
+</li>
+<li><p>最终一致性  </p>
+<p>  弱一致性的升级版。不一定可以读取到最新写入的值，但保证<strong>在一定时间内</strong>达到数据一致的状态。</p>
+</li>
+</ul>
+<p>业界<strong>比较推崇最终一致性</strong>，但是某些对数据一致要求非常严格的场景，比如银行转账，还是要保证强一致性。</p>
+<hr>
+<h1 id="分布式事务解决方案"><a href="#分布式事务解决方案" class="headerlink" title="分布式事务解决方案"></a>分布式事务解决方案</h1><h2 id="XA规范的角色"><a href="#XA规范的角色" class="headerlink" title="XA规范的角色"></a>XA规范的角色</h2><p>XA规范是X&#x2F;Open组织定义的分布式事务处理标准。</p>
+<ol>
+<li><strong>AP</strong> （Application Program）：应用程序本身</li>
+<li><strong>RM</strong>（Resource Manager）：<strong>资源管理器</strong>，事务的参与者，<strong>绝大部分情况下指数据库</strong>。</li>
+<li><strong>TM</strong>（Transaction Manager）：<strong>事务管理器</strong>，负责管理全局事务，<strong>分配事务唯一标识，监控事务的执行进度，并负责事务的提交、回滚、失败恢复等</strong>。</li>
+</ol>
+<hr>
+<h2 id="2PC-（2-Phase-Commit-2阶段提交协议）"><a href="#2PC-（2-Phase-Commit-2阶段提交协议）" class="headerlink" title="2PC （2-Phase Commit 2阶段提交协议）"></a>2PC （2-Phase Commit 2阶段提交协议）</h2><hr>
+<h3 id="准备阶段-Prepare"><a href="#准备阶段-Prepare" class="headerlink" title="准备阶段 Prepare"></a>准备阶段 Prepare</h3><p>准备阶段的核心是<strong>询问</strong>事务参与者<strong>执行本地</strong>数据库事务操作是否成功。工作流程为：</p>
+<ol>
+<li>TM向所有涉及到的RM发送消息，<strong>询问是否能执行事务操作</strong>。</li>
+<li>RM接收到消息之后，执行本地数据库<strong>事务预操作</strong>，比如写redo log&#x2F;undo log日志。</li>
+<li>RM如果<strong>执行本地数据库事务操作成功</strong>，就回复TM “Yes” 表示<strong>已就绪</strong>，否则回复”No”表示未就绪。</li>
+</ol>
+<hr>
+<h3 id="提交阶段-Commit"><a href="#提交阶段-Commit" class="headerlink" title="提交阶段 Commit"></a>提交阶段 Commit</h3><p>提交阶段的核心是<strong>询问</strong>事务参与者<strong>提交本地</strong>事务是否成功。当所有事务参与者都是就绪状态时：</p>
+<ol>
+<li>TM向所有事务参与者<strong>发送Commit消息</strong>，让其提交事务。</li>
+<li>RM接收到Commit消息后，执行<strong>提交本地数据库事务</strong>操作，执行完成后<strong>释放整个事务期间锁占用的资源</strong>。</li>
+<li>RM发送<strong>ACK消息</strong>，表示事务已经提交。</li>
+<li>TM收到<strong>所有事务参与者的ACK消息</strong>之后，整个分布式事务过程正式结束。</li>
+</ol>
+<img src="https://s2.loli.net/2024/06/12/mikLDSENYPfHh7M.png" alt="image-20240612175623117" style="zoom:80%;" />
+
+<p>当任一事务参与者是<strong>未就绪</strong>状态：</p>
+<ol>
+<li>TM向所有参与者发送<strong>Rollback消息</strong>，通知执行回滚操作。</li>
+<li>RM接收到Rollback消息后，<strong>执行本地数据库事务回滚</strong>，执行完成之后，<strong>释放整个事务期间所占用的资源</strong>。</li>
+<li>RM发送ACK消息，表示事务已经回滚。</li>
+<li>TM收到<strong>所有RM的ACK消息</strong>后，<strong>中断事务</strong>。</li>
+</ol>
+<img src="C:\Users\Hunter\AppData\Roaming\Typora\typora-user-images\image-20240612180036000.png" alt="image-20240612180036000" style="zoom:80%;" />
+
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>准备阶段的主要目的是测试RM能否执行<strong>本地</strong>数据库事务操作。</li>
+<li>提交阶段中，TM会根据准备阶段中RM返回的消息，来决定执行事务提交还是回滚操作。</li>
+<li>提交阶段之后，一定会结束当前的分布式事务。</li>
+</ol>
+<p><strong>2PC的优点</strong>：</p>
+<ul>
+<li><strong>实现简单</strong>，各大主流数据库MySQL、Oracle等都有自己的实现。</li>
+<li>针对的是数据<strong>强一致性</strong>。</li>
+</ul>
+<p><strong>2PC的缺点：</strong></p>
+<ul>
+<li><strong>同步阻塞</strong>：事务参与者在正式提交事务之前，会<strong>一直占用相关资源</strong>。比如用户小明转账给小红，其他事务想要操作小明或小红时，就会阻塞。</li>
+<li><strong>数据不一致</strong>：由于网络问题或者TM宕机，都有可能造成数据不一致。例如<strong>提交阶段</strong>，部分网络出现问题，导致<strong>部分参与者收不到Commit&#x2F;Rollback消息，导致数据不一致</strong>。</li>
+<li><strong>单点问题</strong>：如果<strong>TM在准备阶段完成之后挂掉</strong>，事务参与者们就会一直卡在提交阶段。</li>
+</ul>
+<hr>
+<h2 id="3PC（3阶段提交协议）"><a href="#3PC（3阶段提交协议）" class="headerlink" title="3PC（3阶段提交协议）"></a>3PC（3阶段提交协议）</h2><p>3PC在2PC的基础上做了一些优化得到，它把<strong>准备阶段做了进一步的细化</strong>，分为<strong>准备阶段</strong>（<strong>CanCommit</strong>）和<strong>预提交</strong>阶段（<strong>PreCommit</strong>）。</p>
+<hr>
+<h3 id="准备阶段-CanCommit"><a href="#准备阶段-CanCommit" class="headerlink" title="准备阶段 CanCommit"></a>准备阶段 CanCommit</h3><p>TM向RM发送<strong>准备请求</strong>（CanCommit），顺便<strong>询问一些信息</strong>，比如事务参与者能否执行本地数据库事务操作。RM回复”Yes”、”No”或者直接超时未回复。</p>
+<hr>
+<h3 id="预提交阶段-PreCommit"><a href="#预提交阶段-PreCommit" class="headerlink" title="预提交阶段 PreCommit"></a>预提交阶段 PreCommit</h3><p>如果准备阶段有任一RM回复”No”或直接超时未回复，TM就给所有RM发送<strong>Abort消息（中断请求）</strong>，RM收到消息后直接中断事务。</p>
+<p>如果准备阶段所有的RM<strong>都回复”Yes”<strong>，TM就向所有RM发送</strong>PreCommit消息（预提交请求）</strong>，RM收到消息之后执行本地数据库事务<strong>预操作</strong>，比如写 redo log&#x2F;undo log 日志。如果RM成功执行了事务预操作，就返回”Yes”，否则返回”No”。</p>
+<p>预提交阶段，TM和RM都<strong>引入了超时机制</strong>，如果<strong>参与者没有收到TM的PreCommit消息，或者TM没有收到参与者返回的预执行结果状态</strong>，在超过等待时间之后，事务就会中断，从而避免事务阻塞。</p>
+<hr>
+<h3 id="执行事务提交阶段-DoCommit"><a href="#执行事务提交阶段-DoCommit" class="headerlink" title="执行事务提交阶段 DoCommit"></a>执行事务提交阶段 DoCommit</h3><p>如果预提交阶段有任一RM回复”No”或者直接超时未回复的话，TM就会给所有RM发送<strong>Abort消息（请求中断）</strong>，RM收到消息后进行<strong>事务回滚</strong>，释放资源，中断本次事务。</p>
+<p>TM向所有的RM发送<strong>DoCommit消息（执行事务提交请求）</strong>，RM收到消息之后执行本地数据库事务提交，并在完成后释放占用的资源。 当事务提交成功后，RM返回”Yes”。</p>
+<p>如果RM<strong>在等待时间内没有收到TM的DoCommit消息</strong>，RM会认为TM可能发生故障，但是选择<strong>直接进行事务提交，如果没有收到的TM消息是Abort消息，就会引起数据不一致</strong>。只要预提交阶段所有参与者都返回了Yes，那么只要进入第三阶段，事务基本上都能执行成功。</p>
+<hr>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>3PC除了将2PC的准备阶段进行了进一步细化，还同时<strong>在TM和RM中引入了超时机制</strong>。如果<strong>在一定时间内没有收到事务参与者的消息，就默认失败</strong>，进而避免事务参与者一直阻塞，占用资源。</p>
+<p>2PC中<strong>只有TM才拥有超时机制</strong>，当RM长时间无法与TM通讯的情况下（比如TM挂掉了），就会无法释放资源，产生阻塞问题。</p>
+<p>但是3PC并没有完全解决2PC的阻塞问题，也引入了一些新的问题，比如性能糟糕，且<strong>仍然存在数据不一致的问题</strong>，因此3PC的实际应用并不广泛。多数应用会选择通过<strong>复制状态机</strong>（在多个独立的节点上运行相同的应用或服务，并确保所有节点以相同顺序执行相同操作，从而使每个节点都维护相同的状态，通常依赖于<strong>一致性协议Raft、Paxos等</strong>来同步各节点之间的状态）解决2PC的阻塞问题。</p>
+<hr>
+<h2 id="TCC-补偿事务"><a href="#TCC-补偿事务" class="headerlink" title="TCC 补偿事务"></a>TCC 补偿事务</h2><p>TCC是<strong>T</strong>ry、<strong>C</strong>onfirm、<strong>C</strong>ancel的缩写，分为三个阶段：</p>
+<ol>
+<li><p>Try阶段</p>
+<p> 尝试执行。完成业务<strong>检查</strong>，并<strong>预留</strong>好必需的资源。</p>
+</li>
+<li><p>Confirm阶段</p>
+<p> 确认执行。当所有的RM的Try阶段执行成功之后，就会执行Confirm，<strong>处理预留好的业务资源</strong>。否则，执行Cancel。</p>
+</li>
+<li><p>Cancel阶段</p>
+<p> 取消执行。<strong>释放</strong>Try阶段预留的业务资源。</p>
+</li>
+</ol>
+<hr>
+<p>以转账场景为例：</p>
+<ol>
+<li>Try阶段检查账户余额是否充足，预留好转账资金。</li>
+<li>Confirm阶段真正执行扣钱操作。</li>
+<li>释放Try阶段预留的转账资金。</li>
+</ol>
+<hr>
+<p>Try阶段出现问题可以执行Cancel，如果<strong>Confirm或者Cancel阶段失败，怎么办？</strong></p>
+<p>TCC会<strong>记录事务日志</strong>，并<strong>持久化事务日志</strong>到某种存储介质上（本地文件、关系型数据库、Zookeeper）。事务日志包含了<strong>事务的执行状态</strong>，可 以此判断出事务提交成功还是失败，以及具体失败在哪一步。</p>
+<ul>
+<li>如果发现是Confirm或者Cancel阶段失败的话，会<strong>进行重试</strong>，重试次数通常为6此，超过的话就人工介入处理。如果美誉偶特殊Bug，Confirm或者Cancel阶段出现问题的概率比较小。</li>
+<li>如果事务提交成功，就可以删除对应的事务日志，节省资源。</li>
+</ul>
+<p><strong>TCC模式不需要依赖底层数据资源的事务支持，但需要手动实现更多的代码</strong>，属于<strong>侵入业务代码</strong>的分布式解决方案。  </p>
+<img src="https://s2.loli.net/2024/06/14/vTALYtpiNEe5kR4.png" alt="TCC和2PC的对比" style="zoom:80%;" />
+
+<hr>
+<h3 id="TCC和2PC-x2F-3PC的区别？"><a href="#TCC和2PC-x2F-3PC的区别？" class="headerlink" title="TCC和2PC&#x2F;3PC的区别？"></a>TCC和2PC&#x2F;3PC的区别？</h3><ol>
+<li>2PC&#x2F;3PC依赖数据库层面的事务，TCC主要通过修改业务代码实现，侵入业务代码。</li>
+<li>2PC&#x2F;3PC追求<strong>强一致性</strong>，<strong>在两阶段提交的整个过程中，一直会持有数据库的锁</strong>。TCC追求<strong>最终一致性，不会一直持有各个业务资源的锁</strong>。</li>
+</ol>
+<hr>
+<h2 id="MQ事务"><a href="#MQ事务" class="headerlink" title="MQ事务"></a>MQ事务</h2><p>RocketMQ、Kafka都提供了事务相关的功能。事务允许事件流应用<strong>将消费、处理、生产消息整个过程定义为一个原子操作</strong>。</p>
+<p>以RocketMQ为例：</p>
+<p><img src="https://s2.loli.net/2024/06/14/I89MnKSa7ZJQlr2.png" alt="image-20240614163030432"></p>
+<ol>
+<li>MQ发送方（如物流服务）在消息队列上开启一个事务，然后发送一个<strong>半事务消息</strong>给MQ Server。<strong>事务提交之前，半事务消息对MQ消费者不可见</strong>。</li>
+<li>半事务消息发送成功，MQ发送方就开始执行本地事务。</li>
+<li>MQ发送方的<strong>本地事务执行成功的话，半事务消息就变成正常消息，可以被正常消费；本地事务执行失败的话，直接回滚</strong>。</li>
+</ol>
+<hr>
+<h3 id="MQ发送方提交或者回滚事务消息时失败怎么办？"><a href="#MQ发送方提交或者回滚事务消息时失败怎么办？" class="headerlink" title="MQ发送方提交或者回滚事务消息时失败怎么办？"></a>MQ发送方提交或者回滚事务消息时失败怎么办？</h3><p>RocketMQ中的<strong>Broker会定期去MQ发送方上反查这个事务的本地事务执行情况</strong>，并根据反查结果决定提交或者回滚这个事务。</p>
+<p><strong>事务反查机制的实现依赖于 业务代码实现的对应的接口</strong>。比如要查看创建物流信息的本地事务是否执行成功，<strong>直接在数据库中查询对应的物流信息是否存在即可</strong>。</p>
+<hr>
+<h3 id="如果正常消息没有被正确消费怎么办？"><a href="#如果正常消息没有被正确消费怎么办？" class="headerlink" title="如果正常消息没有被正确消费怎么办？"></a>如果正常消息没有被正确消费怎么办？</h3><p>消息消费失败的话，RocketMQ会自动进行消费重试。如果<strong>超过最大重试次数</strong>，就会认为这个消息有问题，<strong>将其放入死信队列</strong>。进入死信队列的消费一般需要人工处理，手动排查问题。</p>
+<hr>
+<h3 id="QMQ"><a href="#QMQ" class="headerlink" title="QMQ"></a>QMQ</h3><blockquote>
+<p>QMQ是去哪儿网内部广泛使用的消息中间件，包括跟交易相关的订单场景、报价搜索等高吞吐量场景。21年数据显示，公司内部日常消息qps在60w左右，生产上承载将近4W+的消息topic，消息的端到端延迟可以控制在10ms以内。</p>
+</blockquote>
+<p><strong>本地消息</strong>利用了关系型数据库的事务能力，<strong>会在数据库中存放一张 本地事务消息表</strong>，即<strong>将业务的执行 和 将消息放入消息表中的操作，放在同一个事务中提交</strong>。</p>
+<ul>
+<li>这样，本地事务执行成功的话，消息肯定也插入成功，然后再调用其他服务，如果其他服务调用成功，就修改这条本地消息的状态为成功，或者直接删除。</li>
+<li>有一个<strong>后台线程定时轮询消息表，发现没有处理的消息，会一直调用相应的服务</strong>，一般会设置重试次数，超过重试次数就特殊记录，等待人工处理。</li>
+</ul>
+<img src="https://s2.loli.net/2024/06/14/u85VpAebmTiJjhY.png" alt="image-20240614195843877" style="zoom:80%;" />
+
+
+
+<p>RocketMQ的事务消息方案中，<strong>如果消息队列挂掉，数据库事务就无法执行，整个应用也就挂掉了</strong>。QMQ的事务消息方案，<strong>即使消息队列挂了，也不会影响数据库事务的执行</strong>，因此QMQ实现的方案更适应于大多数业务。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2024/04/17/PriorityQueue%E4%B8%8EComparator/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -397,9 +1105,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-04-17 16:54:36 / 修改时间：21:41:02" itemprop="dateCreated datePublished" datetime="2024-04-17T16:54:36+08:00">2024-04-17</time>
+      <time title="创建时间：2024-04-17 16:54:36" itemprop="dateCreated datePublished" datetime="2024-04-17T16:54:36+08:00">2024-04-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-06-20 15:03:40" itemprop="dateModified" datetime="2024-06-20T15:03:40+08:00">2024-06-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -452,7 +1166,7 @@
 <h2 id="Comparator-comparingInt"><a href="#Comparator-comparingInt" class="headerlink" title="Comparator.comparingInt()"></a>Comparator.comparingInt()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; Comparator&lt;T&gt; <span class="title function_">comparingInt</span><span class="params">(ToIntFunction&lt;? <span class="built_in">super</span> T&gt; keyExtractor)</span> &#123;</span><br><span class="line">    Objects.requireNonNull(keyExtractor);</span><br><span class="line">    <span class="keyword">return</span> (Comparator&lt;T&gt; &amp; Serializable)</span><br><span class="line">        (c1, c2) -&gt; Integer.compare(keyExtractor.applyAsInt(c1), keyExtractor.applyAsInt(c2));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>由<code>Comparator.comparingInt()</code>的代码可知，它接收一个<code>ToIntFunction</code>作为参数。<br><code>o -&gt; o</code>是一个lambda表达式，<strong>将元素本身作为整数值返回，实现了小顶堆的效果</strong>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;(Comparator.comparingInt(o -&gt; o));</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;(Comparator.comparingInt(o -&gt; o)); </span><br></pre></td></tr></table></figure>
 
 <hr>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>PriorityQueue的排序规则，依赖于<code>cmp.compare()</code>的具体实现。<code>cmp.compare()</code>方法的<strong>返回值&lt; 0时，当前元素与父节点交换位置</strong>。</p>
@@ -1210,7 +1924,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-11-27 16:24:23" itemprop="dateModified" datetime="2023-11-27T16:24:23+08:00">2023-11-27</time>
+      <time title="修改时间：2024-05-21 14:56:30" itemprop="dateModified" datetime="2024-05-21T14:56:30+08:00">2024-05-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1236,7 +1950,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="Redis基础"><a href="#Redis基础" class="headerlink" title="Redis基础"></a>Redis基础</h1><h2 id="什么是Redis"><a href="#什么是Redis" class="headerlink" title="什么是Redis"></a>什么是Redis</h2><p>Redis是基于C语言开发的NoSQL数据库，它是一种<strong>存储KV键值对数据</strong>的内存数据库，因此读写速度非常快，被广泛应用于<strong>分布式缓存</strong>方向。</p>
+          <h1 id="什么是Redis"><a href="#什么是Redis" class="headerlink" title="什么是Redis"></a>什么是Redis</h1><p>Redis是基于C语言开发的NoSQL数据库，它是一种<strong>存储KV键值对数据</strong>的内存数据库，因此读写速度非常快，被广泛应用于<strong>分布式缓存</strong>方向。</p>
 <p>Redis内置了多种数据类型实现：</p>
 <ul>
 <li>5种基础数据类型<ol>
@@ -1256,7 +1970,611 @@
 </ul>
 <p>Reids还支持事务、<strong>持久化（将内存数据保存在磁盘中，重启时可以再次加载使用）</strong>、Lua脚本、多种开箱即用的集群方案（Redis Sentinel、Redis Cluster）。</p>
 <hr>
-<h2 id="Redis为什么速度快？"><a href="#Redis为什么速度快？" class="headerlink" title="Redis为什么速度快？"></a>Redis为什么速度快？</h2><ol>
+<h1 id="数据结构与对象"><a href="#数据结构与对象" class="headerlink" title="数据结构与对象"></a>数据结构与对象</h1><h2 id="简单动态字符串-SDS-Simple-Dynamic-String"><a href="#简单动态字符串-SDS-Simple-Dynamic-String" class="headerlink" title="简单动态字符串 (SDS, Simple Dynamic String)"></a>简单动态字符串 (SDS, Simple Dynamic String)</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录buf数组中已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于SDS所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    <span class="comment">// 记录buf数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    <span class="comment">// 字节数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>SDS遵循C字符串以空字符结尾的惯例，保存空字符的1字节空间不计算在SDS的len属性里面，并且为空字符分配额外的1字节空间，以及添加空字符到字符串末尾等操作，都是由SDS函数自动完成的，所以这个空字符对于SDS的使用者来说是完全透明的。遵循空字符结尾这一惯例的好处是，SDS可以直接重用一部分C字符串函数库里面的函数。</p>
+<h3 id="常数复杂度获取字符串长度"><a href="#常数复杂度获取字符串长度" class="headerlink" title="常数复杂度获取字符串长度"></a>常数复杂度获取字符串长度</h3><p>通过使用SDS而不是C字符串，Redis将获取字符串长度所需的复杂度从$O(N)$降低到了$O(1)$，这确保了<strong>获取字符串长度的工作不会成为Redis的性能瓶颈</strong>。</p>
+<hr>
+<h3 id="杜绝缓冲区溢出"><a href="#杜绝缓冲区溢出" class="headerlink" title="杜绝缓冲区溢出"></a>杜绝缓冲区溢出</h3><p>SDS的空间分配策略<strong>杜绝了发生缓冲区溢出的可能性</strong>。当SDS API需要对SDS进行修改时，<strong>API会先检查SDS的空间是否满足修改所需的要求，如果不满足的话，API会自动将SDS的空间扩展至执行修改所需的大小，然后才执行实际的修改操作</strong>。</p>
+<hr>
+<h3 id="减少修改字符串时带来的内存重分配次数"><a href="#减少修改字符串时带来的内存重分配次数" class="headerlink" title="减少修改字符串时带来的内存重分配次数"></a>减少修改字符串时带来的<strong>内存重分配次数</strong></h3><ol>
+<li><p><strong>空间预分配</strong></p>
+<ol>
+<li>如果对SDS进行修改之后，SDS的长度（也即是len属性的值）<strong>小于1MB</strong>，那么程序<strong>分配和len属性同样大小的未使用空间</strong>，这时SDS len属性的值将和free属性的值相同。</li>
+<li>如果对SDS进行修改之后，SDS的长度将<strong>大于等于1MB</strong>，那么程序会<strong>分配1MB的未使用空间</strong>。</li>
+</ol>
+</li>
+<li><p><strong>惰性空间释放</strong></p>
+<p>  当SDS的API需要缩短SDS保存的字符串时，程序<strong>不立即回收缩短后多出来的字节，而是使用free属性将这些字节的数量记录起来，并等待将来使用</strong>。与此同时，SDS也提供了相应的API真正地释放SDS的未使用空间，所以不用担心惰性空间释放策略会造成内存浪费。</p>
+</li>
+</ol>
+<hr>
+<h3 id="二进制安全"><a href="#二进制安全" class="headerlink" title="二进制安全"></a>二进制安全</h3><p>虽然数据库一般用于保存文本数据，但使用数据库来保存二进制数据的场景也不少见，因此，为了确保Redis可以适用于各种不同的使用场景，<strong>所有SDS API都会以处理二进制的方式来处理SDS存放在buf数组里的数据，程序不会对其中的数据做任何限制、过滤、或者假设，数据在写入时是什么样的，它被读取时就是什么样</strong>。这也是我们<strong>将SDS的buf属性称为字节数组</strong>的原因——Redis不是用这个数组来保存字符，而是用它来保存一系列二进制数据。</p>
+<p>使用SDS来保存之前提到的特殊数据格式就没有任何问题，因为<strong>SDS使用len属性的值而不是空字符来判断字符串是否结束</strong>。但SDS一样遵循C字符串以空字符结尾的惯例，这是<strong>为了让那些保存文本数据的SDS可以重用一部分&lt;string.h&gt;库定义的函数</strong>。</p>
+<hr>
+<h2 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h2><p>链表在Redis中的应用非常广泛，比如<strong>列表键的底层实现之一</strong>就是链表。当一个列表键包含了<strong>数量比较多的元素</strong>，又或者列表中<strong>包含的元素都是比较长的字符串</strong>时，Redis就会使用链表作为列表键的底层实现。</p>
+<p>除了列表键之外，<strong>发布与订阅、慢查询、监视器</strong>等功能也用到了链表，Redis服务器本身还使用链表来<strong>保存多个客户端的状态信息</strong>，以及使用链表来<strong>构建客户端输出缓冲区（output buffer）</strong>。</p>
+<p>每个链表节点使用<code>adlist.h/listNode</code>结构来表示：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 前置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> * <span class="title">prev</span>;</span></span><br><span class="line">    <span class="comment">// 后置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> * <span class="title">next</span>;</span></span><br><span class="line">    <span class="comment">// 节点的值</span></span><br><span class="line">    <span class="type">void</span> * value;</span><br><span class="line">&#125;listNode;</span><br></pre></td></tr></table></figure>
+
+<p>虽然仅仅使用多个listNode结构就可以组成链表，但使用<code>adlist.h/list</code>来持有链表的话，操作起来会更方便：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">    <span class="comment">// 表头节点</span></span><br><span class="line">    listNode * head;</span><br><span class="line">    <span class="comment">// 表尾节点</span></span><br><span class="line">    listNode * tail;</span><br><span class="line">    <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">    <span class="comment">// 节点值复制函数</span></span><br><span class="line">    <span class="type">void</span> *(*dup)(<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值释放函数</span></span><br><span class="line">    <span class="type">void</span> (*<span class="built_in">free</span>)(<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值对比函数</span></span><br><span class="line">    <span class="type">int</span> (*match)(<span class="type">void</span> *ptr,<span class="type">void</span> *key);</span><br><span class="line">&#125; <span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
+
+<p>list结构为链表提供了表头指针<code>head</code>、表尾指针<code>tail</code>，以及链表长度计数器<code>len</code>，而dup、free和match成员则是用于实现多态链表所需的类型特定函数：</p>
+<ul>
+<li>dup函数用于复制链表节点所保存的值；</li>
+<li>free函数用于释放链表节点所保存的值；</li>
+<li>match函数则用于对比链表节点所保存的值和另一个输入值是否相等。</li>
+</ul>
+<p><img src="https://s2.loli.net/2024/05/08/CYrpu6e25VFJsaA.png" alt="由list结构和listNode结构组成的链表"></p>
+<p>Redis的链表实现的特性可以总结如下：</p>
+<ol>
+<li><strong>双端</strong>：链表节点带有prev和next指针，获取某个节点的前置节点和后置节点的复杂度都是O（1）。</li>
+<li><strong>无环</strong>：表头节点的prev指针和表尾节点的next指针都指向NULL，对链表的访问以NULL为终点。</li>
+<li><strong>带表头指针和表尾指针</strong>：通过list结构的head指针和tail指针，程序获取链表的表头节点和表尾节点的复杂度为O（1）。</li>
+<li><strong>带链表长度计数器</strong>：程序使用list结构的len属性来对list持有的链表节点进行计数，程序获取链表中节点数量的复杂度为O（1）。</li>
+<li><strong>多态</strong>：链表节点使用<code>void*</code>指针来保存节点值，并且可以通过list结构的dup、free、match三个属性为节点值设置类型特定函数，所以链表可以用于保存各种不同类型的值。</li>
+</ol>
+<hr>
+<h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><p>字典是用于<strong>保存键值对</strong>的抽象数据结构。字典在Redis中的应用相当广泛，比如<strong>对数据库的增、删、查、改操作构建在对字典的操作之上</strong>。</p>
+<p>除了用来表示数据库之外，字典还是<strong>哈希键的底层实现之一</strong>，当一个哈希键包含的键值对比较多，又或者键值对中的元素都 是比较长的字符串时，Redis就会使用字典作为哈希键的底层实现。</p>
+<p>Redis的字典使用<strong>哈希表作为底层实现</strong>，<strong>每个哈希表节点保存了字典中的一个键值对</strong>。</p>
+<hr>
+<h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line">    <span class="comment">// 哈希表数组</span></span><br><span class="line">    dictEntry **table;</span><br><span class="line">    <span class="comment">// 哈希表大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line">    <span class="comment">// 哈希表大小掩码，用于计算索引值</span></span><br><span class="line">    <span class="comment">// 总是等于size-1</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line">    <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line">&#125; dictht;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>table属性是一个<strong>数组</strong>，数组中的<strong>每个元素都是一个指向<code>dict.h/dictEntry</code>结构的指针，每个dictEntry结构保存着一个键值对</strong>。</li>
+<li><strong>sizemask和哈希值一起决定一个键应该被放到table数组的哪个索引上面</strong>。</li>
+</ul>
+<p> <strong>一个空的哈希表：</strong></p>
+<img src="https://s2.loli.net/2024/05/08/CgdAGeRpVjiEoPZ.png" alt=" 一个空的哈希表" style="zoom:50%;" />
+
+<hr>
+<h3 id="哈希表节点"><a href="#哈希表节点" class="headerlink" title="哈希表节点"></a>哈希表节点</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line">    <span class="comment">//键</span></span><br><span class="line">    <span class="type">void</span> *key;</span><br><span class="line">    <span class="comment">//值</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span>&#123;</span></span><br><span class="line">        <span class="type">void</span> *val;</span><br><span class="line">        uint64_tu64;</span><br><span class="line">        int64_ts64;</span><br><span class="line">    &#125; v;</span><br><span class="line">    <span class="comment">//指向下个哈希表节点，形成链表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; dictEntry;</span><br></pre></td></tr></table></figure>
+
+<p>next属性是<strong>指向另一个哈希表节点的指针</strong>，这个指针可以将多个<strong>哈希值相同</strong>的键值对连接在一起，以此来<strong>解决键冲突（collision）的问题</strong>。</p>
+<p><img src="https://s2.loli.net/2024/05/08/mdcQSf2gROHxC1z.png" alt="image-20240508162058600"></p>
+<hr>
+<h3 id="字典的结构"><a href="#字典的结构" class="headerlink" title="字典的结构"></a>字典的结构</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line">    <span class="comment">// 类型特定函数</span></span><br><span class="line">    dictType *type;</span><br><span class="line">    <span class="comment">// 私有数据</span></span><br><span class="line">    <span class="type">void</span> *privdata;</span><br><span class="line">    <span class="comment">// 哈希表</span></span><br><span class="line">    dictht ht[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">// rehash索引</span></span><br><span class="line">    <span class="comment">// 当rehash不在进行时，值为-1</span></span><br><span class="line">    in trehashidx; <span class="comment">/* rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line">&#125; dict;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>type属性是一个<strong>指向dictType结构</strong>的指针，每个dictType结构保存了一簇<strong>用于操作特定类型键值对的函数</strong>，Redis会为用途不同的字典设置不同的类型特定函数。</li>
+<li>privdata属性则保存了需要传给那些类型特定函数的可选参数。</li>
+<li>ht属性是一个<strong>包含两个项的数组</strong>，数组中的每个项都是一个<code>dictht</code>哈希表，<strong>一般情况下，字典只使用ht[0]哈希表</strong>，ht[1]哈希表只会在对ht[0]哈希表进行rehash时使用。</li>
+</ul>
+<p>普通状态下，没有进行rehash的字典：</p>
+<img src="https://s2.loli.net/2024/05/08/QeTj7GOyLu5DUvf.png" alt="普通状态下，没有进行rehash的字典" style="zoom: 50%;" />
+
+<p>当字典被用作数据库的底层实现，或者哈希键的底层实现时，<strong>Redis使用MurmurHash2算法来计算键的哈希值</strong>。这种算法的优点在于，<strong>即使输入的键是有规律的，算法仍能给出一个很好的随机分布性，并且算法的计算速度也非常快</strong>。</p>
+<hr>
+<h3 id="解决键冲突"><a href="#解决键冲突" class="headerlink" title="解决键冲突"></a>解决键冲突</h3><p>Redis的哈希表使用<strong>链地址法（separate chaining）</strong>来解决键冲突，<strong>每个哈希表节点都有一个next指针，多个哈希表节点可以用next指针构成一个单向链表</strong>，被分配到同一个索引上的多个节点可以用这个单向链表连接起来，这就解决了键冲突的问题。</p>
+<p>因为<strong>dictEntry节点组成的链表没有指向链表表尾的指针，所以为了速度考虑，程序总是将新节点添加到链表的表头位置</strong>（复杂度为$O(1)$）。</p>
+<hr>
+<h3 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h3><p>随着操作的不断执行，哈希表保存的键值对会逐渐地增多或者减少，为了让哈希表的负载因子（load factor）维持在一个合理的范围之内，当哈希表保存的键值对数量太多或者太少时，程序需要对哈希表的大小进行相应的扩展或者收缩。这个工作通过执行rehash操作来完成。</p>
+<ol>
+<li>为字典的ht[1]哈希表分配空间，这个哈希表的空间大小取决于要执行的操作，以及ht[0]当前包含的键值对数量（也即是ht[0].used属性的值）</li>
+<li><strong>扩展操作</strong>，那么ht[1]的大小为第一个≥<code>ht[0].used*2</code>的$2^n$；</li>
+<li><strong>收缩操作</strong>，那么ht[1]的大小为第一个≥<code>ht[0].used</code>的$2^n$。</li>
+<li>将保存在ht[0]中的所有键值对rehash到ht[1]上面，<strong>即重新计算键的哈希值和索引值，然后将键值对放置到ht[1]哈希表的指定位置上</strong>。</li>
+<li>当ht[0]包含的所有键值对都迁移到了ht[1]之后（ht[0]变为空表），<strong>释放ht[0]，将ht[1]设置为ht[0]，并在ht[1]新创建一个空白哈希表，为下一次rehash做准备</strong>。</li>
+</ol>
+<p>为了避免rehash对服务器性能造成影响，<strong>rehash动作不是一次性、集中式地完成，而是分多次、渐进式地完成的</strong>。因为在进行渐进式rehash的过程中，字典会同时使用ht[0]和ht[1]两个哈希表，所以<strong>在渐进式rehash进行期间，字典的删除（delete）、查找（find）、更新（update）等操作会在两个哈希表上进行</strong>。例如，要在字典里面查找一个键的话，程序会先在ht[0]里面进行查找，如果没找到的话，就会继续到ht[1]里面进行查找，诸如此类。</p>
+<p>另外，在渐进式rehash执行期间，<strong>新添加到字典的键值对一律会被保存到ht[1]里面</strong>，而ht[0]则不再进行任何添加操作，这一措施保证了ht[0]包含的键值对数量会只减不增，并随着rehash操作的执行而最终变成空表。</p>
+<hr>
+<h2 id="跳跃表-skiplist"><a href="#跳跃表-skiplist" class="headerlink" title="跳跃表 skiplist"></a>跳跃表 skiplist</h2><p>跳表是一种<strong>链表+多级索引</strong>的有序数据结构，它通过<strong>在每个节点中维持多个指向其他节点的指针</strong>，从而达到快速访问节点的目的。  跳表支持平均$O(logN)$、最坏$O(N)$复杂度的节点查找，还可以通过顺序操作来批量处理节点。</p>
+<p>和链表、字典等数据结构被广泛地应用在Redis内部不同，<strong>Redis只在两个地方用到了跳跃表</strong>，一个是实现<strong>有序集合键</strong>，另一个是<strong>在集群节点中用作内部数据结构</strong>。</p>
+<p>跳跃表示例：</p>
+<img src="https://s2.loli.net/2024/05/09/dpgyu3QUiDNKWlf.png" alt="跳跃表示例" style="zoom: 50%;" />
+
+<ul>
+<li><p><strong>zskiplist结构</strong></p>
+<ul>
+<li>header</li>
+<li>tail</li>
+<li>level：记录目前跳跃表内，<strong>层数最大的节点的层数</strong>（<strong>不包括表头节点</strong>）</li>
+<li>length：记录<strong>跳跃表的长度</strong>（<strong>不包括表头节点</strong>）</li>
+</ul>
+</li>
+<li><p><strong>zskiplistNode结构</strong></p>
+<ul>
+<li><p><strong>level</strong>：每个层都带有两个属性：<strong>前进指针</strong>和<strong>跨度</strong>。</p>
+<ul>
+<li>前进指针指向<strong>位于表尾方向的其他节点</strong>。</li>
+<li>跨度记录了<strong>指向节点与当前节点的距离</strong>。<strong>指向NULL的所有前进指针的跨度都为0，因为它们没有连向任何节点</strong>。</li>
+</ul>
+<p>  当程序从表头向表尾进行遍历时，访问会沿着层的前进指针进行。</p>
+</li>
+<li><p><strong>backward指针</strong>：指向<strong>前一个节点</strong>。</p>
+</li>
+<li><p>score：节点按各自保存的分值<strong>从小到大排列</strong>。</p>
+</li>
+<li><p>obj：成员对象。是<strong>指向一个字符串对象的指针</strong>。</p>
+</li>
+</ul>
+<p>  表头节点也有backward指针、score和成员对象，不过表头节点的这些属性都不会被用到，所以图中省略了这些部分，只显示了表头节点的各个层。</p>
+</li>
+</ul>
+<hr>
+<h3 id="跳跃表节点"><a href="#跳跃表节点" class="headerlink" title="跳跃表节点"></a>跳跃表节点</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>层</p>
+<p> 每次创建一个新跳跃表节点的时候，程序都根据<strong>幂次定律</strong>（power law，<strong>越大的数出现的概率越小</strong>）随机生成一个<strong>介于1和32之间的值作为level数组的大小</strong>，这个大小就是层的“高度”。</p>
+</li>
+<li><p>跨度实际用来计算排位。</p>
+<p> 在查找某个节点的过程中，<strong>将沿途访问过的所有层的跨度累计</strong>，得到的结果就是<strong>目标节点在跳表中的排位</strong>。</p>
+</li>
+</ol>
+<p>在同一个跳跃表中，<strong>各个节点保存的成员对象必须是唯一的，但是多个节点保存的分值可以相同</strong>：分值相同的节点将<strong>按照成员对象在字典序中的大小来进行排序</strong>，成员对象较小的节点会排在前面（靠近表头的方向），而成员对象较大的节点则会排在后面（靠近表尾的方向）。</p>
+<hr>
+<h2 id="整数集合-intset"><a href="#整数集合-intset" class="headerlink" title="整数集合 intset"></a>整数集合 intset</h2><p>整数集合是<strong>集合键</strong>的底层实现之一。当一个集合<strong>只包含整数值元素</strong>并且<strong>元素数量不多</strong>时，Redis就会使用整数集合作为集合键的底层实现。它可以保存类型为<code>int16_t</code>、<code>int32_t</code>或者<code>int64_t</code>的整数值，并且保证<strong>集合中不会出现重复元素</strong>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">intset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 编码方式</span></span><br><span class="line">    <span class="type">uint32_t</span> encoding;</span><br><span class="line">    <span class="comment">// 集合包含的元素数量</span></span><br><span class="line">    <span class="type">uint32_t</span> length;</span><br><span class="line">    <span class="comment">// 保存元素的数组</span></span><br><span class="line">    <span class="type">int8_t</span> contents[];</span><br><span class="line">&#125; intset;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>contents数组是整数集合的底层实现</p>
+<p>  整数集合的每个元素都是contents数组的一个数组项，<strong>按值从小到大排列</strong>。</p>
+<p>  虽然intset结构将contents属性声明为int8_t类型的数组，但实际上contents数组并不保存任何int8_t类型的值，<strong>contents数组的真正类型取决于encoding属性的值</strong>：</p>
+<ul>
+<li>encoding属性的值为<code>INTSET_ENC_INT16</code>，那么contents就是一个<code>int16_t</code>类型的数组</li>
+<li>encoding属性的值为<code>INTSET_ENC_INT32</code>，那么contents就是一个<code>int32_t</code>类型的数组</li>
+<li>encoding属性的值为<code>INTSET_ENC_INT64</code>，那么contents就是一个<code>int64_t</code>类型的数组</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h3><p>每当我们要将一个新元素添加到整数集合里面，并且<strong>新元素的类型比整数集合现有所有元素的类型都要长时</strong>，整数集合需要先进行升级（upgrade），然后才能将新元素添加到整数集合里面。</p>
+<ol>
+<li>根据新元素的类型，扩展整数集合底层数组的空间大小，并为新元素分配空间。</li>
+<li>底层数组现有的<strong>所有元素都转换成与新元素相同的类型</strong>，并将类型转换后的元素放置到正确的位上，而且在放置元素的过程中，需要继续维持底层数组的有序性质不变 。</li>
+<li>将新元素添加到底层数组里面。</li>
+</ol>
+<p>因为<strong>每次向整数集合添加新元素都可能会引起升级</strong>，而每次升级都需要对底层数组中已有的所有元素进行类型转换，所以向整数集合添加新元素的时间复杂度为$O(N)$。</p>
+<p>整数集合的升级策略有两个好处，<strong>一个是提升整数集合的灵活性（可以添加新类型），另一个是尽可能地节约内存（只有必要时才会升级）</strong>。</p>
+<p><strong>整数集合不支持降级操作</strong>，一旦对数组进行了升级，编码就会一直保持升级后的状态。</p>
+<hr>
+<h2 id="压缩列表-ziplist"><a href="#压缩列表-ziplist" class="headerlink" title="压缩列表 ziplist"></a>压缩列表 ziplist</h2><p>压缩列表（ziplist）是列表键和哈希键的底层实现之一。</p>
+<ul>
+<li>当一个<strong>列表键</strong>只包含<strong>少量列表项</strong>（&lt; 512），并且每个列表项要么就是<strong>小整数值</strong>，要么就是<strong>长度比较短的字符串</strong>(&lt; 64字节)，Redis就会使用压缩列表来做列表键的底层实现。</li>
+<li>当一个<strong>哈希键</strong>只包含<strong>少量键值对</strong>，并且每个键值对的键和值要么就是<strong>小整数值</strong>，要么就是<strong>长度比较短的字符串</strong>，Redis就会使用压缩列表来做哈希键的底层实现。</li>
+</ul>
+<p>压缩列表是由<strong>一系列特殊编码的连续内存块组成</strong>的<strong>顺序型数据结构</strong>。一个压缩列表可以包含<strong>任意多个节点（entry）</strong>，每个节点可以<strong>保存一个字节数组或者一个整数值</strong>。 </p>
+<img src="https://s2.loli.net/2024/05/11/2nDibMxHfehsySu.png" alt="压缩列表的组成部分" style="zoom: 80%;" />
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zlbytes</td>
+<td>unit32_t</td>
+<td>记录压缩列表占用的内存。<br />在对压缩列表进行内存重分配，或者计算zlend位置时使用。</td>
+</tr>
+<tr>
+<td>zltail</td>
+<td>unit32_t</td>
+<td>记录压缩列表<strong>表尾节点距离起始地址有多少字节</strong>。<br />程序无需遍历整个压缩列表就可以确定表尾节点的地址。</td>
+</tr>
+<tr>
+<td>zllen</td>
+<td>unit16_t</td>
+<td>记录了压缩列表包含的节点数量。<br />该属性值 &lt; UNIT16_MAX 时，就是压缩列表<strong>包含节点的数量**。<br />该属性值 <strong>&#x3D; UNIT16_MAX</strong>时，节点的数量</strong>需要遍历压缩列表才能得出**。</td>
+</tr>
+<tr>
+<td>entryX</td>
+<td>列表节点</td>
+<td>节点的长度由节点保存的内容决定。</td>
+</tr>
+<tr>
+<td>zlend</td>
+<td>unit8_t</td>
+<td>特殊值0xFF，用于<strong>标记压缩列表的末端</strong>。</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="压缩列表节点的构成"><a href="#压缩列表节点的构成" class="headerlink" title="压缩列表节点的构成"></a>压缩列表节点的构成</h3><table>
+<thead>
+<tr>
+<th>previous_entry_length</th>
+<th>encoding</th>
+<th>content</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li><p>previous_entry_length，记录了前一个节点的长度，以字节为单位。</p>
+<p>  压缩列表可以根据这个属性，从表尾向表头遍历。</p>
+</li>
+<li><p>encoding，记录了节点的content属性保存的<strong>数据类型和长度</strong>。</p>
+</li>
+<li><p>content，保存节点的值，可以是<strong>字节数组或整数</strong>。</p>
+</li>
+</ul>
+<hr>
+<h3 id="连锁更新"><a href="#连锁更新" class="headerlink" title="连锁更新"></a>连锁更新</h3><p>Redis将在特殊情况下产生的<strong>连续多次空间扩展操作</strong>称之为<strong>连锁更新</strong>。</p>
+<p>因为连锁更新在最坏情况下需要对压缩列表执行N次空间重分配操作，而每次空间重分配的最坏复杂度为$O(N)$，所以连锁更新的最坏复杂度为$O(N^2)$。</p>
+<p>尽管连锁更新的复杂度较高，但它真正造成性能问题的几率很低：</p>
+<ul>
+<li>首先，压缩列表里要恰好有多个连续的、长度介于250字节至253字节之间的节点，连锁更新才有可能被引发，在实际中，这种情况并不多见。</li>
+<li>其次，即使出现连锁更新，但只要被更新的节点数量不多，就不会对性能造成任何影响：比如说，对三五个节点进行连锁更新是绝对不会影响性能的。</li>
+</ul>
+<p>因为以上原因，<code>ziplistPush</code>等命令的平均复杂度仅为$O(N)$，在实际中，我们可以放心地使用这些函数，而不必担心连锁更新会影响压缩列表的性能。</p>
+<hr>
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><p>Redis<strong>没有直接使用上述的数据结构来实现键值对数据库</strong>，而是基于这些数据结构创建了一个<strong>对象系统</strong>。这个系统包含字符串对象（String）、列表对象（List）、哈希对象（Hash）、集合对象（Set）和有序集合（Zset）对象这五种类型的对象，<strong>每种对象都至少用到了一种前面介绍的数据结构</strong>。</p>
+<p>通过这五种不同类型的对象，Redis可以在执行命令之前，根据对象的类型来判断一个对象是否可以执行给定的命令。另外，可以针对不同的使用场景，<strong>为对象设置多种不同的数据结构实现</strong>，从而优化对象在不同场景下的使用效率。</p>
+<p>除此之外，Redis的对象系统还实现了<strong>基于引用计数技术的内存回收机制</strong>，当程序不再使用某个对象的时候，这个对象所占用的内存就会被自动释放；另外，Redis还<strong>通过引用计数技术实现了对象共享机制</strong>，这一机制可以在适当的条件下，通过让多个数据库键共享同一个对象来节约内存。</p>
+<p>最后，Redis的对象<strong>带有访问时间记录信息</strong>，该信息可以用于计算数据库键的空转时长，在服务器启用了maxmemory功能的情况下，空转时长较大的那些键可能会优先被服务器删除。</p>
+<hr>
+<h3 id="对象的类型与编码"><a href="#对象的类型与编码" class="headerlink" title="对象的类型与编码"></a>对象的类型与编码</h3><p>每次在Redis的数据库中新创建一个键值对时，我们至少会创建两个对象，一个对象用作键值对的键（键对象），另一个对象用作键值对的值（值对象）。</p>
+<p>Redis中的每个对象都由一个redisObject结构表示，该结构中和保存数据有关的三个属性分别是type属性、encoding属性和ptr属性：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line">	<span class="comment">// 类型</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 指向底层实现数据结构的指针</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>type</p>
+<table>
+<thead>
+<tr>
+<th>类型常量</th>
+<th>对象的名称</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>REDIS_STRING</td>
+<td>字符串对象</td>
+</tr>
+<tr>
+<td>REDIS_LIST</td>
+<td>列表对象</td>
+</tr>
+<tr>
+<td>REDIS_HASH</td>
+<td>哈希对象</td>
+</tr>
+<tr>
+<td>REDIS_SET</td>
+<td>集合对象</td>
+</tr>
+<tr>
+<td>REDIS_ZSET</td>
+<td>有序集合对象</td>
+</tr>
+</tbody></table>
+<p>  对于Redis数据库保存的键值对来说，<strong>键总是一个字符串对象</strong>，而<strong>值则可以是字符串对象、列表对象、哈希对象、集合对象或者有序集合对象的其中一种</strong>。因此，当称呼一个数据库键为“字符串键”时，实际指的是数据库键<strong>所对应的值</strong>为字符串对象。</p>
+<p>  查看命令为<code>TYPE objName</code></p>
+</li>
+<li><p>encoding</p>
+<p>  encoding记录了对象使用了什么数据结构作为对象的底层实现：</p>
+<table>
+<thead>
+<tr>
+<th>编码常量</th>
+<th>编码对应的底层数据结构</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>REDIS_ENCODING_INT</td>
+<td>long类型的整数</td>
+</tr>
+<tr>
+<td>REDIS_ENCODING_EMBSTR</td>
+<td>embstr编码的简单动态字符串</td>
+</tr>
+<tr>
+<td>REDIS_ENCODING_RAW</td>
+<td>简单动态字符串</td>
+</tr>
+<tr>
+<td>REDIS_ENCODING_HT</td>
+<td>字典</td>
+</tr>
+<tr>
+<td>REDIS_ENCODING_LINKEDLIST</td>
+<td>双端链表</td>
+</tr>
+<tr>
+<td>REDIS_ENCODING_ZIPLIST</td>
+<td>压缩列表</td>
+</tr>
+<tr>
+<td>REDIS_ENCODING_INTSET</td>
+<td>整数集合</td>
+</tr>
+<tr>
+<td>REDIS_ENCODING_SKIPLIST</td>
+<td>跳跃表和字典</td>
+</tr>
+</tbody></table>
+<p>  每种类型的对象都至少使用了两种不同的编码：</p>
+<ul>
+<li>string<ul>
+<li>REDIS_ENCODING_INT</li>
+<li>REDIS_ENCODING_EMBSTR</li>
+<li>REDIS_ENCODING_RAW</li>
+</ul>
+</li>
+<li>list<ul>
+<li>REDIS_ENCODING_ZIPLIST</li>
+<li>REDIS_ENCODING_LINKEDLIST</li>
+</ul>
+</li>
+<li>hash<ul>
+<li>REDIS_ENCODING_ZIPLIST</li>
+<li>REDIS_ENCODING_HT</li>
+</ul>
+</li>
+<li>set<ul>
+<li>REDIS_ENCODING_INTSET</li>
+<li>REDIS_ENCODING_HT</li>
+</ul>
+</li>
+<li>zset<ul>
+<li>REDIS_ENCODING_ZIPLIST</li>
+<li>REDIS_ENCODING_SKIPLIST</li>
+</ul>
+</li>
+</ul>
+<p>  查看命令为<code>OBJECT ENCODING objName</code></p>
+</li>
+</ul>
+<hr>
+<h3 id="字符串对象"><a href="#字符串对象" class="headerlink" title="字符串对象"></a>字符串对象</h3><p>字符串对象的编码可以是int、raw或者embstr。</p>
+<ul>
+<li>如果字符串对象保存的是<strong>整数值</strong>，并且这个整数值<strong>可以用long类型来表示</strong>，那么字符串对象会将整数值保存在字符串对象结构的ptr属性里面（将void*转换成long），并将字符串对象的编码设置为<strong>int</strong>。</li>
+<li>如果字符串对象保存的是<strong>字符串值</strong>，并且这个字符串值的<strong>长度&gt;32字节</strong>，那么字符串对象将使用一个<strong>简单动态字符串（SDS）</strong>来保存这个字符串值，并将对象的编码设置为<strong>raw</strong>。</li>
+<li>如果字符串对象保存的是<strong>字符串值</strong>，并且这个字符串值的<strong>长度≤32字节</strong>，那么字符串对象将使用<strong>embstr编码</strong>的方式来保存这个字符串值。</li>
+</ul>
+<p>embstr编码和raw编码一样，都使用<code>redisObject</code>结构和<code>sdshdr</code>结构来表示字符串对象。但<strong>raw编码会调用2次内存分配函数</strong>来分别创建<code>redisObject</code>结构和<code>sdshdr</code>结构，而<strong>embstr编码则通过调用1次内存分配函数</strong>来分配一块<strong>连续的空间</strong>，空间中依次包含<code>redisObject</code>和<code>sdshdr</code>两个结构。</p>
+<img src="https://s2.loli.net/2024/05/11/ICKuGpRJNzmqWOo.png" alt="embstr编码创建的内存块结构" style="zoom:67%;" />
+
+<p>最后要说的是，可以用<code>long double</code>类型表示的<strong>浮点数</strong>，在Redis中也是<strong>作为字符串值</strong>来保存的。如果我们要保存一个浮点数到字符串对象里面，那么程序会先将这个浮点数转换成字符串值，然后再保存转换所得的字符串值。在有需要的时候，程序会<strong>将字符串值转换回浮点数值</strong>，执行某些操作，然后<strong>再将所得的浮点数值转换回字符串值</strong>，并继续保存在字符串对象里面。</p>
+<ul>
+<li><p>对于int编码的字符串对象来说，如果我们向对象执行了一些命令，使得这个对象保存的不再是整数值，而是一个字符串值，那么<strong>字符串对象的编码将从int变为raw</strong>。</p>
+<p>  例如通过<code>APPEND</code>命令，向保存整数值的字符串对象追加字符串值。</p>
+</li>
+<li><p>为Redis没有为embstr编码的字符串对象编写任何相应的修改程序，所以embstr编码的字符串对象实际上是<strong>只读</strong>的。当我们对embstr编码的字符串对象<strong>执行任何修改命令时，程序会先将对象的编码从embstr转换成raw，然后再执行修改命令</strong>。</p>
+</li>
+</ul>
+<p>字符串对象是Redis五种类型的对象中<strong>唯一一种会被其他四种类型对象嵌套的对象</strong>。</p>
+<h4 id="字符串相关命令"><a href="#字符串相关命令" class="headerlink" title="字符串相关命令"></a>字符串相关命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SET</td>
+<td>SET msg “hello world”</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>GET msg</td>
+</tr>
+<tr>
+<td>APPEND</td>
+<td>APPEND msg “ again”</td>
+</tr>
+<tr>
+<td>INCRBY</td>
+<td>SET num 1<br />INCRBY num</td>
+</tr>
+<tr>
+<td>DECRBY</td>
+<td>DECRBY num</td>
+</tr>
+<tr>
+<td>STRLEN</td>
+<td>STRLEN msg</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="列表对象"><a href="#列表对象" class="headerlink" title="列表对象"></a>列表对象</h3><p>列表对象的编码可以是ziplist或者linkedlist。</p>
+<p>当列表对象同时满足2个条件时，使用ziplist编码：</p>
+<ol>
+<li>列表对象保存的所有字符串元素，<strong>长度都 &lt; 64字节</strong>。</li>
+<li>列表对象保存的<strong>元素数量 ≤ 512个</strong>。</li>
+</ol>
+<p>两个条件的<strong>上限值是可以修改的</strong>，具体请看配置文件中关于<code>list-max-ziplist-value</code>选项和<code>list-max-ziplist-entries</code>选项的说明。</p>
+<h4 id="列表相关命令"><a href="#列表相关命令" class="headerlink" title="列表相关命令"></a>列表相关命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LPUSH</td>
+<td>将元素推入到压缩列表的<strong>表头</strong></td>
+</tr>
+<tr>
+<td>RPUSH</td>
+<td>将元素推入到压缩列表的<strong>表尾</strong></td>
+</tr>
+<tr>
+<td>LPOP</td>
+<td>返回<strong>表头节点</strong>，并删除</td>
+</tr>
+<tr>
+<td>RPOP</td>
+<td>返回<strong>表尾节点</strong>，并删除</td>
+</tr>
+<tr>
+<td>LINDEX</td>
+<td>返回<strong>指定节点</strong>保存的元素</td>
+</tr>
+<tr>
+<td>LLEN</td>
+<td>列表的长度</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="哈希对象"><a href="#哈希对象" class="headerlink" title="哈希对象"></a>哈希对象</h3><p>哈希对象的编码可以是ziplist或者hashtable。</p>
+<p>ziplist编码的哈希对象，每当有新的键值对要加入时，程序会先将<strong>保存了键的压缩列表节点推入到压缩列表表尾</strong>，然后再将<strong>保存了值的压缩列表节点推入到压缩列表表尾</strong>，因此<strong>保存了键值对的两个节点总是紧挨在一起，保存键的节点在前，保存值的节点在后</strong>。</p>
+<p>当哈希对象同时满足如下两个条件时，哈希对象使用ziplist编码：</p>
+<ol>
+<li>保存的所有键值对，<strong>键和值</strong>的字符串长度都**&lt; 64字节**。</li>
+<li>保存的<strong>键值对</strong>数量<strong>≤ 512个</strong>。</li>
+</ol>
+<p>两个条件的<strong>上限值是可以修改的</strong>，具体请看配置文件中关于<code>hash-max-ziplist-value</code>选项和<code>hash-max-ziplist-entries</code>选项的说明。</p>
+<h4 id="哈希相关命令"><a href="#哈希相关命令" class="headerlink" title="哈希相关命令"></a>哈希相关命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HSET</td>
+<td>添加键值对</td>
+</tr>
+<tr>
+<td>HGET</td>
+<td>根据键，返回值节点</td>
+</tr>
+<tr>
+<td>HEXISTS</td>
+<td>根据指定键，查找是否存在键值对</td>
+</tr>
+<tr>
+<td>HDEL</td>
+<td>删除键值对</td>
+</tr>
+<tr>
+<td>HLEN</td>
+<td>获取键值对的数量</td>
+</tr>
+<tr>
+<td>HGETALL</td>
+<td>获取所有的键值对</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="集合对象"><a href="#集合对象" class="headerlink" title="集合对象"></a>集合对象</h3><p>集合对象的编码可以是intset或者hashtable。</p>
+<ul>
+<li>intset编码的集合对象，包含的所有元素都被保存在<strong>整数集合</strong>里面。</li>
+<li>hashtable编码的集合对象，字典的<strong>每个键都是一个字符串对象，每个字符串对象包含了一个集合元素，而字典的值则全部被设置为NULL</strong>。</li>
+</ul>
+<p>当集合对象同时满足如下两个条件时，使用inset编码：</p>
+<ol>
+<li>保存的元素都是整数值</li>
+<li>保存的元素数量<strong>≤512个</strong>。</li>
+</ol>
+<p>第二个条件的<strong>上限值是可以修改的</strong>，具体请看配置文件中关于<code>set-max-intset-entries</code>选项的说明。</p>
+<h4 id="集合相关命令"><a href="#集合相关命令" class="headerlink" title="集合相关命令"></a>集合相关命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SADD</td>
+<td>添加元素到集合中</td>
+</tr>
+<tr>
+<td>SCARD</td>
+<td>返回集合对象的元素数量</td>
+</tr>
+<tr>
+<td>SISMEMBER</td>
+<td>查找元素是否存在</td>
+</tr>
+<tr>
+<td>SMEMBERS</td>
+<td>返回所有集合元素</td>
+</tr>
+<tr>
+<td>SRANDMEMBER</td>
+<td>随机返回一个元素</td>
+</tr>
+<tr>
+<td>SPOP</td>
+<td>随机返回一个元素，并删除</td>
+</tr>
+<tr>
+<td>SREM</td>
+<td>批量删除指定的元素</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="有序集合对象"><a href="#有序集合对象" class="headerlink" title="有序集合对象"></a>有序集合对象</h3><p>有序集合的编码可以是ziplist或者skiplist。</p>
+<p>当有序集合对象同时满足以下两个条件时，使用 ziplist：</p>
+<ol>
+<li>ZSet 保存的元素数量 <strong>≤ 128 个</strong>；</li>
+<li>每个元素的长度 <strong>≤ 64 字节</strong>。</li>
+</ol>
+<ul>
+<li><p>ziplist编码的有序集合对象，每个集合元素使用<strong>2个紧挨在一起的压缩列表节点</strong>来保存，第一个节点保存元素的<strong>成员（member）</strong>，而第二个元素则保存元素的<strong>分值（score）</strong>。</p>
+<p> 压缩列表内的集合元素<strong>按分值从小到大进行排序</strong>，分值较小的元素被放置在靠近表头的方向，而分值较大的元素则被放置在靠近表尾的方向。</p>
+</li>
+<li><p>skiplist编码的有序集合对象，使用一个zset结构作为底层实现。</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zset</span> &#123;</span></span><br><span class="line">    zskiplist *zsl;</span><br><span class="line">    dict *dict;</span><br><span class="line">&#125; zset;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>zsl跳跃表<strong>按分值从小到大</strong>保存了所有集合元素，每个跳跃表节点都保存了一个集合元素</li>
+<li>dict字典为有序集合创建了一个<strong>从成员到分值的映射</strong>。通过这个字典，程序可以用$O(1)$复杂度查找给定成员的分值。</li>
+</ul>
+</li>
+</ul>
+<p>有序集合每个元素的成员都是一个<strong>字符串对象</strong>，而每个元素的分值都是一个<strong>double类型的浮点数</strong>。虽然zset结构<strong>同时使用跳跃表和字典来保存有序集合元素</strong>，但这两种数据结构都会<strong>通过指针来共享相同元素的成员和分值</strong>，所以不会产生任何重复成员或者分值，也不会因此而浪费额外的内存。</p>
+<h4 id="有序集合相关命令"><a href="#有序集合相关命令" class="headerlink" title="有序集合相关命令"></a>有序集合相关命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ZADD</td>
+<td>将成员和分值添加到有序集合中</td>
+</tr>
+<tr>
+<td>ZCARD</td>
+<td>获取集合元素的数量</td>
+</tr>
+<tr>
+<td>ZCOUNT</td>
+<td>统计分值在给定范围内节点的数量</td>
+</tr>
+<tr>
+<td>ZRANGE</td>
+<td>从表头向表尾遍历有序集合，返回给定索引范围内的所有元素</td>
+</tr>
+<tr>
+<td>ZREVRANGE</td>
+<td>从表尾向表头遍历有序集合，返回给定索引范围内的所有元素</td>
+</tr>
+<tr>
+<td>ZRANK</td>
+<td>获取指定成员对应元素的排名</td>
+</tr>
+<tr>
+<td>ZREM</td>
+<td>删除指定对象</td>
+</tr>
+<tr>
+<td>ZSCORE</td>
+<td>查找指定成员的分值</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h3><p>对象的<strong>引用计数属性</strong>除了用于内存回收，还带有对象共享的作用。</p>
+<p>以<strong>Redis 3.0</strong>来说，Redis在初始化服务器时，<strong>会创建1万个字符串对象</strong>，包含了<strong>从0到9999的所有整数值</strong>，当服务器需要用到值为0到9999的字符串对象时，服务器就会使用这些共享对象，而不是新创建对象。创建共享字符串对象的数量可以通过修改<code>redis.h/REDIS_SHARED_INTEGERS</code>常量来修改。</p>
+<img src="https://s2.loli.net/2024/05/13/SQg78t69MfY5u2J.png" alt="被共享的字符串对象" style="zoom:50%;" />
+
+<p>这些共享对象不单单只有字符串键可以使用，那些在数据结构中嵌套了字符串对象的对象（linkedlist编码的列表对象、hashtable编码的哈希对象、hashtable编码的集合对象，以及zset编码的有序集合对象）都可以使用这些共享对象。</p>
+<p>由于只有在共享对象和目标对象完全相同的情况下，程序才会将共享对象用作键的值对象，而一个共享对象<strong>保存的值越复杂</strong>，验证共享对象和目标对象是否相同所需的<strong>复杂度就会越高</strong>，<strong>消耗的CPU时间也会越多</strong>，因此，Redis只对<strong>包含整数值的字符串对象</strong>进行共享。</p>
+<hr>
+<h3 id="对象的空转时长"><a href="#对象的空转时长" class="headerlink" title="对象的空转时长"></a>对象的空转时长</h3><p>redisObject结构还包含一个lru属性，记录了<strong>最后一次被程序访问的时间</strong>。<code>OBJECT IDLETIME</code>命令可以打印指定键的空转时长，通过<strong>当前时间 - 键的值对象的lru时间</strong>得出。<code>OBJECT IDLETIME</code>命令的实现比较特叔，在访问键的值对象时，<strong>不会修改值对象的lru属性</strong>。</p>
+<p>如果服务器打开了maxmemory选项，并且用于回收内存的算法为<code>volatile-lru</code>或者<code>allkeys-lru</code>，那么当服务器占用的内存数超过maxmemory设置的上限值时，<strong>空转时长较高的键会被优先释放</strong>，从而回收内存。</p>
+<hr>
+<h3 id="位图对象"><a href="#位图对象" class="headerlink" title="位图对象"></a>位图对象</h3><p>Bitmap 存储的是<strong>连续的</strong>二进制数字（0 和 1），只需要一个 bit 位来表示<strong>某个元素对应的值或者状态</strong>，<strong>key 就是对应元素本身</strong> 。可以把BitMap看作一个bit数组，数组的下标就是偏移量offset。BitMap<strong>内存开销小，效率高且操作简单</strong>。</p>
+<p>使用场景：统计用户活跃状态（是否登录、签到）</p>
+<hr>
+<h1 id="Redis为什么速度快？"><a href="#Redis为什么速度快？" class="headerlink" title="Redis为什么速度快？"></a>Redis为什么速度快？</h1><ol>
 <li><p>Redis基于内存，内存的访问速度是磁盘的上千倍。</p>
 </li>
 <li><p>Redis基于Reactor模式，设计开发了一套高效的<strong>事件处理模型</strong>，主要是<strong>单线程事件循环</strong>和<strong>IO多路复用</strong>。</p>
@@ -1383,568 +2701,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/10/28/Spring-Boot/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/10/28/Spring-Boot/" class="post-title-link" itemprop="url">Spring Boot</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-10-28 18:45:15" itemprop="dateCreated datePublished" datetime="2023-10-28T18:45:15+08:00">2023-10-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-11-01 15:18:30" itemprop="dateModified" datetime="2023-11-01T15:18:30+08:00">2023-11-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/Spring-Boot/" itemprop="url" rel="index"><span itemprop="name">Spring Boot</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Spring-Boot启动流程"><a href="#Spring-Boot启动流程" class="headerlink" title="Spring Boot启动流程"></a>Spring Boot启动流程</h1><h2 id="SpringBootApplication注解"><a href="#SpringBootApplication注解" class="headerlink" title="@SpringBootApplication注解"></a>@SpringBootApplication注解</h2><p>Spring Boot的启动，首先需要一个<strong>加了<code>@SpringBootApplication</code>注解的启动类</strong>。</p>
-<p><img src="https://s2.loli.net/2023/10/28/yU3J2hCzdHIGwqu.png" alt="@SpringBootApplication 注解"></p>
-<p>这个注解本质上，是由<code>@EnableAutoConfiguration</code>、<code>@SpringBootConfiguration</code>、<code>@ComponentScan</code>三个注解连起来构成。</p>
-<ul>
-<li><p><code>@EnableAutoConfiguration</code>最为核心</p>
-<p>  会导入<strong>自动配置</strong><code>AutoConfigurationImportSelector</code>类，这个类会将所有符合条件的<code>@Configuration</code>配置都进行加载。</p>
-  <img src="https://s2.loli.net/2023/10/28/TGhjPAM2vfOu5SH.png" alt="@EnableAutoConfiguration 注解" style="zoom:50%;" />
-</li>
-<li><p><code>@SpringBootConfiguration</code>等同于<code>@Configuration</code></p>
-<p>  将当前类标记为配置类，加载到容器中。</p>
-<p>  <img src="C:\Users\Hunter\AppData\Roaming\Typora\typora-user-images\image-20231028185226346.png" alt="@SpringBootConfiguration 注解"></p>
-</li>
-<li><p><code>@ComponentScan</code>自动扫描并<strong>加载符合条件的Bean</strong></p>
-</li>
-</ul>
-<hr>
-<h2 id="SpringApplication-run方法"><a href="#SpringApplication-run方法" class="headerlink" title="SpringApplication.run方法"></a><code>SpringApplication.run</code>方法</h2><p><img src="https://s2.loli.net/2023/10/28/XfN5aPDQ4GitBsx.png" alt="image-20231028185647082"></p>
-<p>在run方法开始执行后，会经历如下<strong>4个阶段</strong>：</p>
-<ol>
-<li><p><strong>服务构建</strong></p>
-<p> 构建SpringApplication本身。</p>
- <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">SpringApplication</span><span class="params">(ResourceLoader resourceLoader, Class&lt;?&gt;... primarySources)</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 将资源加载器、主方法类加载至内存中</span></span><br><span class="line">    <span class="built_in">this</span>.resourceLoader = resourceLoader;</span><br><span class="line">    Assert.notNull(primarySources, <span class="string">&quot;PrimarySources must not be null&quot;</span>);</span><br><span class="line">    <span class="built_in">this</span>.primarySources = <span class="keyword">new</span> <span class="title class_">LinkedHashSet</span>&lt;&gt;(Arrays.asList(primarySources));</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2. 逐一判断对应的服务类是否存在，来确定Web服务的类型。默认是基于Servlet的Web服务，如Tomcat</span></span><br><span class="line">    <span class="built_in">this</span>.webApplicationType = WebApplicationType.deduceFromClasspath();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3. 加载初始化类，读取所有&quot;META-INF/spring.factories&quot;文件中的 </span></span><br><span class="line">    <span class="comment">//		注册初始化、上下文初始化、监听器这三类配置</span></span><br><span class="line">    <span class="comment">// Spring Boot和Spring Boot Autoconfigure这两个工程中配置了7个上下文初始化和8个监听器</span></span><br><span class="line">    <span class="built_in">this</span>.bootstrapRegistryInitializers = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(</span><br><span class="line">            getSpringFactoriesInstances(BootstrapRegistryInitializer.class)); <span class="comment">// 没有默认的注册初始化配置</span></span><br><span class="line">    setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));</span><br><span class="line">    setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 通过StackWalker判断出main方法所在的类（大概率就是启动类本身）</span></span><br><span class="line">    <span class="built_in">this</span>.mainApplicationClass = deduceMainApplicationClass();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>环境准备</p>
-<p> SpringApplication.run就是进入环境准备阶段。</p>
- <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ConfigurableApplicationContext <span class="title function_">run</span><span class="params">(String... args)</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    </span><br><span class="line">    <span class="type">DefaultBootstrapContext</span> <span class="variable">bootstrapContext</span> <span class="operator">=</span> createBootstrapContext();</span><br><span class="line">    <span class="type">ConfigurableApplicationContext</span> <span class="variable">context</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    configureHeadlessProperty();</span><br><span class="line">    <span class="type">SpringApplicationRunListeners</span> <span class="variable">listeners</span> <span class="operator">=</span> getRunListeners(args);</span><br><span class="line">    listeners.starting(bootstrapContext, <span class="built_in">this</span>.mainApplicationClass);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">ApplicationArguments</span> <span class="variable">applicationArguments</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DefaultApplicationArguments</span>(args);</span><br><span class="line">        <span class="type">ConfigurableEnvironment</span> <span class="variable">environment</span> <span class="operator">=</span> prepareEnvironment(listeners, bootstrapContext, applicationArguments);</span><br><span class="line">        <span class="type">Banner</span> <span class="variable">printedBanner</span> <span class="operator">=</span> printBanner(environment);</span><br><span class="line">        context = createApplicationContext();</span><br><span class="line">        context.setApplicationStartup(<span class="built_in">this</span>.applicationStartup);</span><br><span class="line">        prepareContext(bootstrapContext, context, environment, listeners, applicationArguments, printedBanner);</span><br><span class="line">        refreshContext(context);</span><br><span class="line">        afterRefresh(context, applicationArguments);</span><br><span class="line">        <span class="type">Duration</span> <span class="variable">timeTakenToStartup</span> <span class="operator">=</span> Duration.ofNanos(System.nanoTime() - startTime);</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.logStartupInfo) &#123;</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">StartupInfoLogger</span>(<span class="built_in">this</span>.mainApplicationClass).logStarted(getApplicationLog(), timeTakenToStartup);</span><br><span class="line">        &#125;</span><br><span class="line">        listeners.started(context, timeTakenToStartup);</span><br><span class="line">        callRunners(context, applicationArguments);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ex <span class="keyword">instanceof</span> AbandonedRunException) &#123;</span><br><span class="line">            <span class="keyword">throw</span> ex;</span><br><span class="line">        &#125;</span><br><span class="line">        handleRunFailure(context, ex, listeners);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalStateException</span>(ex);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (context.isRunning()) &#123;</span><br><span class="line">            <span class="type">Duration</span> <span class="variable">timeTakenToReady</span> <span class="operator">=</span> Duration.ofNanos(System.nanoTime() - startTime);</span><br><span class="line">            listeners.ready(context, timeTakenToReady);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ex <span class="keyword">instanceof</span> AbandonedRunException) &#123;</span><br><span class="line">            <span class="keyword">throw</span> ex;</span><br><span class="line">        &#125;</span><br><span class="line">        handleRunFailure(context, ex, <span class="literal">null</span>);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalStateException</span>(ex);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> context;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-<li><p>容器创建</p>
-</li>
-<li><p>填充容器</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/10/24/jmap/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/10/24/jmap/" class="post-title-link" itemprop="url">jmap</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2023-10-24 17:03:49 / 修改时间：18:02:51" itemprop="dateCreated datePublished" datetime="2023-10-24T17:03:49+08:00">2023-10-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>jmap命令是一个可以输出所有内存中对象的工具，甚至可以将JVM中的heap，以二进制输出成文本。打印出某个java进程（使用pid）内存内的所有对象的情况（如：产生哪些对象，及其数量）。</p>
-<hr>
-<h1 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> jmap [option] &lt;pid&gt;</span><br><span class="line">    (to connect to running process) 连接到正在运行的进程</span><br><span class="line"></span><br><span class="line">jmap [option] &lt;executable &lt;core&gt;</span><br><span class="line">    (to connect to a core file)     连接到核心文件</span><br><span class="line"></span><br><span class="line">jmap [option] [server_id@]&lt;remote server IP or hostname&gt;</span><br><span class="line">    (to connect to remote debug server) 连接到远程调试服务</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h1><h2 id="输出jvm的heap内容到文件"><a href="#输出jvm的heap内容到文件" class="headerlink" title="输出jvm的heap内容到文件"></a>输出jvm的heap内容到文件</h2><p><code>jmap -dump:live,format=b,file=[outputFileName.hprof] [pid]</code></p>
-<p>使用<strong>hprof二进制形式</strong>输出jvm的heap内容到文件。live子选项是可选的，只输出活的对象到文件。</p>
-<hr>
-<h2 id="打印正等候回收的对象的信息"><a href="#打印正等候回收的对象的信息" class="headerlink" title="打印正等候回收的对象的信息"></a>打印正等候回收的对象的信息</h2><p><code>jmap -finalizerinfo [pid]</code></p>
-<hr>
-<h2 id="打印heap的概要信息"><a href="#打印heap的概要信息" class="headerlink" title="打印heap的概要信息"></a>打印heap的概要信息</h2><p>JDK 8: <code>jmap -heap [pid]</code></p>
-<p>JDK 9往后：<code>jhsdb jmap --heap --pid [pid]</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">root@PC:~<span class="comment"># jhsdb jmap --heap --pid 51266</span></span><br><span class="line">Attaching to process ID 51266, please <span class="built_in">wait</span>...</span><br><span class="line">Debugger attached successfully.</span><br><span class="line">Server compiler detected.</span><br><span class="line">JVM version is 17.0.8.1+1-Ubuntu-0ubuntu122.04</span><br><span class="line"></span><br><span class="line">using thread-local object allocation.</span><br><span class="line">Garbage-First (G1) GC with 10 thread(s)</span><br><span class="line"></span><br><span class="line">Heap Configuration: <span class="comment">#堆配置情况，也就是JVM参数配置的结果[平常说的tomcat配置JVM参数，就是在配置这些]</span></span><br><span class="line">   MinHeapFreeRatio         = 40 <span class="comment">#最小堆可用比例</span></span><br><span class="line">   MaxHeapFreeRatio         = 70 <span class="comment">#最大堆可用比例</span></span><br><span class="line">   MaxHeapSize              = 4169138176 (3976.0MB) <span class="comment">#最大堆空间大小</span></span><br><span class="line">   NewSize                  = 1363144 (1.2999954223632812MB) <span class="comment">#新生代分配大小</span></span><br><span class="line">   MaxNewSize               = 2499805184 (2384.0MB) <span class="comment">#最大新生代分配大小</span></span><br><span class="line">   OldSize                  = 5452592 (5.1999969482421875MB) <span class="comment">#老年代大小</span></span><br><span class="line">   NewRatio                 = 2 <span class="comment">#新生代比例</span></span><br><span class="line">   SurvivorRatio            = 8 <span class="comment">#新生代与suvivor的比例</span></span><br><span class="line">   MetaspaceSize            = 22020096 (21.0MB)</span><br><span class="line">   CompressedClassSpaceSize = 1073741824 (1024.0MB)</span><br><span class="line">   MaxMetaspaceSize         = 17592186044415 MB</span><br><span class="line">   G1HeapRegionSize         = 2097152 (2.0MB)</span><br><span class="line"></span><br><span class="line">Heap Usage: <span class="comment">#堆使用情况【堆内存实际的使用情况】</span></span><br><span class="line">G1 Heap:</span><br><span class="line">   regions  = 1988</span><br><span class="line">   capacity = 4169138176 (3976.0MB)</span><br><span class="line">   used     = 38374400 (36.5966796875MB)</span><br><span class="line">   free     = 4130763776 (3939.4033203125MB)</span><br><span class="line">   0.9204396299673038% used</span><br><span class="line">G1 Young Generation:</span><br><span class="line">Eden Space:</span><br><span class="line">   regions  = 3</span><br><span class="line">   capacity = 117440512 (112.0MB)</span><br><span class="line">   used     = 6291456 (6.0MB)</span><br><span class="line">   free     = 111149056 (106.0MB)</span><br><span class="line">   5.357142857142857% used</span><br><span class="line">Survivor Space:</span><br><span class="line">   regions  = 1</span><br><span class="line">   capacity = 2097152 (2.0MB)</span><br><span class="line">   used     = 2097152 (2.0MB)</span><br><span class="line">   free     = 0 (0.0MB)</span><br><span class="line">   100.0% used</span><br><span class="line">G1 Old Generation:</span><br><span class="line">   regions  = 16</span><br><span class="line">   capacity = 71303168 (68.0MB)</span><br><span class="line">   used     = 29985792 (28.5966796875MB)</span><br><span class="line">   free     = 41317376 (39.4033203125MB)</span><br><span class="line">   42.05394071691177% used</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="打印每个class的实例数目、内存占用、类名信息"><a href="#打印每个class的实例数目、内存占用、类名信息" class="headerlink" title="打印每个class的实例数目、内存占用、类名信息"></a>打印每个class的实例数目、内存占用、类名信息</h2><p><code>jmap -histo:live [pid]</code></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/10/24/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8DOOM%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/10/24/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8DOOM%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">如何快速定位OOM问题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2023-10-24 14:01:08 / 修改时间：18:02:56" itemprop="dateCreated datePublished" datetime="2023-10-24T14:01:08+08:00">2023-10-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="OOM的原因"><a href="#OOM的原因" class="headerlink" title="OOM的原因"></a>OOM的原因</h1><h2 id="一次性申请过多的对象"><a href="#一次性申请过多的对象" class="headerlink" title="一次性申请过多的对象"></a>一次性申请过多的对象</h2><p>更改申请对象的数量。（分页）</p>
-<hr>
-<h2 id="内存资源耗尽-未释放"><a href="#内存资源耗尽-未释放" class="headerlink" title="内存资源耗尽 未释放"></a>内存资源耗尽 未释放</h2><p>找到未释放的对象进行释放。</p>
-<hr>
-<h2 id="本身资源不够"><a href="#本身资源不够" class="headerlink" title="本身资源不够"></a>本身资源不够</h2><p>查看堆信息：</p>
-<p>JDK 8: <code>jmap -heap [pid]</code></p>
-<p>JDK 11往后：<code>jhsdb jmap --heap --pid [pid]</code></p>
-<img src="https://s2.loli.net/2023/10/24/Vjm8txXY65EWwKO.png" alt="image-20231024141116327" style="zoom:50%;" />
-
-<hr>
-<h1 id="通过dump定位"><a href="#通过dump定位" class="headerlink" title="通过dump定位"></a>通过dump定位</h1><h2 id="系统已经OOM挂掉了"><a href="#系统已经OOM挂掉了" class="headerlink" title="系统已经OOM挂掉了"></a>系统已经OOM挂掉了</h2><ol>
-<li><p>提前设置<code>-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=[指定的存放路径]</code></p>
-<p> 需要保证服务器的硬盘空间够大，因为该设置会<strong>记录系统在整个运行过程中所有的对象信息</strong>，占用空间。</p>
-<p> 发生OOM后，会生成<code>java_pidxxxxx.hprof</code>的heap dump文件。</p>
-</li>
-<li><p>使用JProfiler进行查看</p>
- <img src="https://s2.loli.net/2023/10/24/MdjfG6qhgXyPY7B.png" alt="image-20231024162807712" style="zoom:80%;" />
-</li>
-<li><p>找到与业务相关的类 - 右键，使用选定对象</p>
- <img src="https://s2.loli.net/2023/10/24/U2ZczJIsgBX5Eu8.png" alt="image-20231024163513439" style="zoom:80%;" />
-</li>
-<li><p>选择 传入引用，确定。</p>
- <img src="https://s2.loli.net/2023/10/24/VnjkM8pRcK25l9N.png" alt="image-20231024163605325" style="zoom: 80%;" />
-</li>
-<li><p>显示到GC根(GC Root)的路径，确定</p>
- <img src="https://s2.loli.net/2023/10/24/hg4Rb2ntxTeiu5U.png" alt="image-20231024163702041" style="zoom:50%;" />
-</li>
-<li><p>根据显示的线程堆栈，查看代码进行分析。</p>
- <img src="https://s2.loli.net/2023/10/24/YMNnVuEgICtPrhS.png" alt="image-20231024163834286" style="zoom: 50%;" /></li>
-</ol>
-<hr>
-<h2 id="系统运行中，还未OOM"><a href="#系统运行中，还未OOM" class="headerlink" title="系统运行中，还未OOM"></a>系统运行中，还未OOM</h2><h3 id="方式一-导出dump文件"><a href="#方式一-导出dump文件" class="headerlink" title="方式一 导出dump文件"></a>方式一 导出dump文件</h3><p><code>jmap -dump:format=b,file=[outputFileName.hprof] [pid]</code></p>
-<p>在系统运行阶段导出dump文件，会造成一次FullGC、STW（Stop The World，所有线程中断）。但不导出dump文件的话，时间成本要增高很多</p>
-<hr>
-<h3 id="方式二-Arthas"><a href="#方式二-Arthas" class="headerlink" title="方式二 Arthas"></a>方式二 Arthas</h3>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/10/17/RabbitMQ/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/10/17/RabbitMQ/" class="post-title-link" itemprop="url">RabbitMQ</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-10-17 16:47:26" itemprop="dateCreated datePublished" datetime="2023-10-17T16:47:26+08:00">2023-10-17</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-10-24 18:02:44" itemprop="dateModified" datetime="2023-10-24T18:02:44+08:00">2023-10-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/" itemprop="url" rel="index"><span itemprop="name">JavaWeb</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>消息队列提供一个<strong>异步通信机制</strong>，消息的发送者不必一直等待到消息被成功处理才返回，而是立即返回。消息中间件负责处理网络通信，如果网络连接不可用，消息被暂存于队列当中，当网络畅通时，将消息转发给相应的应用程序或者服务。</p>
-<p>如果在商品服务和订单服务之间使用消息中间件，既可以提高并发量，又降低服务之间的耦合度。</p>
-<p>RabbitMQ是一个开源的<strong>消息代理的队列服务器</strong>，用来通过普通协议在完全不同的应用之间<strong>共享数据</strong>。</p>
-<hr>
-<h1 id="Docker下相关命令"><a href="#Docker下相关命令" class="headerlink" title="Docker下相关命令"></a>Docker下相关命令</h1><ul>
-<li><p>下载</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 要选择带management的版本，带管理页面</span></span><br><span class="line">docker pull rabbitmq:3.12-management</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>创建用户</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_user [username] [password]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 赋予管理员权限</span></span><br><span class="line">rabbitmqctl set_user_tags [username] administrator</span><br></pre></td></tr></table></figure></li>
-</ul>
-<hr>
-<h1 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h1><p><img src="https://s2.loli.net/2023/10/18/RHp6Mq9bzDKVuUj.png" alt="image-20231018100910521"></p>
-<hr>
-<h2 id="交换机-exchange"><a href="#交换机-exchange" class="headerlink" title="交换机 exchange"></a>交换机 exchange</h2><h3 id="发布订阅模式-fanout"><a href="#发布订阅模式-fanout" class="headerlink" title="发布订阅模式 fanout"></a>发布订阅模式 fanout</h3><p>发布一次，消费多个。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/10/12/JMeter/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/10/12/JMeter/" class="post-title-link" itemprop="url">JMeter</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-10-12 16:59:11" itemprop="dateCreated datePublished" datetime="2023-10-12T16:59:11+08:00">2023-10-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-10-14 11:40:22" itemprop="dateModified" datetime="2023-10-14T11:40:22+08:00">2023-10-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/" itemprop="url" rel="index"><span itemprop="name">JavaWeb</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">压力测试</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p><a target="_blank" rel="noopener" href="https://jmeter.apache.org/download_jmeter.cgi">Apache JMeter - Download Apache JMeter</a></p>
-<p>选择二进制文件包。</p>
-<hr>
-<h1 id="Windows下"><a href="#Windows下" class="headerlink" title="Windows下"></a>Windows下</h1><p>windows下，解压后运行”\apache-jmeter-5.6.2\bin\jmeter.bat”。</p>
-<p>Options- choose language - 选择中文。</p>
-<hr>
-<img src="https://s2.loli.net/2023/10/12/6FgcLv3z9byxqZt.png" alt="image-20231012172118257" style="zoom:80%;" />
-
-
-
-<img src="https://s2.loli.net/2023/10/12/DKc39arFioHEgX6.png" alt="image-20231012172258211" style="zoom:80%;" />
-
-<p><img src="https://s2.loli.net/2023/10/12/8A2mZ3J9n6zq1ib.png" alt="image-20231012172436339"></p>
-<p><img src="https://s2.loli.net/2023/10/12/DcVjF1qENSCkt53.png" alt="image-20231012172550539"></p>
-<hr>
-<h1 id="Linux下"><a href="#Linux下" class="headerlink" title="Linux下"></a>Linux下</h1><p>解压后运行<code>apache-jmeter-5.6.2/bin/jmeter.sh -n -t first.jmx -l result.jtl</code></p>
-<ul>
-<li><code>-n</code>  命令行下执行</li>
-<li><code>-t</code> 要运行的测试脚本文件</li>
-<li><code>-l</code> 记录结果的文件</li>
-</ul>
-<p>查看result.jtl文件，要将文件拷出到windows，在监听器 - 聚合报告 下，打开文件浏览</p>
-<p><img src="https://s2.loli.net/2023/10/13/H9T4ZRljqychvfb.png" alt="image-20231013013107361"></p>
-<h2 id="配置不同用户进行测试"><a href="#配置不同用户进行测试" class="headerlink" title="配置不同用户进行测试"></a>配置不同用户进行测试</h2><p><img src="https://s2.loli.net/2023/10/13/ZpHMvkRcELe9Q7i.png" alt="image-20231013121242660"></p>
-<p>cookie管理器中，通过<code>$&#123;&#125;</code>获取CSV中设置的变量值</p>
-<p><img src="https://s2.loli.net/2023/10/13/PvWXwu4Kj7TtHmI.png" alt="image-20231013121417139"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

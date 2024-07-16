@@ -19,16 +19,16 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="优化慢SQL慢查询日志记录了执行时间超过long_query_time(默认10s，通常设置为1s)的所有查询语句，在解决SQL慢查询问题时经常会用到。  查询慢查询日志是否开启 (默认关闭)   1show variables like &quot;slow_query_log;    开启慢查询日志   1SET GLOBAL slow_query_log&#x3D;ON;  查看慢查询的超时时间">
+    <meta name="description" content="优化慢 SQL慢查询日志记录了执行时间超过 long_query_time(默认 10s，通常设置为 1s)的所有查询语句，在解决 SQL 慢查询问题时经常会用到。  查询慢查询日志是否开启 (默认关闭)   1show variables like &quot;slow_query_log;    开启慢查询日志   1SET GLOBAL slow_query_log&#x3D;ON;  查看慢查询的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SQL优化手段">
 <meta property="og:url" content="https://hunter1023.github.io/2023/09/26/SQL%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/index.html">
 <meta property="og:site_name" content="Talk is cheap">
-<meta property="og:description" content="优化慢SQL慢查询日志记录了执行时间超过long_query_time(默认10s，通常设置为1s)的所有查询语句，在解决SQL慢查询问题时经常会用到。  查询慢查询日志是否开启 (默认关闭)   1show variables like &quot;slow_query_log;    开启慢查询日志   1SET GLOBAL slow_query_log&#x3D;ON;  查看慢查询的超时时间">
+<meta property="og:description" content="优化慢 SQL慢查询日志记录了执行时间超过 long_query_time(默认 10s，通常设置为 1s)的所有查询语句，在解决 SQL 慢查询问题时经常会用到。  查询慢查询日志是否开启 (默认关闭)   1show variables like &quot;slow_query_log;    开启慢查询日志   1SET GLOBAL slow_query_log&#x3D;ON;  查看慢查询的">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2023/09/25/21bVZFhgkiscotW.png">
 <meta property="article:published_time" content="2023-09-25T16:06:32.000Z">
-<meta property="article:modified_time" content="2023-09-25T16:31:59.195Z">
+<meta property="article:modified_time" content="2024-06-24T14:51:53.888Z">
 <meta property="article:author" content="Hunter">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
@@ -141,7 +141,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%85%A2SQL"><span class="nav-number">1.</span> <span class="nav-text">优化慢SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%85%E6%84%8F%E6%89%A7%E8%A1%8C%E4%B8%80%E6%9D%A1%E6%85%A2%E6%9F%A5%E8%AF%A2%E5%B9%B6%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="nav-number">1.1.</span> <span class="nav-text">故意执行一条慢查询并查看日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8-SELECT"><span class="nav-number">1.2.</span> <span class="nav-text">避免使用 SELECT *</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96"><span class="nav-number">1.3.</span> <span class="nav-text">分页优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%BD%E9%87%8F%E9%81%BF%E5%85%8D%E5%A4%9A%E8%A1%A8%E5%81%9Ajoin"><span class="nav-number">1.4.</span> <span class="nav-text">尽量避免多表做join</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E8%AE%AE%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E5%A4%96%E9%94%AE%E4%B8%8E%E7%BA%A7%E8%81%94"><span class="nav-number">1.5.</span> <span class="nav-text">建议不要使用外键与级联</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.6.</span> <span class="nav-text">选择合适的字段类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%BD%E9%87%8F%E7%94%A8UNION-ALL-%E4%BB%A3%E6%9B%BFUNION"><span class="nav-number">1.7.</span> <span class="nav-text">尽量用UNION ALL 代替UNION</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C"><span class="nav-number">1.8.</span> <span class="nav-text">批量操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Show-PROFILE-%E5%88%86%E6%9E%90SQL%E6%89%A7%E8%A1%8C%E6%80%A7%E8%83%BD"><span class="nav-number">1.9.</span> <span class="nav-text">Show PROFILE 分析SQL执行性能</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95"><span class="nav-number">2.</span> <span class="nav-text">正确使用索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E5%AD%97%E6%AE%B5%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-number">2.1.</span> <span class="nav-text">选择合适的字段创建索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A2%AB%E9%A2%91%E7%B9%81%E6%9B%B4%E6%96%B0%E7%9A%84%E5%AD%97%E6%AE%B5%E5%BA%94%E8%AF%A5%E6%85%8E%E9%87%8D%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95"><span class="nav-number">2.2.</span> <span class="nav-text">被频繁更新的字段应该慎重建立索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%BD%E5%8F%AF%E8%83%BD%E8%80%83%E8%99%91%E5%BB%BA%E7%AB%8B-%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95-%E8%80%8C%E4%B8%8D%E6%98%AF%E5%8D%95%E5%88%97%E7%B4%A2%E5%BC%95"><span class="nav-number">2.3.</span> <span class="nav-text">尽可能考虑建立 联合索引 而不是单列索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E5%86%97%E4%BD%99%E7%B4%A2%E5%BC%95"><span class="nav-number">2.4.</span> <span class="nav-text">避免冗余索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%80%83%E8%99%91%E5%9C%A8-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B-%E7%9A%84%E5%AD%97%E6%AE%B5%E4%B8%8A%E4%BD%BF%E7%94%A8-%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95-%E4%BB%A3%E6%9B%BF%E6%99%AE%E9%80%9A%E7%B4%A2%E5%BC%95"><span class="nav-number">2.5.</span> <span class="nav-text">考虑在 字符串类型 的字段上使用 前缀索引 代替普通索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88"><span class="nav-number">2.6.</span> <span class="nav-text">避免索引失效</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E9%95%BF%E6%9C%9F%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-number">2.7.</span> <span class="nav-text">删除长期未使用的索引</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%85%A2-SQL"><span class="nav-number">1.</span> <span class="nav-text">优化慢 SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%85%E6%84%8F%E6%89%A7%E8%A1%8C%E4%B8%80%E6%9D%A1%E6%85%A2%E6%9F%A5%E8%AF%A2%E5%B9%B6%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="nav-number">1.1.</span> <span class="nav-text">故意执行一条慢查询并查看日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8-SELECT"><span class="nav-number">1.2.</span> <span class="nav-text">避免使用 SELECT *</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96"><span class="nav-number">1.3.</span> <span class="nav-text">分页优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%BD%E9%87%8F%E9%81%BF%E5%85%8D%E5%A4%9A%E8%A1%A8%E5%81%9A-join"><span class="nav-number">1.4.</span> <span class="nav-text">尽量避免多表做 join</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E8%AE%AE%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E5%A4%96%E9%94%AE%E4%B8%8E%E7%BA%A7%E8%81%94"><span class="nav-number">1.5.</span> <span class="nav-text">建议不要使用外键与级联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.6.</span> <span class="nav-text">选择合适的字段类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%BD%E9%87%8F%E7%94%A8-UNION-ALL-%E4%BB%A3%E6%9B%BF-UNION"><span class="nav-number">1.7.</span> <span class="nav-text">尽量用 UNION ALL 代替 UNION</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C"><span class="nav-number">1.8.</span> <span class="nav-text">批量操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Show-PROFILE-%E5%88%86%E6%9E%90-SQL-%E6%89%A7%E8%A1%8C%E6%80%A7%E8%83%BD"><span class="nav-number">1.9.</span> <span class="nav-text">Show PROFILE 分析 SQL 执行性能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95"><span class="nav-number">2.</span> <span class="nav-text">正确使用索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E5%AD%97%E6%AE%B5%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-number">2.1.</span> <span class="nav-text">选择合适的字段创建索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A2%AB%E9%A2%91%E7%B9%81%E6%9B%B4%E6%96%B0%E7%9A%84%E5%AD%97%E6%AE%B5%E5%BA%94%E8%AF%A5%E6%85%8E%E9%87%8D%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95"><span class="nav-number">2.2.</span> <span class="nav-text">被频繁更新的字段应该慎重建立索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%BD%E5%8F%AF%E8%83%BD%E8%80%83%E8%99%91%E5%BB%BA%E7%AB%8B-%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95-%E8%80%8C%E4%B8%8D%E6%98%AF%E5%8D%95%E5%88%97%E7%B4%A2%E5%BC%95"><span class="nav-number">2.3.</span> <span class="nav-text">尽可能考虑建立 联合索引 而不是单列索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E5%86%97%E4%BD%99%E7%B4%A2%E5%BC%95"><span class="nav-number">2.4.</span> <span class="nav-text">避免冗余索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%80%83%E8%99%91%E5%9C%A8-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B-%E7%9A%84%E5%AD%97%E6%AE%B5%E4%B8%8A%E4%BD%BF%E7%94%A8-%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95-%E4%BB%A3%E6%9B%BF%E6%99%AE%E9%80%9A%E7%B4%A2%E5%BC%95"><span class="nav-number">2.5.</span> <span class="nav-text">考虑在 字符串类型 的字段上使用 前缀索引 代替普通索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88"><span class="nav-number">2.6.</span> <span class="nav-text">避免索引失效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E9%95%BF%E6%9C%9F%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-number">2.7.</span> <span class="nav-text">删除长期未使用的索引</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -154,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">80</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -165,7 +165,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">124</span>
+        <span class="site-state-item-count">127</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -220,9 +220,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2023-09-26 00:06:32 / 修改时间：00:31:59" itemprop="dateCreated datePublished" datetime="2023-09-26T00:06:32+08:00">2023-09-26</time>
+      <time title="创建时间：2023-09-26 00:06:32" itemprop="dateCreated datePublished" datetime="2023-09-26T00:06:32+08:00">2023-09-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-06-24 22:51:53" itemprop="dateModified" datetime="2024-06-24T22:51:53+08:00">2024-06-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -254,7 +260,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="优化慢SQL"><a href="#优化慢SQL" class="headerlink" title="优化慢SQL"></a>优化慢SQL</h1><p>慢查询日志记录了执行时间超过<code>long_query_time</code>(<strong>默认10s</strong>，<strong>通常设置为1s</strong>)的所有查询语句，在解决SQL慢查询问题时经常会用到。</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="优化慢-SQL"><a href="#优化慢-SQL" class="headerlink" title="优化慢 SQL"></a>优化慢 SQL</h2><p>慢查询日志记录了执行时间超过 <code>long_query_time</code>(<strong>默认 10s</strong>，<strong>通常设置为 1s</strong>)的所有查询语句，在解决 SQL 慢查询问题时经常会用到。</p>
 <ul>
 <li><p><strong>查询慢查询日志是否开启 (默认关闭)</strong></p>
   <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> variables <span class="keyword">like</span> &quot;slow_query_log;</span><br></pre></td></tr></table></figure>
@@ -262,13 +268,13 @@
 <p>  <strong>开启慢查询日志</strong></p>
   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET GLOBAL slow_query_log=ON;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>查看慢查询的<strong>超时时间</strong></p>
+<li><p>查看慢查询的 <strong>超时时间</strong></p>
   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &quot;%long_query_time%&quot;;</span><br></pre></td></tr></table></figure>
 
-<p>  修改<code>long_query_time</code>参数：</p>
+<p>  修改 <code>long_query_time</code> 参数：</p>
   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET GLOBAL long_query_time=1;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>查询当前<strong>慢查询语句的个数</strong></p>
+<li><p>查询当前 <strong>慢查询语句的个数</strong></p>
   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show global status like &quot;%Slow_queries%&quot;;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>查询慢查询日志存放位置</p>
@@ -277,12 +283,12 @@
 <li><p>无论是否超时，<strong>未被索引的记录也被记录</strong></p>
   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET GLOBAL log_queries_not_using_indexes = &quot;ON&quot;;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>慢查询仅记录扫描<strong>行数&gt;此参数</strong>的SQL</p>
+<li><p>慢查询仅记录扫描 <strong>行数 &gt; 此参数</strong> 的 SQL</p>
   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET SESSION min_examined_row_limit = 100;</span><br></pre></td></tr></table></figure></li>
 </ul>
-<p><strong>设置完成后，可以用<code>SHOW VARIABLES LIKE &quot;slow%&quot;;</code>命令查看。</strong></p>
+<p><strong>设置完成后，可以用 <code>SHOW VARIABLES LIKE &quot;slow%&quot;;</code> 命令查看。</strong></p>
 <hr>
-<h2 id="故意执行一条慢查询并查看日志"><a href="#故意执行一条慢查询并查看日志" class="headerlink" title="故意执行一条慢查询并查看日志"></a>故意执行一条慢查询并查看日志</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 故意在百万数据量的表中执行一条 未使用索引的排序语句</span><br><span class="line">SELECT score, name</span><br><span class="line">FROM cus_order</span><br><span class="line">ORDER BY score DESC;</span><br></pre></td></tr></table></figure>
+<h3 id="故意执行一条慢查询并查看日志"><a href="#故意执行一条慢查询并查看日志" class="headerlink" title="故意执行一条慢查询并查看日志"></a>故意执行一条慢查询并查看日志</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 故意在百万数据量的表中执行一条 未使用索引的排序语句</span><br><span class="line">SELECT score, name</span><br><span class="line">FROM cus_order</span><br><span class="line">ORDER BY score DESC;</span><br></pre></td></tr></table></figure>
 
 <p>查看日志路径，并去实际查看日志记录</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE &quot;slow_query_log_file&quot;;</span><br></pre></td></tr></table></figure>
@@ -295,20 +301,20 @@
 <li><code>Rows_sent</code> 慢查询返回的记录数量。</li>
 <li><code>Rows_examined</code> 慢查询扫描过的行数。</li>
 </ul>
-<p>实际项目中，慢查询日志通常会比较复杂，需要借助一些工具对其进行分析。比如MySQL内置的**<code>mysqldumpslow</code>工具**，可以将相同的SQL归为一类，并统计出归类项的执行次数和每次执行的耗时等一系列对应的情况。</p>
+<p>实际项目中，慢查询日志通常会比较复杂，需要借助一些工具对其进行分析。比如 MySQL 内置的 <strong><code>mysqldumpslow</code> 工具</strong>，可以将相同的 SQL 归为一类，并统计出归类项的执行次数和每次执行的耗时等一系列对应的情况。</p>
 <blockquote>
-<p><strong>执行计划</strong>：一条语句在经过<strong>MySQL查询优化器</strong>的优化后，具体的执行方式。执行计划通常用于<strong>SQL性能分析、优化</strong>等场景。</p>
+<p><strong>执行计划</strong>：一条语句在经过 <strong>MySQL 查询优化器</strong> 的优化后，具体的执行方式。执行计划通常用于 <strong>SQL 性能分析、优化</strong> 等场景。</p>
 </blockquote>
-<p>通过<code>EXPAIN</code>命令，可以获取执行计划的相关信息。可以了解到如数据表的查询顺序、数据查询操作的操作类型、哪些索引可以被命中、哪些索引实际会命中、每个数据表有多少行记录被查询等信息。</p>
-<p>找到了慢SQL后，可以通过<code>EXPLAIN</code>命令分析对应的语句。</p>
+<p>通过 <code>EXPAIN</code> 命令，可以获取执行计划的相关信息。可以了解到如数据表的查询顺序、数据查询操作的操作类型、哪些索引可以被命中、哪些索引实际会命中、每个数据表有多少行记录被查询等信息。</p>
+<p>找到了慢 SQL 后，可以通过 <code>EXPLAIN</code> 命令分析对应的语句。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT score, name</span><br><span class="line">FROM cus_order</span><br><span class="line">ORDER BY score DESC;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://s2.loli.net/2023/09/25/21bVZFhgkiscotW.png" alt="EXPLAIN命令分析对应的语句的结果"></p>
+<p><img src="https://s2.loli.net/2023/09/25/21bVZFhgkiscotW.png" alt="EXPLAIN 命令分析对应的语句的结果"></p>
 <ul>
 <li><code>select_type</code> 查询的类型<ul>
 <li><code>SIMPLE</code>: 普通查询（即没有联合查询、子查询）</li>
 <li><code>PRIMARY</code>：主查询</li>
-<li><code>UNION</code> （UNION中后面的查询）</li>
+<li><code>UNION</code> （UNION 中后面的查询）</li>
 <li><code>SUBQUERY</code></li>
 </ul>
 </li>
@@ -323,18 +329,18 @@
 <li>system</li>
 </ol>
 </li>
-<li><code>rows</code> SQL<strong>要查找到结果集需要扫描读取的数据行数</strong>，原则上rows越少越好。</li>
+<li><code>rows</code> SQL <strong>要查找到结果集需要扫描读取的数据行数</strong>，原则上 rows 越少越好。</li>
 </ul>
 <hr>
-<h2 id="避免使用-SELECT"><a href="#避免使用-SELECT" class="headerlink" title="避免使用 SELECT *"></a>避免使用 SELECT *</h2><ul>
-<li>需要解析更多的对象、字段、权限、属性等相关内容，会消耗更多的CPU</li>
+<h3 id="避免使用-SELECT"><a href="#避免使用-SELECT" class="headerlink" title="避免使用 SELECT *"></a>避免使用 SELECT *</h3><ul>
+<li>需要解析更多的对象、字段、权限、属性等相关内容，会消耗更多的 CPU</li>
 <li>无用字段增加网络带宽资源消耗、增加数据传输时间，尤其是大字段（varchar、blob、text）</li>
-<li><strong>无法使用 MySQL优化器覆盖索引 的优化</strong></li>
+<li><strong>无法使用 MySQL 优化器 覆盖索引的优化</strong></li>
 </ul>
 <hr>
-<h2 id="分页优化"><a href="#分页优化" class="headerlink" title="分页优化"></a>分页优化</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> score, `name`</span><br><span class="line"><span class="keyword">FROM</span> cus_order</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> score <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">1000000</span>, <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="分页优化"><a href="#分页优化" class="headerlink" title="分页优化"></a>分页优化</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> score, `name`</span><br><span class="line"><span class="keyword">FROM</span> cus_order</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> score <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">1000000</span>, <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
 
-<p>使用<strong>延迟关联</strong>来优化这个分页查询语句：</p>
+<p>使用 <strong>延迟关联</strong> 来优化这个分页查询语句：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT score, name</span><br><span class="line">FROM cus_order AS a, (SELECT id </span><br><span class="line">                      FROM cus_order</span><br><span class="line">                      ORDER BY score DESC</span><br><span class="line">                      LIMIT 1000000, 10) AS b</span><br><span class="line">WHERE a.id = b.id;</span><br></pre></td></tr></table></figure>
 
 <ol>
@@ -342,7 +348,7 @@
 <li>再将这个主键表与原数据表关联</li>
 </ol>
 <hr>
-<h2 id="尽量避免多表做join"><a href="#尽量避免多表做join" class="headerlink" title="尽量避免多表做join"></a>尽量避免多表做join</h2><p>join的效率比较低，主要是因为使用<strong>嵌套循环（Nested Loop）</strong>来实现关联查询，效率都不是很高。实际业务场景避免多表join常见的作法有<strong>2种</strong>：</p>
+<h3 id="尽量避免多表做-join"><a href="#尽量避免多表做-join" class="headerlink" title="尽量避免多表做 join"></a>尽量避免多表做 join</h3><p>join 的效率比较低，主要是因为使用 <strong>嵌套循环（Nested Loop）</strong> 来实现关联查询，效率都不是很高。实际业务场景避免多表 join 常见的作法有 <strong>2 种</strong>：</p>
 <ol>
 <li><p><strong>单表查询后，在内存中自己做关联</strong>。</p>
 <p> 对数据库做单表查询，再根据查询结进行二次查询。以此类推，最后再进行关联。</p>
@@ -352,27 +358,27 @@
 </ul>
 </li>
 <li><p><strong>数据冗余</strong></p>
-<p> 把一些重要的数据在表中做冗余，尽可能避免关联查询。<strong>很笨的一种做法</strong>，表结构比较稳定的清苦那个下才会考虑。</p>
+<p> 把一些重要的数据在表中做冗余，尽可能避免关联查询。<strong>很笨的一种做法</strong>，表结构比较稳定的情况下才会考虑。</p>
 </li>
 </ol>
 <hr>
-<h2 id="建议不要使用外键与级联"><a href="#建议不要使用外键与级联" class="headerlink" title="建议不要使用外键与级联"></a>建议不要使用外键与级联</h2><p>不建议使用外键的主要原因是<strong>对分库分表不友好</strong>，性能方面影响较小。</p>
+<h3 id="建议不要使用外键与级联"><a href="#建议不要使用外键与级联" class="headerlink" title="建议不要使用外键与级联"></a>建议不要使用外键与级联</h3><p>不建议使用外键的主要原因是 <strong>对分库分表不友好</strong>，性能方面影响较小。</p>
 <hr>
-<h2 id="选择合适的字段类型"><a href="#选择合适的字段类型" class="headerlink" title="选择合适的字段类型"></a>选择合适的字段类型</h2><ol>
-<li><p>某些<strong>字符串</strong>可以<strong>转换成数字类型存储</strong>，比如<strong>IP地址</strong>。</p>
+<h3 id="选择合适的字段类型"><a href="#选择合适的字段类型" class="headerlink" title="选择合适的字段类型"></a>选择合适的字段类型</h3><ol>
+<li><p>某些 <strong>字符串</strong> 可以 <strong>转换成数字类型存储</strong>，比如 <strong>IP 地址</strong>。</p>
 <p> 数字是连续的，性能更好，占用空间叶更小。</p>
-<p> MySQL提供了两个方法来处理IP地址：</p>
+<p> MySQL 提供了两个方法来处理 IP 地址：</p>
 <ol>
-<li><code>INET_ATON()</code>：<strong>把ip转为无符号整型（4-8位）</strong></li>
-<li><code>INET_NTOA()</code>：<strong>把整型的ip转为地址</strong></li>
+<li><code>INET_ATON()</code>：<strong>把 ip 转为无符号整型（4-8 位）</strong></li>
+<li><code>INET_NTOA()</code>：<strong>把整型的 ip 转为地址</strong></li>
 </ol>
 </li>
-<li><p>对于非负的数据（自增ID、整型IP、年龄）来说，要<strong>优先使用无符号整型</strong>来存储</p>
-<p> <strong>无符号（SIGNED INT）</strong>相对于<strong>有符号（UNSIGNED INT）</strong>多出了一倍的存储空间 </p>
+<li><p>对于非负的数据（自增 ID、整型 IP、年龄）来说，要 <strong>优先使用无符号整型</strong> 来存储</p>
+<p> <strong>无符号（SIGNED INT）</strong> 相对于 <strong>有符号（UNSIGNED INT）</strong> 多出了一倍的存储空间 </p>
 </li>
-<li><p><strong>小数值</strong>类型（年龄、状态表示如0&#x2F;1）<strong>优先使用<code>TINYINT</code>类型</strong></p>
+<li><p><strong>小数值</strong> 类型（年龄、状态表示如 0&#x2F;1）<strong>优先使用 <code>TINYINT</code> 类型</strong></p>
 </li>
-<li><p><strong>日期类型</strong>一定不要用字符串存储，可以考虑<code>DATETIME</code>、<code>TIMESTAMP</code>和数值型<strong>时间戳</strong></p>
+<li><p><strong>日期类型</strong> 一定不要用字符串存储，可以考虑 <code>DATETIME</code>、<code>TIMESTAMP</code> 和数值型 <strong>时间戳</strong></p>
 <table>
 <thead>
 <tr>
@@ -385,102 +391,102 @@
 </thead>
 <tbody><tr>
 <td>DATETIME</td>
-<td>5-8字节</td>
-<td>YYYY-MM-DD hh:mm:ss[.fraction]</td>
-<td>1000-01-01 00:00:00[.000000] ~ 9999-12-31 23:59:59[.999999]</td>
+<td>5-8 字节</td>
+<td>YYYY-MM-DD hh: mm: ss [.fraction]</td>
+<td>1000-01-01 00:00:00 [.000000] ~ 9999-12-31 23:59:59 [.999999]</td>
 <td>否</td>
 </tr>
 <tr>
 <td>TIMESTAMP</td>
-<td>4-7字节</td>
-<td>YYYY-MM-DD hh:mm:ss[.fraction]</td>
-<td>1970-01-01 00:00:01[.000000] ~2038-01-19 03:14:07[.999999]</td>
+<td>4-7 字节</td>
+<td>YYYY-MM-DD hh: mm: ss [.fraction]</td>
+<td>1970-01-01 00:00:01 [.000000] ~2038-01-19 03:14:07 [.999999]</td>
 <td>是</td>
 </tr>
 <tr>
 <td>数值型时间戳</td>
-<td>4字节</td>
+<td>4 字节</td>
 <td>全数字</td>
-<td>1970-01-01 00:00:01之后的时间</td>
+<td>1970-01-01 00:00:01 之后的时间</td>
 <td>否</td>
 </tr>
 </tbody></table>
 </li>
-<li><p>金额字段用<strong>decimal</strong>，避免精度丢失</p>
-<p> Java中，对应<code>BigDecimal</code></p>
+<li><p>金额字段用 <strong>decimal</strong>，避免精度丢失</p>
+<p> Java 中，对应 <code>BigDecimal</code></p>
 </li>
-<li><p><strong>尽量使用自增id作为主键（分布式场景不建议）</strong></p>
-<p> 主键如果是<strong>自增id</strong>，每次都会将数据加在<strong>B+树尾部</strong>（本质是双向链表），时间复杂度为<code>O(1)</code>。在写满一个数据页的时候，直接申请另一个新数据页接着写就可以了。</p>
-<p> 如果主键是<strong>非自增id，为了让新加入数据后，B+树的叶子节点还能保持有序，需要往叶子节点的中间找，查找过程的时间复杂度是O($ \log n$)<strong>。如果数据页被写满，</strong>需要进行页分裂</strong>。<strong>页分裂操作需要加悲观锁</strong>，性能非常低。</p>
-<p> 但是<strong>像分库分表这类场景就不建议使用自增id作为主键，应该使用分布式id，比如uuid</strong>。</p>
+<li><p><strong>尽量使用自增 id 作为主键（分布式场景不建议）</strong></p>
+<p> 主键如果是 <strong>自增 id</strong>，每次都会将数据加在 <strong>B+树尾部</strong>（本质是双向链表），时间复杂度为 <code>O(1)</code>。在写满一个数据页的时候，直接申请另一个新数据页接着写就可以了。</p>
+<p> 如果主键是 <strong>非自增 id，为了让新加入数据后，B+树的叶子节点还能保持有序，需要往叶子节点的中间找，查找过程的时间复杂度是 O($ \log n$)<strong>。如果数据页被写满，</strong>需要进行页分裂</strong>。<strong>页分裂操作需要加悲观锁</strong>，性能非常低。</p>
+<p> 但是 <strong>像分库分表这类场景就不建议使用自增 id 作为主键，应该使用分布式 id，比如 uuid</strong>。</p>
 </li>
-<li><p>不建议使用NULL作为列默认值</p>
+<li><p>不建议使用 NULL 作为列默认值</p>
 <ul>
-<li><p><strong>NULL需要占用空间</strong>，空字符串<code>&#39;&#39;</code>反而不用占用空间。</p>
+<li><p><strong>NULL 需要占用空间</strong>，空字符串 <code>&#39;&#39;</code> 反而不用占用空间。</p>
 </li>
-<li><p>NULL会影响聚合函数的结果。</p>
-<p>  <code>SUM</code>、<code>AVG</code>等函数会忽略NULL值，<code>COUNT(列名)</code>也会忽略NULL，但<code>COUNT(*)</code>会统计所有的记录数。</p>
+<li><p>NULL 会影响聚合函数的结果。</p>
+<p>  <code>SUM</code>、<code>AVG</code> 等函数会忽略 NULL 值，<code>COUNT(列名)</code> 也会忽略 NULL，但 <code>COUNT(*)</code> 会统计所有的记录数。</p>
 </li>
 </ul>
 </li>
 </ol>
 <hr>
-<h2 id="尽量用UNION-ALL-代替UNION"><a href="#尽量用UNION-ALL-代替UNION" class="headerlink" title="尽量用UNION ALL 代替UNION"></a>尽量用UNION ALL 代替UNION</h2><p>UNION会把两个结果集放在一个临时表中再进行去重操作，更耗时、消耗CPU资源。</p>
+<h3 id="尽量用-UNION-ALL-代替-UNION"><a href="#尽量用-UNION-ALL-代替-UNION" class="headerlink" title="尽量用 UNION ALL 代替 UNION"></a>尽量用 UNION ALL 代替 UNION</h3><p>UNION 会把两个结果集放在一个临时表中再进行去重操作，更耗时、消耗 CPU 资源。</p>
 <hr>
-<h2 id="批量操作"><a href="#批量操作" class="headerlink" title="批量操作"></a>批量操作</h2><p>批量操作能减少请求数据库的次数，提高性能。</p>
+<h3 id="批量操作"><a href="#批量操作" class="headerlink" title="批量操作"></a>批量操作</h3><p>批量操作能减少请求数据库的次数，提高性能。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO cus_order(id, score, name)</span><br><span class="line">VALUES (1, 3512, &quot;user1&quot;), (2, 34335, &quot;user2&quot;), (3, 320985, &quot;user3&quot;);</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="Show-PROFILE-分析SQL执行性能"><a href="#Show-PROFILE-分析SQL执行性能" class="headerlink" title="Show PROFILE 分析SQL执行性能"></a>Show PROFILE 分析SQL执行性能</h2><blockquote>
-<p><code>SHOW PROFILE</code>和<code>SHOW PROFILES</code>已经被弃用，未来的MySQL版本中可能会删除，取代它的是Performance Schema。</p>
+<h3 id="Show-PROFILE-分析-SQL-执行性能"><a href="#Show-PROFILE-分析-SQL-执行性能" class="headerlink" title="Show PROFILE 分析 SQL 执行性能"></a>Show PROFILE 分析 SQL 执行性能</h3><blockquote>
+<p><code>SHOW PROFILE</code> 和 <code>SHOW PROFILES</code> 已经被弃用，未来的 MySQL 版本中可能会删除，取代它的是 Performance Schema。</p>
 </blockquote>
-<p><code>SHOW PROFILE</code>和<code>SHOW PROFILES</code>展示<strong>SQL语句的资源使用情况</strong>，展示的消息包括CPU的使用、CPU上下文切换、IO等待、内存使用等。</p>
+<p><code>SHOW PROFILE</code> 和 <code>SHOW PROFILES</code> 展示 <strong>SQL 语句的资源使用情况</strong>，展示的消息包括 CPU 的使用、CPU 上下文切换、IO 等待、内存使用等。</p>
 <ul>
-<li><p>查看是否支持<code>profiling</code></p>
+<li><p>查看是否支持 <code>profiling</code></p>
   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@have_profiling;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>查看profiling是否开启</p>
+<li><p>查看 profiling 是否开启</p>
   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 0是关闭，1是开启</span><br><span class="line">SELECT @@profiling;</span><br><span class="line"></span><br><span class="line">SET @@profiling = 1;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p><code>SHOW PROFILES</code>展示<strong>当前Session下所有</strong>SQL语句的简要信息（Query_ID、Duration）</p>
+<li><p><code>SHOW PROFILES</code> 展示 <strong>当前 Session 下所有</strong> SQL 语句的简要信息（Query_ID、Duration）</p>
 </li>
-<li><p><code>SHOW PROFILE</code>展示一个SQL语句的执行耗时细节</p>
+<li><p><code>SHOW PROFILE</code> 展示一个 SQL 语句的执行耗时细节</p>
   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">SHOW PROFILE [type [, type] ...]</span><br><span class="line">	[FOR QUERY n] # 展示Query_ID为n的执行情况，默认展示最新的一次SQL执行情况</span><br><span class="line">	[LIMIT row_count [OFFSET offset]]</span><br><span class="line"></span><br><span class="line">type: &#123; # 具体某类资源的消耗情况</span><br><span class="line">	ALL</span><br><span class="line">	BLOCK IO</span><br><span class="line">	CONTEXT SWITCHES</span><br><span class="line">	CPU</span><br><span class="line">	IPC</span><br><span class="line">	MEMORY</span><br><span class="line">	PAGE FAULTS</span><br><span class="line">	SOURCE</span><br><span class="line">	SWAPS</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
 <hr>
-<h1 id="正确使用索引"><a href="#正确使用索引" class="headerlink" title="正确使用索引"></a>正确使用索引</h1><p>正确的索引可以大大加快数据的检索速度。</p>
-<h2 id="选择合适的字段创建索引"><a href="#选择合适的字段创建索引" class="headerlink" title="选择合适的字段创建索引"></a>选择合适的字段创建索引</h2><ol>
-<li><p>不为NULL的字段</p>
+<h2 id="正确使用索引"><a href="#正确使用索引" class="headerlink" title="正确使用索引"></a>正确使用索引</h2><p>正确的索引可以大大加快数据的检索速度。</p>
+<h3 id="选择合适的字段创建索引"><a href="#选择合适的字段创建索引" class="headerlink" title="选择合适的字段创建索引"></a>选择合适的字段创建索引</h3><ol>
+<li><p>不为 NULL 的字段</p>
 </li>
-<li><p><strong>被频繁查询</strong>的字段</p>
+<li><p><strong>被频繁查询</strong> 的字段</p>
 </li>
-<li><p><strong>被作为条件</strong>查询的字段</p>
+<li><p><strong>被作为条件</strong> 查询的字段</p>
 </li>
-<li><p><strong>频繁需要排序</strong>的字段（<strong>索引已经排序</strong>）</p>
+<li><p><strong>频繁需要排序</strong> 的字段（<strong>索引已经排序</strong>）</p>
 </li>
-<li><p><strong>被频繁用于连接</strong>的字段</p>
+<li><p><strong>被频繁用于连接</strong> 的字段</p>
 <p> 提高多表连接查询的效率。</p>
 </li>
 </ol>
 <hr>
-<h2 id="被频繁更新的字段应该慎重建立索引"><a href="#被频繁更新的字段应该慎重建立索引" class="headerlink" title="被频繁更新的字段应该慎重建立索引"></a>被频繁更新的字段应该慎重建立索引</h2><p>维护索引的成本不小。</p>
+<h3 id="被频繁更新的字段应该慎重建立索引"><a href="#被频繁更新的字段应该慎重建立索引" class="headerlink" title="被频繁更新的字段应该慎重建立索引"></a>被频繁更新的字段应该慎重建立索引</h3><p>维护索引的成本不小。</p>
 <hr>
-<h2 id="尽可能考虑建立-联合索引-而不是单列索引"><a href="#尽可能考虑建立-联合索引-而不是单列索引" class="headerlink" title="尽可能考虑建立 联合索引 而不是单列索引"></a>尽可能考虑建立 联合索引 而不是单列索引</h2><p>可以简单理解为<strong>每个索引都对着一棵B+树</strong>。如果一个表的字段过多，索引过多，当表数据达到一个体量之后，<strong>索引占用的空间也会很多，且修改索引的耗时也会很多</strong>。如果是联合索引，会节约很大的磁盘空间，且修改数据的效率也会提升。</p>
+<h3 id="尽可能考虑建立-联合索引-而不是单列索引"><a href="#尽可能考虑建立-联合索引-而不是单列索引" class="headerlink" title="尽可能考虑建立 联合索引 而不是单列索引"></a>尽可能考虑建立 联合索引 而不是单列索引</h3><p>可以简单理解为 <strong>每个索引都对着一棵 B+树</strong>。如果一个表的字段过多，索引过多，当表数据达到一个体量之后，<strong>索引占用的空间也会很多，且修改索引的耗时也会很多</strong>。如果是联合索引，会节约很大的磁盘空间，且修改数据的效率也会提升。</p>
 <hr>
-<h2 id="避免冗余索引"><a href="#避免冗余索引" class="headerlink" title="避免冗余索引"></a>避免冗余索引</h2><p>冗余索引指的是索引功能相同，**能够命中索引(a,b)就肯定能命中索引(a)**。在大多数情况下，都应该尽量扩展已有的索引，而不是创建新索引。</p>
+<h3 id="避免冗余索引"><a href="#避免冗余索引" class="headerlink" title="避免冗余索引"></a>避免冗余索引</h3><p>冗余索引指的是索引功能相同，**能够命中索引(a, b)就肯定能命中索引(a)**。在大多数情况下，都应该尽量扩展已有的索引，而不是创建新索引。</p>
 <hr>
-<h2 id="考虑在-字符串类型-的字段上使用-前缀索引-代替普通索引"><a href="#考虑在-字符串类型-的字段上使用-前缀索引-代替普通索引" class="headerlink" title="考虑在 字符串类型 的字段上使用 前缀索引 代替普通索引"></a>考虑在 字符串类型 的字段上使用 前缀索引 代替普通索引</h2><hr>
-<h2 id="避免索引失效"><a href="#避免索引失效" class="headerlink" title="避免索引失效"></a>避免索引失效</h2><p>索引失效也是慢查询的主要原因之一。常见的导致索引失效的情况：</p>
+<h3 id="考虑在-字符串类型-的字段上使用-前缀索引-代替普通索引"><a href="#考虑在-字符串类型-的字段上使用-前缀索引-代替普通索引" class="headerlink" title="考虑在 字符串类型 的字段上使用 前缀索引 代替普通索引"></a>考虑在 字符串类型 的字段上使用 前缀索引 代替普通索引</h3><hr>
+<h3 id="避免索引失效"><a href="#避免索引失效" class="headerlink" title="避免索引失效"></a>避免索引失效</h3><p>索引失效也是慢查询的主要原因之一。常见的导致索引失效的情况：</p>
 <ol>
 <li><code>SELECT *</code></li>
-<li>创建了组合索引，但<strong>查询条件未遵守最左匹配原则</strong> （查询中<strong>未使用了该索引的第一列</strong>）</li>
+<li>创建了组合索引，但 <strong>查询条件未遵守最左匹配原则</strong> （查询中 <strong>未使用了该索引的第一列</strong>）</li>
 <li>在索引列上进行计算、函数、类型转换等操作</li>
-<li>以<code>%</code>开头的LIKE查询</li>
-<li>查询条件中使用OR，<strong>且OR的前后条件中有一个列没有索引</strong>，涉及的索引都不会被使用到</li>
+<li>以 <code>%</code> 开头的 LIKE 查询</li>
+<li>查询条件中使用 OR，<strong>且 OR 的前后条件中有一个列没有索引</strong>，涉及的索引都不会被使用到</li>
 <li>发生隐式转换 （操作符左右两边的数据类型不一致时，<strong>左边为字符类型时发生转换</strong>，<strong>会导致索引失效，效率极低</strong>）</li>
 </ol>
 <hr>
-<h2 id="删除长期未使用的索引"><a href="#删除长期未使用的索引" class="headerlink" title="删除长期未使用的索引"></a>删除长期未使用的索引</h2><p>可以通过查询<code>sys</code>库的<code>schema_unused_indexes</code>视图来查询哪些索引从未被使用。</p>
+<h3 id="删除长期未使用的索引"><a href="#删除长期未使用的索引" class="headerlink" title="删除长期未使用的索引"></a>删除长期未使用的索引</h3><p>可以通过查询 <code>sys</code> 库的 <code>schema_unused_indexes</code> 视图来查询哪些索引从未被使用。</p>
 
     </div>
 
@@ -502,8 +508,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2023/10/10/Springboot%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/" rel="next" title="Springboot全局异常统一处理">
-                  Springboot全局异常统一处理 <i class="fa fa-angle-right"></i>
+                <a href="/2023/10/10/Springboot%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/" rel="next" title="Spring Boot全局异常统一处理">
+                  Spring Boot全局异常统一处理 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
