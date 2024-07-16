@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-count">86</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -159,7 +159,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">127</span>
+        <span class="site-state-item-count">132</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -405,7 +405,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-07-16 12:13:24" itemprop="dateModified" datetime="2024-07-16T12:13:24+08:00">2024-07-16</time>
+      <time title="修改时间：2024-07-16 15:00:50" itemprop="dateModified" datetime="2024-07-16T15:00:50+08:00">2024-07-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -440,48 +440,120 @@
 <p>org.springframework.web.HttpMediaTypeNotAcceptableException: No acceptable representation</p>
 <p>​	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor.writeWithMessageConverters(AbstractMessageConverterMethodProcessor.java:322) ~[spring-webmvc-6.1.10.jar:6.1.10]</p>
 </blockquote>
-<hr>
-<h2 id="解决方式"><a href="#解决方式" class="headerlink" title="解决方式"></a>解决方式</h2><h3 id="定位报错位置"><a href="#定位报错位置" class="headerlink" title="定位报错位置"></a>定位报错位置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor#writeWithMessageConverters(T value, MethodParameter returnType, ServletServerHttpRequest inputMessage, ServletServerHttpResponse outputMessage)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (body != <span class="literal">null</span>) &#123;</span><br><span class="line">    Set&lt;MediaType&gt; producibleMediaTypes =</span><br><span class="line">            (Set&lt;MediaType&gt;) inputMessage.getServletRequest()</span><br><span class="line">                    .getAttribute(HandlerMapping.PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (isContentTypePreset || !CollectionUtils.isEmpty(producibleMediaTypes)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">HttpMessageNotWritableException</span>(</span><br><span class="line">                <span class="string">&quot;No converter for [&quot;</span> + valueType + <span class="string">&quot;] with preset Content-Type &#x27;&quot;</span> + contentType + <span class="string">&quot;&#x27;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">HttpMediaTypeNotAcceptableException</span>(getSupportedMediaTypes(body.getClass()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/07/15/HTTP%E8%AF%B7%E6%B1%82%E5%87%BA%E7%8E%B0HttpMediaTypeNotAcceptableException%E6%8A%A5%E9%94%99/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
 
-<p>由报错位置可知，是body不为空引起。同时找到该方法正常return的位置如下。可见，正常返回与body是否为空无关，而是<strong>需要存在一个能写入指定类的转换器</strong>，**以及前提条件<code>selectedMediaType != null</code>**。</p>
-<p><img src="https://s2.loli.net/2024/07/15/tcjyaD87VmRoXu2.png" alt="image-20240715160320214"></p>
-<hr>
-<h3 id="排查报错"><a href="#排查报错" class="headerlink" title="排查报错"></a>排查报错</h3><h4 id="没有消息转换器可以写入指定类"><a href="#没有消息转换器可以写入指定类" class="headerlink" title="没有消息转换器可以写入指定类"></a>没有消息转换器可以写入指定类</h4><p>通过debug可知，实际HTTP请求的场景：</p>
-<img src="https://s2.loli.net/2024/07/15/4Jp89QsUqDSmtdK.png" alt="image-20240715172942529" style="zoom:80%;" />
+    
+    
+    
 
-<p>当 <code>selectedMediaType</code> 被设置为 <code>&quot;application/octet-stream&quot;</code> 时，这通常意味着请求或响应的<strong>内容类型被指定为二进制流，这种类型通常用于非文本数据，如图片、音频、视频等文件</strong>。也就是说，报错是因为<strong>没有消息转换器<code>messageConvert</code>可以写入指定类</strong>。</p>
-<blockquote>
-<p>项目中实际涉及的消息转换器：</p>
-<ol>
-<li>ByteArrayHttpMessageConverter 只能转换字节数组。</li>
-<li>StringHttpMessageConverter 只能转换字符串对象。</li>
-<li>ResourceHttpMessageConverter 只能转换Resource类及其子类。</li>
-<li>ResourceRegionHttpMessageConverter 不支持转换 非泛型类型且不是ResourceRegion类及其子类的对象。</li>
-<li>AllEncompassingFromHttpMessageConverter 只能转换MultiValueMap类及其子类。</li>
-<li><strong>MappingJackson2HttpMessageConverter 支持 *&#x2F;*, application&#x2F;json, application&#x2F;*+json。</strong></li>
-</ol>
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2024/06/25/%E5%88%A9%E7%94%A8%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3%E5%89%A5%E7%A6%BB%E4%BA%8B%E5%8A%A1%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/06/25/%E5%88%A9%E7%94%A8%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3%E5%89%A5%E7%A6%BB%E4%BA%8B%E5%8A%A1%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">利用函数式接口剥离事务操作</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-06-25 14:23:02" itemprop="dateCreated datePublished" datetime="2024-06-25T14:23:02+08:00">2024-06-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-07-16 16:27:45" itemprop="dateModified" datetime="2024-07-16T16:27:45+08:00">2024-07-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/%E6%8A%80%E5%B7%A7/" itemprop="url" rel="index"><span itemprop="name">技巧</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>任何<a href="https://hunter1023.github.io/2021/04/10/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">接口</a>，如果<strong>只包含一个抽象方法</strong>，它就是一个函数式接口。对于函数式接口，可以通过Lambda表达式来创建该接口的对象</p>
+<p><strong>Runnable就是一个函数式接口。</strong></p>
 </blockquote>
-<p>但是实际期望响应的内容类型为<code>application/json</code>，<strong>Jackson 的主要功能是处理结构化的文本格式，例如 JSON 和 XML</strong>，响应能被<code>MappingJackson2HttpMessageConverter</code>处理才对，需要继续溯源。而<code>acceptableTypes</code>来源于请求，请求没有限制，那么就只能是**<code>producibleTypes</code>不符合预期**。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">List&lt;MediaType&gt; producibleTypes = getProducibleMediaTypes(request, valueType, targetType);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span> List&lt;MediaType&gt; <span class="title function_">getProducibleMediaTypes</span><span class="params">(</span></span><br><span class="line"><span class="params">    HttpServletRequest request, Class&lt;?&gt; valueClass, <span class="meta">@Nullable</span> Type targetType)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 遍历消息转换器，查找能写入指定类的转换器</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 由于找不到能写入的messageConvert，因此producibleTypes只包含了&#123;&quot;*/*&quot;&#125;</span></span><br><span class="line">    <span class="keyword">return</span> (result.isEmpty() ? Collections.singletonList(MediaType.ALL) : <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(result));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>新建一个函数式接口，并在抽象方法上加上<code>@Transactional</code>的事务注解。</li>
+<li>在实际业务逻辑中需要事务的地方，通过Lambda表达式创建该接口的对象（<strong>必须实现唯一的抽象方法</strong>）。</li>
+<li>执行该接口对象的方法，即将方法内的逻辑以事务的形式去执行。</li>
+</ol>
+<p>spring事务的依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-tx<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<hr>
-<h4 id="响应无法被MappingJackson2HttpMessageConverter-处理"><a href="#响应无法被MappingJackson2HttpMessageConverter-处理" class="headerlink" title="响应无法被MappingJackson2HttpMessageConverter 处理"></a>响应无法被<code>MappingJackson2HttpMessageConverter </code>处理</h4><p>那么，为什么响应无法被<code>MappingJackson2HttpMessageConverter </code>处理呢？</p>
-<img src="https://s2.loli.net/2024/07/16/yShrZocWAQsq9jU.png" alt="image-20240716112418095" style="zoom:80%;" />
 
-<p>梳理代码可知，<code>MappingJackson2HttpMessageConverter</code>继承自<code>AbstractJackson2HttpMessageConverter</code>。<strong>由于<code>AbstractJackson2HttpMessageConverter</code>的<code>canWrite()</code>方法返回false，导致无法获得Jackson2Http消息转换器的支持媒体类型。</strong>而<code>canWrite()</code>的本质是<strong>有对应的序列化器就能写入指定对象</strong>，由于实际项目中没有使用注解的序列化器，因此是通过<code>findBeanOrAddOnSerializer()</code>方法获得序列化器。</p>
-<img src="https://s2.loli.net/2024/07/16/iOSE2tZDJqU7yTn.png" alt="image-20240716113551448" style="zoom:80%;" />
 
-<p>获取Bean序列化器，首先就是查找属性。<strong>由于从<code>POJOPropertiesCollector</code>中获取到的<code>_properties</code>为空，导致<code>BeanSerializerBuilder</code>无法构建Bean序列化器，进而导致无法写入指定对象。</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> JsonSerializer&lt;?&gt; build() &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_properties == <span class="literal">null</span> || _properties.isEmpty()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (_anyGetter == <span class="literal">null</span> &amp;&amp; _objectIdWriter == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">// NOTE! Caller may still call `createDummy()` later on</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h4 id="POJOPropertiesCollector中-properties为空"><a href="#POJOPropertiesCollector中-properties为空" class="headerlink" title="POJOPropertiesCollector中_properties为空"></a><code>POJOPropertiesCollector</code>中<code>_properties</code>为空</h4><p>需要找到设置<code>_properties</code>属性的位置，代码中仅<code>POJOPropertiesCollector#collectAll</code>方法进行了设置。而<code>collectAll</code>方法调用的位置很多，通过debug进行排查梳理，发现是**<code>findSerializerByAnnotations()</code>方法中有调用**。</p>
-<img src="https://s2.loli.net/2024/07/16/562odVmvzjMgDqU.png" alt="image-20240716120202785" style="zoom:80%;" />
-
-<p><code>POJOPropertiesCollector</code>的<code>collectAll</code>方法，首先会将指定对象的属性添加到<code>props</code>中。<strong>重点来了！！<code>removeUnwantedProperties()</code>方法会调用<code>POJOPropertyBuilder#anyVisible</code>方法，将未提供get或set方法的private字段，认定为不想要的属性进行移除，进而设置<code>_properties</code>属性为null</strong>。</p>
-<p>查看指定对象的类，只有private属性和构造器…真相大白。提供get方法后，HTTP请求终于可以正常处理。</p>
-<p><img src="https://s2.loli.net/2024/07/16/RbiMdjmltzwBVk2.png" alt="image-20240716120959156"></p>
-<hr>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testTransaction</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">TransactionConsumer</span> <span class="variable">transactionConsumer</span> <span class="operator">=</span> () -&gt; &#123;</span><br><span class="line">            insertDataA(a);</span><br><span class="line">            updateDataB(b);</span><br><span class="line">        &#125;;</span><br><span class="line">        transactionConsumer.doInTransaction();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">updateDataB</span><span class="params">(<span class="type">int</span> b)</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">insertDataA</span><span class="params">(<span class="type">int</span> a)</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">TransactionConsumer</span> &#123;</span><br><span class="line">    <span class="meta">@Transactional</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">doInTransaction</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -536,9 +608,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-06-24 16:49:39 / 修改时间：16:52:09" itemprop="dateCreated datePublished" datetime="2024-06-24T16:49:39+08:00">2024-06-24</time>
+      <time title="创建时间：2024-06-24 16:49:39" itemprop="dateCreated datePublished" datetime="2024-06-24T16:49:39+08:00">2024-06-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-07-16 15:01:03" itemprop="dateModified" datetime="2024-07-16T15:01:03+08:00">2024-07-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -574,50 +652,21 @@
 <li><p>IDEA 下载 Lombok 插件</p>
 </li>
 <li><p>项目中导入 Lombok 的 jar 包</p>
- <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.18.26<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在 <strong>实体类</strong> 上使用 Lombok 注解</p>
 </li>
 </ol>
-<hr>
-<h2 id="Lombok-注解"><a href="#Lombok-注解" class="headerlink" title="Lombok 注解"></a>Lombok 注解</h2><ul>
-<li><p><code>@Data</code></p>
-<p>  自动创建无参构造函数、get、set、toString、hashcode、equals 方法</p>
-</li>
-<li><p><code>@AllArgsConstructor</code></p>
-<p>  自动创建所有参数的构造函数。可以通过access属性指定访问级别：</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor(access = AccessLevel.PRIVATE)</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>@NoArgsConstructor</code></p>
-<p>  自动创建无参构造函数，可以通过access属性指定访问级别。</p>
-</li>
-<li><p><code>@EqualsAndHashCode</code></p>
-<p>  可以通过<code>of</code>属性指定参与<code>equals</code>和<code>hashcode</code>的字段：</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EqualsAndHashCode(of = &#123;&quot;name&quot;, &quot;sex&quot;&#125;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>@ToString</code></p>
-</li>
-<li><p><code>@Getter</code>&#x2F;<code>@Setter</code></p>
-</li>
-<li><p><code>@Singular</code></p>
-<p>  在集合属性上使用该注解，可以往集合中单独增加元素。</p>
-</li>
-<li><p><code>@Builder</code></p>
-<p>  可以类似于链式地调用对象进行赋值。</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Builder</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> score;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Singular(&quot;addHobby&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; hobby;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Student</span> <span class="variable">stu</span> <span class="operator">=</span> Student.builder().name(<span class="string">&quot;HELLO&quot;</span>).age(<span class="number">8</span>).addHobby(<span class="string">&quot;read&quot;</span>).addHobby(<span class="string">&quot;dance&quot;</span>).build();</span><br><span class="line">        log.info(<span class="string">&quot;stu: &#123;&#125;&quot;</span>, stu);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>@SneakyThrows</code></p>
-<p>  异常处理。</p>
-</li>
-<li><p><code>@Accessors</code></p>
-<p>  可以通过<code>chain</code>属性，对属性进行<strong>链式操作</strong>：</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@Accessors(chain = true)</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Student</span> <span class="variable">stu</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Student</span>();</span><br><span class="line">        stu.setName(<span class="string">&quot;老王&quot;</span>).setAge(<span class="number">10</span>);</span><br><span class="line">        log.info(<span class="string">&quot;stu: &#123;&#125;&quot;</span>, stu);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>@FieldNameConstants</code></p>
-<p>  提供<strong>字符串形式的类的属性名</strong>的常量。使用方式是<code>Fields.</code>：</p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Builder</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@FieldNameConstants</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        </span><br><span class="line">        log.info(Fields.age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.18.26<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
+<ol start="3">
+<li>在 <strong>实体类</strong> 上使用 Lombok 注解</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/06/24/Lombok/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -777,7 +826,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-06-24 15:39:37" itemprop="dateModified" datetime="2024-06-24T15:39:37+08:00">2024-06-24</time>
+      <time title="修改时间：2024-07-16 15:01:22" itemprop="dateModified" datetime="2024-07-16T15:01:22+08:00">2024-07-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -810,22 +859,14 @@
           <p>Optional 被设计出来，主要是为了<strong>解决空指针异常</strong>。</p>
 <p>以一个 Student 类为例：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> score;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Student</span><span class="params">(String name, <span class="type">int</span> age, <span class="type">int</span> score)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">        <span class="built_in">this</span>.score = score;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Student</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="代替-if-语句判空"><a href="#代替-if-语句判空" class="headerlink" title="代替 if 语句判空"></a>代替 if 语句判空</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">optionalBasicUsage</span><span class="params">(Student student)</span> &#123;</span><br><span class="line">    <span class="comment">// if 语句判空</span></span><br><span class="line">    <span class="keyword">if</span> (student != <span class="literal">null</span>) &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;一般方法：&quot;</span> + student.getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用 Optional 无需判空</span></span><br><span class="line">    Optional&lt;Student&gt; optionalStudent = Optional.ofNullable(student);</span><br><span class="line">    <span class="comment">// 如果Name存在，执行一段逻辑</span></span><br><span class="line">    optionalStudent.map(Student::getName).ifPresent(<span class="built_in">this</span>::callOther);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Object <span class="title function_">callOther</span><span class="params">(String name)</span> &#123;</span><br><span class="line">    LOGGER.info(<span class="string">&quot;call other api &#123;&#125;...&quot;</span>, name);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="判空时，通过-orElseGet-方法进行懒加载"><a href="#判空时，通过-orElseGet-方法进行懒加载" class="headerlink" title="判空时，通过 orElseGet 方法进行懒加载"></a>判空时，通过 orElseGet 方法进行懒加载</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">optionalAdvanceUsage</span><span class="params">(Student student)</span> &#123;</span><br><span class="line">    Optional&lt;Student&gt; optionalStudent = Optional.ofNullable(student);</span><br><span class="line">    <span class="comment">// 如果存在，执行一段逻辑</span></span><br><span class="line">    optionalStudent.ifPresent(<span class="built_in">this</span>::callOther);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// orElseGet实行懒加载，orElse不会懒加载，因此orElseGet性能更好</span></span><br><span class="line">    <span class="comment">// Student student1 = optionalStudent.orElse(createStudent());</span></span><br><span class="line">    <span class="type">Student</span> <span class="variable">student1</span> <span class="operator">=</span> optionalStudent.orElseGet(<span class="built_in">this</span>::createStudent);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Student <span class="title function_">createStudent</span><span class="params">()</span> &#123;</span><br><span class="line">    LOGGER.info(<span class="string">&quot;called from createStudent&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Student</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Object <span class="title function_">callOther</span><span class="params">(Student student)</span> &#123;</span><br><span class="line">    LOGGER.info(<span class="string">&quot;call other api &#123;&#125;...&quot;</span>, student);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="使用-filter-进行过滤"><a href="#使用-filter-进行过滤" class="headerlink" title="使用 filter 进行过滤"></a>使用 filter 进行过滤</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">optionalAdvanceUsage</span><span class="params">(Student student)</span> &#123;</span><br><span class="line">    Optional&lt;Student&gt; optionalStudent = Optional.ofNullable(student);</span><br><span class="line">    <span class="comment">// 如果存在，执行一段逻辑</span></span><br><span class="line">    optionalStudent.ifPresent(<span class="built_in">this</span>::callOther);</span><br><span class="line">	</span><br><span class="line">     <span class="comment">// 过滤</span></span><br><span class="line">    optionalStudent.filter(stu -&gt; stu.getAge() &gt; <span class="number">10</span>)</span><br><span class="line">            .ifPresent(stu -&gt; LOGGER.info(<span class="string">&quot;age &gt; 10 &#123;&#125;&quot;</span>, stu.getName()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="map-和-flatMap-方法"><a href="#map-和-flatMap-方法" class="headerlink" title="map 和 flatMap 方法"></a>map 和 flatMap 方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;U&gt; Optional&lt;U&gt; <span class="title function_">map</span><span class="params">(Function&lt;? <span class="built_in">super</span> T, ? extends U&gt; mapper)</span> &#123;</span><br><span class="line">    Objects.requireNonNull(mapper);</span><br><span class="line">    <span class="keyword">if</span> (!isPresent()) &#123;</span><br><span class="line">        <span class="keyword">return</span> empty();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Optional.ofNullable 会自动在外层用Optional进行封装</span></span><br><span class="line">        <span class="keyword">return</span> Optional.ofNullable(mapper.apply(value));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;U&gt; Optional&lt;U&gt; <span class="title function_">flatMap</span><span class="params">(Function&lt;? <span class="built_in">super</span> T, ? extends Optional&lt;? extends U&gt;&gt; mapper)</span> &#123;</span><br><span class="line">    Objects.requireNonNull(mapper);</span><br><span class="line">    <span class="keyword">if</span> (!isPresent()) &#123;</span><br><span class="line">        <span class="keyword">return</span> empty();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">        <span class="comment">// mapper的apply方法要求返回值类型是Optional&lt;? extends U&gt;，所以无需再用Optional封装</span></span><br><span class="line">        Optional&lt;U&gt; r = (Optional&lt;U&gt;) mapper.apply(value);</span><br><span class="line">        <span class="keyword">return</span> Objects.requireNonNull(r);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/06/20/Optional%E7%9A%84%E4%BD%BF%E7%94%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -887,7 +928,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-06-16 11:12:50" itemprop="dateModified" datetime="2024-06-16T11:12:50+08:00">2024-06-16</time>
+      <time title="修改时间：2024-07-16 14:57:29" itemprop="dateModified" datetime="2024-07-16T14:57:29+08:00">2024-07-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -921,137 +962,14 @@
 </li>
 </ul>
 <p>业界<strong>比较推崇最终一致性</strong>，但是某些对数据一致要求非常严格的场景，比如银行转账，还是要保证强一致性。</p>
-<hr>
-<h1 id="分布式事务解决方案"><a href="#分布式事务解决方案" class="headerlink" title="分布式事务解决方案"></a>分布式事务解决方案</h1><h2 id="XA规范的角色"><a href="#XA规范的角色" class="headerlink" title="XA规范的角色"></a>XA规范的角色</h2><p>XA规范是X&#x2F;Open组织定义的分布式事务处理标准。</p>
-<ol>
-<li><strong>AP</strong> （Application Program）：应用程序本身</li>
-<li><strong>RM</strong>（Resource Manager）：<strong>资源管理器</strong>，事务的参与者，<strong>绝大部分情况下指数据库</strong>。</li>
-<li><strong>TM</strong>（Transaction Manager）：<strong>事务管理器</strong>，负责管理全局事务，<strong>分配事务唯一标识，监控事务的执行进度，并负责事务的提交、回滚、失败恢复等</strong>。</li>
-</ol>
-<hr>
-<h2 id="2PC-（2-Phase-Commit-2阶段提交协议）"><a href="#2PC-（2-Phase-Commit-2阶段提交协议）" class="headerlink" title="2PC （2-Phase Commit 2阶段提交协议）"></a>2PC （2-Phase Commit 2阶段提交协议）</h2><hr>
-<h3 id="准备阶段-Prepare"><a href="#准备阶段-Prepare" class="headerlink" title="准备阶段 Prepare"></a>准备阶段 Prepare</h3><p>准备阶段的核心是<strong>询问</strong>事务参与者<strong>执行本地</strong>数据库事务操作是否成功。工作流程为：</p>
-<ol>
-<li>TM向所有涉及到的RM发送消息，<strong>询问是否能执行事务操作</strong>。</li>
-<li>RM接收到消息之后，执行本地数据库<strong>事务预操作</strong>，比如写redo log&#x2F;undo log日志。</li>
-<li>RM如果<strong>执行本地数据库事务操作成功</strong>，就回复TM “Yes” 表示<strong>已就绪</strong>，否则回复”No”表示未就绪。</li>
-</ol>
-<hr>
-<h3 id="提交阶段-Commit"><a href="#提交阶段-Commit" class="headerlink" title="提交阶段 Commit"></a>提交阶段 Commit</h3><p>提交阶段的核心是<strong>询问</strong>事务参与者<strong>提交本地</strong>事务是否成功。当所有事务参与者都是就绪状态时：</p>
-<ol>
-<li>TM向所有事务参与者<strong>发送Commit消息</strong>，让其提交事务。</li>
-<li>RM接收到Commit消息后，执行<strong>提交本地数据库事务</strong>操作，执行完成后<strong>释放整个事务期间锁占用的资源</strong>。</li>
-<li>RM发送<strong>ACK消息</strong>，表示事务已经提交。</li>
-<li>TM收到<strong>所有事务参与者的ACK消息</strong>之后，整个分布式事务过程正式结束。</li>
-</ol>
-<img src="https://s2.loli.net/2024/06/12/mikLDSENYPfHh7M.png" alt="image-20240612175623117" style="zoom:80%;" />
-
-<p>当任一事务参与者是<strong>未就绪</strong>状态：</p>
-<ol>
-<li>TM向所有参与者发送<strong>Rollback消息</strong>，通知执行回滚操作。</li>
-<li>RM接收到Rollback消息后，<strong>执行本地数据库事务回滚</strong>，执行完成之后，<strong>释放整个事务期间所占用的资源</strong>。</li>
-<li>RM发送ACK消息，表示事务已经回滚。</li>
-<li>TM收到<strong>所有RM的ACK消息</strong>后，<strong>中断事务</strong>。</li>
-</ol>
-<img src="C:\Users\Hunter\AppData\Roaming\Typora\typora-user-images\image-20240612180036000.png" alt="image-20240612180036000" style="zoom:80%;" />
-
-<hr>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
-<li>准备阶段的主要目的是测试RM能否执行<strong>本地</strong>数据库事务操作。</li>
-<li>提交阶段中，TM会根据准备阶段中RM返回的消息，来决定执行事务提交还是回滚操作。</li>
-<li>提交阶段之后，一定会结束当前的分布式事务。</li>
-</ol>
-<p><strong>2PC的优点</strong>：</p>
-<ul>
-<li><strong>实现简单</strong>，各大主流数据库MySQL、Oracle等都有自己的实现。</li>
-<li>针对的是数据<strong>强一致性</strong>。</li>
-</ul>
-<p><strong>2PC的缺点：</strong></p>
-<ul>
-<li><strong>同步阻塞</strong>：事务参与者在正式提交事务之前，会<strong>一直占用相关资源</strong>。比如用户小明转账给小红，其他事务想要操作小明或小红时，就会阻塞。</li>
-<li><strong>数据不一致</strong>：由于网络问题或者TM宕机，都有可能造成数据不一致。例如<strong>提交阶段</strong>，部分网络出现问题，导致<strong>部分参与者收不到Commit&#x2F;Rollback消息，导致数据不一致</strong>。</li>
-<li><strong>单点问题</strong>：如果<strong>TM在准备阶段完成之后挂掉</strong>，事务参与者们就会一直卡在提交阶段。</li>
-</ul>
-<hr>
-<h2 id="3PC（3阶段提交协议）"><a href="#3PC（3阶段提交协议）" class="headerlink" title="3PC（3阶段提交协议）"></a>3PC（3阶段提交协议）</h2><p>3PC在2PC的基础上做了一些优化得到，它把<strong>准备阶段做了进一步的细化</strong>，分为<strong>准备阶段</strong>（<strong>CanCommit</strong>）和<strong>预提交</strong>阶段（<strong>PreCommit</strong>）。</p>
-<hr>
-<h3 id="准备阶段-CanCommit"><a href="#准备阶段-CanCommit" class="headerlink" title="准备阶段 CanCommit"></a>准备阶段 CanCommit</h3><p>TM向RM发送<strong>准备请求</strong>（CanCommit），顺便<strong>询问一些信息</strong>，比如事务参与者能否执行本地数据库事务操作。RM回复”Yes”、”No”或者直接超时未回复。</p>
-<hr>
-<h3 id="预提交阶段-PreCommit"><a href="#预提交阶段-PreCommit" class="headerlink" title="预提交阶段 PreCommit"></a>预提交阶段 PreCommit</h3><p>如果准备阶段有任一RM回复”No”或直接超时未回复，TM就给所有RM发送<strong>Abort消息（中断请求）</strong>，RM收到消息后直接中断事务。</p>
-<p>如果准备阶段所有的RM<strong>都回复”Yes”<strong>，TM就向所有RM发送</strong>PreCommit消息（预提交请求）</strong>，RM收到消息之后执行本地数据库事务<strong>预操作</strong>，比如写 redo log&#x2F;undo log 日志。如果RM成功执行了事务预操作，就返回”Yes”，否则返回”No”。</p>
-<p>预提交阶段，TM和RM都<strong>引入了超时机制</strong>，如果<strong>参与者没有收到TM的PreCommit消息，或者TM没有收到参与者返回的预执行结果状态</strong>，在超过等待时间之后，事务就会中断，从而避免事务阻塞。</p>
-<hr>
-<h3 id="执行事务提交阶段-DoCommit"><a href="#执行事务提交阶段-DoCommit" class="headerlink" title="执行事务提交阶段 DoCommit"></a>执行事务提交阶段 DoCommit</h3><p>如果预提交阶段有任一RM回复”No”或者直接超时未回复的话，TM就会给所有RM发送<strong>Abort消息（请求中断）</strong>，RM收到消息后进行<strong>事务回滚</strong>，释放资源，中断本次事务。</p>
-<p>TM向所有的RM发送<strong>DoCommit消息（执行事务提交请求）</strong>，RM收到消息之后执行本地数据库事务提交，并在完成后释放占用的资源。 当事务提交成功后，RM返回”Yes”。</p>
-<p>如果RM<strong>在等待时间内没有收到TM的DoCommit消息</strong>，RM会认为TM可能发生故障，但是选择<strong>直接进行事务提交，如果没有收到的TM消息是Abort消息，就会引起数据不一致</strong>。只要预提交阶段所有参与者都返回了Yes，那么只要进入第三阶段，事务基本上都能执行成功。</p>
-<hr>
-<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>3PC除了将2PC的准备阶段进行了进一步细化，还同时<strong>在TM和RM中引入了超时机制</strong>。如果<strong>在一定时间内没有收到事务参与者的消息，就默认失败</strong>，进而避免事务参与者一直阻塞，占用资源。</p>
-<p>2PC中<strong>只有TM才拥有超时机制</strong>，当RM长时间无法与TM通讯的情况下（比如TM挂掉了），就会无法释放资源，产生阻塞问题。</p>
-<p>但是3PC并没有完全解决2PC的阻塞问题，也引入了一些新的问题，比如性能糟糕，且<strong>仍然存在数据不一致的问题</strong>，因此3PC的实际应用并不广泛。多数应用会选择通过<strong>复制状态机</strong>（在多个独立的节点上运行相同的应用或服务，并确保所有节点以相同顺序执行相同操作，从而使每个节点都维护相同的状态，通常依赖于<strong>一致性协议Raft、Paxos等</strong>来同步各节点之间的状态）解决2PC的阻塞问题。</p>
-<hr>
-<h2 id="TCC-补偿事务"><a href="#TCC-补偿事务" class="headerlink" title="TCC 补偿事务"></a>TCC 补偿事务</h2><p>TCC是<strong>T</strong>ry、<strong>C</strong>onfirm、<strong>C</strong>ancel的缩写，分为三个阶段：</p>
-<ol>
-<li><p>Try阶段</p>
-<p> 尝试执行。完成业务<strong>检查</strong>，并<strong>预留</strong>好必需的资源。</p>
-</li>
-<li><p>Confirm阶段</p>
-<p> 确认执行。当所有的RM的Try阶段执行成功之后，就会执行Confirm，<strong>处理预留好的业务资源</strong>。否则，执行Cancel。</p>
-</li>
-<li><p>Cancel阶段</p>
-<p> 取消执行。<strong>释放</strong>Try阶段预留的业务资源。</p>
-</li>
-</ol>
-<hr>
-<p>以转账场景为例：</p>
-<ol>
-<li>Try阶段检查账户余额是否充足，预留好转账资金。</li>
-<li>Confirm阶段真正执行扣钱操作。</li>
-<li>释放Try阶段预留的转账资金。</li>
-</ol>
-<hr>
-<p>Try阶段出现问题可以执行Cancel，如果<strong>Confirm或者Cancel阶段失败，怎么办？</strong></p>
-<p>TCC会<strong>记录事务日志</strong>，并<strong>持久化事务日志</strong>到某种存储介质上（本地文件、关系型数据库、Zookeeper）。事务日志包含了<strong>事务的执行状态</strong>，可 以此判断出事务提交成功还是失败，以及具体失败在哪一步。</p>
-<ul>
-<li>如果发现是Confirm或者Cancel阶段失败的话，会<strong>进行重试</strong>，重试次数通常为6此，超过的话就人工介入处理。如果美誉偶特殊Bug，Confirm或者Cancel阶段出现问题的概率比较小。</li>
-<li>如果事务提交成功，就可以删除对应的事务日志，节省资源。</li>
-</ul>
-<p><strong>TCC模式不需要依赖底层数据资源的事务支持，但需要手动实现更多的代码</strong>，属于<strong>侵入业务代码</strong>的分布式解决方案。  </p>
-<img src="https://s2.loli.net/2024/06/14/vTALYtpiNEe5kR4.png" alt="TCC和2PC的对比" style="zoom:80%;" />
-
-<hr>
-<h3 id="TCC和2PC-x2F-3PC的区别？"><a href="#TCC和2PC-x2F-3PC的区别？" class="headerlink" title="TCC和2PC&#x2F;3PC的区别？"></a>TCC和2PC&#x2F;3PC的区别？</h3><ol>
-<li>2PC&#x2F;3PC依赖数据库层面的事务，TCC主要通过修改业务代码实现，侵入业务代码。</li>
-<li>2PC&#x2F;3PC追求<strong>强一致性</strong>，<strong>在两阶段提交的整个过程中，一直会持有数据库的锁</strong>。TCC追求<strong>最终一致性，不会一直持有各个业务资源的锁</strong>。</li>
-</ol>
-<hr>
-<h2 id="MQ事务"><a href="#MQ事务" class="headerlink" title="MQ事务"></a>MQ事务</h2><p>RocketMQ、Kafka都提供了事务相关的功能。事务允许事件流应用<strong>将消费、处理、生产消息整个过程定义为一个原子操作</strong>。</p>
-<p>以RocketMQ为例：</p>
-<p><img src="https://s2.loli.net/2024/06/14/I89MnKSa7ZJQlr2.png" alt="image-20240614163030432"></p>
-<ol>
-<li>MQ发送方（如物流服务）在消息队列上开启一个事务，然后发送一个<strong>半事务消息</strong>给MQ Server。<strong>事务提交之前，半事务消息对MQ消费者不可见</strong>。</li>
-<li>半事务消息发送成功，MQ发送方就开始执行本地事务。</li>
-<li>MQ发送方的<strong>本地事务执行成功的话，半事务消息就变成正常消息，可以被正常消费；本地事务执行失败的话，直接回滚</strong>。</li>
-</ol>
-<hr>
-<h3 id="MQ发送方提交或者回滚事务消息时失败怎么办？"><a href="#MQ发送方提交或者回滚事务消息时失败怎么办？" class="headerlink" title="MQ发送方提交或者回滚事务消息时失败怎么办？"></a>MQ发送方提交或者回滚事务消息时失败怎么办？</h3><p>RocketMQ中的<strong>Broker会定期去MQ发送方上反查这个事务的本地事务执行情况</strong>，并根据反查结果决定提交或者回滚这个事务。</p>
-<p><strong>事务反查机制的实现依赖于 业务代码实现的对应的接口</strong>。比如要查看创建物流信息的本地事务是否执行成功，<strong>直接在数据库中查询对应的物流信息是否存在即可</strong>。</p>
-<hr>
-<h3 id="如果正常消息没有被正确消费怎么办？"><a href="#如果正常消息没有被正确消费怎么办？" class="headerlink" title="如果正常消息没有被正确消费怎么办？"></a>如果正常消息没有被正确消费怎么办？</h3><p>消息消费失败的话，RocketMQ会自动进行消费重试。如果<strong>超过最大重试次数</strong>，就会认为这个消息有问题，<strong>将其放入死信队列</strong>。进入死信队列的消费一般需要人工处理，手动排查问题。</p>
-<hr>
-<h3 id="QMQ"><a href="#QMQ" class="headerlink" title="QMQ"></a>QMQ</h3><blockquote>
-<p>QMQ是去哪儿网内部广泛使用的消息中间件，包括跟交易相关的订单场景、报价搜索等高吞吐量场景。21年数据显示，公司内部日常消息qps在60w左右，生产上承载将近4W+的消息topic，消息的端到端延迟可以控制在10ms以内。</p>
-</blockquote>
-<p><strong>本地消息</strong>利用了关系型数据库的事务能力，<strong>会在数据库中存放一张 本地事务消息表</strong>，即<strong>将业务的执行 和 将消息放入消息表中的操作，放在同一个事务中提交</strong>。</p>
-<ul>
-<li>这样，本地事务执行成功的话，消息肯定也插入成功，然后再调用其他服务，如果其他服务调用成功，就修改这条本地消息的状态为成功，或者直接删除。</li>
-<li>有一个<strong>后台线程定时轮询消息表，发现没有处理的消息，会一直调用相应的服务</strong>，一般会设置重试次数，超过重试次数就特殊记录，等待人工处理。</li>
-</ul>
-<img src="https://s2.loli.net/2024/06/14/u85VpAebmTiJjhY.png" alt="image-20240614195843877" style="zoom:80%;" />
-
-
-
-<p>RocketMQ的事务消息方案中，<strong>如果消息队列挂掉，数据库事务就无法执行，整个应用也就挂掉了</strong>。QMQ的事务消息方案，<strong>即使消息队列挂了，也不会影响数据库事务的执行</strong>，因此QMQ实现的方案更适应于大多数业务。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/06/07/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1113,7 +1031,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-06-20 15:03:40" itemprop="dateModified" datetime="2024-06-20T15:03:40+08:00">2024-06-20</time>
+      <time title="修改时间：2024-07-16 15:02:52" itemprop="dateModified" datetime="2024-07-16T15:02:52+08:00">2024-07-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1145,33 +1063,14 @@
 <hr>
 <h1 id="困惑"><a href="#困惑" class="headerlink" title="困惑"></a>困惑</h1><p>从构造函数层面，<strong>完全不清楚默认构造函数的排序规则，也完全不明白Comparator实现的comparingInt方法对应的排序规则</strong>。</p>
 <p>根据网上绝大多数文章的描述，都没有解释或者只是说明了对应的排序规则，但是不知道为什么是对应升序或降序。通过阅读源码，才得到准确的认知。</p>
-<hr>
-<h1 id="阅读源码"><a href="#阅读源码" class="headerlink" title="阅读源码"></a>阅读源码</h1><h2 id="PriorityQueue构造函数、增删元素"><a href="#PriorityQueue构造函数、增删元素" class="headerlink" title="PriorityQueue构造函数、增删元素"></a>PriorityQueue构造函数、增删元素</h2><p><img src="https://s2.loli.net/2024/04/17/NEgHZekvA4i7rYh.png" alt="image-20240417200527177"></p>
-<p>可以看到，无参构造函数和指定了Comparator的构造函数实际都是指向<code>PriorityQueue(int initialCapacity, Comparator&lt;? super E&gt; comparator)</code>构造函数。<strong>而comparator发挥作用的时候，体现在PriorityQueue增删元素的方法中</strong>，以offer方法为例：</p>
-<p><img src="https://s2.loli.net/2024/04/17/dwgqKGaSE8N96Xk.png" alt="image-20240417202910975"></p>
-<p>根据构造函数是否传入了Comparator对象，元素的比较分别执行<code>siftUpUsingComparator</code>和<code>siftUpComparable</code>方法，两个方法的逻辑一致，只是<code>Comparator</code>通常作为外部排序工具，<code>Comparable</code>作为对象的内部比较方式。</p>
-<blockquote>
-<ul>
-<li><strong>修改范围</strong>：<code>Comparable</code> 通常作为对象的内部比较方式，适合单一的自然排序；而 <code>Comparator</code> 作为外部工具，可以定义多种排序方式。</li>
-<li><strong>灵活性</strong>：<code>Comparator</code> 更加灵活，允许不同的排序策略，且可以在不修改原有类的情况下实现。</li>
-<li><strong>应用场景</strong>：如果排序方式只有一种，或者是对象的自然顺序，推荐使用 <code>Comparable</code>；如果需要多种排序方式，或者不希望修改原有类的结构，推荐使用 <code>Comparator</code>。</li>
-</ul>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> &lt;T&gt; <span class="keyword">void</span> <span class="title function_">siftUpUsingComparator</span><span class="params">(</span></span><br><span class="line"><span class="params">        <span class="type">int</span> k, T x, Object[] es, Comparator&lt;? <span class="built_in">super</span> T&gt; cmp)</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> (k &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 无符号右移，找到父节点索引下标</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">parent</span> <span class="operator">=</span> (k - <span class="number">1</span>) &gt;&gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">e</span> <span class="operator">=</span> es[parent];</span><br><span class="line">        <span class="comment">// 将当前元素和父节点进行比较，结果&gt;=0 跳出循环</span></span><br><span class="line">        <span class="keyword">if</span> (cmp.compare(x, (T) e) &gt;= <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="comment">// &lt; 0，则交换当前元素和父节点的位置</span></span><br><span class="line">        es[k] = e;</span><br><span class="line">        k = parent;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">// 将当前元素x放入到最终确定的位置</span></span><br><span class="line">    es[k] = x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可知，<code>cmp.compare()</code>方法的<strong>返回值&lt; 0时，当前元素与父节点交换位置</strong>。<code>siftUpComparable</code>方法也是相同，是在不传入Comparator对象也能进行大小比较的前提下，通过<code>Comparable</code>的<code>compareTo()</code>方法进行比较。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> &lt;T&gt; <span class="keyword">void</span> <span class="title function_">siftUpComparable</span><span class="params">(<span class="type">int</span> k, T x, Object[] es)</span> &#123;</span><br><span class="line">        Comparable&lt;? <span class="built_in">super</span> T&gt; key = (Comparable&lt;? <span class="built_in">super</span> T&gt;) x;</span><br><span class="line">    <span class="keyword">while</span> (k &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">parent</span> <span class="operator">=</span> (k - <span class="number">1</span>) &gt;&gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">e</span> <span class="operator">=</span> es[parent];</span><br><span class="line">        <span class="keyword">if</span> (key.compareTo((T) e) &gt;= <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        es[k] = e;</span><br><span class="line">        k = parent;</span><br><span class="line">    &#125;</span><br><span class="line">    es[k] = key;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="Comparator-comparingInt"><a href="#Comparator-comparingInt" class="headerlink" title="Comparator.comparingInt()"></a>Comparator.comparingInt()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; Comparator&lt;T&gt; <span class="title function_">comparingInt</span><span class="params">(ToIntFunction&lt;? <span class="built_in">super</span> T&gt; keyExtractor)</span> &#123;</span><br><span class="line">    Objects.requireNonNull(keyExtractor);</span><br><span class="line">    <span class="keyword">return</span> (Comparator&lt;T&gt; &amp; Serializable)</span><br><span class="line">        (c1, c2) -&gt; Integer.compare(keyExtractor.applyAsInt(c1), keyExtractor.applyAsInt(c2));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>由<code>Comparator.comparingInt()</code>的代码可知，它接收一个<code>ToIntFunction</code>作为参数。<br><code>o -&gt; o</code>是一个lambda表达式，<strong>将元素本身作为整数值返回，实现了小顶堆的效果</strong>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;(Comparator.comparingInt(o -&gt; o)); </span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>PriorityQueue的排序规则，依赖于<code>cmp.compare()</code>的具体实现。<code>cmp.compare()</code>方法的<strong>返回值&lt; 0时，当前元素与父节点交换位置</strong>。</p>
-<p>以<strong>数值大小进行直接比较的自然排序</strong>为例，<strong>数值较小的元素总是会成为父节点</strong>，最终形成<strong>小顶堆</strong>的效果。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/04/17/PriorityQueue%E4%B8%8EComparator/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1233,7 +1132,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-03-08 23:24:04" itemprop="dateModified" datetime="2024-03-08T23:24:04+08:00">2024-03-08</time>
+      <time title="修改时间：2024-07-16 15:04:17" itemprop="dateModified" datetime="2024-07-16T15:04:17+08:00">2024-07-16</time>
     </span>
 
   
@@ -1246,1444 +1145,15 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="数据操作-数据预处理"><a href="#数据操作-数据预处理" class="headerlink" title="数据操作 + 数据预处理"></a>数据操作 + 数据预处理</h1><h2 id="N维数组"><a href="#N维数组" class="headerlink" title="N维数组"></a>N维数组</h2><p>N维数组是机器学习和神经网络的主要数据结构。</p>
-<ol>
-<li><p>0维 标量</p>
-<blockquote>
-<p>1.0</p>
-</blockquote>
-<p> 表示一个类别</p>
-</li>
-<li><p>维 向量</p>
-<blockquote>
-<p>[1.0, 2.7, 3.4]</p>
-</blockquote>
-<p> 表示一个特征向量</p>
-</li>
-<li><p>2维 矩阵</p>
-<blockquote>
-<p>[[1.0, 2.7, 3.4]</p>
-<p>[5.0, 0.2, 4.6]</p>
-<p>[4.3, 8.5, 0.2]]</p>
-</blockquote>
-<p> 表示一个样本—特征矩阵</p>
-</li>
-<li><p>3维</p>
-<blockquote>
-<p>[ [ [0.1, 2.7, 3.4]</p>
-<p>​	  [5.0, 0.2, 4.6]</p>
-<p>​      [4.3, 8.5, 0.2] ]</p>
-<p> [ [3.2, 5.7, 3.4]</p>
-<p>   [5.4, 6.2, 3.2]</p>
-<p>   [4.1, 3.5, 6.2] ]  ]</p>
-</blockquote>
-<p> 如RGB图片（w * H * channels )</p>
-</li>
-<li><p>4维</p>
-<p> 一个RGB图片的批量 （批量大小 * 宽 * 高 * 通道）</p>
-</li>
-<li><p>5维</p>
-<p> 一个视频批量 （批量大小 * 时间 * 宽 * 高 * 通道）</p>
-</li>
-</ol>
-<hr>
-<h2 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br></pre></td></tr></table></figure>
-
-<p><strong>张量（tensor）</strong>表示一个<strong>数值组成的数组</strong>，这个数据可能有多个维度。</p>
-<ul>
-<li><code>shape</code>属性：访问张量的形状。</li>
-<li><code>numel()</code>函数：访问张量中元素的总数。</li>
-<li><code>reshape()</code>函数：改变张量的形状而不改变元素数量和元素值。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x = torch.arange(<span class="number">12</span>)</span><br><span class="line">x.shape</span><br><span class="line">x.numel()</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.loli.net/2024/01/31/xM8PYVEmpXZNUew.png" alt="reshape()"></p>
-<hr>
-<ul>
-<li><code>torch.zeros()</code> 使用全0填充<strong>指定形状</strong>的张量</li>
-<li><code>torch.ones()</code> 使用全1填充<strong>指定形状</strong>的张量</li>
-<li><code>torch.tensor()</code> 为张量中的每个元素赋予确定值</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">torch.zeros((<span class="number">2</span>， <span class="number">3</span>， <span class="number">4</span>))</span><br><span class="line"></span><br><span class="line">torch.tensor([[<span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], [<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]])</span><br></pre></td></tr></table></figure>
-
-<hr>
-<ul>
-<li><p>常见的标准运算符（<code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>和求幂<code>**</code>）都可以被升级为<strong>按元素运算</strong>。</p>
-  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x = torch.tensor([<span class="number">1.0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">8</span>])</span><br><span class="line">y = torch.tensor([<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>])</span><br><span class="line">x + y, x - y, x * y, x / y, x**y</span><br></pre></td></tr></table></figure>
-
-<p>  <img src="https://s2.loli.net/2024/01/31/YTJ5M6UlgwsoxyW.png" alt="image-20240131222451661"></p>
-</li>
-</ul>
-<hr>
-<ul>
-<li><p><code>torch.cat()</code> 连结张量</p>
-<p>  <img src="https://s2.loli.net/2024/02/01/lu67k1rVAmf2vWM.png" alt="image-20240201160930619"></p>
-</li>
-</ul>
-<hr>
-<ul>
-<li><p>通过逻辑运算符构建二元张量</p>
-<p>  <img src="https://s2.loli.net/2024/02/01/lbD9ATYFWgxmcJC.png" alt="image-20240201161036811"></p>
-</li>
-</ul>
-<hr>
-<ul>
-<li><p><code>x.sum()</code> 对张量中所有元素进行求和，会产生<strong>只有一个元素的张量</strong>。</p>
-</li>
-<li><p>即使形状不同，仍然可以通过调用<strong>广播机制</strong>（<strong>维度的尺寸要么相等，要么其中一个维度为1</strong>）来执行按元素操作。</p>
-<p>  <img src="https://s2.loli.net/2024/02/01/CEPzbewro5X6ZfM.png" alt="image-20240201162656769"></p>
-</li>
-</ul>
-<hr>
-<ul>
-<li><p>可以用<code>[-1]</code>选择最后一个元素</p>
-</li>
-<li><p>可以用<code>[1:3]</code>选择第二个和第三个元素</p>
-</li>
-<li><p>可以指定索引将元素写入矩阵</p>
-<p>  <img src="https://s2.loli.net/2024/02/01/VMNnCmqEDyulPz5.png" alt="image-20240201163611717"></p>
-</li>
-<li><p><strong>为多个元素赋值相同的元素</strong>，只需要<strong>索引所有元素</strong>，为其赋值。</p>
-<p>  <img src="https://s2.loli.net/2024/02/01/pkDRx9yAPvJG3VO.png" alt="image-20240201163810436"></p>
-</li>
-</ul>
-<hr>
-<ul>
-<li><p>将<strong>Numpy类型</strong>的张量转换为<strong>pytorch类型</strong>的张量</p>
-  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A = X.numpy()</span><br><span class="line">B = torch.tensor(A)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将大小为1的张量<strong>转换为Python标量</strong></p>
-  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = torch.tensor([<span class="number">3.5</span>])</span><br><span class="line">a.item(), <span class="built_in">float</span>(a), <span class="built_in">int</span>(a)</span><br></pre></td></tr></table></figure></li>
-</ul>
-<hr>
-<h2 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h2><ol>
-<li><p>创建人工数据集，并存储在csv文件</p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="comment"># 创建 ../data文件夹</span></span><br><span class="line">os.makedirs(os.path.join(<span class="string">&#x27;..&#x27;</span>, <span class="string">&#x27;data&#x27;</span>), exist_ok=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># CSV 文件的路径 ../data/house_tiny.csv</span></span><br><span class="line">data_file = os.path.join(<span class="string">&#x27;..&#x27;</span>, <span class="string">&#x27;data&#x27;</span>, <span class="string">&#x27;house_tiny.csv&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(data_file, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(<span class="string">&#x27;NumRooms,Alley,Price\n&#x27;</span>) <span class="comment"># 列名</span></span><br><span class="line">    f.write(<span class="string">&#x27;NA,Pave,127500\n&#x27;</span>) <span class="comment"># 每行表示一个数据样本</span></span><br><span class="line">    f.write(<span class="string">&#x27;2,NA,106000\n&#x27;</span>)</span><br><span class="line">    f.write(<span class="string">&#x27;4,NA,178100\n&#x27;</span>)</span><br><span class="line">    f.write(<span class="string">&#x27;NA,NA,140000\n&#x27;</span>)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>从csv文件中加载</strong>原始数据集</p>
-<p> <img src="https://s2.loli.net/2024/02/01/Vrf8tsUCBW2g69I.png" alt="image-20240201213545427"></p>
-</li>
-<li><p>为了处理<strong>缺失的数据</strong>，典型的方法包括<strong>插值</strong>和<strong>删除</strong>。</p>
-<p> 下例通过插入数值，消除缺失的数值。</p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">inputs, outputs = data.iloc[:, <span class="number">0</span>:<span class="number">2</span>], data.iloc[:, <span class="number">2</span>]</span><br><span class="line"><span class="comment"># 用 非空数据的平均值 填充NaN</span></span><br><span class="line">inputs = inputs.fillna(inputs.mean(numeric_only=<span class="literal">True</span>))</span><br><span class="line">inputs</span><br></pre></td></tr></table></figure>
-
-<p> <img src="https://s2.loli.net/2024/02/01/b6RWLasNCx9gGt4.png" alt="image-20240201224423732"></p>
-</li>
-<li><p>对于类别值或离散值，将<code>NaN</code>视为一个类别。</p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 独热编码（将分类变量转换为二进制向量）</span></span><br><span class="line"><span class="comment"># 每个分类变量的每个可能取值都被编码为一个二进制特征</span></span><br><span class="line"><span class="comment"># 当分类变量有多个不同取值时，会生成更多的列。这可能会导致维度灾难（curse of dimensionality）的问题</span></span><br><span class="line">inputs = pd.get_dummies(inputs, dummy_na=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 将inputs中的所有值转换为数值类型（True/False --&gt; 1/0）</span></span><br><span class="line">inputs *= <span class="number">1</span></span><br><span class="line">inputs</span><br></pre></td></tr></table></figure>
-
-<p> <img src="C:\Users\Hunter\AppData\Roaming\Typora\typora-user-images\image-20240201234546437.png" alt="image-20240201234546437"></p>
-</li>
-<li><p>将dataframe转换为张量</p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把所有条目都是数值类型的 dataframe格式的inputs和outputs</span></span><br><span class="line"><span class="comment"># 转换为张量格式</span></span><br><span class="line">X, y = torch.tensor(inputs.values), torch.tensor(outputs.values)</span><br><span class="line"></span><br><span class="line">X, y</span><br></pre></td></tr></table></figure>
-
-<p> <img src="C:\Users\Hunter\AppData\Roaming\Typora\typora-user-images\image-20240201235240914.png" alt="image-20240201235240914"></p>
-</li>
-</ol>
-<hr>
-<h1 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h1><h2 id="标量"><a href="#标量" class="headerlink" title="标量"></a>标量</h2><ul>
-<li>简单操作<ul>
-<li>$c &#x3D; a + b$</li>
-<li>$c &#x3D; a \cdot b$</li>
-<li>$c &#x3D; \sin a$</li>
-</ul>
-</li>
-<li>长度<ul>
-<li>$|a|&#x3D;\begin{cases} a, &amp; \text{if } a &gt; 0 \ -a, &amp; \text{if } x \leq 0 \end{cases}$</li>
-<li>$|a+b| \leq |a| + |b|$</li>
-<li>$|a\cdot b|&#x3D;|a| \cdot |b|$</li>
-</ul>
-</li>
-</ul>
-<p>标量由<strong>只有一个元素的张量</strong>表示。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line">x = torch.tensor([<span class="number">3.0</span>])</span><br><span class="line">y = torch.tensor([<span class="number">2.0</span>])</span><br><span class="line"></span><br><span class="line">x + y, x - y, x * y, x / y, x**y</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="向量"><a href="#向量" class="headerlink" title="向量"></a>向量</h2><ul>
-<li><p>简单操作</p>
-<ul>
-<li>$c &#x3D; a + b \text{ where } c_i &#x3D; a_i + b_i$</li>
-<li>$c &#x3D; \alpha \cdot b \text{ where } c_i &#x3D; \alpha b_i$ （<strong>α是标量</strong>）</li>
-<li>$c &#x3D; \sin a \text{ where } c_i &#x3D; \sin a_i$</li>
-</ul>
-</li>
-<li><p>长度</p>
-<ul>
-<li>$||a||<em>2&#x3D;\sqrt{\sum\limits</em>{i&#x3D;1}^ma_i^2}$</li>
-<li>$||a||\geq 0 \text{ for all } a$</li>
-<li>$||a+b|| \leq ||a|| + ||b||$</li>
-<li>$||\alpha\cdot b||&#x3D;|\alpha| \cdot ||b||$ （<strong>α是标量</strong>）</li>
-</ul>
-</li>
-<li><p>点乘</p>
-<p>  $a^Tb &#x3D; \sum\limits_ia_ib_i$</p>
-<p>  如果a与b<strong>正交</strong>，则$a^Tb &#x3D; 0$</p>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 可以把向量视为标量值组成的列表</span></span><br><span class="line">x = torch.arange(<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 张量的长度</span></span><br><span class="line"><span class="built_in">len</span>(x)</span><br><span class="line"><span class="comment"># 只有一个轴的张量，形状只有一个元素。 </span></span><br><span class="line">x.shape <span class="comment"># torch.Size([4])</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h2><ul>
-<li><p>简单操作</p>
-<ul>
-<li>$C &#x3D; A + B \text{ where }C_{ij}&#x3D;A_{ij}+B_{ij}$</li>
-<li>$C&#x3D;\alpha\cdot B \text{ where } C_{ij}&#x3D;\alpha B_{ij}$</li>
-<li>$C&#x3D;\sin A \text{ where } C_{ij} &#x3D; \sin A_{ij}$</li>
-</ul>
-</li>
-<li><p>乘法（矩阵 x <strong>向量</strong>）</p>
-<p>   $C &#x3D; Ab \text{ where } C_i&#x3D;\sum\limits_jA_{ij}b_j$ （矩阵A的<strong>每一行</strong>和向量b做内积）</p>
-<p>  <img src="C:\Users\Hunter\AppData\Roaming\Typora\typora-user-images\image-20240202081512116.png" alt="image-20240202081512116"></p>
-</li>
-<li><p>乘法（矩阵 x 矩阵）</p>
-<p>  $C &#x3D; AB \text{ where } C_{ik}&#x3D;\sum\limits_jA_{ij}B_{jk}$</p>
-</li>
-<li><p>范数（norm）</p>
-<p>  <strong>F范数</strong>：把<strong>所有元素</strong>的模取平方和，再开方。</p>
-<p>  $||A||<em>2&#x3D;\sqrt{|A</em>{11}|^2+… + |A_{nn}|^2}&#x3D;\sqrt{\sum\limits_{i,j}|a_{ij}|^2}$</p>
-  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.norm(torch.ones((<span class="number">4</span>, <span class="number">9</span>)))</span><br></pre></td></tr></table></figure>
-
-<p>  <img src="https://s2.loli.net/2024/02/03/iEPT1mbDvFRY6jf.png" alt="image-20240203005800817"></p>
-<p>  平方范数$L_2$，</p>
-</li>
-</ul>
-<hr>
-<h3 id="特殊矩阵"><a href="#特殊矩阵" class="headerlink" title="特殊矩阵"></a>特殊矩阵</h3><ul>
-<li><p>对称和反对称矩阵</p>
-<ul>
-<li>$A_{ij}&#x3D;A_{ji}$</li>
-<li>$A_{ij}&#x3D;-A_{ji}$</li>
-</ul>
-</li>
-<li><p><strong>正定</strong>矩阵</p>
-<p>  $x$为任意<strong>向量</strong>，$x^TAx \geq 0$ ，就称A为正定矩阵。</p>
-</li>
-<li><p><strong>正交</strong>矩阵</p>
-<ul>
-<li>所有<strong>行&#x2F;列</strong>都是<strong>单位向量</strong>，且<strong>两两正交</strong></li>
-<li>可以写成$AA^T&#x3D;E$ （对角线全为1的单位矩阵）</li>
-</ul>
-</li>
-<li><p><strong>置换</strong>矩阵</p>
-</li>
-</ul>
-<hr>
-<ul>
-<li><p>特征向量</p>
-<p>  <strong>不被矩阵改变方向</strong>的向量，称为特征向量。<strong>对称矩阵</strong>总能找到特征向量。</p>
-<p>  $Ax &#x3D; \lambda x$</p>
-</li>
-</ul>
-<hr>
-<h3 id="代码举例"><a href="#代码举例" class="headerlink" title="代码举例"></a>代码举例</h3><p>通过指定两个分量$m$和$n$来创建一个形状为$m\times n$的矩阵。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = torch.arange(<span class="number">20</span>).reshape(<span class="number">5</span>, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 得到矩阵的转置</span></span><br><span class="line">A.T</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="哈达玛积-odot"><a href="#哈达玛积-odot" class="headerlink" title="哈达玛积 $\odot$"></a>哈达玛积 $\odot$</h3><p>两个矩阵的<strong>按元素乘法</strong>称为哈达玛积$\odot$，不常用。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line">A = torch.arange(<span class="number">20</span>, dtype=torch.float32).reshape(<span class="number">5</span>, <span class="number">4</span>)</span><br><span class="line"><span class="comment"># 通过分配新内存，将A的一个副本分配给B</span></span><br><span class="line">B = A.clone()</span><br><span class="line"></span><br><span class="line">A * B</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.loli.net/2024/02/02/S4ibvxmUyFD1ewc.png" alt="image-20240202224121178"></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">2</span></span><br><span class="line">X = torch.arange(<span class="number">24</span>).reshape(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">a + X, (a * X).shape</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.loli.net/2024/02/02/tq1AQepcDlT6Cnj.png" alt="image-20240202224400195"></p>
-<hr>
-<h3 id="按指定轴求和"><a href="#按指定轴求和" class="headerlink" title="按指定轴求和"></a>按指定轴求和</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A = torch.arange(<span class="number">20</span> * <span class="number">2</span>).reshape(<span class="number">2</span>, <span class="number">5</span>, <span class="number">4</span>)</span><br><span class="line">A</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.loli.net/2024/02/03/yTbtqaE15kHp89s.png" alt="image-20240203000156266"></p>
-<ul>
-<li><p>针对第1个维度求和</p>
-  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A_sum_axis0 = A.<span class="built_in">sum</span>(axis = <span class="number">0</span>)</span><br><span class="line">A.shape, A_sum_axis0.shape, A_sum_axis0</span><br></pre></td></tr></table></figure>
-
-<p>  <img src="https://s2.loli.net/2024/02/03/6G9MnazxBkQhlUR.png" alt="image-20240203000257268"></p>
-</li>
-<li><p>针对第2个维度求和</p>
-  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A_sum_axis1 = A.<span class="built_in">sum</span>(axis = <span class="number">1</span>)</span><br><span class="line">A.shape, A_sum_axis1.shape, A_sum_axis1</span><br></pre></td></tr></table></figure>
-
-<p>  <img src="https://s2.loli.net/2024/02/03/zwVkSyEMOnpJI6t.png" alt="image-20240203000435931"></p>
-</li>
-<li><p>针对1、2<strong>两个维度</strong>求和</p>
-  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A.<span class="built_in">sum</span>(axis = [<span class="number">0</span>, <span class="number">1</span>])</span><br></pre></td></tr></table></figure>
-
-<p>  <img src="https://s2.loli.net/2024/02/03/uzqFg3CbdOxWGtS.png" alt="image-20240203000524694"></p>
-</li>
-<li><p>针对第1个维度计算<strong>累加和</strong></p>
-  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A.cumsum(axis = <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
-<p>  <img src="https://s2.loli.net/2024/02/03/9nlzW3XjQTbDoFV.png" alt="image-20240203003928627"></p>
-</li>
-</ul>
-<hr>
-<h3 id="平均值"><a href="#平均值" class="headerlink" title="平均值"></a>平均值</h3><ul>
-<li><code>A.mean()</code></li>
-<li><code>A.mean(axis=0)</code></li>
-</ul>
-<hr>
-<h3 id="计算总和或均值时-保持轴数不变"><a href="#计算总和或均值时-保持轴数不变" class="headerlink" title="计算总和或均值时 保持轴数不变"></a>计算总和或均值时 保持轴数不变</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = torch.arange(<span class="number">20</span> * <span class="number">2.</span>).reshape(<span class="number">2</span>, <span class="number">5</span>, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保持第2维的存在（只有1行），对于广播机制是一个很好的操作</span></span><br><span class="line">A.<span class="built_in">sum</span>(axis=<span class="number">1</span>, keepdims=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.loli.net/2024/02/03/2EkFILYvm5VKhTs.png" alt="image-20240203003249355"></p>
-<hr>
-<h3 id="点积-cdot-（点乘、内积）"><a href="#点积-cdot-（点乘、内积）" class="headerlink" title="点积 $\cdot$ （点乘、内积）"></a>点积 $\cdot$ （点乘、内积）</h3><p>点积是相同位置的按元素乘积的<strong>和</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x = torch.arange(<span class="number">4.</span>)</span><br><span class="line">y = torch.ones(<span class="number">4</span>, dtype=torch.float32)</span><br><span class="line">x, y, torch.dot(x, y)</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.loli.net/2024/02/03/iFOU5G2j9Iq3XoC.png" alt="image-20240203004516282"></p>
-<p>可以通过执行按<strong>元素乘法</strong>（哈达玛积$\odot$），然后<strong>求和</strong>来表示两个向量的点积。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.<span class="built_in">sum</span>(x * y)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="矩阵向量积"><a href="#矩阵向量积" class="headerlink" title="矩阵向量积"></a>矩阵向量积</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A.shape, x.shape, torch.mv(A, x)</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.loli.net/2024/02/03/z3JOEnvTGb5WgtD.png" alt="image-20240203005305511"></p>
-<hr>
-<h3 id="矩阵乘法"><a href="#矩阵乘法" class="headerlink" title="矩阵乘法"></a>矩阵乘法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">B = torch.ones(<span class="number">4</span>, <span class="number">3</span>)</span><br><span class="line">torch.mm(A, B)</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.loli.net/2024/02/03/UaxWfE9ClgcXQ7S.png" alt="image-20240203005453450"></p>
-<hr>
-<h3 id="梯度"><a href="#梯度" class="headerlink" title="梯度"></a>梯度</h3><p>梯度是导数<strong>在向量上的拓展</strong>，指向<strong>值变化最大的方向</strong>。</p>
-<ol>
-<li><p>y是标量，x是向量</p>
-<p> <img src="https://s2.loli.net/2024/02/03/KoyqupRtHLO41cQ.png" alt="image-20240203010527048"></p>
-<p> x是列向量，求导之后，会变成<strong>行向量</strong>。</p>
-<p> <img src="https://s2.loli.net/2024/02/03/natWsYGF1XMl72m.png" alt="image-20240203010607386"></p>
-<p> <img src="https://s2.loli.net/2024/02/03/H8sMuNCBxZ5mGDf.png" alt="image-20240203010856496"></p>
-</li>
-<li><p>y是向量，x是标量</p>
-<p> <img src="https://s2.loli.net/2024/02/04/NgqvciKtPxzBV9b.png" alt="image-20240204155019314"></p>
-<p> y是列向量，求导之后，还是<strong>列向量</strong>。</p>
-<p> <img src="https://s2.loli.net/2024/02/04/NWZPRcvf5VzF6Iw.png" alt="image-20240204155124157"></p>
-</li>
-<li><p>y和x<strong>都是向量</strong></p>
-<p> 求导之后，是一个<strong>矩阵</strong>。</p>
-<p> <img src="https://s2.loli.net/2024/02/04/BQTDY8OuV4xiIAZ.png" alt="image-20240204155431906"></p>
-</li>
-</ol>
-<hr>
-<h1 id="自动求导"><a href="#自动求导" class="headerlink" title="自动求导"></a>自动求导</h1><p>自动求导计算<strong>一个函数在指定值上的导数</strong>。自动求导有两种模式：</p>
-<ol>
-<li><p>正向累积</p>
-<p> $\frac{\partial y}{\partial x}&#x3D;\frac{\partial y}{\partial u_n}(\frac{\partial u_n}{\partial u_{n-1}}(\dots(\frac{\partial u_2}{\partial u_1}\frac{\partial u_1}{\partial x})))$</p>
-</li>
-<li><p><strong>反向累积（反向传递）</strong></p>
-<p> $\frac{\partial y}{\partial x}&#x3D;(((\frac{\partial y}{\partial u_n}\frac{\partial u_n}{\partial u_{n-1}})\dots)\frac{\partial u_2}{\partial u_1})\frac{\partial u_1}{\partial x}$</p>
-</li>
-</ol>
-<p>反向累积求导的<strong>复杂度</strong></p>
-<ul>
-<li><p>时间复杂度 $O(n)$，n是操作子个数</p>
-<p>  通常和正向累积代价类似。</p>
-</li>
-<li><p>空间复杂度$O(n)$</p>
-<p>  需要存储<strong>正向计算的所有中间结果</strong>。正向累积的空间复杂度是$O(1)$</p>
-</li>
-</ul>
-<hr>
-<h2 id="对函数-y-x3D-2x-Tx-关于列向量x求导"><a href="#对函数-y-x3D-2x-Tx-关于列向量x求导" class="headerlink" title="对函数$y &#x3D; 2x^Tx$ 关于列向量x求导"></a>对函数$y &#x3D; 2x^Tx$ 关于列向量x求导</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line">x = torch.arange(<span class="number">4.</span>, requires_grad=<span class="literal">True</span>)</span><br><span class="line">x, x.grad <span class="comment"># 默认值是None</span></span><br><span class="line"></span><br><span class="line">y = <span class="number">2</span> * torch.dot(x, x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过调用反向传播函数，自动计算y关于x每个分量的梯度。</span></span><br><span class="line"><span class="comment"># 执行backward前，y必须是个标量</span></span><br><span class="line">y.backward()</span><br><span class="line">x.grad</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="重新计算梯度时，要清除之前的值"><a href="#重新计算梯度时，要清除之前的值" class="headerlink" title="重新计算梯度时，要清除之前的值"></a>重新计算梯度时，要清除之前的值</h2><p>如继续对函数$y &#x3D; \sum\limits_{i&#x3D;1}^nx_i$关于列向量x求导。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认情况下，pytorch会累积梯度，需要清除之前的值</span></span><br><span class="line">x.grad.zero_()</span><br><span class="line">y = x.<span class="built_in">sum</span>() <span class="comment"># y = x_1 + x_2 + ... + x_n</span></span><br><span class="line">y.backward()    </span><br><span class="line">x.grad</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="将某些计算移动到记录的计算图之外"><a href="#将某些计算移动到记录的计算图之外" class="headerlink" title="将某些计算移动到记录的计算图之外"></a>将某些计算移动到记录的计算图之外</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">x.grad.zero_()</span><br><span class="line">y = x * x</span><br><span class="line"><span class="comment"># 使u不是一个关于x的函数，而是看做一个常数</span></span><br><span class="line">u = y.detach()</span><br><span class="line"><span class="comment"># 会被看做 常数 * x</span></span><br><span class="line">z = u * x</span><br><span class="line"></span><br><span class="line">z.<span class="built_in">sum</span>().backward()</span><br><span class="line">x.grad</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.loli.net/2024/02/04/WopnehrGsI71uEY.png" alt="image-20240204192352450"></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x.grad.zero_()</span><br><span class="line">y.<span class="built_in">sum</span>().backward()</span><br><span class="line"></span><br><span class="line">x.grad</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.loli.net/2024/02/04/yeBZORxfaDw8cCi.png" alt="image-20240204192422844"></p>
-<hr>
-<h2 id="即使构建函数的计算图需要通过Python控制流，仍然可以计算得到变量的梯度"><a href="#即使构建函数的计算图需要通过Python控制流，仍然可以计算得到变量的梯度" class="headerlink" title="即使构建函数的计算图需要通过Python控制流，仍然可以计算得到变量的梯度"></a>即使构建函数的计算图需要通过Python控制流，仍然可以计算得到变量的梯度</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">f</span>(<span class="params">a</span>):</span><br><span class="line">    b = a * <span class="number">2</span></span><br><span class="line">    <span class="comment"># F范数：把所有元素的模取平方和，再开方。</span></span><br><span class="line">    <span class="keyword">while</span> b.norm() &lt; <span class="number">1000</span>:</span><br><span class="line">        b = b * <span class="number">2</span></span><br><span class="line">    <span class="keyword">if</span> b.<span class="built_in">sum</span>() &gt; <span class="number">0</span>:</span><br><span class="line">        c = b</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        c = <span class="number">100</span> * b</span><br><span class="line">    <span class="keyword">return</span> c</span><br><span class="line"></span><br><span class="line"><span class="comment"># 随机数，size为空，即标量</span></span><br><span class="line">a = torch.randn(size=(), requires_grad=<span class="literal">True</span>)</span><br><span class="line">d = f(a)</span><br><span class="line">d.backward()</span><br><span class="line"></span><br><span class="line">a.grad == d / a</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="线性回归-基础优化算法"><a href="#线性回归-基础优化算法" class="headerlink" title="线性回归 + 基础优化算法"></a>线性回归 + 基础优化算法</h1><h2 id="线性回归模型"><a href="#线性回归模型" class="headerlink" title="线性回归模型"></a>线性回归模型</h2><ul>
-<li><p>给定<strong>n维</strong>输入$\mathbf{x} &#x3D; [x_1, x_2, \dots, x_n]^T$</p>
-</li>
-<li><p>线性回归模型有一个<strong>n维权重$\mathbf{w}$<strong>和一个</strong>标量偏差b</strong></p>
-<p>  $\mathbf{w}&#x3D;[w_1, w_2, \dots, w_n]^T, \ b$</p>
-</li>
-<li><p>输出是<strong>输入的加权和</strong></p>
-<p>  $y &#x3D; w_1x_1 +w_2x_2 +\dots+w_nx_n+b$</p>
-<p>  向量版本：$y&#x3D;\langle\mathbf{w},\mathbf{x}\rangle+b$</p>
-</li>
-</ul>
-<p>线性回归模型可以看做<strong>单层神经网络</strong>，有显式解。</p>
-<hr>
-<h3 id="衡量预估质量"><a href="#衡量预估质量" class="headerlink" title="衡量预估质量"></a>衡量预估质量</h3><p>使用<strong>平方损失（均方损失）</strong>衡量预测值和真实值的差异。</p>
-<p>$\mathscr{l}(y,\hat{y})&#x3D;\frac{1}{2}(y-\hat{y})^2$ 		($\frac{1}{2}$是为了求导时，方便消去)</p>
-<hr>
-<h3 id="参数学习"><a href="#参数学习" class="headerlink" title="参数学习"></a>参数学习</h3><ul>
-<li><p>训练损失</p>
-<p>  $\ell(\mathbf{X},\mathbf{y},\mathbf{w},b)&#x3D;\frac{1}{2n}\sum\limits_{i&#x3D;1}^{n}(y_i-\langle\mathbf{x}_i,\mathbf{w}\rangle-b)^2$</p>
-</li>
-<li><p>通过<strong>最小化损失函数</strong>来学习参数   </p>
-<p>  $\mathbf{w}^*,\mathbf{b}^*&#x3D;\arg\min\limits_{\mathbf{w},b}\ell(\mathbf{X},\mathbf{y},\mathbf{w},b)$</p>
-</li>
-</ul>
-<p><strong>均方误差</strong>（Mean Squared Error, <strong>MSE</strong>）是一种常用的损失函数，用于衡量预测值与真实值之间的差异：</p>
-<p>$\text{MSE} &#x3D; \frac{1}{n}\sum\limits_{i&#x3D;1}^n(y_i-\hat{y})^2$</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"></span><br><span class="line">loss = nn.MSELoss()</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h2 id="基础优化方法"><a href="#基础优化方法" class="headerlink" title="基础优化方法"></a>基础优化方法</h2><h3 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h3><p>当一个模型<strong>没有显式解</strong>时，如何操作？</p>
-<ol>
-<li><p>挑选一个初始值$\mathbf{w}_0$</p>
-</li>
-<li><p>重复迭代参数 t &#x3D; 1, 2, 3</p>
-<p> $\mathbf{w}<em>t&#x3D; \mathbf{w}</em>{t-1} -\eta \frac{\partial \ell}{\partial \mathbf{w}_{t-1}}$</p>
-<p> $\frac{\partial \ell}{\partial \mathbf{w}<em>{t-1}}$：损失函数$\ell$关于$\mathbf{w}</em>{t-1}$的梯度</p>
-<ul>
-<li>沿梯度方向将增加损失函数值</li>
-<li>学习率$\eta$：<strong>步长</strong>的<strong>超参数（需要人为指定的值）</strong>。学习率<strong>不能太小，也不能太大</strong>。</li>
-</ul>
-</li>
-</ol>
-<hr>
-<p>在实际中，很少直接使用梯度下降，最长使用的形式是<strong>小批量随机梯度下降</strong>。</p>
-<ul>
-<li><p>在整个训练集上算梯度成本高昂</p>
-<p>  一个深度神经网络模型可能需要数分钟至数小时</p>
-</li>
-<li><p>可以随机采样 b 个样本$i_1, i_2, …, i_b$来<strong>近似损失</strong><br>  $\frac{1}{b}\sum\limits_{i\in I_b}\ell(\mathbf{x}_i, y_i, \mathbf{w})$</p>
-</li>
-</ul>
-<p>b是<strong>批量大小</strong>，另一个重要的超参数。</p>
-<hr>
-<ul>
-<li>梯度下降通过不断沿着<strong>反梯度方向</strong>更新参数求解</li>
-<li><strong>小批量随机梯度下降</strong>是深度学习<strong>默认</strong>的求解算法</li>
-<li>两个重要的<strong>超参数</strong>是<strong>批量大小</strong>和<strong>学习率</strong></li>
-</ul>
-<hr>
-<h2 id="pytorch实现"><a href="#pytorch实现" class="headerlink" title="pytorch实现"></a>pytorch实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> torch.utils <span class="keyword">import</span> data</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">synthetic_data</span>(<span class="params">w, b, num_examples</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;生成 y = Xw + b + 噪音。&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 从均值为0，标准差为1的正态分布中随机采样 形状为(num_examples, len(w)) 的张量x</span></span><br><span class="line">    x = torch.normal(<span class="number">0</span>, <span class="number">1</span>, (num_examples, <span class="built_in">len</span>(w)))</span><br><span class="line">    <span class="comment"># torch.matmul：进行矩阵乘法</span></span><br><span class="line">    y = torch.matmul(x, w) + b</span><br><span class="line">    <span class="comment"># 添加噪音，从均值为0，标准差为0.01的正态分布中随机采样</span></span><br><span class="line">    y += torch.normal(<span class="number">0</span>, <span class="number">0.01</span>, y.shape)</span><br><span class="line">    <span class="comment"># -1：表示根据张量的总元素数量自动确定有多少行</span></span><br><span class="line">    <span class="comment"># 1：表示每行的大小为 1。</span></span><br><span class="line">    <span class="keyword">return</span> x, y.reshape((-<span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">true_w = torch.tensor([<span class="number">2</span>, -<span class="number">3.4</span>])</span><br><span class="line">true_b = <span class="number">4.2</span></span><br><span class="line">features, labels = synthetic_data(true_w, true_b, <span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="调用框架中现有的api来读取数据"><a href="#调用框架中现有的api来读取数据" class="headerlink" title="调用框架中现有的api来读取数据"></a>调用框架中现有的api来读取数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">load_array</span>(<span class="params">data_arrays, batch_size, is_train=<span class="literal">True</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;构造一个pytorch数据迭代器&quot;&quot;&quot;</span></span><br><span class="line">    dataset = data.TensorDataset(*data_arrays)</span><br><span class="line">    <span class="comment"># 按batch_size来随机读取样本</span></span><br><span class="line">    <span class="keyword">return</span> data.DataLoader(dataset, batch_size, shuffle=is_train)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">batch_size = <span class="number">10</span></span><br><span class="line">data_iter = load_array((features, labels), batch_size)</span><br><span class="line"></span><br><span class="line"><span class="comment"># iter() 将可迭代对象data_iter转换为迭代器对象，</span></span><br><span class="line"><span class="comment"># next() 函数从迭代器中获取下一个元素。</span></span><br><span class="line"><span class="built_in">next</span>(<span class="built_in">iter</span>(data_iter))</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="使用框架的预定义好的层"><a href="#使用框架的预定义好的层" class="headerlink" title="使用框架的预定义好的层"></a>使用框架的预定义好的层</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"></span><br><span class="line"><span class="comment"># Linear 线性回归（全连接层），输入维度是2，输出是1</span></span><br><span class="line"><span class="comment"># Sequential 看作 神经网络层的list</span></span><br><span class="line">net = nn.Sequential(nn.Linear(<span class="number">2</span>, <span class="number">1</span>))</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="初始化模型参数"><a href="#初始化模型参数" class="headerlink" title="初始化模型参数"></a>初始化模型参数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># normal_ 对权重参数的数据进行正态分布初始化，均值为 0，标准差为 0.01</span></span><br><span class="line">net[<span class="number">0</span>].weight.data.normal_(<span class="number">0</span>, <span class="number">0.01</span>)</span><br><span class="line"><span class="comment"># bias 偏差</span></span><br><span class="line">net[<span class="number">0</span>].bias.data.fill_(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="计算均方误差使用MSELoss类"><a href="#计算均方误差使用MSELoss类" class="headerlink" title="计算均方误差使用MSELoss类"></a>计算均方误差使用<code>MSELoss</code>类</h3><p>$\text{MSE} &#x3D; \frac{1}{n}\sum\limits_{i&#x3D;1}^n(y_i-\hat{y})^2$</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loss = nn.MSELoss()</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="实例化SGD实例"><a href="#实例化SGD实例" class="headerlink" title="实例化SGD实例"></a>实例化SGD实例</h3><p>随机梯度下降（SGD, Stochastic Gradient Descent）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># torch.optim.SGD是一个优化器类</span></span><br><span class="line">trainer = torch.optim.SGD(net.parameters(), lr=<span class="number">0.03</span>)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">num_epochs = <span class="number">3</span></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(num_epochs):</span><br><span class="line">    <span class="comment"># 遍历训练数据集的批次</span></span><br><span class="line">    <span class="keyword">for</span> X, y <span class="keyword">in</span> data_iter:</span><br><span class="line">        <span class="comment"># 计算预测值，计算预测值与真实标签之间的损失</span></span><br><span class="line">        l = loss(net(X), y)</span><br><span class="line">        <span class="comment"># 梯度清零</span></span><br><span class="line">        trainer.zero_grad()</span><br><span class="line">        <span class="comment"># 反向传播，计算损失函数关于模型参数的梯度s</span></span><br><span class="line">        l.backward()</span><br><span class="line">        <span class="comment"># 根据计算得到的梯度值和SGD的规则 更新模型参数</span></span><br><span class="line">        trainer.step()</span><br><span class="line">    <span class="comment"># 对 所有训练数据 进行预测，计算损失值</span></span><br><span class="line">    l = loss(net(features), labels)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;epoch <span class="subst">&#123;epoch + <span class="number">1</span>&#125;</span>, loss <span class="subst">&#123;l:f&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="Softmax回归"><a href="#Softmax回归" class="headerlink" title="Softmax回归"></a>Softmax回归</h1><p>Softmax回归其实是一个<strong>分类</strong>问题。</p>
-<ul>
-<li>回归估计一个<strong>连续值</strong><ul>
-<li>跟真实值的区别作为损失</li>
-</ul>
-</li>
-<li>分类预测一个<strong>离散类别</strong><ul>
-<li>通常多个输出</li>
-<li>输出i是预测为第i类的置信度</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="Softmax函数"><a href="#Softmax函数" class="headerlink" title="Softmax函数"></a>Softmax函数</h2><p>$softmax(o)&#x3D;\hat{y}$</p>
-<p>$softmax(o)_i &#x3D; \hat{y}_i&#x3D;\frac{\exp(o_i)}{\sum_j\exp(o_j)}$</p>
-<ul>
-<li>$softmax(o)_i$ 是模型输出 <code>o</code> 经过 softmax 函数后的概率分布的第 <code>i</code> 个元素。</li>
-<li>$\sum_j\exp(o_j)$：<strong>所有</strong>向量指数的和</li>
-</ul>
-<p>使用Softmax函数得到<strong>每个类的预测置信度</strong>。</p>
-<hr>
-<h2 id="交叉熵"><a href="#交叉熵" class="headerlink" title="交叉熵"></a>交叉熵</h2><p>交叉熵常用来衡量两个概率的区别：$H(p,q)&#x3D;\sum\limits_i -p_i\log (q_i)$</p>
-<p>将它作为损失：<br>    $\ell(y,\hat{y})&#x3D; -\sum\limits_i y_i\log \hat{y}_i &#x3D; -\log \hat{y}_y$</p>
-<p>将每个类别的真实标签的概率 $y_i$ 乘以预测概率 $\hat{y}_i$ 的负对数，并将所有类别的结果求和。交叉熵衡量了预测概率分布 $\hat{y}_i$  在真实概率分布 $y_i$ 上的<strong>不确定性和差异</strong>。</p>
-<p>交叉熵损失函数对模型输出 <code>o</code> 求梯度，即<strong>真实概率和预测概率的区别</strong><br>    $\partial_{o_i}\ell(y, \hat{y}) &#x3D; softmax(o)_i - y_i$</p>
-<hr>
-<h2 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h2><h3 id="均方损失-L-2-Loss"><a href="#均方损失-L-2-Loss" class="headerlink" title="均方损失 $L_2$ Loss"></a>均方损失 $L_2$ Loss</h3><p>$\ell(y,y^{‘})&#x3D;\frac{1}{2}(y-y^{‘})^2$</p>
-<hr>
-<h3 id="绝对值损失-L-1-Loss"><a href="#绝对值损失-L-1-Loss" class="headerlink" title="绝对值损失 $L_1$ Loss"></a>绝对值损失 $L_1$ Loss</h3><p>$\ell(y, y^{‘})&#x3D;|y-y^{‘}|$</p>
-<p>优化到末期时，就不那么稳定</p>
-<hr>
-<h2 id="Softmax回归的从零开始实现"><a href="#Softmax回归的从零开始实现" class="headerlink" title="Softmax回归的从零开始实现"></a>Softmax回归的从零开始实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> IPython <span class="keyword">import</span> display</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_dataloader_workers</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;使用4个进程来读取的数据&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">4</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_data_fashion_mnist</span>(<span class="params">batch_size, resize=<span class="literal">None</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;下载Fashion-MNIST数据集，然后将其加载到内存中&quot;&quot;&quot;</span></span><br><span class="line">    trans = [transforms.ToTensor()]</span><br><span class="line">    <span class="comment"># 接受一个可选参数resize，用来将图像大小调整为另一种形状。</span></span><br><span class="line">    <span class="keyword">if</span> resize:</span><br><span class="line">        trans.insert(<span class="number">0</span>, transforms.Resize(resize))</span><br><span class="line">    trans = transforms.Compose(trans)</span><br><span class="line">    mnist_train = torchvision.datasets.FashionMNIST(</span><br><span class="line">        root=<span class="string">&quot;../data&quot;</span>, train=<span class="literal">True</span>, transform=trans, download=<span class="literal">True</span>)</span><br><span class="line">    mnist_test = torchvision.datasets.FashionMNIST(</span><br><span class="line">        root=<span class="string">&quot;../data&quot;</span>, train=<span class="literal">False</span>, transform=trans, download=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 这个函数返回训练集和验证集的数据迭代器。</span></span><br><span class="line">    <span class="keyword">return</span> (data.DataLoader(mnist_train, batch_size, shuffle=<span class="literal">True</span>,</span><br><span class="line">                            num_workers=get_dataloader_workers()),</span><br><span class="line">            data.DataLoader(mnist_test, batch_size, shuffle=<span class="literal">False</span>,</span><br><span class="line">                            num_workers=get_dataloader_workers()))</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">batch_size = <span class="number">256</span></span><br><span class="line">train_iter, test_iter = load_data_fashion_mnist(batch_size)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>softmax的输入需要是一个向量，展平每个图像，将它们视为长度为784（1*28*28）的向量。</li>
-<li>因为我们的数据集有10个类别，所以网络输出维度为10</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">num_inputs = <span class="number">1</span> * <span class="number">28</span> * <span class="number">28</span></span><br><span class="line">num_outputs = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从均值为0，标准差为0.01的正态分布中随机采样</span></span><br><span class="line">w = torch.normal(<span class="number">0</span>, <span class="number">0.01</span>, size=(num_inputs, num_outputs), requires_grad=<span class="literal">True</span>)</span><br><span class="line">b = torch.zeros(num_outputs, requires_grad=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="实现Softmax回归模型"><a href="#实现Softmax回归模型" class="headerlink" title="实现Softmax回归模型"></a>实现Softmax回归模型</h3><p>对于一个矩阵来说，就是<strong>按行</strong>来做softmax。</p>
-<p>$softmax(X)<em>{ij}&#x3D;\frac{\exp (X</em>{ij})}{\sum_{k}\exp (X_{ik})}$</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">softmax</span>(<span class="params">X</span>):</span><br><span class="line">    <span class="comment"># 对每个元素做指数计算</span></span><br><span class="line">    X_exp = torch.exp(X)</span><br><span class="line">    <span class="comment"># 按照维度为1（行）进行求和</span></span><br><span class="line">    partition = X_exp.<span class="built_in">sum</span>(<span class="number">1</span>, keepdim=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> X_exp / partition  <span class="comment"># 应用了广播机制</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">net</span>(<span class="params">X</span>):</span><br><span class="line">    <span class="comment"># torch.matmul：进行矩阵乘法</span></span><br><span class="line">    <span class="comment"># -1：表示根据张量的总元素数量自动确定有多少行</span></span><br><span class="line">    <span class="comment"># 最终得到1个 所有的元素值&gt;0，行和为1的输出</span></span><br><span class="line">    <span class="keyword">return</span> softmax(torch.matmul(X.reshape((-<span class="number">1</span>, w.shape[<span class="number">0</span>])), w) + b)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="实现交叉熵损失函数"><a href="#实现交叉熵损失函数" class="headerlink" title="实现交叉熵损失函数"></a>实现交叉熵损失函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">cross_entropy</span>(<span class="params">y_hat, y</span>):</span><br><span class="line">    <span class="comment"># log实际是ln</span></span><br><span class="line">    <span class="comment"># len() 能获取矩阵的行数</span></span><br><span class="line">    <span class="keyword">return</span> -torch.log(y_hat[<span class="built_in">range</span>(<span class="built_in">len</span>(y_hat)), y])</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="将预测类别与真实y元素进行比较"><a href="#将预测类别与真实y元素进行比较" class="headerlink" title="将预测类别与真实y元素进行比较"></a>将预测类别与真实<code>y</code>元素进行比较</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">accuracy</span>(<span class="params">y_hat, y</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;计算预测正确的数量&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># y_hat 是一个二维张量且有多个列（即表示多类别分类任务的预测结果）</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(y_hat.shape) &gt; <span class="number">1</span> <span class="keyword">and</span> y_hat.shape[<span class="number">1</span>] &gt; <span class="number">1</span>:</span><br><span class="line">        <span class="comment"># argmax 函数用于在给定轴上找到张量中最大元素的索引</span></span><br><span class="line">        <span class="comment"># 使用 argmax 函数沿着列的维度（每行）计算出每个样本的预测标签</span></span><br><span class="line">        y_hat = y_hat.argmax(axis=<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># y.dtype 获取 y 张量的数据类型，使用 y_hat.type(y.dtype) 将 y_hat 的数据类型转换为与 y 相同的类型。</span></span><br><span class="line">    cmp = y_hat.<span class="built_in">type</span>(y.dtype) == y</span><br><span class="line">    <span class="comment"># 计算布尔张量 cmp 中值为 True 的元素的数量，并将结果转换为浮点数。返回预测正确的数量。</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">float</span>(cmp.<span class="built_in">type</span>(y.dtype).<span class="built_in">sum</span>())</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="评估准确率"><a href="#评估准确率" class="headerlink" title="评估准确率"></a>评估准确率</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Accumulator</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;For accumulating sums over `n` variables.&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, n</span>):</span><br><span class="line">        <span class="comment"># 使用列表推导式创建了一个名为 data 的列表，初始化为长度为 n 的全零列表。</span></span><br><span class="line">        self.data = [<span class="number">0.0</span>] * n</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">self, *args</span>):</span><br><span class="line">        <span class="comment"># zip 函数将 data 列表与参数 args 逐个配对，并使用列表推导式将它们相加</span></span><br><span class="line">        self.data = [a + <span class="built_in">float</span>(b) <span class="keyword">for</span> a, b <span class="keyword">in</span> <span class="built_in">zip</span>(self.data, args)]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">reset</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 将 data 列表的每个元素都设置为 0.0。</span></span><br><span class="line">        self.data = [<span class="number">0.0</span>] * <span class="built_in">len</span>(self.data)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, idx</span>):</span><br><span class="line">        <span class="keyword">return</span> self.data[idx]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">evaluate_accuracy</span>(<span class="params">net, data_iter</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;计算在指定数据集上模型的精度&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">isinstance</span>(net, torch.nn.Module):</span><br><span class="line">        <span class="comment"># 将模型设置为评估模式（不计算梯度）</span></span><br><span class="line">        net.<span class="built_in">eval</span>()</span><br><span class="line">    <span class="comment"># 正确预测数、预测总数</span></span><br><span class="line">    metric = Accumulator(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span> X, y <span class="keyword">in</span> data_iter:</span><br><span class="line">        <span class="comment"># accuracy 预测正确的个数</span></span><br><span class="line">        <span class="comment"># `numel()`函数：访问张量中元素的总数。</span></span><br><span class="line">        metric.add(accuracy(net(X), y), y.numel())</span><br><span class="line">    <span class="keyword">return</span> metric[<span class="number">0</span>] / metric[<span class="number">1</span>] </span><br><span class="line"></span><br><span class="line"><span class="comment"># 未经训练时的准确率</span></span><br><span class="line">evaluate_accuracy(net, test_iter)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="训练的一个迭代周期"><a href="#训练的一个迭代周期" class="headerlink" title="训练的一个迭代周期"></a>训练的一个迭代周期</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 训练模型一个迭代周期</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">train_epoch</span>(<span class="params">net, train_iter, loss, updater</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">isinstance</span>(net, torch.nn.Module):</span><br><span class="line">        net.train()</span><br><span class="line">    metric = Accumulator(<span class="number">3</span>)</span><br><span class="line">    <span class="keyword">for</span> X, y <span class="keyword">in</span> train_iter:</span><br><span class="line">        y_hat = net(X)</span><br><span class="line">        l = loss(y_hat, y)</span><br><span class="line">        <span class="comment"># 如果updater是pytorch的optimizer</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">isinstance</span>(updater, torch.optim.Optimizer):</span><br><span class="line">            <span class="comment"># 使用pytorch内置的优化器，将梯度设为0</span></span><br><span class="line">            updater.zero_grad()</span><br><span class="line">            <span class="comment"># 计算梯度</span></span><br><span class="line">            l.mean().backward()</span><br><span class="line">            <span class="comment"># 对参数进行一次更新</span></span><br><span class="line">            updater.step()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            l.<span class="built_in">sum</span>().backward()</span><br><span class="line">            updater(X.shape[<span class="number">0</span>])</span><br><span class="line">        <span class="comment"># 训练损失总和，正确的分类数，样本数 放入累加器</span></span><br><span class="line">        metric.add(<span class="built_in">float</span>(l.<span class="built_in">sum</span>()), accuracy(y_hat, y), y.numel())</span><br><span class="line">    <span class="comment"># loss的累加 / 样本数，分类正确的样本数 / 样本数（训练损失和训练精度）</span></span><br><span class="line">    <span class="keyword">return</span> metric[<span class="number">0</span>] / metric[<span class="number">2</span>], metric[<span class="number">1</span>] / metric[<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="定义一个在动画中绘制数据的类"><a href="#定义一个在动画中绘制数据的类" class="headerlink" title="定义一个在动画中绘制数据的类"></a>定义一个在动画中绘制数据的类</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> matplotlib_inline.backend_inline <span class="keyword">import</span> set_matplotlib_formats</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Animator</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;在动画中绘制数据&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, xlabel=<span class="literal">None</span>, ylabel=<span class="literal">None</span>, legend=<span class="literal">None</span>, xlim=<span class="literal">None</span>, ylim=<span class="literal">None</span>, xscale=<span class="string">&#x27;linear&#x27;</span>, yscale=<span class="string">&#x27;linear&#x27;</span>,</span></span><br><span class="line"><span class="params">                 fmts=(<span class="params"><span class="string">&#x27;-&#x27;</span>, <span class="string">&#x27;m--&#x27;</span>, <span class="string">&#x27;g-.&#x27;</span>, <span class="string">&#x27;r:&#x27;</span></span>), nrows=<span class="number">1</span>, ncols=<span class="number">1</span>, figsize=(<span class="params"><span class="number">3.5</span>, <span class="number">2.5</span></span>)</span>):</span><br><span class="line">        <span class="comment"># 增量地绘制多条线</span></span><br><span class="line">        <span class="keyword">if</span> legend <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            legend = []</span><br><span class="line">        set_matplotlib_formats(<span class="string">&#x27;svg&#x27;</span>)</span><br><span class="line">        self.fig, self.axes = d2l.plt.subplots(nrows, ncols, figsize=figsize)</span><br><span class="line">        <span class="keyword">if</span> nrows * ncols == <span class="number">1</span>:</span><br><span class="line">            self.axes = [self.axes, ]</span><br><span class="line">        <span class="comment"># 使用lambda函数捕获参数</span></span><br><span class="line">        self.config_axes = <span class="keyword">lambda</span>: d2l.set_axes(self.axes[<span class="number">0</span>], xlabel, ylabel, xlim, ylim, xscale, yscale, legend)</span><br><span class="line">        self.X, self.Y, self.fmts = <span class="literal">None</span>, <span class="literal">None</span>, fmts</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">self, x, y</span>):</span><br><span class="line">        <span class="comment"># 向图表中添加多个数据点</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">hasattr</span>(y, <span class="string">&quot;__len__&quot;</span>):</span><br><span class="line">            y = [y]</span><br><span class="line">        n = <span class="built_in">len</span>(y)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">hasattr</span>(x, <span class="string">&quot;__len__&quot;</span>):</span><br><span class="line">            x = [x] * n</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.X:</span><br><span class="line">            self.X = [[] <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n)]</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.Y:</span><br><span class="line">            self.Y = [[] <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n)]</span><br><span class="line">        <span class="keyword">for</span> i, (a, b) <span class="keyword">in</span> <span class="built_in">enumerate</span>(<span class="built_in">zip</span>(x, y)):</span><br><span class="line">            <span class="keyword">if</span> a <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">and</span> b <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">                self.X[i].append(a)</span><br><span class="line">                self.Y[i].append(b)</span><br><span class="line">        self.axes[<span class="number">0</span>].cla()</span><br><span class="line">        <span class="keyword">for</span> x, y, fmt <span class="keyword">in</span> <span class="built_in">zip</span>(self.X, self.Y, self.fmts):</span><br><span class="line">            self.axes[<span class="number">0</span>].plot(x, y, fmt)</span><br><span class="line">        self.config_axes()</span><br><span class="line">        display.display(self.fig)</span><br><span class="line">        display.clear_output(wait=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="训练函数"><a href="#训练函数" class="headerlink" title="训练函数"></a>训练函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">train</span>(<span class="params">net, train_iter, test_iter, loss, num_epochs, updater</span>):</span><br><span class="line">    animator = Animator(xlabel=<span class="string">&#x27;epoch&#x27;</span>, xlim=[<span class="number">1</span>, num_epochs], ylim=[<span class="number">0.3</span>, <span class="number">0.9</span>],</span><br><span class="line">                        legend=[<span class="string">&#x27;train loss&#x27;</span>, <span class="string">&#x27;train acc&#x27;</span>, <span class="string">&#x27;test acc&#x27;</span>])</span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(num_epochs):</span><br><span class="line">        train_metrics = train_epoch(net, train_iter, loss, updater)</span><br><span class="line">        test_acc = evaluate_accuracy(net, test_iter)</span><br><span class="line">        <span class="comment"># 将当前训练轮次的指标（训练损失、训练准确率和测试准确率）添加到 animator 对象中，用于可视化展示。</span></span><br><span class="line">        <span class="comment"># 如果 train_metrics 的值是 (0.2, 0.8)，而 test_acc 的值是 0.75，那么 train_metrics + (test_acc,) 的结果将是 (0.2, 0.8, 0.75)。</span></span><br><span class="line">        animator.add(epoch + <span class="number">1</span>, train_metrics + (test_acc,))</span><br><span class="line">    train_loss, train_acc = train_metrics</span><br><span class="line">    <span class="comment"># 检查最后一轮训练的损失是否小于 0.5，如果不满足条件，则抛出异常。</span></span><br><span class="line">    <span class="keyword">assert</span> train_loss &lt; <span class="number">0.5</span>, train_loss</span><br><span class="line">    <span class="comment"># 检查最后一轮训练的准确率是否在 0.7 到 1 之间，如果不满足条件，则抛出异常。</span></span><br><span class="line">    <span class="keyword">assert</span> <span class="number">1</span> &gt;= train_acc &gt; <span class="number">0.7</span>, train_acc</span><br><span class="line">    <span class="comment"># 检查最后一轮测试的准确率是否在 0.7 到 1 之间，如果不满足条件，则抛出异常。</span></span><br><span class="line">    <span class="keyword">assert</span> <span class="number">1</span> &gt;= test_acc &gt; <span class="number">0.7</span>, test_acc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="小批量随机梯度下降来优化模型的损失函数"><a href="#小批量随机梯度下降来优化模型的损失函数" class="headerlink" title="小批量随机梯度下降来优化模型的损失函数"></a>小批量随机梯度下降来优化模型的损失函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sgd</span>(<span class="params">params, lr, batch_size</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;随机梯度下降（Stochastic Gradient Descent）</span></span><br><span class="line"><span class="string">    小批量梯度下降&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 更新时不参与梯度计算</span></span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        <span class="keyword">for</span> param <span class="keyword">in</span> params:</span><br><span class="line">            param -= lr * param.grad / batch_size</span><br><span class="line">            param.grad.zero_()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">lr = <span class="number">0.1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">updater</span>(<span class="params">batch_size</span>):</span><br><span class="line">    <span class="keyword">return</span> sgd([w, b], lr, batch_size)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="训练10个迭代周期，对图像进行分类预测"><a href="#训练10个迭代周期，对图像进行分类预测" class="headerlink" title="训练10个迭代周期，对图像进行分类预测"></a>训练10个迭代周期，对图像进行分类预测</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">num_epochs = <span class="number">10</span></span><br><span class="line">train(net, train_iter, test_iter, cross_entropy, num_epochs, updater)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_fashion_mnist_labels</span>(<span class="params">labels</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;返回Fashion-MNIST数据集的文本标签&quot;&quot;&quot;</span></span><br><span class="line">    text_labels = [<span class="string">&#x27;t-shirt&#x27;</span>, <span class="string">&#x27;trouser&#x27;</span>, <span class="string">&#x27;pullover&#x27;</span>, <span class="string">&#x27;dress&#x27;</span>, <span class="string">&#x27;coat&#x27;</span>,</span><br><span class="line">                   <span class="string">&#x27;sandal&#x27;</span>, <span class="string">&#x27;shirt&#x27;</span>, <span class="string">&#x27;sneaker&#x27;</span>, <span class="string">&#x27;bag&#x27;</span>, <span class="string">&#x27;ankle boot&#x27;</span>]</span><br><span class="line">    <span class="keyword">return</span> [text_labels[<span class="built_in">int</span>(i)] <span class="keyword">for</span> i <span class="keyword">in</span> labels]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show_images</span>(<span class="params">imgs, num_rows, num_cols, titles=<span class="literal">None</span>, scale=<span class="number">1.5</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;绘制图像列表&quot;&quot;&quot;</span></span><br><span class="line">    fig_size = (num_cols * scale, num_rows * scale)</span><br><span class="line">    _, axes = d2l.plt.subplots(num_rows, num_cols, figsize=fig_size)</span><br><span class="line">    axes = axes.flatten()</span><br><span class="line">    <span class="keyword">for</span> i, (ax, img) <span class="keyword">in</span> <span class="built_in">enumerate</span>(<span class="built_in">zip</span>(axes, imgs)):</span><br><span class="line">        <span class="keyword">if</span> torch.is_tensor(img):</span><br><span class="line">            <span class="comment"># 图片张量</span></span><br><span class="line">            ax.imshow(img.numpy())</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># PIL图片</span></span><br><span class="line">            ax.imshow(img)</span><br><span class="line">        ax.axes.get_xaxis().set_visible(<span class="literal">False</span>)</span><br><span class="line">        ax.axes.get_yaxis().set_visible(<span class="literal">False</span>)</span><br><span class="line">        <span class="keyword">if</span> titles:</span><br><span class="line">            ax.set_title(titles[i])</span><br><span class="line">    <span class="keyword">return</span> axes</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">predict</span>(<span class="params">net, test_iter, n=<span class="number">6</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;预测标签&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> X, y <span class="keyword">in</span> test_iter:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    trues = get_fashion_mnist_labels(y)</span><br><span class="line">    preds = get_fashion_mnist_labels(net(X).argmax(axis=<span class="number">1</span>))</span><br><span class="line">    titles = [true + <span class="string">&#x27;\n&#x27;</span> + pred <span class="keyword">for</span> true, pred <span class="keyword">in</span> <span class="built_in">zip</span>(trues, preds)]</span><br><span class="line">    show_images(</span><br><span class="line">        X[<span class="number">0</span>:n].reshape((n, <span class="number">28</span>, <span class="number">28</span>)), <span class="number">1</span>, n, titles=titles[<span class="number">0</span>:n])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">predict(net, test_iter)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="多层感知机"><a href="#多层感知机" class="headerlink" title="多层感知机"></a>多层感知机</h1><h2 id="感知机"><a href="#感知机" class="headerlink" title="感知机"></a>感知机</h2><p>给定输入$\mathbf{x}$，权重$\mathbf{w}$，偏移$b$，感知机输出：</p>
-<p>$o&#x3D;\sigma(\langle\mathbf{w},\mathbf{x}\rangle+b)$</p>
-<p>$\sigma(x)&#x3D;\begin{cases}1 \ \ \text{if}\ x &gt; 0\0 \ \ \text{otherwise}\end{cases}$</p>
-<p><strong>感知机</strong>其实就是<strong>二分类</strong>的问题。</p>
-<ul>
-<li>和线性回归相比，线性回归输出<strong>实数</strong>。</li>
-<li>和Softmax回归相比，Softmax是<strong>多分类</strong>。</li>
-</ul>
-<hr>
-<h1 id="模型选择"><a href="#模型选择" class="headerlink" title="模型选择"></a>模型选择</h1><h2 id="模型容量"><a href="#模型容量" class="headerlink" title="模型容量"></a>模型容量</h2><p>模型容量指的是<strong>拟合各种函数的能力</strong>。</p>
-<ul>
-<li>低容量的模型难以拟合训练数据</li>
-<li>高容量的模型可以记住所有的训练数据。</li>
-</ul>
-<hr>
-<h1 id="网络中的网络-NiN"><a href="#网络中的网络-NiN" class="headerlink" title="网络中的网络 NiN"></a>网络中的网络 NiN</h1><h2 id="全连接层的问题"><a href="#全连接层的问题" class="headerlink" title="全连接层的问题"></a>全连接层的问题</h2><p>卷积层只需要较少的参数，但卷积层之后的第一个全连接层需要的<strong>参数量很大</strong>。</p>
-<ul>
-<li>卷积层的参数量： $c_i\times c_o \times k^2$ （输入通道数 x 输出通道数 x <strong>卷积核的</strong>高 x <strong>卷积核的</strong>宽）</li>
-<li>全连接层的参数量：$c_i\times w_i \times h_i \times c_o \times w_o \times h_i$  （输入通道数 x 输入宽度 x 输入高度 x 输出通道数 x 输出宽度 x 输出高度）</li>
-</ul>
-<p>参数量大，<strong>会占用很多内存、计算带宽、容易过拟合</strong>。</p>
-<hr>
-<h2 id="NiN块"><a href="#NiN块" class="headerlink" title="NiN块"></a>NiN块</h2><p>1个卷积层后跟2个<strong>1 * 1的卷积层，对每个像素增加了非线性</strong>：</p>
-<ul>
-<li>步幅1，无填充，输出形状跟卷积层输出一样</li>
-<li>起到全连接层的作用</li>
-</ul>
-<hr>
-<h2 id="NiN架构"><a href="#NiN架构" class="headerlink" title="NiN架构"></a>NiN架构</h2><ul>
-<li>无全连接层</li>
-<li>交替使用NiN块和步幅为2的最大池化层，<strong>逐步减小宽高、增大通道数</strong>。</li>
-<li>最后使用<strong>全局平均池化层</strong>得到输出，不容易过拟合，更少的参数个数。<ul>
-<li>输入通道数是类别数</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h1 id="含并行连结的网络-GoogLeNet-x2F-Inception-V3"><a href="#含并行连结的网络-GoogLeNet-x2F-Inception-V3" class="headerlink" title="含并行连结的网络 GoogLeNet &#x2F; Inception V3"></a>含并行连结的网络 GoogLeNet &#x2F; Inception V3</h1><p><strong>Inception块用4条有不同超参数的卷积层和池化层的路来抽取不同的信息</strong>，它的一个主要优点是模型参数小，计算复杂度低。</p>
-<p><img src="https://s2.loli.net/2024/02/22/QPhN9cY6Gg2yufK.png" alt="image-20240222140852981"></p>
-<p>GoogLeNet使用了9个lnception块，是<strong>第一个达到上百层的网络</strong>，后续有一系列改进。</p>
-<hr>
-<h1 id="批量归一化"><a href="#批量归一化" class="headerlink" title="批量归一化"></a>批量归一化</h1><p>损失出现在最后，后面的层训练较快。</p>
-<p>数据在最底部</p>
-<ul>
-<li>底部的层训练较慢</li>
-<li>底部层一变化，所有都得跟着变</li>
-<li>最后的那些层需要重新学习多次</li>
-<li>导致收敛变慢</li>
-</ul>
-<p>我们可以在学习底部层的时候避免变化顶部层吗?</p>
-<hr>
-<ul>
-<li><p>固定小批量B里的样本x的均值</p>
-<p>  $\mu_B&#x3D;\frac {1}{|B|}\sum\limits_{x\in B}x_i$</p>
-</li>
-<li><p>固定小批量B里的样本x的方差</p>
-<p>  $\sigma^2_B&#x3D;\frac{1}{|B|}\sum\limits_{i\in B}(x_i-\mu_B)^2+\epsilon$</p>
-<p>  $\epsilon$是为了<strong>防止方差为0</strong>的一个很小的数。</p>
-</li>
-</ul>
-<p>批量归一化就是通过<strong>可学习的参数</strong>$\gamma、\beta$得到的结果：</p>
-<p>$x_{i+1}&#x3D;\gamma\frac{x_i-\mu_B}{\sigma_B}+\beta$</p>
-<hr>
-<h2 id="批量归一化层"><a href="#批量归一化层" class="headerlink" title="批量归一化层"></a>批量归一化层</h2><ul>
-<li>含有可学习的参数为$\gamma$和$\beta$</li>
-<li>作用范围：<ul>
-<li>全连接层和卷积层<strong>输出上</strong>，激活函数前</li>
-<li>全连接层和卷积层<strong>输入上</strong></li>
-</ul>
-</li>
-<li>对全连接层，作用在<strong>特征</strong>维</li>
-<li>对于卷积层，作用在<strong>通道</strong>维</li>
-</ul>
-<hr>
-<h2 id="批量归一化在做什么"><a href="#批量归一化在做什么" class="headerlink" title="批量归一化在做什么"></a>批量归一化在做什么</h2><p>后续有论文指出它<strong>可能</strong>就是通过在每个小批量里<strong>加入噪音来控制模型复杂度</strong>，因此没必要跟丢弃法混合使用。</p>
-<p>$x_{i+1}&#x3D;\gamma\frac{x_i-\hat{\mu}_B}{\hat{\sigma}_B}+\beta$</p>
-<p>把$\hat{\mu}_B$和$\hat{\sigma}_B$看作<strong>随机偏移</strong>和<strong>随机缩放</strong>。</p>
-<p>批量归一化固定小批量中的均值和方差，然后学习出适合的偏移和缩放。<strong>可以加速收敛速度，但一般不改变模型精度</strong>。</p>
-<hr>
-<h1 id="残差网络-ResNet"><a href="#残差网络-ResNet" class="headerlink" title="残差网络 ResNet"></a>残差网络 ResNet</h1><h2 id="残差块"><a href="#残差块" class="headerlink" title="残差块"></a>残差块</h2><ul>
-<li>串联一个层改变函数类，希望能扩大函数类。</li>
-<li>残差块加入快速通道，来得到$f(x)&#x3D;x+g(x)$的结构</li>
-</ul>
-<p><img src="https://s2.loli.net/2024/02/23/6kwuFPxZlWJeQT5.png" alt="image-20240223134806237"></p>
-<p>有很多调整变形的排列组合。</p>
-<p>有两种残差块：</p>
-<ol>
-<li>高宽减半、通道数翻倍的残差块（步幅stride&#x3D;2）</li>
-<li>接多个高宽不变的残差块（步幅stride&#x3D;1）</li>
-</ol>
-<p>残差块<strong>使得很深的网络更加容易训练</strong>，甚至可以训练一千层的网络。</p>
-<hr>
-<h1 id="数据增广"><a href="#数据增广" class="headerlink" title="数据增广"></a>数据增广</h1><p>数据增强就是在一个已有的数据集中，通过变形数据，使得数据集有更多的多样性，模型繁华性能更好。例如：</p>
-<ol>
-<li>在语言里加入各种不同的背景噪音</li>
-<li>改变图片的形状和颜色</li>
-</ol>
-<p>常见的图片的数据增强的形式：</p>
-<ol>
-<li>翻转</li>
-<li>切割</li>
-<li>变色</li>
-</ol>
-<hr>
-<h1 id="微调"><a href="#微调" class="headerlink" title="微调"></a>微调</h1><ul>
-<li>微调通过使用在大数据上得到的预训练好的模型，来初始化模型权重，来完成提升精度。</li>
-<li>预训练模型质量很重要。</li>
-<li>微调通常速度更快、精度更高。</li>
-</ul>
-<hr>
-<h1 id="序列模型"><a href="#序列模型" class="headerlink" title="序列模型"></a>序列模型</h1><ul>
-<li>时序模型中，<strong>当前数据跟之前观察到的数据相关</strong></li>
-<li>自回归模型<strong>使用自身过去数据来预测未来</strong></li>
-<li>马尔科夫模型假设当前只跟最近少数数据相关，从而简化模型</li>
-<li>潜变量模型使用潜变量来概括历史信息</li>
-</ul>
-<p>​		</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/11/15/Redis/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/11/15/Redis/" class="post-title-link" itemprop="url">Redis</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-11-15 10:32:56" itemprop="dateCreated datePublished" datetime="2023-11-15T10:32:56+08:00">2023-11-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-05-21 14:56:30" itemprop="dateModified" datetime="2024-05-21T14:56:30+08:00">2024-05-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="什么是Redis"><a href="#什么是Redis" class="headerlink" title="什么是Redis"></a>什么是Redis</h1><p>Redis是基于C语言开发的NoSQL数据库，它是一种<strong>存储KV键值对数据</strong>的内存数据库，因此读写速度非常快，被广泛应用于<strong>分布式缓存</strong>方向。</p>
-<p>Redis内置了多种数据类型实现：</p>
-<ul>
-<li>5种基础数据类型<ol>
-<li>String</li>
-<li>List</li>
-<li>Set</li>
-<li>Hash</li>
-<li>Zset （有序集合）</li>
-</ol>
-</li>
-<li>3种特殊数据类型<ol>
-<li>HyperLogLog（基数统计）</li>
-<li>Bitmap（位图）</li>
-<li>Geospatial (地理位置)</li>
-</ol>
-</li>
-</ul>
-<p>Reids还支持事务、<strong>持久化（将内存数据保存在磁盘中，重启时可以再次加载使用）</strong>、Lua脚本、多种开箱即用的集群方案（Redis Sentinel、Redis Cluster）。</p>
-<hr>
-<h1 id="数据结构与对象"><a href="#数据结构与对象" class="headerlink" title="数据结构与对象"></a>数据结构与对象</h1><h2 id="简单动态字符串-SDS-Simple-Dynamic-String"><a href="#简单动态字符串-SDS-Simple-Dynamic-String" class="headerlink" title="简单动态字符串 (SDS, Simple Dynamic String)"></a>简单动态字符串 (SDS, Simple Dynamic String)</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录buf数组中已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于SDS所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    <span class="comment">// 记录buf数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    <span class="comment">// 字节数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>SDS遵循C字符串以空字符结尾的惯例，保存空字符的1字节空间不计算在SDS的len属性里面，并且为空字符分配额外的1字节空间，以及添加空字符到字符串末尾等操作，都是由SDS函数自动完成的，所以这个空字符对于SDS的使用者来说是完全透明的。遵循空字符结尾这一惯例的好处是，SDS可以直接重用一部分C字符串函数库里面的函数。</p>
-<h3 id="常数复杂度获取字符串长度"><a href="#常数复杂度获取字符串长度" class="headerlink" title="常数复杂度获取字符串长度"></a>常数复杂度获取字符串长度</h3><p>通过使用SDS而不是C字符串，Redis将获取字符串长度所需的复杂度从$O(N)$降低到了$O(1)$，这确保了<strong>获取字符串长度的工作不会成为Redis的性能瓶颈</strong>。</p>
-<hr>
-<h3 id="杜绝缓冲区溢出"><a href="#杜绝缓冲区溢出" class="headerlink" title="杜绝缓冲区溢出"></a>杜绝缓冲区溢出</h3><p>SDS的空间分配策略<strong>杜绝了发生缓冲区溢出的可能性</strong>。当SDS API需要对SDS进行修改时，<strong>API会先检查SDS的空间是否满足修改所需的要求，如果不满足的话，API会自动将SDS的空间扩展至执行修改所需的大小，然后才执行实际的修改操作</strong>。</p>
-<hr>
-<h3 id="减少修改字符串时带来的内存重分配次数"><a href="#减少修改字符串时带来的内存重分配次数" class="headerlink" title="减少修改字符串时带来的内存重分配次数"></a>减少修改字符串时带来的<strong>内存重分配次数</strong></h3><ol>
-<li><p><strong>空间预分配</strong></p>
-<ol>
-<li>如果对SDS进行修改之后，SDS的长度（也即是len属性的值）<strong>小于1MB</strong>，那么程序<strong>分配和len属性同样大小的未使用空间</strong>，这时SDS len属性的值将和free属性的值相同。</li>
-<li>如果对SDS进行修改之后，SDS的长度将<strong>大于等于1MB</strong>，那么程序会<strong>分配1MB的未使用空间</strong>。</li>
-</ol>
-</li>
-<li><p><strong>惰性空间释放</strong></p>
-<p>  当SDS的API需要缩短SDS保存的字符串时，程序<strong>不立即回收缩短后多出来的字节，而是使用free属性将这些字节的数量记录起来，并等待将来使用</strong>。与此同时，SDS也提供了相应的API真正地释放SDS的未使用空间，所以不用担心惰性空间释放策略会造成内存浪费。</p>
-</li>
-</ol>
-<hr>
-<h3 id="二进制安全"><a href="#二进制安全" class="headerlink" title="二进制安全"></a>二进制安全</h3><p>虽然数据库一般用于保存文本数据，但使用数据库来保存二进制数据的场景也不少见，因此，为了确保Redis可以适用于各种不同的使用场景，<strong>所有SDS API都会以处理二进制的方式来处理SDS存放在buf数组里的数据，程序不会对其中的数据做任何限制、过滤、或者假设，数据在写入时是什么样的，它被读取时就是什么样</strong>。这也是我们<strong>将SDS的buf属性称为字节数组</strong>的原因——Redis不是用这个数组来保存字符，而是用它来保存一系列二进制数据。</p>
-<p>使用SDS来保存之前提到的特殊数据格式就没有任何问题，因为<strong>SDS使用len属性的值而不是空字符来判断字符串是否结束</strong>。但SDS一样遵循C字符串以空字符结尾的惯例，这是<strong>为了让那些保存文本数据的SDS可以重用一部分&lt;string.h&gt;库定义的函数</strong>。</p>
-<hr>
-<h2 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h2><p>链表在Redis中的应用非常广泛，比如<strong>列表键的底层实现之一</strong>就是链表。当一个列表键包含了<strong>数量比较多的元素</strong>，又或者列表中<strong>包含的元素都是比较长的字符串</strong>时，Redis就会使用链表作为列表键的底层实现。</p>
-<p>除了列表键之外，<strong>发布与订阅、慢查询、监视器</strong>等功能也用到了链表，Redis服务器本身还使用链表来<strong>保存多个客户端的状态信息</strong>，以及使用链表来<strong>构建客户端输出缓冲区（output buffer）</strong>。</p>
-<p>每个链表节点使用<code>adlist.h/listNode</code>结构来表示：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 前置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> * <span class="title">prev</span>;</span></span><br><span class="line">    <span class="comment">// 后置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> * <span class="title">next</span>;</span></span><br><span class="line">    <span class="comment">// 节点的值</span></span><br><span class="line">    <span class="type">void</span> * value;</span><br><span class="line">&#125;listNode;</span><br></pre></td></tr></table></figure>
-
-<p>虽然仅仅使用多个listNode结构就可以组成链表，但使用<code>adlist.h/list</code>来持有链表的话，操作起来会更方便：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">    <span class="comment">// 表头节点</span></span><br><span class="line">    listNode * head;</span><br><span class="line">    <span class="comment">// 表尾节点</span></span><br><span class="line">    listNode * tail;</span><br><span class="line">    <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">    <span class="comment">// 节点值复制函数</span></span><br><span class="line">    <span class="type">void</span> *(*dup)(<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值释放函数</span></span><br><span class="line">    <span class="type">void</span> (*<span class="built_in">free</span>)(<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值对比函数</span></span><br><span class="line">    <span class="type">int</span> (*match)(<span class="type">void</span> *ptr,<span class="type">void</span> *key);</span><br><span class="line">&#125; <span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
-
-<p>list结构为链表提供了表头指针<code>head</code>、表尾指针<code>tail</code>，以及链表长度计数器<code>len</code>，而dup、free和match成员则是用于实现多态链表所需的类型特定函数：</p>
-<ul>
-<li>dup函数用于复制链表节点所保存的值；</li>
-<li>free函数用于释放链表节点所保存的值；</li>
-<li>match函数则用于对比链表节点所保存的值和另一个输入值是否相等。</li>
-</ul>
-<p><img src="https://s2.loli.net/2024/05/08/CYrpu6e25VFJsaA.png" alt="由list结构和listNode结构组成的链表"></p>
-<p>Redis的链表实现的特性可以总结如下：</p>
-<ol>
-<li><strong>双端</strong>：链表节点带有prev和next指针，获取某个节点的前置节点和后置节点的复杂度都是O（1）。</li>
-<li><strong>无环</strong>：表头节点的prev指针和表尾节点的next指针都指向NULL，对链表的访问以NULL为终点。</li>
-<li><strong>带表头指针和表尾指针</strong>：通过list结构的head指针和tail指针，程序获取链表的表头节点和表尾节点的复杂度为O（1）。</li>
-<li><strong>带链表长度计数器</strong>：程序使用list结构的len属性来对list持有的链表节点进行计数，程序获取链表中节点数量的复杂度为O（1）。</li>
-<li><strong>多态</strong>：链表节点使用<code>void*</code>指针来保存节点值，并且可以通过list结构的dup、free、match三个属性为节点值设置类型特定函数，所以链表可以用于保存各种不同类型的值。</li>
-</ol>
-<hr>
-<h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><p>字典是用于<strong>保存键值对</strong>的抽象数据结构。字典在Redis中的应用相当广泛，比如<strong>对数据库的增、删、查、改操作构建在对字典的操作之上</strong>。</p>
-<p>除了用来表示数据库之外，字典还是<strong>哈希键的底层实现之一</strong>，当一个哈希键包含的键值对比较多，又或者键值对中的元素都 是比较长的字符串时，Redis就会使用字典作为哈希键的底层实现。</p>
-<p>Redis的字典使用<strong>哈希表作为底层实现</strong>，<strong>每个哈希表节点保存了字典中的一个键值对</strong>。</p>
-<hr>
-<h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line">    <span class="comment">// 哈希表数组</span></span><br><span class="line">    dictEntry **table;</span><br><span class="line">    <span class="comment">// 哈希表大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line">    <span class="comment">// 哈希表大小掩码，用于计算索引值</span></span><br><span class="line">    <span class="comment">// 总是等于size-1</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line">    <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line">&#125; dictht;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>table属性是一个<strong>数组</strong>，数组中的<strong>每个元素都是一个指向<code>dict.h/dictEntry</code>结构的指针，每个dictEntry结构保存着一个键值对</strong>。</li>
-<li><strong>sizemask和哈希值一起决定一个键应该被放到table数组的哪个索引上面</strong>。</li>
-</ul>
-<p> <strong>一个空的哈希表：</strong></p>
-<img src="https://s2.loli.net/2024/05/08/CgdAGeRpVjiEoPZ.png" alt=" 一个空的哈希表" style="zoom:50%;" />
-
-<hr>
-<h3 id="哈希表节点"><a href="#哈希表节点" class="headerlink" title="哈希表节点"></a>哈希表节点</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line">    <span class="comment">//键</span></span><br><span class="line">    <span class="type">void</span> *key;</span><br><span class="line">    <span class="comment">//值</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span>&#123;</span></span><br><span class="line">        <span class="type">void</span> *val;</span><br><span class="line">        uint64_tu64;</span><br><span class="line">        int64_ts64;</span><br><span class="line">    &#125; v;</span><br><span class="line">    <span class="comment">//指向下个哈希表节点，形成链表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; dictEntry;</span><br></pre></td></tr></table></figure>
-
-<p>next属性是<strong>指向另一个哈希表节点的指针</strong>，这个指针可以将多个<strong>哈希值相同</strong>的键值对连接在一起，以此来<strong>解决键冲突（collision）的问题</strong>。</p>
-<p><img src="https://s2.loli.net/2024/05/08/mdcQSf2gROHxC1z.png" alt="image-20240508162058600"></p>
-<hr>
-<h3 id="字典的结构"><a href="#字典的结构" class="headerlink" title="字典的结构"></a>字典的结构</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line">    <span class="comment">// 类型特定函数</span></span><br><span class="line">    dictType *type;</span><br><span class="line">    <span class="comment">// 私有数据</span></span><br><span class="line">    <span class="type">void</span> *privdata;</span><br><span class="line">    <span class="comment">// 哈希表</span></span><br><span class="line">    dictht ht[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">// rehash索引</span></span><br><span class="line">    <span class="comment">// 当rehash不在进行时，值为-1</span></span><br><span class="line">    in trehashidx; <span class="comment">/* rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line">&#125; dict;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>type属性是一个<strong>指向dictType结构</strong>的指针，每个dictType结构保存了一簇<strong>用于操作特定类型键值对的函数</strong>，Redis会为用途不同的字典设置不同的类型特定函数。</li>
-<li>privdata属性则保存了需要传给那些类型特定函数的可选参数。</li>
-<li>ht属性是一个<strong>包含两个项的数组</strong>，数组中的每个项都是一个<code>dictht</code>哈希表，<strong>一般情况下，字典只使用ht[0]哈希表</strong>，ht[1]哈希表只会在对ht[0]哈希表进行rehash时使用。</li>
-</ul>
-<p>普通状态下，没有进行rehash的字典：</p>
-<img src="https://s2.loli.net/2024/05/08/QeTj7GOyLu5DUvf.png" alt="普通状态下，没有进行rehash的字典" style="zoom: 50%;" />
-
-<p>当字典被用作数据库的底层实现，或者哈希键的底层实现时，<strong>Redis使用MurmurHash2算法来计算键的哈希值</strong>。这种算法的优点在于，<strong>即使输入的键是有规律的，算法仍能给出一个很好的随机分布性，并且算法的计算速度也非常快</strong>。</p>
-<hr>
-<h3 id="解决键冲突"><a href="#解决键冲突" class="headerlink" title="解决键冲突"></a>解决键冲突</h3><p>Redis的哈希表使用<strong>链地址法（separate chaining）</strong>来解决键冲突，<strong>每个哈希表节点都有一个next指针，多个哈希表节点可以用next指针构成一个单向链表</strong>，被分配到同一个索引上的多个节点可以用这个单向链表连接起来，这就解决了键冲突的问题。</p>
-<p>因为<strong>dictEntry节点组成的链表没有指向链表表尾的指针，所以为了速度考虑，程序总是将新节点添加到链表的表头位置</strong>（复杂度为$O(1)$）。</p>
-<hr>
-<h3 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h3><p>随着操作的不断执行，哈希表保存的键值对会逐渐地增多或者减少，为了让哈希表的负载因子（load factor）维持在一个合理的范围之内，当哈希表保存的键值对数量太多或者太少时，程序需要对哈希表的大小进行相应的扩展或者收缩。这个工作通过执行rehash操作来完成。</p>
-<ol>
-<li>为字典的ht[1]哈希表分配空间，这个哈希表的空间大小取决于要执行的操作，以及ht[0]当前包含的键值对数量（也即是ht[0].used属性的值）</li>
-<li><strong>扩展操作</strong>，那么ht[1]的大小为第一个≥<code>ht[0].used*2</code>的$2^n$；</li>
-<li><strong>收缩操作</strong>，那么ht[1]的大小为第一个≥<code>ht[0].used</code>的$2^n$。</li>
-<li>将保存在ht[0]中的所有键值对rehash到ht[1]上面，<strong>即重新计算键的哈希值和索引值，然后将键值对放置到ht[1]哈希表的指定位置上</strong>。</li>
-<li>当ht[0]包含的所有键值对都迁移到了ht[1]之后（ht[0]变为空表），<strong>释放ht[0]，将ht[1]设置为ht[0]，并在ht[1]新创建一个空白哈希表，为下一次rehash做准备</strong>。</li>
-</ol>
-<p>为了避免rehash对服务器性能造成影响，<strong>rehash动作不是一次性、集中式地完成，而是分多次、渐进式地完成的</strong>。因为在进行渐进式rehash的过程中，字典会同时使用ht[0]和ht[1]两个哈希表，所以<strong>在渐进式rehash进行期间，字典的删除（delete）、查找（find）、更新（update）等操作会在两个哈希表上进行</strong>。例如，要在字典里面查找一个键的话，程序会先在ht[0]里面进行查找，如果没找到的话，就会继续到ht[1]里面进行查找，诸如此类。</p>
-<p>另外，在渐进式rehash执行期间，<strong>新添加到字典的键值对一律会被保存到ht[1]里面</strong>，而ht[0]则不再进行任何添加操作，这一措施保证了ht[0]包含的键值对数量会只减不增，并随着rehash操作的执行而最终变成空表。</p>
-<hr>
-<h2 id="跳跃表-skiplist"><a href="#跳跃表-skiplist" class="headerlink" title="跳跃表 skiplist"></a>跳跃表 skiplist</h2><p>跳表是一种<strong>链表+多级索引</strong>的有序数据结构，它通过<strong>在每个节点中维持多个指向其他节点的指针</strong>，从而达到快速访问节点的目的。  跳表支持平均$O(logN)$、最坏$O(N)$复杂度的节点查找，还可以通过顺序操作来批量处理节点。</p>
-<p>和链表、字典等数据结构被广泛地应用在Redis内部不同，<strong>Redis只在两个地方用到了跳跃表</strong>，一个是实现<strong>有序集合键</strong>，另一个是<strong>在集群节点中用作内部数据结构</strong>。</p>
-<p>跳跃表示例：</p>
-<img src="https://s2.loli.net/2024/05/09/dpgyu3QUiDNKWlf.png" alt="跳跃表示例" style="zoom: 50%;" />
-
-<ul>
-<li><p><strong>zskiplist结构</strong></p>
-<ul>
-<li>header</li>
-<li>tail</li>
-<li>level：记录目前跳跃表内，<strong>层数最大的节点的层数</strong>（<strong>不包括表头节点</strong>）</li>
-<li>length：记录<strong>跳跃表的长度</strong>（<strong>不包括表头节点</strong>）</li>
-</ul>
-</li>
-<li><p><strong>zskiplistNode结构</strong></p>
-<ul>
-<li><p><strong>level</strong>：每个层都带有两个属性：<strong>前进指针</strong>和<strong>跨度</strong>。</p>
-<ul>
-<li>前进指针指向<strong>位于表尾方向的其他节点</strong>。</li>
-<li>跨度记录了<strong>指向节点与当前节点的距离</strong>。<strong>指向NULL的所有前进指针的跨度都为0，因为它们没有连向任何节点</strong>。</li>
-</ul>
-<p>  当程序从表头向表尾进行遍历时，访问会沿着层的前进指针进行。</p>
-</li>
-<li><p><strong>backward指针</strong>：指向<strong>前一个节点</strong>。</p>
-</li>
-<li><p>score：节点按各自保存的分值<strong>从小到大排列</strong>。</p>
-</li>
-<li><p>obj：成员对象。是<strong>指向一个字符串对象的指针</strong>。</p>
-</li>
-</ul>
-<p>  表头节点也有backward指针、score和成员对象，不过表头节点的这些属性都不会被用到，所以图中省略了这些部分，只显示了表头节点的各个层。</p>
-</li>
-</ul>
-<hr>
-<h3 id="跳跃表节点"><a href="#跳跃表节点" class="headerlink" title="跳跃表节点"></a>跳跃表节点</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><p>层</p>
-<p> 每次创建一个新跳跃表节点的时候，程序都根据<strong>幂次定律</strong>（power law，<strong>越大的数出现的概率越小</strong>）随机生成一个<strong>介于1和32之间的值作为level数组的大小</strong>，这个大小就是层的“高度”。</p>
-</li>
-<li><p>跨度实际用来计算排位。</p>
-<p> 在查找某个节点的过程中，<strong>将沿途访问过的所有层的跨度累计</strong>，得到的结果就是<strong>目标节点在跳表中的排位</strong>。</p>
-</li>
-</ol>
-<p>在同一个跳跃表中，<strong>各个节点保存的成员对象必须是唯一的，但是多个节点保存的分值可以相同</strong>：分值相同的节点将<strong>按照成员对象在字典序中的大小来进行排序</strong>，成员对象较小的节点会排在前面（靠近表头的方向），而成员对象较大的节点则会排在后面（靠近表尾的方向）。</p>
-<hr>
-<h2 id="整数集合-intset"><a href="#整数集合-intset" class="headerlink" title="整数集合 intset"></a>整数集合 intset</h2><p>整数集合是<strong>集合键</strong>的底层实现之一。当一个集合<strong>只包含整数值元素</strong>并且<strong>元素数量不多</strong>时，Redis就会使用整数集合作为集合键的底层实现。它可以保存类型为<code>int16_t</code>、<code>int32_t</code>或者<code>int64_t</code>的整数值，并且保证<strong>集合中不会出现重复元素</strong>。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">intset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 编码方式</span></span><br><span class="line">    <span class="type">uint32_t</span> encoding;</span><br><span class="line">    <span class="comment">// 集合包含的元素数量</span></span><br><span class="line">    <span class="type">uint32_t</span> length;</span><br><span class="line">    <span class="comment">// 保存元素的数组</span></span><br><span class="line">    <span class="type">int8_t</span> contents[];</span><br><span class="line">&#125; intset;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>contents数组是整数集合的底层实现</p>
-<p>  整数集合的每个元素都是contents数组的一个数组项，<strong>按值从小到大排列</strong>。</p>
-<p>  虽然intset结构将contents属性声明为int8_t类型的数组，但实际上contents数组并不保存任何int8_t类型的值，<strong>contents数组的真正类型取决于encoding属性的值</strong>：</p>
-<ul>
-<li>encoding属性的值为<code>INTSET_ENC_INT16</code>，那么contents就是一个<code>int16_t</code>类型的数组</li>
-<li>encoding属性的值为<code>INTSET_ENC_INT32</code>，那么contents就是一个<code>int32_t</code>类型的数组</li>
-<li>encoding属性的值为<code>INTSET_ENC_INT64</code>，那么contents就是一个<code>int64_t</code>类型的数组</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h3><p>每当我们要将一个新元素添加到整数集合里面，并且<strong>新元素的类型比整数集合现有所有元素的类型都要长时</strong>，整数集合需要先进行升级（upgrade），然后才能将新元素添加到整数集合里面。</p>
-<ol>
-<li>根据新元素的类型，扩展整数集合底层数组的空间大小，并为新元素分配空间。</li>
-<li>底层数组现有的<strong>所有元素都转换成与新元素相同的类型</strong>，并将类型转换后的元素放置到正确的位上，而且在放置元素的过程中，需要继续维持底层数组的有序性质不变 。</li>
-<li>将新元素添加到底层数组里面。</li>
-</ol>
-<p>因为<strong>每次向整数集合添加新元素都可能会引起升级</strong>，而每次升级都需要对底层数组中已有的所有元素进行类型转换，所以向整数集合添加新元素的时间复杂度为$O(N)$。</p>
-<p>整数集合的升级策略有两个好处，<strong>一个是提升整数集合的灵活性（可以添加新类型），另一个是尽可能地节约内存（只有必要时才会升级）</strong>。</p>
-<p><strong>整数集合不支持降级操作</strong>，一旦对数组进行了升级，编码就会一直保持升级后的状态。</p>
-<hr>
-<h2 id="压缩列表-ziplist"><a href="#压缩列表-ziplist" class="headerlink" title="压缩列表 ziplist"></a>压缩列表 ziplist</h2><p>压缩列表（ziplist）是列表键和哈希键的底层实现之一。</p>
-<ul>
-<li>当一个<strong>列表键</strong>只包含<strong>少量列表项</strong>（&lt; 512），并且每个列表项要么就是<strong>小整数值</strong>，要么就是<strong>长度比较短的字符串</strong>(&lt; 64字节)，Redis就会使用压缩列表来做列表键的底层实现。</li>
-<li>当一个<strong>哈希键</strong>只包含<strong>少量键值对</strong>，并且每个键值对的键和值要么就是<strong>小整数值</strong>，要么就是<strong>长度比较短的字符串</strong>，Redis就会使用压缩列表来做哈希键的底层实现。</li>
-</ul>
-<p>压缩列表是由<strong>一系列特殊编码的连续内存块组成</strong>的<strong>顺序型数据结构</strong>。一个压缩列表可以包含<strong>任意多个节点（entry）</strong>，每个节点可以<strong>保存一个字节数组或者一个整数值</strong>。 </p>
-<img src="https://s2.loli.net/2024/05/11/2nDibMxHfehsySu.png" alt="压缩列表的组成部分" style="zoom: 80%;" />
-
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>类型</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>zlbytes</td>
-<td>unit32_t</td>
-<td>记录压缩列表占用的内存。<br />在对压缩列表进行内存重分配，或者计算zlend位置时使用。</td>
-</tr>
-<tr>
-<td>zltail</td>
-<td>unit32_t</td>
-<td>记录压缩列表<strong>表尾节点距离起始地址有多少字节</strong>。<br />程序无需遍历整个压缩列表就可以确定表尾节点的地址。</td>
-</tr>
-<tr>
-<td>zllen</td>
-<td>unit16_t</td>
-<td>记录了压缩列表包含的节点数量。<br />该属性值 &lt; UNIT16_MAX 时，就是压缩列表<strong>包含节点的数量**。<br />该属性值 <strong>&#x3D; UNIT16_MAX</strong>时，节点的数量</strong>需要遍历压缩列表才能得出**。</td>
-</tr>
-<tr>
-<td>entryX</td>
-<td>列表节点</td>
-<td>节点的长度由节点保存的内容决定。</td>
-</tr>
-<tr>
-<td>zlend</td>
-<td>unit8_t</td>
-<td>特殊值0xFF，用于<strong>标记压缩列表的末端</strong>。</td>
-</tr>
-</tbody></table>
-<hr>
-<h3 id="压缩列表节点的构成"><a href="#压缩列表节点的构成" class="headerlink" title="压缩列表节点的构成"></a>压缩列表节点的构成</h3><table>
-<thead>
-<tr>
-<th>previous_entry_length</th>
-<th>encoding</th>
-<th>content</th>
-</tr>
-</thead>
-</table>
-<ul>
-<li><p>previous_entry_length，记录了前一个节点的长度，以字节为单位。</p>
-<p>  压缩列表可以根据这个属性，从表尾向表头遍历。</p>
-</li>
-<li><p>encoding，记录了节点的content属性保存的<strong>数据类型和长度</strong>。</p>
-</li>
-<li><p>content，保存节点的值，可以是<strong>字节数组或整数</strong>。</p>
-</li>
-</ul>
-<hr>
-<h3 id="连锁更新"><a href="#连锁更新" class="headerlink" title="连锁更新"></a>连锁更新</h3><p>Redis将在特殊情况下产生的<strong>连续多次空间扩展操作</strong>称之为<strong>连锁更新</strong>。</p>
-<p>因为连锁更新在最坏情况下需要对压缩列表执行N次空间重分配操作，而每次空间重分配的最坏复杂度为$O(N)$，所以连锁更新的最坏复杂度为$O(N^2)$。</p>
-<p>尽管连锁更新的复杂度较高，但它真正造成性能问题的几率很低：</p>
-<ul>
-<li>首先，压缩列表里要恰好有多个连续的、长度介于250字节至253字节之间的节点，连锁更新才有可能被引发，在实际中，这种情况并不多见。</li>
-<li>其次，即使出现连锁更新，但只要被更新的节点数量不多，就不会对性能造成任何影响：比如说，对三五个节点进行连锁更新是绝对不会影响性能的。</li>
-</ul>
-<p>因为以上原因，<code>ziplistPush</code>等命令的平均复杂度仅为$O(N)$，在实际中，我们可以放心地使用这些函数，而不必担心连锁更新会影响压缩列表的性能。</p>
-<hr>
-<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><p>Redis<strong>没有直接使用上述的数据结构来实现键值对数据库</strong>，而是基于这些数据结构创建了一个<strong>对象系统</strong>。这个系统包含字符串对象（String）、列表对象（List）、哈希对象（Hash）、集合对象（Set）和有序集合（Zset）对象这五种类型的对象，<strong>每种对象都至少用到了一种前面介绍的数据结构</strong>。</p>
-<p>通过这五种不同类型的对象，Redis可以在执行命令之前，根据对象的类型来判断一个对象是否可以执行给定的命令。另外，可以针对不同的使用场景，<strong>为对象设置多种不同的数据结构实现</strong>，从而优化对象在不同场景下的使用效率。</p>
-<p>除此之外，Redis的对象系统还实现了<strong>基于引用计数技术的内存回收机制</strong>，当程序不再使用某个对象的时候，这个对象所占用的内存就会被自动释放；另外，Redis还<strong>通过引用计数技术实现了对象共享机制</strong>，这一机制可以在适当的条件下，通过让多个数据库键共享同一个对象来节约内存。</p>
-<p>最后，Redis的对象<strong>带有访问时间记录信息</strong>，该信息可以用于计算数据库键的空转时长，在服务器启用了maxmemory功能的情况下，空转时长较大的那些键可能会优先被服务器删除。</p>
-<hr>
-<h3 id="对象的类型与编码"><a href="#对象的类型与编码" class="headerlink" title="对象的类型与编码"></a>对象的类型与编码</h3><p>每次在Redis的数据库中新创建一个键值对时，我们至少会创建两个对象，一个对象用作键值对的键（键对象），另一个对象用作键值对的值（值对象）。</p>
-<p>Redis中的每个对象都由一个redisObject结构表示，该结构中和保存数据有关的三个属性分别是type属性、encoding属性和ptr属性：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line">	<span class="comment">// 类型</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 指向底层实现数据结构的指针</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>type</p>
-<table>
-<thead>
-<tr>
-<th>类型常量</th>
-<th>对象的名称</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>REDIS_STRING</td>
-<td>字符串对象</td>
-</tr>
-<tr>
-<td>REDIS_LIST</td>
-<td>列表对象</td>
-</tr>
-<tr>
-<td>REDIS_HASH</td>
-<td>哈希对象</td>
-</tr>
-<tr>
-<td>REDIS_SET</td>
-<td>集合对象</td>
-</tr>
-<tr>
-<td>REDIS_ZSET</td>
-<td>有序集合对象</td>
-</tr>
-</tbody></table>
-<p>  对于Redis数据库保存的键值对来说，<strong>键总是一个字符串对象</strong>，而<strong>值则可以是字符串对象、列表对象、哈希对象、集合对象或者有序集合对象的其中一种</strong>。因此，当称呼一个数据库键为“字符串键”时，实际指的是数据库键<strong>所对应的值</strong>为字符串对象。</p>
-<p>  查看命令为<code>TYPE objName</code></p>
-</li>
-<li><p>encoding</p>
-<p>  encoding记录了对象使用了什么数据结构作为对象的底层实现：</p>
-<table>
-<thead>
-<tr>
-<th>编码常量</th>
-<th>编码对应的底层数据结构</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>REDIS_ENCODING_INT</td>
-<td>long类型的整数</td>
-</tr>
-<tr>
-<td>REDIS_ENCODING_EMBSTR</td>
-<td>embstr编码的简单动态字符串</td>
-</tr>
-<tr>
-<td>REDIS_ENCODING_RAW</td>
-<td>简单动态字符串</td>
-</tr>
-<tr>
-<td>REDIS_ENCODING_HT</td>
-<td>字典</td>
-</tr>
-<tr>
-<td>REDIS_ENCODING_LINKEDLIST</td>
-<td>双端链表</td>
-</tr>
-<tr>
-<td>REDIS_ENCODING_ZIPLIST</td>
-<td>压缩列表</td>
-</tr>
-<tr>
-<td>REDIS_ENCODING_INTSET</td>
-<td>整数集合</td>
-</tr>
-<tr>
-<td>REDIS_ENCODING_SKIPLIST</td>
-<td>跳跃表和字典</td>
-</tr>
-</tbody></table>
-<p>  每种类型的对象都至少使用了两种不同的编码：</p>
-<ul>
-<li>string<ul>
-<li>REDIS_ENCODING_INT</li>
-<li>REDIS_ENCODING_EMBSTR</li>
-<li>REDIS_ENCODING_RAW</li>
-</ul>
-</li>
-<li>list<ul>
-<li>REDIS_ENCODING_ZIPLIST</li>
-<li>REDIS_ENCODING_LINKEDLIST</li>
-</ul>
-</li>
-<li>hash<ul>
-<li>REDIS_ENCODING_ZIPLIST</li>
-<li>REDIS_ENCODING_HT</li>
-</ul>
-</li>
-<li>set<ul>
-<li>REDIS_ENCODING_INTSET</li>
-<li>REDIS_ENCODING_HT</li>
-</ul>
-</li>
-<li>zset<ul>
-<li>REDIS_ENCODING_ZIPLIST</li>
-<li>REDIS_ENCODING_SKIPLIST</li>
-</ul>
-</li>
-</ul>
-<p>  查看命令为<code>OBJECT ENCODING objName</code></p>
-</li>
-</ul>
-<hr>
-<h3 id="字符串对象"><a href="#字符串对象" class="headerlink" title="字符串对象"></a>字符串对象</h3><p>字符串对象的编码可以是int、raw或者embstr。</p>
-<ul>
-<li>如果字符串对象保存的是<strong>整数值</strong>，并且这个整数值<strong>可以用long类型来表示</strong>，那么字符串对象会将整数值保存在字符串对象结构的ptr属性里面（将void*转换成long），并将字符串对象的编码设置为<strong>int</strong>。</li>
-<li>如果字符串对象保存的是<strong>字符串值</strong>，并且这个字符串值的<strong>长度&gt;32字节</strong>，那么字符串对象将使用一个<strong>简单动态字符串（SDS）</strong>来保存这个字符串值，并将对象的编码设置为<strong>raw</strong>。</li>
-<li>如果字符串对象保存的是<strong>字符串值</strong>，并且这个字符串值的<strong>长度≤32字节</strong>，那么字符串对象将使用<strong>embstr编码</strong>的方式来保存这个字符串值。</li>
-</ul>
-<p>embstr编码和raw编码一样，都使用<code>redisObject</code>结构和<code>sdshdr</code>结构来表示字符串对象。但<strong>raw编码会调用2次内存分配函数</strong>来分别创建<code>redisObject</code>结构和<code>sdshdr</code>结构，而<strong>embstr编码则通过调用1次内存分配函数</strong>来分配一块<strong>连续的空间</strong>，空间中依次包含<code>redisObject</code>和<code>sdshdr</code>两个结构。</p>
-<img src="https://s2.loli.net/2024/05/11/ICKuGpRJNzmqWOo.png" alt="embstr编码创建的内存块结构" style="zoom:67%;" />
-
-<p>最后要说的是，可以用<code>long double</code>类型表示的<strong>浮点数</strong>，在Redis中也是<strong>作为字符串值</strong>来保存的。如果我们要保存一个浮点数到字符串对象里面，那么程序会先将这个浮点数转换成字符串值，然后再保存转换所得的字符串值。在有需要的时候，程序会<strong>将字符串值转换回浮点数值</strong>，执行某些操作，然后<strong>再将所得的浮点数值转换回字符串值</strong>，并继续保存在字符串对象里面。</p>
-<ul>
-<li><p>对于int编码的字符串对象来说，如果我们向对象执行了一些命令，使得这个对象保存的不再是整数值，而是一个字符串值，那么<strong>字符串对象的编码将从int变为raw</strong>。</p>
-<p>  例如通过<code>APPEND</code>命令，向保存整数值的字符串对象追加字符串值。</p>
-</li>
-<li><p>为Redis没有为embstr编码的字符串对象编写任何相应的修改程序，所以embstr编码的字符串对象实际上是<strong>只读</strong>的。当我们对embstr编码的字符串对象<strong>执行任何修改命令时，程序会先将对象的编码从embstr转换成raw，然后再执行修改命令</strong>。</p>
-</li>
-</ul>
-<p>字符串对象是Redis五种类型的对象中<strong>唯一一种会被其他四种类型对象嵌套的对象</strong>。</p>
-<h4 id="字符串相关命令"><a href="#字符串相关命令" class="headerlink" title="字符串相关命令"></a>字符串相关命令</h4><table>
-<thead>
-<tr>
-<th>命令</th>
-<th>举例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>SET</td>
-<td>SET msg “hello world”</td>
-</tr>
-<tr>
-<td>GET</td>
-<td>GET msg</td>
-</tr>
-<tr>
-<td>APPEND</td>
-<td>APPEND msg “ again”</td>
-</tr>
-<tr>
-<td>INCRBY</td>
-<td>SET num 1<br />INCRBY num</td>
-</tr>
-<tr>
-<td>DECRBY</td>
-<td>DECRBY num</td>
-</tr>
-<tr>
-<td>STRLEN</td>
-<td>STRLEN msg</td>
-</tr>
-</tbody></table>
-<hr>
-<h3 id="列表对象"><a href="#列表对象" class="headerlink" title="列表对象"></a>列表对象</h3><p>列表对象的编码可以是ziplist或者linkedlist。</p>
-<p>当列表对象同时满足2个条件时，使用ziplist编码：</p>
-<ol>
-<li>列表对象保存的所有字符串元素，<strong>长度都 &lt; 64字节</strong>。</li>
-<li>列表对象保存的<strong>元素数量 ≤ 512个</strong>。</li>
-</ol>
-<p>两个条件的<strong>上限值是可以修改的</strong>，具体请看配置文件中关于<code>list-max-ziplist-value</code>选项和<code>list-max-ziplist-entries</code>选项的说明。</p>
-<h4 id="列表相关命令"><a href="#列表相关命令" class="headerlink" title="列表相关命令"></a>列表相关命令</h4><table>
-<thead>
-<tr>
-<th>命令</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>LPUSH</td>
-<td>将元素推入到压缩列表的<strong>表头</strong></td>
-</tr>
-<tr>
-<td>RPUSH</td>
-<td>将元素推入到压缩列表的<strong>表尾</strong></td>
-</tr>
-<tr>
-<td>LPOP</td>
-<td>返回<strong>表头节点</strong>，并删除</td>
-</tr>
-<tr>
-<td>RPOP</td>
-<td>返回<strong>表尾节点</strong>，并删除</td>
-</tr>
-<tr>
-<td>LINDEX</td>
-<td>返回<strong>指定节点</strong>保存的元素</td>
-</tr>
-<tr>
-<td>LLEN</td>
-<td>列表的长度</td>
-</tr>
-</tbody></table>
-<hr>
-<h3 id="哈希对象"><a href="#哈希对象" class="headerlink" title="哈希对象"></a>哈希对象</h3><p>哈希对象的编码可以是ziplist或者hashtable。</p>
-<p>ziplist编码的哈希对象，每当有新的键值对要加入时，程序会先将<strong>保存了键的压缩列表节点推入到压缩列表表尾</strong>，然后再将<strong>保存了值的压缩列表节点推入到压缩列表表尾</strong>，因此<strong>保存了键值对的两个节点总是紧挨在一起，保存键的节点在前，保存值的节点在后</strong>。</p>
-<p>当哈希对象同时满足如下两个条件时，哈希对象使用ziplist编码：</p>
-<ol>
-<li>保存的所有键值对，<strong>键和值</strong>的字符串长度都**&lt; 64字节**。</li>
-<li>保存的<strong>键值对</strong>数量<strong>≤ 512个</strong>。</li>
-</ol>
-<p>两个条件的<strong>上限值是可以修改的</strong>，具体请看配置文件中关于<code>hash-max-ziplist-value</code>选项和<code>hash-max-ziplist-entries</code>选项的说明。</p>
-<h4 id="哈希相关命令"><a href="#哈希相关命令" class="headerlink" title="哈希相关命令"></a>哈希相关命令</h4><table>
-<thead>
-<tr>
-<th>命令</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>HSET</td>
-<td>添加键值对</td>
-</tr>
-<tr>
-<td>HGET</td>
-<td>根据键，返回值节点</td>
-</tr>
-<tr>
-<td>HEXISTS</td>
-<td>根据指定键，查找是否存在键值对</td>
-</tr>
-<tr>
-<td>HDEL</td>
-<td>删除键值对</td>
-</tr>
-<tr>
-<td>HLEN</td>
-<td>获取键值对的数量</td>
-</tr>
-<tr>
-<td>HGETALL</td>
-<td>获取所有的键值对</td>
-</tr>
-</tbody></table>
-<hr>
-<h3 id="集合对象"><a href="#集合对象" class="headerlink" title="集合对象"></a>集合对象</h3><p>集合对象的编码可以是intset或者hashtable。</p>
-<ul>
-<li>intset编码的集合对象，包含的所有元素都被保存在<strong>整数集合</strong>里面。</li>
-<li>hashtable编码的集合对象，字典的<strong>每个键都是一个字符串对象，每个字符串对象包含了一个集合元素，而字典的值则全部被设置为NULL</strong>。</li>
-</ul>
-<p>当集合对象同时满足如下两个条件时，使用inset编码：</p>
-<ol>
-<li>保存的元素都是整数值</li>
-<li>保存的元素数量<strong>≤512个</strong>。</li>
-</ol>
-<p>第二个条件的<strong>上限值是可以修改的</strong>，具体请看配置文件中关于<code>set-max-intset-entries</code>选项的说明。</p>
-<h4 id="集合相关命令"><a href="#集合相关命令" class="headerlink" title="集合相关命令"></a>集合相关命令</h4><table>
-<thead>
-<tr>
-<th>命令</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>SADD</td>
-<td>添加元素到集合中</td>
-</tr>
-<tr>
-<td>SCARD</td>
-<td>返回集合对象的元素数量</td>
-</tr>
-<tr>
-<td>SISMEMBER</td>
-<td>查找元素是否存在</td>
-</tr>
-<tr>
-<td>SMEMBERS</td>
-<td>返回所有集合元素</td>
-</tr>
-<tr>
-<td>SRANDMEMBER</td>
-<td>随机返回一个元素</td>
-</tr>
-<tr>
-<td>SPOP</td>
-<td>随机返回一个元素，并删除</td>
-</tr>
-<tr>
-<td>SREM</td>
-<td>批量删除指定的元素</td>
-</tr>
-</tbody></table>
-<hr>
-<h3 id="有序集合对象"><a href="#有序集合对象" class="headerlink" title="有序集合对象"></a>有序集合对象</h3><p>有序集合的编码可以是ziplist或者skiplist。</p>
-<p>当有序集合对象同时满足以下两个条件时，使用 ziplist：</p>
-<ol>
-<li>ZSet 保存的元素数量 <strong>≤ 128 个</strong>；</li>
-<li>每个元素的长度 <strong>≤ 64 字节</strong>。</li>
-</ol>
-<ul>
-<li><p>ziplist编码的有序集合对象，每个集合元素使用<strong>2个紧挨在一起的压缩列表节点</strong>来保存，第一个节点保存元素的<strong>成员（member）</strong>，而第二个元素则保存元素的<strong>分值（score）</strong>。</p>
-<p> 压缩列表内的集合元素<strong>按分值从小到大进行排序</strong>，分值较小的元素被放置在靠近表头的方向，而分值较大的元素则被放置在靠近表尾的方向。</p>
-</li>
-<li><p>skiplist编码的有序集合对象，使用一个zset结构作为底层实现。</p>
-  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zset</span> &#123;</span></span><br><span class="line">    zskiplist *zsl;</span><br><span class="line">    dict *dict;</span><br><span class="line">&#125; zset;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>zsl跳跃表<strong>按分值从小到大</strong>保存了所有集合元素，每个跳跃表节点都保存了一个集合元素</li>
-<li>dict字典为有序集合创建了一个<strong>从成员到分值的映射</strong>。通过这个字典，程序可以用$O(1)$复杂度查找给定成员的分值。</li>
-</ul>
-</li>
-</ul>
-<p>有序集合每个元素的成员都是一个<strong>字符串对象</strong>，而每个元素的分值都是一个<strong>double类型的浮点数</strong>。虽然zset结构<strong>同时使用跳跃表和字典来保存有序集合元素</strong>，但这两种数据结构都会<strong>通过指针来共享相同元素的成员和分值</strong>，所以不会产生任何重复成员或者分值，也不会因此而浪费额外的内存。</p>
-<h4 id="有序集合相关命令"><a href="#有序集合相关命令" class="headerlink" title="有序集合相关命令"></a>有序集合相关命令</h4><table>
-<thead>
-<tr>
-<th>命令</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>ZADD</td>
-<td>将成员和分值添加到有序集合中</td>
-</tr>
-<tr>
-<td>ZCARD</td>
-<td>获取集合元素的数量</td>
-</tr>
-<tr>
-<td>ZCOUNT</td>
-<td>统计分值在给定范围内节点的数量</td>
-</tr>
-<tr>
-<td>ZRANGE</td>
-<td>从表头向表尾遍历有序集合，返回给定索引范围内的所有元素</td>
-</tr>
-<tr>
-<td>ZREVRANGE</td>
-<td>从表尾向表头遍历有序集合，返回给定索引范围内的所有元素</td>
-</tr>
-<tr>
-<td>ZRANK</td>
-<td>获取指定成员对应元素的排名</td>
-</tr>
-<tr>
-<td>ZREM</td>
-<td>删除指定对象</td>
-</tr>
-<tr>
-<td>ZSCORE</td>
-<td>查找指定成员的分值</td>
-</tr>
-</tbody></table>
-<hr>
-<h3 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h3><p>对象的<strong>引用计数属性</strong>除了用于内存回收，还带有对象共享的作用。</p>
-<p>以<strong>Redis 3.0</strong>来说，Redis在初始化服务器时，<strong>会创建1万个字符串对象</strong>，包含了<strong>从0到9999的所有整数值</strong>，当服务器需要用到值为0到9999的字符串对象时，服务器就会使用这些共享对象，而不是新创建对象。创建共享字符串对象的数量可以通过修改<code>redis.h/REDIS_SHARED_INTEGERS</code>常量来修改。</p>
-<img src="https://s2.loli.net/2024/05/13/SQg78t69MfY5u2J.png" alt="被共享的字符串对象" style="zoom:50%;" />
-
-<p>这些共享对象不单单只有字符串键可以使用，那些在数据结构中嵌套了字符串对象的对象（linkedlist编码的列表对象、hashtable编码的哈希对象、hashtable编码的集合对象，以及zset编码的有序集合对象）都可以使用这些共享对象。</p>
-<p>由于只有在共享对象和目标对象完全相同的情况下，程序才会将共享对象用作键的值对象，而一个共享对象<strong>保存的值越复杂</strong>，验证共享对象和目标对象是否相同所需的<strong>复杂度就会越高</strong>，<strong>消耗的CPU时间也会越多</strong>，因此，Redis只对<strong>包含整数值的字符串对象</strong>进行共享。</p>
-<hr>
-<h3 id="对象的空转时长"><a href="#对象的空转时长" class="headerlink" title="对象的空转时长"></a>对象的空转时长</h3><p>redisObject结构还包含一个lru属性，记录了<strong>最后一次被程序访问的时间</strong>。<code>OBJECT IDLETIME</code>命令可以打印指定键的空转时长，通过<strong>当前时间 - 键的值对象的lru时间</strong>得出。<code>OBJECT IDLETIME</code>命令的实现比较特叔，在访问键的值对象时，<strong>不会修改值对象的lru属性</strong>。</p>
-<p>如果服务器打开了maxmemory选项，并且用于回收内存的算法为<code>volatile-lru</code>或者<code>allkeys-lru</code>，那么当服务器占用的内存数超过maxmemory设置的上限值时，<strong>空转时长较高的键会被优先释放</strong>，从而回收内存。</p>
-<hr>
-<h3 id="位图对象"><a href="#位图对象" class="headerlink" title="位图对象"></a>位图对象</h3><p>Bitmap 存储的是<strong>连续的</strong>二进制数字（0 和 1），只需要一个 bit 位来表示<strong>某个元素对应的值或者状态</strong>，<strong>key 就是对应元素本身</strong> 。可以把BitMap看作一个bit数组，数组的下标就是偏移量offset。BitMap<strong>内存开销小，效率高且操作简单</strong>。</p>
-<p>使用场景：统计用户活跃状态（是否登录、签到）</p>
-<hr>
-<h1 id="Redis为什么速度快？"><a href="#Redis为什么速度快？" class="headerlink" title="Redis为什么速度快？"></a>Redis为什么速度快？</h1><ol>
-<li><p>Redis基于内存，内存的访问速度是磁盘的上千倍。</p>
-</li>
-<li><p>Redis基于Reactor模式，设计开发了一套高效的<strong>事件处理模型</strong>，主要是<strong>单线程事件循环</strong>和<strong>IO多路复用</strong>。</p>
-<p> <img src="https://s2.loli.net/2023/11/15/2iSVrqBb7d1yMjk.png" alt="image-20231115104527768"></p>
-</li>
-<li><p>Redis内置了多种优化过后的数据类型&#x2F;结构实现，性能非常高。</p>
-</li>
-</ol>
-<hr>
-<h1 id="Redis持久化机制"><a href="#Redis持久化机制" class="headerlink" title="Redis持久化机制"></a>Redis持久化机制</h1><p>使用缓存的时候，我们经常需要对内存中的数据进行持久化，也就是<strong>将内存中的数据写入到硬盘中</strong>。大部分原因是为了之后<strong>重用数据</strong>（比如重启机器、机器故障之后恢复数据），或者是为了做<strong>数据同步</strong>（比如 Redis 集群的<strong>主从节点通过 RDB 文件同步数据</strong>）。</p>
-<p>Redis 支持 3 种持久化方式:</p>
-<ul>
-<li>快照（snapshotting，RDB）</li>
-<li>只追加文件（append-only file, AOF）</li>
-<li>RDB 和 AOF 的混合持久化(Redis 4.0 新增）</li>
-</ul>
-<hr>
-<h2 id="RDB-持久化"><a href="#RDB-持久化" class="headerlink" title="RDB 持久化"></a>RDB 持久化</h2><p>Redis 可以通过<strong>创建快照</strong>来获得存储在内存里面的数据在 <strong>某个时间点</strong> 上的副本。Redis 创建快照之后，可以对快照进行备份，可以将快照复制到其他服务器从而创建具有相同数据的服务器副本（Redis 主从结构，主要用来提高 Redis 性能），还可以将快照留在原地以便重启服务器的时候使用。</p>
-<p>快照持久化是 Redis 默认采用的持久化方式，在 <code>redis.conf</code> 配置文件中默认有此下配置：</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">save <span class="number">900</span> <span class="number">1</span>           #在<span class="number">900</span>秒(<span class="number">15</span>分钟)之后，如果至少有<span class="number">1</span>个key发生变化，Redis就会自动触发bgsave命令创建快照。</span><br><span class="line"></span><br><span class="line">save <span class="number">300</span> <span class="number">10</span>          #在<span class="number">300</span>秒(<span class="number">5</span>分钟)之后，如果至少有<span class="number">10</span>个key发生变化，Redis就会自动触发bgsave命令创建快照。</span><br><span class="line"></span><br><span class="line">save <span class="number">60</span> <span class="number">10000</span>        #在<span class="number">60</span>秒(<span class="number">1</span>分钟)之后，如果至少有<span class="number">10000</span>个key发生变化，Redis就会自动触发bgsave命令</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h2><p>与快照持久化相比，AOF （append only file）持久化的<strong>实时性更好</strong>。Redis 6.0 之后默认开启了AOF持久化，可以通过 <code>appendonly</code> 参数开启：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">appendonly <span class="built_in">yes</span></span><br></pre></td></tr></table></figure>
-
-<p>开启 AOF 持久化后，每执行一条会更改 Redis 中的数据的命令，Redis 就会将该命令<strong>写入到 AOF 缓冲区 <code>server.aof_buf</code> 中，然后再写入到 AOF 文件中</strong>（此时还在系统内核缓存区未同步到磁盘），最后再根据持久化方式（ <code>fsync</code>策略）的配置来决定何时将系统内核缓存区的数据同步到硬盘中的。</p>
-<p>只有同步到磁盘中才算持久化保存了，否则依然存在数据丢失的风险，比如说：系统内核缓存区的数据还未同步，磁盘机器就宕机了，那这部分数据就算丢失了。</p>
-<p>AOF 文件的保存位置和 RDB 文件的位置相同，都是通过 <code>dir</code> 参数设置的，默认的文件名是 <code>appendonly.aof</code>。</p>
-<hr>
-<h1 id="Redis线程模型"><a href="#Redis线程模型" class="headerlink" title="Redis线程模型"></a>Redis线程模型</h1><p>对于<strong>读写命令</strong>来说，Redis 一直是<strong>单线程模型</strong>。在 Redis <strong>4.0</strong> 版本之后引入了多线程来执行一些<strong>大键值对的异步删除操作</strong>， Redis <strong>6.0</strong> 版本之后引入了多线程来<strong>处理网络请求（提高网络 IO 读写性能）</strong>。</p>
-<hr>
-<ol>
-<li><p>内存是有限的，如果缓存中的所有数据都是一直保存的话，分分钟直接 Out of memory。</p>
-<p><strong>Redis 中除了字符串类型有自己独有设置过期时间的命令 <code>setex</code> 外，其他方法都需要依靠 <code>expire</code> 命令来设置过期时间 。另外， <code>persist</code> 命令可以移除一个键的过期时间。</strong></p>
-</li>
-<li><p>很多时候，我们的业务场景就是需要某个数据只在某一时间段内存在，比如我们的短信验证码可能只在 1 分钟内有效，用户登录的 Token 可能只在 1 天内有效。</p>
-<p> 如果使用传统的数据库来处理的话，一般都是自己判断过期，这样更麻烦并且性能要差很多。</p>
-</li>
-</ol>
-<hr>
-<h1 id="常见的缓存更新策略"><a href="#常见的缓存更新策略" class="headerlink" title="常见的缓存更新策略"></a>常见的缓存更新策略</h1><h2 id="Cache-Aside-Pattern-旁路缓存模式"><a href="#Cache-Aside-Pattern-旁路缓存模式" class="headerlink" title="Cache Aside Pattern 旁路缓存模式"></a>Cache Aside Pattern 旁路缓存模式</h2><p>比较适合<strong>读比较多</strong>的场景。</p>
-<p>Cache Aside Pattern中，服务端需要<strong>同时维系数据库和缓存</strong>，并且<strong>以db为准</strong>。</p>
-<ul>
-<li><p><strong>写</strong>步骤：</p>
-<ol>
-<li><p>更新db</p>
-</li>
-<li><p><strong>直接删除</strong>cache</p>
-<p> Cache Aside Pattern 旁路缓存模式下，写数据的时候，为什么选择删除cache，而不是更新cache？</p>
-<ul>
-<li><p>对服务端造成资源浪费</p>
-<p>  删除cache更直接，如果频繁修改db，就会导致需要频繁更新cache，而cache中的数据可能都没有被访问到。</p>
-</li>
-<li><p>产生数据不一致问题</p>
-<p>  并发场景下，更新cache产生数据不一致问题的概率会更大。</p>
-</li>
-</ul>
-<p> 在写数据的过程中，可以<strong>先删除cache，后更新db</strong>吗？</p>
-<p> 不行，可能会造成<strong>数据库和缓存数据不一致</strong>。</p>
-<ol>
-<li>请求1先把cache中的A数据删除；</li>
-<li>请求2从db中读取数据；</li>
-<li>请求1再把db中的A数据更新。</li>
-</ol>
-<p> 在写数据的过程中，<strong>先更新db，后删除cache</strong>就没问题了吗？</p>
-<p> 还是可能出现数据不一致的问题，不过<strong>概率很小</strong>，因为缓存写入速度比数据库写入速度快很多。</p>
-<ol>
-<li>请求1从db中<strong>读</strong>取数据 （说明此时cache没有缓存该数据）</li>
-<li>请求2<strong>更新</strong>db中的数据，删除缓存 </li>
-<li>请求1将读取的数据写入cache （<strong>步骤2很难比步骤3快，因为写数据库一般会先加锁</strong>）</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><p><strong>读</strong>步骤：</p>
-<ol>
-<li>从cache中读，读取到直接返回</li>
-<li>cache中读取不到，就从db读</li>
-<li>把db中读取到的数据放到cache中</li>
-</ol>
-</li>
-</ul>
-<p>Cache Aside Pattern 旁路缓存模式 的<strong>缺陷</strong>：</p>
-<ol>
-<li><p>首次请求的数据<strong>一定不在</strong>cache中。</p>
-<p> 可以将热点数据提前放入cache。</p>
-</li>
-<li><p>如果写操作比较频繁，会导致<strong>cache中的数据被频繁删除，影响缓存命中率</strong>。</p>
-<ol>
-<li><p>数据库和缓存数据强一致 </p>
-<p> 加一个锁&#x2F;分布式锁，更新db的时候，同样更新cache，保证不存在线程安全问题。</p>
-</li>
-<li><p>短暂地允许数据库和缓存数据不一致</p>
-<p> 更新db的时候，同样更新cache，<strong>给缓存加一个比较短的过期时间</strong>，即使数据不一致，影响也比较小。</p>
-</li>
-</ol>
-</li>
-</ol>
-<hr>
-<h2 id="Read-x2F-Write-Through-Pattern-读写穿透模式"><a href="#Read-x2F-Write-Through-Pattern-读写穿透模式" class="headerlink" title="Read&#x2F;Write Through Pattern 读写穿透模式"></a>Read&#x2F;Write Through Pattern 读写穿透模式</h2><p>读写穿透模式中，<strong>服务端把cache视为主要数据存储</strong>，从中读取数据并将数据写入其中。<strong>cache服务负责将此数据读取和写入db</strong>，从而减轻应用程序的职责。</p>
-<p>这个模式在平时开发过程中<strong>非常少见</strong>，大概率是因为Redis没有提供cache将数据写入db的功能。</p>
-<p>Read-Through Pattern实际只是在Cache Aside Pattern之上进行了封装。在Cache<br>Aside Pattern下，发生读请求的时候，如果cache中不存在对应的数据，是<strong>由客户端自己负责把数据写入cache</strong>，而Read Through Pattern则是<strong>cache服务自己来写入缓存的，这对客户端是透明的</strong>。</p>
-<hr>
-<h2 id="Write-Behind-Pattern-异步缓存写入模式"><a href="#Write-Behind-Pattern-异步缓存写入模式" class="headerlink" title="Write Behind Pattern 异步缓存写入模式"></a>Write Behind Pattern 异步缓存写入模式</h2><p>Write Behind Pattern 异步缓存写入模式 和 Read&#x2F;Write Through Pattern 读写穿透模式很相似，两者都是由cache服务负责cache和db的读写。</p>
-<p>但是读写穿透模式<strong>同步更新cache和db</strong>，而<strong>异步缓存写入模式只是更新缓存，不直接更新db，改为异步批量的方式更新db</strong>。</p>
-<p>这对数据一致性带来了更大的挑战，比如cache数据可能还没异步更新db，但cache服务就挂掉了。</p>
-<p>这种策略在我们平时开发过程中也非常非常少见，但是不代表它的应用场景少。比如消息队列中消息的异步写入磁盘、MySQL的Innodb Buffer Pool机制都用到了这种策略。</p>
-<p>Write Behind Pattern下db的<strong>写性能非常高</strong>，非常适合一些数据经常变化又对数据一致性要求没那么高的场景，比如浏览量、点赞量。</p>
-
+          <h1 id="数据操作-数据预处理"><a href="#数据操作-数据预处理" class="headerlink" title="数据操作 + 数据预处理"></a>数据操作 + 数据预处理</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/01/31/%E5%8A%A8%E6%89%8B%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
