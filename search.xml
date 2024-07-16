@@ -336,6 +336,7 @@
 <p>查看指定对象的类，只有private属性和构造器…真相大白。提供get方法后，HTTP请求终于可以正常处理。</p>
 <p><img src="https://s2.loli.net/2024/07/16/RbiMdjmltzwBVk2.png" alt="image-20240716120959156"></p>
 <hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/techcorner/p/17391439.html">这个字段我明明传了呀，为什么收不到 - Spring 中首字母小写，第二个字母大写造成的参数问题 - 技术角落 - 博客园</a></p>
 ]]></content>
       <categories>
         <category>Java全栈</category>
@@ -4992,12 +4993,13 @@
 <h3 id="分支合并"><a href="#分支合并" class="headerlink" title="分支合并"></a>分支合并</h3><p><strong>合并目标分支内容到当前分支</strong>，以下两种方式<strong>都可以达到目的</strong></p>
 <ul>
 <li><p><code>git merge branch_name</code></p>
-<p>  git会将指定的分支与当前分支进行比较，找出二者<strong>最近的一个共同节点base</strong>，之后将指定分支在base之后分离的节点<strong>合并到当前分支上</strong>，<strong>实际上是分支之间，差异提交的节点的合并</strong>。</p>
+<p>git会将指定的分支与当前分支进行比较，找出二者<strong>最近的一个共同节点base</strong>，之后将指定分支在base之后分离的节点<strong>合并到当前分支上</strong>，<strong>实际上是分支之间，差异提交的节点的合并</strong>。</p>
+<img src="https://s2.loli.net/2024/07/16/q6Va3yzDevJUBCZ.png" alt="image-20240716165732981" style="zoom:80%;" />
 </li>
 <li><p><code>git rebase branch_name</code></p>
 </li>
 </ul>
-<p>但是二者的<strong>实现机制和对合并后节点造成的影响有很大差异，有者各自的风险</strong>。</p>
+<p>但是二者的<strong>实现机制和对合并后节点造成的影响有很大差异，有着各自的风险</strong>。</p>
 <hr>
 <h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><ul>
 <li><p><code>git reset commit_id</code></p>
