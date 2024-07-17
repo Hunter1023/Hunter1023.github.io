@@ -159,7 +159,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">132</span>
+        <span class="site-state-item-count">139</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -221,7 +221,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
+      <time title="修改时间：2024-07-17 10:06:03" itemprop="dateModified" datetime="2024-07-17T10:06:03+08:00">2024-07-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -255,148 +255,14 @@
 <li>插件式架构，大量的可重用插件</li>
 <li>方便地集成于IDE</li>
 </ul>
-<hr>
-<h2 id="MAVEN的安装及配置"><a href="#MAVEN的安装及配置" class="headerlink" title="MAVEN的安装及配置"></a>MAVEN的安装及配置</h2><ol>
-<li><p>官网下载压缩包，解压到合适文件目录下。</p>
-</li>
-<li><p>配置环境变量 - 系统变量</p>
-<ul>
-<li><code>M2_HOME = 文件目录</code></li>
-<li>添加<code>%M2_HOME%/bin</code>到Path</li>
-</ul>
-</li>
-<li><p>配置maven的阿里云镜像</p>
-<p> 配置方式见<a target="_blank" rel="noopener" href="https://developer.aliyun.com/mvn/guide?spm=a2c6h.13651104.0.0.435836a4w3khHd">阿里云仓库服务</a>，修改maven配置文件<code>conf\settings.xml</code>即可</p>
- <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>aliyunmaven<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>*<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>阿里云公共仓库<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://maven.aliyun.com/repository/public<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>建立本地仓库</p>
-<p> 本地仓库也是在<code>conf\settings.xml</code>中配置，默认地址为<code>$&#123;user.home&#125;/.m2/repository</code></p>
- <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- localRepository</span></span><br><span class="line"><span class="comment">   | The path to the local repository maven will use to store artifacts.</span></span><br><span class="line"><span class="comment">   |</span></span><br><span class="line"><span class="comment">   | Default: $&#123;user.home&#125;/.m2/repository</span></span><br><span class="line"><span class="comment">  &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br></pre></td></tr></table></figure></li>
-</ol>
-<hr>
-<h2 id="基本操作命令"><a href="#基本操作命令" class="headerlink" title="基本操作命令"></a>基本操作命令</h2><table>
-<thead>
-<tr>
-<th>命令</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>mvn archetype:generate</code></td>
-<td>使用模板生成项目</td>
-</tr>
-<tr>
-<td><code>mvn compile</code></td>
-<td>编译源代码</td>
-</tr>
-<tr>
-<td><code>mvn test</code></td>
-<td>单元测试</td>
-</tr>
-<tr>
-<td><code>mvn package</code></td>
-<td>打包项目，Java项目→Jar；Web项目→War</td>
-</tr>
-<tr>
-<td><code>mvn deploy</code></td>
-<td>部署，把打包后的项目上传发布到远程仓库</td>
-</tr>
-<tr>
-<td><code>mvn site</code></td>
-<td>生成项目相关的站点、在线文档</td>
-</tr>
-<tr>
-<td><code>mvn clean</code></td>
-<td>清理，删除构建的Jar包、class文件等</td>
-</tr>
-<tr>
-<td><code>mvn install</code></td>
-<td>把打包的目录拷到本地仓库</td>
-</tr>
-</tbody></table>
-<hr>
-<h2 id="在IDEA中使用Maven"><a href="#在IDEA中使用Maven" class="headerlink" title="在IDEA中使用Maven"></a>在IDEA中使用Maven</h2><h3 id="创建一个Maven项目"><a href="#创建一个Maven项目" class="headerlink" title="创建一个Maven项目"></a>创建一个Maven项目</h3><h4 id="方式一：Create-from-archetype"><a href="#方式一：Create-from-archetype" class="headerlink" title="方式一：Create from archetype"></a>方式一：Create from archetype</h4><p>是一种<strong>后续省心</strong>的创建方式。</p>
-<p><img src="https://s2.loli.net/2022/01/11/FV6QCApiuMtT9wr.png" alt="image-20220111011500763"></p>
-<p>创建后，目前默认产生的<code>src/main/webapp/WEB-INF/web.xml</code>文件的内容<strong>比较老旧</strong>，如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">web-app</span> <span class="keyword">PUBLIC</span></span></span><br><span class="line"><span class="meta"> <span class="string">&quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot;</span></span></span><br><span class="line"><span class="meta"> <span class="string">&quot;http://java.sun.com/dtd/web-app_2_3.dtd&quot;</span> &gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">display-name</span>&gt;</span>Archetype Created Web Application<span class="tag">&lt;/<span class="name">display-name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>需要更新为如下较新的版本：</strong></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">version</span>=<span class="string">&quot;4.0&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>另外，需要在<code>src/main</code>目录下创建两个目录：<code>java</code>和<code>resources</code>。2021.3.2版本的IDEA在main目录上右键 - New - Directory，就会默认出现这两个目录名，选中创建即可。</p>
-<hr>
-<h4 id="方式二：不勾选Create-from-archetype"><a href="#方式二：不勾选Create-from-archetype" class="headerlink" title="方式二：不勾选Create from archetype"></a>方式二：不勾选Create from archetype</h4><p>原生态一点，<strong>直接打包好的项目可能会缺少部分文件</strong>，需要手动添加才能保证项目的顺利运行。</p>
-<ol>
-<li><p>创建完成后，右键项目文件夹 - Add Framwork Support…</p>
-<p> <img src="https://s2.loli.net/2022/03/27/CgPZqafBAzG1bSV.png" alt="Add Framwork Support..."></p>
-</li>
-<li><p>勾选<code>Web Application</code> - Versions:<code>4.0</code> - <code>Create web.xml</code> - OK</p>
-<p> <img src="https://s2.loli.net/2022/03/27/MIfNPB3ivROtoen.png" alt="Web Application"></p>
-</li>
-<li><p>会在项目文件夹下，生成一个web文件夹</p>
-<p> 可以在<code>web/WEB-INF/web.xml</code>中看到[方式一](#方式一：Create from archetype)更新的内容。</p>
-</li>
-<li><p>在<code>pom.xml</code>中添加了需要的依赖之后，<strong>需要手动添加依赖的jar包到<code>WEB-INF/lib</code>文件夹下</strong></p>
-<ul>
-<li><p>File - Project Structure - Project Settings - Artifacts - 选择目标web应用 - Output Layout - Avaliable Elements</p>
-<p>  可以看到项目，<strong>项目下是由依赖关系添加的Jar包</strong>：</p>
-<p>  <img src="https://s2.loli.net/2022/03/27/l3tFvTqjbRUBw2L.png" alt="Avaliable Elements"></p>
-</li>
-<li><p>双击这些Jar包，它们就会自动添加到左边的<code>WBE-INF/lib</code>目录下（首次添加时会<strong>自动创建lib目录</strong>），OK关闭窗口即可</p>
-<p>  <img src="https://s2.loli.net/2022/03/27/p4x8Zm3V9tugbDJ.png" alt="添加Jar包到"></p>
-</li>
-</ul>
-</li>
-</ol>
-<p>只有这样，最后打包的项目中才有依赖的Jar包，项目才能正常运行。</p>
-<blockquote>
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36339023/article/details/81006423">Idea使用maven创建项目常见错误和注意点</a></p>
-</blockquote>
-<hr>
-<h3 id="选择自定义的maven配置文件"><a href="#选择自定义的maven配置文件" class="headerlink" title="选择自定义的maven配置文件"></a>选择自定义的maven配置文件</h3><p>File - Settings - 搜索maven：</p>
-<ul>
-<li><p><code>Maven home path</code>：选择使用的maven的路径</p>
-<ul>
-<li><code>Bundled(Maven 3)</code>是IDEA捆绑的Maven</li>
-<li>也可选择自己下载的Maven</li>
-</ul>
-</li>
-<li><p><code>User settings file</code>：用户配置文件</p>
-<p>  IDEA默认的maven配置文件为<code>$&#123;user.home&#125;/.m2/settings.xml</code>。上文<a href="#MAVEN%E7%9A%84%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE">MAVEN的安装及配置</a>中提到的为了快速下载依赖而配置的<strong>maven的阿里云镜像</strong>想要继续生效，<strong>有3种方式</strong>：</p>
-<ol>
-<li>修改<code>$&#123;user.home&#125;/.m2/settings.xml</code>（默认文件，是<strong>最省心</strong>的方式）</li>
-<li>IDEA中修改maven配置文件的路径，更改为maven目录下的<code>conf\settings.xml</code></li>
-<li>在便于管理的目录下，自定义一个maven配置的<code>xml</code>文件（私以为<code>$&#123;user.home&#125;/.m2/</code>目录下就很好）</li>
-</ol>
-</li>
-</ul>
-<hr>
-<h2 id="pom-xml"><a href="#pom-xml" class="headerlink" title="pom.xml"></a>pom.xml</h2><p>pom（project object model, 项目对象模型），是Maven的核心配置文件。</p>
-<ul>
-<li><code>groupId</code>、<code>artifactId</code>和<code>version</code>构成项目的唯一标识（坐标），不能重复。</li>
-</ul>
-<hr>
-<h2 id="Maven的生命周期"><a href="#Maven的生命周期" class="headerlink" title="Maven的生命周期"></a>Maven的生命周期</h2><p>maven有三套独立的生命周期</p>
-<ol>
-<li>clean(删除构建的Jar包、class文件等)<br> pre-clean → clean → post-clean</li>
-<li>site(生成站点文档)<br> pre-site → site → post-site → site-deploy</li>
-<li>default<ol>
-<li>validate （验证项目是否正确，所需信息是否有缺失）</li>
-<li>process-resources（将资源文件复制到项目目录下，之后打包用）</li>
-<li>compile （编译源代码）</li>
-<li>test （单元测试）</li>
-<li>package （打包）</li>
-<li>install （把打包的项目拷到本地仓库下）</li>
-<li>deploy （把打包的项目上传到远程仓库）</li>
-</ol>
-</li>
-</ol>
-<hr>
-<h2 id="Maven的问题"><a href="#Maven的问题" class="headerlink" title="Maven的问题"></a>Maven的问题</h2><p>由于Maven的<strong>约定大于配置</strong>，可能会遇到配置文件<strong>无法导出或无法生效的问题</strong>。</p>
-<p>解决方案：<strong>在<code>&lt;build&gt;</code>中配置<code>&lt;resource&gt;</code>节点</strong>，防止资源导出失败的问题。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">excludes</span>&gt;</span></span><br><span class="line">            	<span class="tag">&lt;<span class="name">exclude</span>&gt;</span>**/*.properties<span class="tag">&lt;/<span class="name">exclude</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">exclude</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">exclude</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">excludes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">            	<span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.properties<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/09/Maven/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -597,7 +463,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-07-16 16:58:56" itemprop="dateModified" datetime="2024-07-16T16:58:56+08:00">2024-07-16</time>
+      <time title="修改时间：2024-07-17 09:52:31" itemprop="dateModified" datetime="2024-07-17T09:52:31+08:00">2024-07-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -621,225 +487,14 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="版本控制工具"><a href="#版本控制工具" class="headerlink" title="版本控制工具"></a>版本控制工具</h2><p>版本控制是一种<strong>记录一个或若干文件内容变化</strong>，以便<strong>将来查阅特定版本修订情况</strong>的系统。版本控制能方便<strong>查看更改历史，备份以及恢复以前的版本</strong>，保证<strong>多人协作</strong>不出问题。</p>
 <p>Git对待数据的方式，更像是<strong>把数据看作是对小型文件系统的一组快照</strong>。每次提交更新或者在Git中保存项目状态时，它主要对当时的<strong>全部文件制作一个快照</strong>并<strong>保存这个快照的索引</strong>。为了高效，<strong>如果文件没有修改，Git不再重新存储该文件，而只是保留一个链接指向之前存储的文件</strong>，Git对待数据更像是一个<strong>快照流</strong>。</p>
-<hr>
-<h2 id="安装Git和TortoiseGit"><a href="#安装Git和TortoiseGit" class="headerlink" title="安装Git和TortoiseGit"></a>安装Git和TortoiseGit</h2><h3 id="TortoiseGit"><a href="#TortoiseGit" class="headerlink" title="TortoiseGit"></a>TortoiseGit</h3><p>TortoiseGit提供了Git的图形化操作界面，Git<strong>工作区的目录和文件的图标符加了标识版本控制状态的图像，可以非常直观地看到哪些文件被更改了需要提交</strong>。通过对右键菜单的扩展，可以非常方便操作Git版本库。</p>
-<p>通过设置，选择Git提供的ssh客户端，这样<strong>在下载ssh协议的代码仓库时，命令行与图形界面都可以使用同一套公钥和密钥</strong>。</p>
-<hr>
-<h2 id="Git基本配置"><a href="#Git基本配置" class="headerlink" title="Git基本配置"></a>Git基本配置</h2><h3 id="3种配置等级"><a href="#3种配置等级" class="headerlink" title="3种配置等级"></a>3种配置等级</h3><ol>
-<li><p><strong>系统</strong>配置：<code>git config --system</code></p>
-<p> 对<strong>所有用户</strong>都有效，存放在<strong>git的安装目录</strong>下：<code>%Git%/etc/gitconfig</code></p>
-</li>
-<li><p><strong>用户</strong>配置：<code>git config --global</code></p>
-<p> 只对<strong>当前用户</strong>有效，存放在<strong>用户目录</strong>下：<code>~/.gitconfig</code></p>
-</li>
-<li><p><strong>仓库</strong>配置：<code>git config --local</code></p>
-</li>
-</ol>
-<p>​	只对<strong>当前项目</strong>有效，存放在<strong>项目目录</strong>下：<code>.git/config</code></p>
-<hr>
-<h3 id="配置个人身份"><a href="#配置个人身份" class="headerlink" title="配置个人身份"></a>配置个人身份</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;Hunter&quot;</span></span><br><span class="line">git config --global user.email hspecial@163.com</span><br></pre></td></tr></table></figure>
-
-<p>这个配置信息会<strong>在Git仓库提交的修改信息中体现</strong>，<strong>和Git服务器认证使用的密码或者公钥密码无关</strong>。</p>
-<hr>
-<h3 id="文本换行符配置"><a href="#文本换行符配置" class="headerlink" title="文本换行符配置"></a>文本换行符配置</h3><p>这一节的内容仍然是给我造成困惑的部分，感觉从参考资料来看，<strong>跨平台的项目开发应该要自动转换换行符</strong>。但是在我目前有限的开发经验来看，似乎并没有对项目造成影响，怀疑可能是IDE完成了相应的工作。</p>
-<p><strong>默认</strong>的配置状态为：<code>core.autocrlf=true</code>，暂且不去作修改，待日后有了深刻的理解再来完善本节内容。</p>
-<hr>
-<h3 id="编码配置"><a href="#编码配置" class="headerlink" title="编码配置"></a>编码配置</h3><ul>
-<li><p>中文编码支持</p>
-<ul>
-<li><p><code>git config --global gui.encoding utf-8</code></p>
-<p>  图形化界面采用的编码</p>
-</li>
-<li><p><code>git config --global i18n.commitencoding utf-8</code></p>
-<p>  git commit log存储时，采用的编码</p>
-</li>
-<li><p><code>git config --global i18n.logoutputencoding utf-8</code></p>
-<p>  查看git log时，显示所采用的编码</p>
-</li>
-</ul>
-</li>
-<li><p>显示路径中的中文</p>
-<p>  <code>git config --global core.quotepath false</code></p>
-</li>
-</ul>
-<hr>
-<h3 id="与服务器的认证配置"><a href="#与服务器的认证配置" class="headerlink" title="与服务器的认证配置"></a>与服务器的认证配置</h3><h4 id="http-x2F-https协议认证"><a href="#http-x2F-https协议认证" class="headerlink" title="http&#x2F;https协议认证"></a>http&#x2F;https协议认证</h4><p>添加HTTPS证书信任：<code>git config http.sslverify false</code></p>
-<hr>
-<h4 id="SSH协议认证"><a href="#SSH协议认证" class="headerlink" title="SSH协议认证"></a>SSH协议认证</h4><p><strong>使用公钥认证，无需输入密码，加密传输</strong>，操作便利又保证安全性。</p>
-<hr>
-<h5 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h5><ol>
-<li><p>生成公钥</p>
-<p> 在bash命令行中输入如下命令：</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;hspecial@163.com&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p> 一路回车，就能在用户目录下<code>~/.ssh</code>中，生成公钥<code>id_rsa.pub</code></p>
-</li>
-<li><p>添加<strong>公钥</strong><code>id_rsa.pub</code>中的内容到代码平台</p>
-</li>
-</ol>
-<hr>
-<h5 id="新增公钥"><a href="#新增公钥" class="headerlink" title="新增公钥"></a>新增公钥</h5><p>出于某些情况，你可能要在另外的平台或者另外的项目，使用不同的邮箱来生成公钥，以便<strong>和代码平台的账号相匹配</strong>。</p>
-<ol>
-<li><p>生成公钥</p>
-<p> 提示<code>Enter file in which to save the key</code>（输入要保存密钥的<strong>文件</strong>，即<strong>id_rsa文件</strong>）”时，输入密钥文件的保存位置。<strong>为了和用户配置等级的密钥区分</strong>，我选择在默认公钥的目录下<strong>创建对应的平台或项目名的文件夹</strong>。输入保存密钥的<strong>文件绝对路径</strong>即可。</p>
-</li>
-<li><p>添加<strong>公钥</strong><code>id_rsa.pub</code>中的内容到代码平台</p>
-</li>
-</ol>
-<hr>
-<h2 id="Git基本命令"><a href="#Git基本命令" class="headerlink" title="Git基本命令"></a>Git基本命令</h2><h3 id="Git版本控制下的工程区域"><a href="#Git版本控制下的工程区域" class="headerlink" title="Git版本控制下的工程区域"></a>Git版本控制下的工程区域</h3><ol>
-<li><p>暂存区 stage</p>
-<p> 一般存放在工程根目录<code>.git/index</code>文件中，因此也可以把暂存区叫做索引。</p>
-</li>
-<li><p>工作区 working directory</p>
-<p> 日常工作的代码文件或者文档所在的文件夹。</p>
-</li>
-<li><p>版本库 Repository</p>
-<p> <code>.git</code>文件夹就是Git的版本库，也可以叫<strong>本地仓库</strong>。</p>
-</li>
-</ol>
-<hr>
-<h3 id="Git版本控制下的三种文件状态"><a href="#Git版本控制下的三种文件状态" class="headerlink" title="Git版本控制下的三种文件状态"></a>Git版本控制下的三种文件状态</h3><ol>
-<li><p>已修改 modified</p>
-<p> 修改了某个文件，但还没有提交保存</p>
-</li>
-<li><p>已暂存 staged</p>
-<p> 把已修改的文件放在下次提交时要保存的清单中</p>
-</li>
-<li><p>已提交 committed</p>
-<p> 文件已经被安全地保存在本地数据库中</p>
-</li>
-</ol>
-<hr>
-<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><h4 id="工程准备"><a href="#工程准备" class="headerlink" title="工程准备"></a>工程准备</h4><ul>
-<li><p><code>git init</code>：本地目录下新建git项目仓库</p>
-</li>
-<li><p><code>git clone [URL]</code>：<strong>复制远端工程</strong>到本地</p>
-<p>  如果所在的项目Git服务器已支持<code>git-lfs</code>，<strong>对二进制文件进行了区别管理</strong>，那么复制工程的时候**务必使用<code>git lfs clone [URL]</code>**，否则克隆操作无法下载到工程中的二进制文件，工程内容不完整。</p>
-</li>
-</ul>
-<hr>
-<h4 id="查看修改"><a href="#查看修改" class="headerlink" title="查看修改"></a>查看修改</h4><ul>
-<li><p><code>git diff</code>：查看工作区的<strong>修改内容</strong>(当前索引与上次提交&#x2F;任意两个节点(分支)之间的差异)</p>
-<ul>
-<li><code>git diff --cached</code>：当前索引与上次提交之间的差异</li>
-</ul>
-<p>  添加<code>--name-status</code>参数，可以只看文件列表</p>
-</li>
-<li><p><code>git status</code>：查看<strong>工作区和暂存区</strong>的文件状态</p>
-<p>  该命令能看到修改的git文件是否已被暂存，新增的文件是否纳入了git版本库的管理。</p>
-<ul>
-<li><code>Untracked files</code>：新建但未被跟踪的文件</li>
-<li><code>Changes not staged for commit</code>：修改但未被暂存的文件</li>
-<li><code>Changes to be committed</code>：已修改并已暂存的文件</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h4 id="文件修改后提交推送"><a href="#文件修改后提交推送" class="headerlink" title="文件修改后提交推送"></a>文件修改后提交推送</h4><ul>
-<li><p><code>git add</code>：<strong>新增</strong>文件到<strong>暂存区</strong></p>
-<p>  把文件添加到暂存区，是提交修改文件之前的必要操作。如果文件<strong>已经被git追踪，即曾经提交过</strong>，在Git的<strong>早期版本中</strong>，需要<code>git add</code>再提交；在<strong>较新的版本中，无需<code>git add</code>即可提交</strong>。</p>
-</li>
-<li><p><code>git rm</code>：<strong>删除</strong>文件到<strong>暂存区</strong></p>
-<p>  执行<code>git rm</code>后，通过<code>git status</code>查看时，会有<code>deleted: xxx</code>的提醒。之后进行提交，<strong>对应的文件就不再受git工程的管理</strong>。<strong>直接从硬盘中删除文件</strong>，然后对该文件执行<code>git commit</code>，git会自动将删除的文件从索引中移除，<strong>效果相同</strong>。</p>
-</li>
-<li><p><code>git mv</code>：<strong>移动</strong>文件到<strong>暂存区</strong></p>
-<p>  相当于<strong>在<code>mv</code>操作的基础上</strong>，用git将操作传入了暂存区。</p>
-</li>
-<li><p><code>git commit</code>：<strong>提交</strong>更改的文件</p>
-<p>  将暂存区中的文件改动提交到本地的版本库，一般<strong>需要附带提交描述信息</strong>，所以常见的用法是：</p>
-<p>  <code>git commit file_name -m &quot;commit message&quot;</code></p>
-<p>  如果要一次性提交所有在暂存区改动的文件到版本库，可以执行<code>git commit -am &quot;commit message&quot;</code></p>
-</li>
-<li><p><code>git push</code>：将本地版本库的分支推送到远端对应的分支</p>
-<p>  常见的推送命令格式：<code>git push origin branch_name:new_branch_name</code></p>
-<p>  <code>new_branch_name</code>是推送成功后，<strong>在远端服务器上的分支名</strong>，<code>:new_branch_name</code>可以不写，远端分支名就和本地分支名相同。</p>
-</li>
-</ul>
-<hr>
-<h3 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h3><ul>
-<li><p><code>git log</code>：查看<strong>当前分支上</strong>的提交日志</p>
-<p>  <code>git log</code><strong>默认</strong>按提交时间的<strong>由近到远</strong>列出所有的历史提交日志，每个日志基本包含：</p>
-<ol>
-<li>提交节点</li>
-<li>作者信息</li>
-<li>提交时间</li>
-<li>提交说明</li>
-</ol>
-<ul>
-<li><p><code>--name-status</code></p>
-<p> 能列出涉及改动的具体文件</p>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h3><ul>
-<li><p><code>git branch</code>：列出<strong>所有本地</strong>分支</p>
-<p>  如果想查看<strong>远端</strong>服务器上的分支，<code>-r</code>即可，返回的<strong>分支名带origin前缀，即表示在远端</strong>。如果想查看远端和本地的所有分支，<code>-a</code>即可。</p>
-</li>
-<li><p><strong>新建</strong>分支</p>
-<p>  默认<strong>基于当前节点</strong>创建分支</p>
-<ul>
-<li><code>git checkout -b new_branch_name</code> 新建后<strong>会自动切换到新分支</strong></li>
-<li><code>git branch new_branch_name</code> 新建后不会切换到新分支</li>
-</ul>
-</li>
-<li><p><strong>删除</strong>分支</p>
-<ul>
-<li><p><code>git branch -d branch_name</code></p>
-</li>
-<li><p><code>git branch -D branch_name</code> <strong>大写的D</strong>表示强制删除</p>
-<p>  当目标分支上<strong>包含未合并的改动</strong>，则需要通过<strong>强制删除</strong>来操作。</p>
-</li>
-<li><p><code>git branch -d -r branch_name</code> <strong>删除服务器上的远程分支</strong></p>
-<p>  删除后<strong>还需要推送到服务器</strong>：<code>git push origin : branch_name</code></p>
-</li>
-</ul>
-</li>
-<li><p><strong>切换</strong>分支</p>
-<ul>
-<li><p><code>git checkout branch_name</code></p>
-</li>
-<li><p><code>git checkout -f branch_name</code></p>
-<p>  如果当前分支<strong>工作区存在修改未提交的文件</strong>，与目的分支上的内容冲突，会导致<strong>切换失败</strong>，则需要使用<code>git checkout -f</code>进行<strong>强制切换</strong>。</p>
-</li>
-</ul>
-<p>  checkout的对象<strong>可以是分支，也可以是某个提交节点或者节点下的某个文件</strong>。</p>
-</li>
-<li><p>从远端<strong>更新</strong>分支</p>
-<ul>
-<li><p><code>git pull origin remote_branch:local_branch</code></p>
-<p>  从远端服务器中获取某个分支的更新，再**与本地指定的分支进行自动合并(merge)**，如果远程指定的分支与本地指定的分支相同，则可以直接执行<code>git pull origin remote_branch</code></p>
-</li>
-<li><p><code>git fetch origin remote_branch:local_branch</code></p>
-<p>  与<code>git pull</code>不同，<code>git fetch</code>在获取到更新后，<strong>不会自动合并</strong>，而是<strong>留给用户一个操作空间，确认<code>git fetch</code>内容符合预期后，再决定是否手动合并节点</strong>。</p>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="分支合并"><a href="#分支合并" class="headerlink" title="分支合并"></a>分支合并</h3><p><strong>合并目标分支内容到当前分支</strong>，以下两种方式<strong>都可以达到目的</strong></p>
-<ul>
-<li><p><code>git merge branch_name</code></p>
-<p>git会将指定的分支与当前分支进行比较，找出二者<strong>最近的一个共同节点base</strong>，之后将指定分支在base之后分离的节点<strong>合并到当前分支上</strong>，<strong>实际上是分支之间，差异提交的节点的合并</strong>。</p>
-<img src="https://s2.loli.net/2024/07/16/q6Va3yzDevJUBCZ.png" alt="image-20240716165732981" style="zoom:80%;" />
-</li>
-<li><p><code>git rebase branch_name</code></p>
-</li>
-</ul>
-<p>但是二者的<strong>实现机制和对合并后节点造成的影响有很大差异，有着各自的风险</strong>。</p>
-<hr>
-<h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><ul>
-<li><p><code>git reset commit_id</code></p>
-<p>  可将工作区内容回退到<strong>历史提交节点</strong></p>
-</li>
-<li><p><code>git checkout .</code></p>
-<p>  <strong>回退本地所有未提交的修改</strong>。这是一条<strong>有风险</strong>的命令，<strong>不给用户任何确认机会</strong>。它会<strong>取消本地工作区的修改，用暂存区的所有文件直接覆盖本地文件，达到回退内容的目的</strong>。</p>
-<p>  如果仅仅想回退<strong>某个文件的未提交改动</strong>，可以使用<code>git checkout -filename</code>；如果想将工作区回退到某个提交版本，可以使用<code>git checkout commit_id</code>。</p>
-</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/06/Git/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -2473,7 +2128,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-07-01 15:36:38" itemprop="dateModified" datetime="2024-07-01T15:36:38+08:00">2024-07-01</time>
+      <time title="修改时间：2024-07-17 10:11:18" itemprop="dateModified" datetime="2024-07-17T10:11:18+08:00">2024-07-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -3343,6 +2998,12 @@
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
 
 
 
