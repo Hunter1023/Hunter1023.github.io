@@ -1348,7 +1348,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-06-26 13:25:56" itemprop="dateModified" datetime="2024-06-26T13:25:56+08:00">2024-06-26</time>
+      <time title="修改时间：2024-07-19 16:14:21" itemprop="dateModified" datetime="2024-07-19T16:14:21+08:00">2024-07-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1370,106 +1370,18 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h1><h2 id="镜像-image"><a href="#镜像-image" class="headerlink" title="镜像 image"></a>镜像 image</h2><p>镜像就是一堆静态的模板，根据这个模板运行起来的就是容器。镜像一般需要拉取下来，是只读的。</p>
-<p>Docker镜像中有<strong>分层</strong>的概念，就是一个镜像可能基于好几个镜像，比如一个Web运行环境可能需要操作系统、Mysql等，那么拉取的镜像就会包好这几个镜像。</p>
+          <h2 id="Docker安装"><a href="#Docker安装" class="headerlink" title="Docker安装"></a>Docker安装</h2><p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qubernet/p/16824689.html">Docker之介绍与安装 - Qubernet - 博客园 (cnblogs.com)</a></strong></p>
 <hr>
-<h2 id="容器-container"><a href="#容器-container" class="headerlink" title="容器 container"></a>容器 container</h2><p>运行拉取的镜像，就会根据这个镜像生成一个容器。运行的容器就像应用程序，可以访问、可以停止。运用多次Run命令，就运行了很多容器，也可以说是镜像的实例。</p>
-<hr>
-<h2 id="数据卷-Volumn"><a href="#数据卷-Volumn" class="headerlink" title="数据卷 Volumn"></a>数据卷 Volumn</h2><p>容器就好像一个简易版的操作系统。数据卷用来做数据持久化到我们的宿主机上容器间的数据共享，简单说就是<strong>将宿主机的目录映射到容器中的目录</strong>，应用程序在容器中的目录读写数据会同步到宿主机上，这样容器产生的数据就可以持久化。</p>
-<hr>
-<h1 id="Docker安装"><a href="#Docker安装" class="headerlink" title="Docker安装"></a>Docker安装</h1><p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qubernet/p/16824689.html">Docker之介绍与安装 - Qubernet - 博客园 (cnblogs.com)</a></strong></p>
-<hr>
-<hr>
-<h1 id="Docker-命令"><a href="#Docker-命令" class="headerlink" title="Docker 命令"></a>Docker 命令</h1><ol>
-<li><p>查看已有镜像</p>
-<p> <code>docker iamges</code></p>
-</li>
-<li><p>镜像安装</p>
-<p> 镜像的官方资源仓库：<a target="_blank" rel="noopener" href="https://hub.docker.com/">Docker Hub</a>，需要的镜像及对应版本都有陈列，且官网有直接的下载命令可以复制。</p>
-<p> 如<code>docker pull zookeeper:latest</code></p>
-</li>
-<li><p>查看所有容器</p>
-<p> <code>docker ps [OPTIONS]</code></p>
-<p> OPTION:</p>
-<ul>
-<li><p><code>-a</code>: 显示所有容器，包括未运行的</p>
-</li>
-<li><p><code>--filter</code>: 根据条件过滤</p>
-<p>  <code> docker ps --filter &quot;name=lucid_beaver&quot;</code></p>
-</li>
-<li><p><code>-l</code>: 显示最近创建的容器</p>
-</li>
-<li><p><code>-n</code>: 列出最近创建的n个容器  </p>
-<p>  <code>docker ps -n 2</code> 列出最近创建的2个容器</p>
-</li>
-<li><p><code>-s</code>: 显示总的文件大小</p>
-</li>
-<li><p><code>-q</code>: 静默模式，只显示容器编号</p>
-</li>
-</ul>
-</li>
-<li><p>运行容器</p>
-</li>
-</ol>
-<p>  <code>docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</code></p>
-<p>  OPTIONS：</p>
-<ul>
-<li><code>-d</code>: 后台运行容器，并返回容器ID 守护进程，当这个进程意外死亡后，会自动拉起来</li>
-<li><code>-p</code>: 指定端口映射，宿主机端口:容器端口</li>
-<li><code>-i</code>: 以交互模式运行容器，通常与-t同时使用</li>
-<li><code>-t</code>: 为容器重新分配一个伪输入终端，通常与-i同时使用</li>
-<li><code>--name=xxx</code>: 为容器指定一个名称，<code>xxx</code>为字符串但不能加引号</li>
-<li><code>-e</code>: 设置环境变量</li>
-</ul>
-<p>  如</p>
-<p>  <code>docker run -itd --name=mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql</code></p>
-<ol start="5">
-<li><p>进入容器内部</p>
-<p> <code>docker exec -it [CONTAINER ID] bash</code></p>
-</li>
-<li><p>关闭容器</p>
-<p> <code>docker stop [CONTAINER ID]</code></p>
-</li>
-<li><p>杀死进程</p>
-<p> <code>docker kill [CONTAINER ID]</code></p>
-</li>
-<li><p>删除容器</p>
-<p> <code>docker rm [CONTAINER ID]</code></p>
-</li>
-</ol>
-<hr>
-<h1 id="运行各容器"><a href="#运行各容器" class="headerlink" title="运行各容器"></a>运行各容器</h1><h2 id="ZooKeeper"><a href="#ZooKeeper" class="headerlink" title="ZooKeeper"></a>ZooKeeper</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name=zookeeper -p 2181:2181 zookeeper</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd --name=mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql</span><br></pre></td></tr></table></figure>
-
-<p>进入mysql容器：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it mysql bash</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>本机可以通过 root 和密码 123456 访问 MySQL 服务：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h localhost -u root -p</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不带密码运行容器</span></span><br><span class="line">docker run -itd --name myRedis -p 6379:6379 redis</span><br><span class="line"></span><br><span class="line"><span class="comment"># 带密码运行容器</span></span><br><span class="line">docker run -itd --name myRedis -p 6379:6379 redis --requirepass <span class="string">&quot;123456&quot;</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd --<span class="built_in">rm</span> --name rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=root -e RABBITMQ_DEFAULT_PASS=123456 rabbitmq:3.12-management</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>15672</code>端口：RabbitMQ的<strong>管理页面</strong>端口</li>
-<li><code>5672</code>端口：RabbitMQ的<strong>消息接收</strong>端口</li>
-</ul>
-<hr>
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>docker run hello-world失败</p>
-<p>参考如下，docker的镜像源一定要添加能ping通的。</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/myydan/article/details/128650604">docker下载镜像超时问题：Get https://registry-1.docker.io/v2/_myydan的博客-CSDN博客</a></p>
-
+<h2 id="镜像-image"><a href="#镜像-image" class="headerlink" title="镜像 image"></a>镜像 image</h2><p>如果我们要写一个比如论坛、电商这类的Java项目，那么数据库、消息队列、缓存这类中间件是必不可少的。<strong>因此我们如果想要将一个服务部署到服务器，要提前准备好各种各样的环境，先安装好MySQL、Redis、RabbitMQ等应用，配置好了环境，再将我们的Java应用程序启动。</strong>整个流程下来，光是配置环境就要浪费大量的时间，如果是大型的分布式项目，可能要部署很多台机器，项目上个线就要花几天时间，显然是很荒唐的。</p>
+<p><strong>而上述的MySQL、Redis、RabbitMQ等应用以及Java应用程序，可以一起被打包成一个镜像</strong>，整个镜像中环境都是已经配置好的状态，<strong>开箱即用</strong>。镜像就是一堆静态的模板，根据这个模板运行起来的就是容器。镜像一般需要拉取下来，是只读的。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/06/10/Docker/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
