@@ -1167,7 +1167,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-09-17 13:00:32" itemprop="dateModified" datetime="2023-09-17T13:00:32+08:00">2023-09-17</time>
+      <time title="修改时间：2024-07-23 22:18:40" itemprop="dateModified" datetime="2024-07-23T22:18:40+08:00">2024-07-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1193,7 +1193,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="缓冲区"><a href="#缓冲区" class="headerlink" title="缓冲区"></a>缓冲区</h1><h2 id="Buffer类及其实现"><a href="#Buffer类及其实现" class="headerlink" title="Buffer类及其实现"></a>Buffer类及其实现</h2><p>Buffer类是缓冲区的实现，类似于Java中的数组，也是用于存放和获取数据的。但它包含了一系列对于数组的快捷操作。</p>
+          <h2 id="缓冲区"><a href="#缓冲区" class="headerlink" title="缓冲区"></a>缓冲区</h2><h3 id="Buffer类及其实现"><a href="#Buffer类及其实现" class="headerlink" title="Buffer类及其实现"></a>Buffer类及其实现</h3><p>Buffer类是缓冲区的实现，类似于Java中的数组，也是用于存放和获取数据的。但它包含了一系列对于数组的快捷操作。</p>
 <p>Buffer是一个抽象类，它的核心内容：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Buffer</span> &#123;</span><br><span class="line">    <span class="comment">// Invariants: mark &lt;= position &lt;= limit &lt;= capacity</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">mark</span> <span class="operator">=</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">position</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> limit;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> capacity;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 直接缓冲区实现子类的数据内存地址</span></span><br><span class="line">    <span class="type">long</span> address;</span><br></pre></td></tr></table></figure>
           <!--noindex-->

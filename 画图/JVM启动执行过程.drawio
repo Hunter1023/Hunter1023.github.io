@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-07-23T01:37:50.107Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.6.4 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="e2IfY0UdG4pCXRWPk_kZ" version="24.6.4" type="device" pages="2">
+<mxfile host="Electron" modified="2024-07-23T14:11:20.906Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.6.4 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="iJL22xV5AJRDymwJrC5t" version="24.6.4" type="device" pages="3">
   <diagram name="JVM启动执行过程" id="YjUK45eZEZIdvjQKvIaX">
     <mxGraphModel dx="1562" dy="909" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -182,6 +182,50 @@
         </mxCell>
         <mxCell id="JxQ9z8vcYJNLGDRxFOrY-23" value="方法出口" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;" vertex="1" parent="1">
           <mxGeometry x="996" y="550" width="120" height="38" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="9nNqRttB4fNmw-hEuLay" name="垃圾回收算法">
+    <mxGraphModel dx="2389" dy="909" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="gO5SrsTU0FrsLgeRAPql-7" value="&lt;font style=&quot;font-size: 18px;&quot; face=&quot;MesloLGS NF&quot;&gt;&lt;b&gt;本地内存&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="570" y="424" width="370" height="286" as="geometry" />
+        </mxCell>
+        <mxCell id="gO5SrsTU0FrsLgeRAPql-1" value="堆内存" style="rounded=0;whiteSpace=wrap;html=1;align=center;verticalAlign=top;fontFamily=MesloLGS NF;fontSize=22;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="-4" y="424" width="538" height="286" as="geometry" />
+        </mxCell>
+        <mxCell id="gO5SrsTU0FrsLgeRAPql-2" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;新生代&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="21" y="479" width="371" height="217" as="geometry" />
+        </mxCell>
+        <mxCell id="gO5SrsTU0FrsLgeRAPql-3" value="&lt;font style=&quot;font-size: 16px;&quot; face=&quot;MesloLGS NF&quot;&gt;&lt;b&gt;老年代&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="402" y="479" width="110" height="217" as="geometry" />
+        </mxCell>
+        <mxCell id="gO5SrsTU0FrsLgeRAPql-4" value="&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;Eden&lt;/b&gt;&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=middle;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" vertex="1" parent="1">
+          <mxGeometry x="35" y="523" width="234" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="gO5SrsTU0FrsLgeRAPql-6" value="&lt;font face=&quot;MesloLGS NF&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;永久代&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;&lt;div&gt;&lt;font face=&quot;MesloLGS NF&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;（元空间）&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="580" y="481" width="134" height="217" as="geometry" />
+        </mxCell>
+        <mxCell id="gO5SrsTU0FrsLgeRAPql-10" value="&lt;font face=&quot;MesloLGS NF&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;直接内存&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="788" y="481" width="134" height="217" as="geometry" />
+        </mxCell>
+        <mxCell id="gO5SrsTU0FrsLgeRAPql-11" value="&lt;b&gt;运行时常量池&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="598" y="582.5" width="98" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="gO5SrsTU0FrsLgeRAPql-12" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="279" y="523" width="103" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="gO5SrsTU0FrsLgeRAPql-5" value="&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;Survivor&lt;/b&gt;&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" vertex="1" parent="gO5SrsTU0FrsLgeRAPql-12">
+          <mxGeometry width="103" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="gO5SrsTU0FrsLgeRAPql-8" value="&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;From&lt;/b&gt;&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=middle;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="gO5SrsTU0FrsLgeRAPql-12">
+          <mxGeometry x="4" y="34" width="43" height="111" as="geometry" />
+        </mxCell>
+        <mxCell id="gO5SrsTU0FrsLgeRAPql-9" value="&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;To&lt;/b&gt;&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=middle;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="gO5SrsTU0FrsLgeRAPql-12">
+          <mxGeometry x="55" y="34" width="43" height="111" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
