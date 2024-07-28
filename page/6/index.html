@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -176,6 +176,358 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2021/07/25/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/07/25/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E8%AF%A6%E8%A7%A3/" class="post-title-link" itemprop="url">网络编程详解</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-07-25 22:37:58" itemprop="dateCreated datePublished" datetime="2021-07-25T22:37:58+08:00">2021-07-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="网络通信的要素"><a href="#网络通信的要素" class="headerlink" title="网络通信的要素"></a>网络通信的要素</h1><ol>
+<li><p>通信双方的地址</p>
+<ul>
+<li>IP地址</li>
+<li>端口号</li>
+</ul>
+</li>
+<li><p>通信协议</p>
+<ul>
+<li><p>TCP&#x2F;IP 参考模型</p>
+<ul>
+<li><p><strong>应用层</strong></p>
+<p>  HTTP、FTP、SMTP</p>
+</li>
+<li><p><strong>传输层</strong></p>
+<p>  TCP、UDP</p>
+</li>
+<li><p><strong>网络层</strong></p>
+<p>  IP</p>
+</li>
+<li><p>数据链路层</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>Java 中的网络支持：</p>
+<ul>
+<li>InetAddress：用于表示网络上的硬件资源，即 IP 地址；</li>
+<li>URL：统一资源定位符；</li>
+<li>Sockets：使用 TCP 协议实现网络通信；</li>
+<li>Datagram：使用 UDP 协议实现网络通信。</li>
+</ul>
+<hr>
+<h1 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h1><p>IP地址的类：InetAddress</p>
+<ul>
+<li><p>IP地址能唯一定位一台网络上的计算机</p>
+</li>
+<li><p>127.0.0.1：本机 localhost</p>
+</li>
+<li><p>IP地址的分类</p>
+<ul>
+<li><p>IPV4&#x2F;IPV6</p>
+</li>
+<li><p>公网&#x2F;局域网</p>
+<p>  <strong>192.168</strong>.xx.xx(<strong>专门给组织内部使用</strong>)</p>
+</li>
+</ul>
+</li>
+<li><p>域名</p>
+</li>
+</ul>
+<p>InetAddress没有公有的构造函数，<strong>只能通过静态方法来创建实例</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">InetAddress.getByName(String host);</span><br><span class="line">InetAddress.getByAddress(<span class="type">byte</span>[] address);</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//测试IP</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestIP</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//查询本机地址</span></span><br><span class="line">            <span class="type">InetAddress</span> <span class="variable">inetAddress1</span> <span class="operator">=</span> InetAddress.getByName(<span class="string">&quot;localhost&quot;</span>);</span><br><span class="line">            System.out.println(inetAddress1);</span><br><span class="line">            <span class="type">InetAddress</span> <span class="variable">inetAddress2</span> <span class="operator">=</span> InetAddress.getLocalHost();</span><br><span class="line">            System.out.println(inetAddress2);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//查询网站ip地址</span></span><br><span class="line">            <span class="type">InetAddress</span> <span class="variable">inetAddress3</span> <span class="operator">=</span> InetAddress.getByName(<span class="string">&quot;www.baidu.com&quot;</span>);</span><br><span class="line">            System.out.println(inetAddress3);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//常用方法</span></span><br><span class="line">            System.out.println(inetAddress3.getCanonicalHostName()); <span class="comment">//规范的主机名</span></span><br><span class="line">            System.out.println(inetAddress3.getHostAddress()); <span class="comment">// IP</span></span><br><span class="line">            System.out.println(inetAddress3.getHostName()); <span class="comment">// 域名或自己的计算机名</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (UnknownHostException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h1><p>端口表示计算机上一个程序的<strong>对外的接口</strong>。</p>
+<ul>
+<li><p>不同的进程有不同的端口号，用来区分软件</p>
+</li>
+<li><p>规定端口号范围：0-65535</p>
+</li>
+<li><p><strong>相同协议下，端口号不能冲突</strong>（不同协议，可以使用相同端口号）</p>
+</li>
+<li><p>端口分类：</p>
+<ul>
+<li><p>公有端口：0-1023</p>
+<p>  一般会<strong>被内置的进程、服务器使用</strong>，尽量不要使用</p>
+<ul>
+<li>HTTP端口: 80</li>
+<li>HTTPS端口: 443</li>
+<li>FTP端口: 21</li>
+<li>SSH: 22</li>
+<li>Telent: 23</li>
+</ul>
+</li>
+<li><p>程序注册端口：1024-49151</p>
+<p>  <strong>分配给用户或程序</strong></p>
+<ul>
+<li>Tomcat: 8080</li>
+<li>MySQL: 3306</li>
+<li>Oracle: 1521</li>
+<li>SQL Server：1433</li>
+</ul>
+</li>
+<li><p>动态、私有端口：49152-65535</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">netstat -ano <span class="comment">#查看端口命令</span></span><br><span class="line">netstat -ano|findstr <span class="string">&quot;5900&quot;</span> <span class="comment">#查看指定的端口</span></span><br><span class="line">tasklist|findstr <span class="string">&quot;1584&quot;</span> <span class="comment">#查看指定端口的进程</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestSocketAddress</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">InetSocketAddress</span> <span class="variable">socketAddress</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InetSocketAddress</span>(<span class="string">&quot;localhost&quot;</span>, <span class="number">8080</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(socketAddress);</span><br><span class="line">        System.out.println(socketAddress.getAddress());</span><br><span class="line">        System.out.println(socketAddress.getHostName());</span><br><span class="line">        System.out.println(socketAddress.getPort()); <span class="comment">//获取端口</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h1><p>URL(统一资源定位符)用于定位网络资源，可以<strong>直接从URL中读取字节流数据</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://www.baidu.com&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 字节流 */</span></span><br><span class="line">    <span class="type">InputStream</span> <span class="variable">is</span> <span class="operator">=</span> url.openStream();</span><br><span class="line">    <span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(is, <span class="string">&quot;utf-8&quot;</span>));</span><br><span class="line">    String line;</span><br><span class="line">    <span class="keyword">while</span> ((line = br.readLine()) != <span class="literal">null</span>) &#123;</span><br><span class="line">        System.out.println(line);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    br.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="下载网络资源"><a href="#下载网络资源" class="headerlink" title="下载网络资源"></a>下载网络资源</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;https://pic3.zhimg.com/v2-77fd9b17781556ee25be582af6a9cd4c_r.jpg?source=1940ef5c&quot;</span>); <span class="comment">// 资源地址(图片)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 连接到该资源</span></span><br><span class="line"><span class="type">HttpURLConnection</span> <span class="variable">urlConnection</span> <span class="operator">=</span> (HttpURLConnection) url.openConnection();</span><br><span class="line"></span><br><span class="line"><span class="type">InputStream</span> <span class="variable">is</span> <span class="operator">=</span> urlConnection.getInputStream();</span><br><span class="line"><span class="type">BufferedInputStream</span> <span class="variable">bis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedInputStream</span>(is); <span class="comment">// 图片、音频、视频等类型使用缓冲字节流，含中文的文档类资源使用缓冲字符流</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 判断文件夹是否存在</span></span><br><span class="line"><span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;C:\\Users\\Hunter\\Downloads&quot;</span>);</span><br><span class="line"><span class="keyword">if</span> (!file.exists()) &#123;</span><br><span class="line">    file.mkdirs();</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(file + File.separator + <span class="string">&quot;Hunter&quot;</span> + System.currentTimeMillis() + <span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">999999</span>) + <span class="string">&quot;.jpg&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">BufferedOutputStream</span> <span class="variable">bos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedOutputStream</span>(fos);</span><br><span class="line"></span><br><span class="line"><span class="type">byte</span>[] bytes = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">4</span> * <span class="number">1024</span>]; <span class="comment">// 存储每次读取的数据</span></span><br><span class="line"><span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> ((len = bis.read(bytes)) != -<span class="number">1</span>) &#123;</span><br><span class="line">    bos.write(bytes, <span class="number">0</span>, len);</span><br><span class="line">&#125;</span><br><span class="line">bos.close();</span><br><span class="line">bis.close();</span><br><span class="line">urlConnection.disconnect();</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h1 id="通信协议"><a href="#通信协议" class="headerlink" title="通信协议"></a>通信协议</h1><p>TCP&#x2F;IP<strong>协议簇</strong>：</p>
+<ul>
+<li><p>TCP(Transmission Control Protocol) 传输控制协议</p>
+</li>
+<li><p>UDP(User Datagram Protocol) 用户数据报协议</p>
+</li>
+<li><p>IP(Internet Protocol) 网络互连协议</p>
+</li>
+</ul>
+<h2 id="TCP-和-UDP-的对比"><a href="#TCP-和-UDP-的对比" class="headerlink" title="TCP 和 UDP 的对比"></a>TCP 和 UDP 的对比</h2><p>TCP（类比：打电话）</p>
+<ul>
+<li><p>需要连接，稳定</p>
+</li>
+<li><p><strong>三次握手</strong>，<strong>四次挥手</strong></p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 至少需要三次，保证稳定连接</span><br><span class="line">C：我喜欢你</span><br><span class="line">S：我也喜欢你</span><br><span class="line">C：我们在一起吧</span><br><span class="line"></span><br><span class="line">// 四次挥手</span><br><span class="line">C：我要走了</span><br><span class="line">S：我知道你要走了</span><br><span class="line">S：你已经走了吗？</span><br><span class="line">C：我已经走了</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>有明确的客户端和服务端角色</p>
+</li>
+<li><p><strong>传输完成后释放连接</strong>，效率低</p>
+</li>
+</ul>
+<p>UDP（类比：发短信）</p>
+<ul>
+<li>不需要连接，不稳定</li>
+</ul>
+<hr>
+<h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><p>Socket：套接字，指<strong>两台设备之间通讯的端点</strong>，是<strong>包含了IP地址和端口号的网络单位</strong>。</p>
+<ul>
+<li><p><code>java.net.ServerSocket</code></p>
+<p>  服务器端类，相当于<strong>开启一个服务</strong>，并等待客户端的连接</p>
+</li>
+<li><p><code>java.net.Socket</code></p>
+<p>  客户端类，向服务器发出连接请求，服务端响应请求后，两者建立连接，开始通信（三次握手）</p>
+</li>
+</ul>
+<hr>
+<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><p><code>java.net.ServerSocket</code></p>
+<h4 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h4><p><code>ServerSocket(int port)</code>：创建绑定到<strong>指定端口</strong>的服务端套接字</p>
+<hr>
+<h4 id="成员方法"><a href="#成员方法" class="headerlink" title="成员方法"></a>成员方法</h4><p><code>Socket accept()</code>：<strong>侦听并接收客户端的连接</strong></p>
+<hr>
+<h4 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h4><ol>
+<li>创建服务器端对象ServerSocket，<strong>指定端口</strong></li>
+<li>等待用户的连接，通过<strong>accept方法</strong>获取请求的客户端对象</li>
+<li>使用<strong>获取到的客户端对象</strong>的getInputStream方法获取<strong>网络字节输入流</strong>InputStream对象</li>
+<li>使用网络字节输入流对象的read方法<strong>读取客户端发来的数据</strong></li>
+<li>使用<strong>获取到的客户端对象</strong>的getOutputStream获取<strong>网络字节输出流</strong>OutputStream对象</li>
+<li>使用网络字节输出流对象的write方法<strong>给客户端发送数据</strong>（<strong>传输结束标记</strong>）</li>
+<li>释放资源</li>
+</ol>
+<p><strong>服务器没有IO流</strong>，而是通过<strong>获取请求的客户端对象Socket，使用Socket提供的IO流和客户端进行交互</strong>：</p>
+<ul>
+<li>服务器使用客户端的字节输入流InputStream<strong>读取</strong>客户端发送的数据</li>
+<li>服务器使用客户端的字节输出流OutputStream向客户端<strong>写回</strong>数据</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ServerSocket</span> <span class="variable">serverSocket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServerSocket</span>(<span class="number">2000</span>);</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123; <span class="comment">// 服务端的持久运行</span></span><br><span class="line">    <span class="comment">// 2. 获取请求的客户端对象</span></span><br><span class="line">    <span class="type">Socket</span> <span class="variable">socket</span> <span class="operator">=</span> serverSocket.accept();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 读取客户端消息</span></span><br><span class="line">    <span class="type">InputStream</span> <span class="variable">is</span> <span class="operator">=</span> socket.getInputStream();</span><br><span class="line">    <span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(is));</span><br><span class="line">    String line;</span><br><span class="line">    <span class="keyword">while</span> ((line = br.readLine()) != <span class="literal">null</span>) &#123;</span><br><span class="line">        System.out.println(line);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 向客户端发送数据</span></span><br><span class="line">    <span class="type">OutputStream</span> <span class="variable">os</span> <span class="operator">=</span> socket.getOutputStream();</span><br><span class="line">    <span class="type">BufferedWriter</span> <span class="variable">bw</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">OutputStreamWriter</span>(os));</span><br><span class="line">    bw.write(<span class="string">&quot;你在教我做事？&quot;</span>);</span><br><span class="line">    bw.newLine();</span><br><span class="line">    bw.flush(); <span class="comment">// 重要</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 网络流的传输不同于本地，不会传输结束的标记</span></span><br><span class="line">    socket.shutdownOutput(); <span class="comment">// 禁用套接字的输出流，同时会传输一个结束标记</span></span><br><span class="line"></span><br><span class="line">    br.close();</span><br><span class="line">    bw.close();</span><br><span class="line">    socket.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p><code>java.net.Socket</code></p>
+<h4 id="构造方法-1"><a href="#构造方法-1" class="headerlink" title="构造方法"></a>构造方法</h4><p><code>Socket(String host, int port)</code>：创建一个套接字，并<strong>连接到指定主机上指定的端口号</strong>。</p>
+<ul>
+<li>String host：服务器主机的名称&#x2F;服务器的IP地址</li>
+</ul>
+<hr>
+<h4 id="成员方法-1"><a href="#成员方法-1" class="headerlink" title="成员方法"></a>成员方法</h4><ul>
+<li><code>OutputStream getOutputStream()</code>：返回套接字的输出流</li>
+<li><code>InputStream getInputStream()</code>：返回套接字的输入流</li>
+<li><code>void close()</code>：关闭套接字</li>
+</ul>
+<hr>
+<h4 id="实现步骤-1"><a href="#实现步骤-1" class="headerlink" title="实现步骤"></a>实现步骤</h4><ol>
+<li>创建一个客户端对象Socket</li>
+<li>使用getOutputStream方法获取<strong>网络字节输出流</strong>OutputStream对象</li>
+<li>使用网络字节输出流对象的write方法<strong>给服务器发送数据</strong>（<strong>传输结束标记</strong>）</li>
+<li>使用getInputStream获取<strong>网络字节输入流</strong>InputStream对象</li>
+<li>使用网络字节输入流对象的read方法<strong>读取服务器传回的数据</strong></li>
+<li>释放资源</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Socket</span> <span class="variable">socket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Socket</span>(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">OutputStream</span> <span class="variable">os</span> <span class="operator">=</span> socket.getOutputStream();</span><br><span class="line"><span class="type">BufferedWriter</span> <span class="variable">bw</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">OutputStreamWriter</span>(os));</span><br><span class="line">bw.write(<span class="string">&quot;教练，我想打篮球&quot;</span>);</span><br><span class="line">bw.newLine();</span><br><span class="line">bw.flush(); <span class="comment">// 重要</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 网络流的传输不同于本地，不会传输结束的标记</span></span><br><span class="line">socket.shutdownOutput(); <span class="comment">// 禁用套接字的输出流，同时会传输一个结束标记</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 读取服务端消息</span></span><br><span class="line"><span class="type">InputStream</span> <span class="variable">is</span> <span class="operator">=</span> socket.getInputStream();</span><br><span class="line"><span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(is));</span><br><span class="line">String line;</span><br><span class="line"><span class="keyword">while</span> ((line = br.readLine()) != <span class="literal">null</span>) &#123;</span><br><span class="line">    System.out.println(line);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bw.close();</span><br><span class="line">br.close();</span><br><span class="line">socket.close();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h3><h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><ol>
+<li>为保证服务器安全，上传文件应该放在<strong>外界无法直接访问</strong>的目录下，比如<code>WEB-INF</code>目录下。</li>
+<li>为防止文件覆盖的现象发生，要<strong>为上传文件产生一个唯一的文件名（时间戳 + uuid + md5加密）</strong>。</li>
+<li>限制上传文件的最大值。 </li>
+<li>限制上传文件的类型，判断后缀名是否合法。</li>
+</ol>
+<hr>
+<h4 id="服务端-1"><a href="#服务端-1" class="headerlink" title="服务端"></a>服务端</h4><ol>
+<li>创建服务器ServerSocket对象</li>
+<li>使用ServerSocket对象中的accept方法，获取到请求的客户端Socket对象</li>
+<li>使用Socket对象的getInputStream方法，获取到网络字节输入流</li>
+<li>判断<strong>指定存储的文件夹是否存在，不存在则创建</strong></li>
+<li>创建一个本地字节输出流FileOutputStream对象</li>
+<li>读取客户端上传的文件，写入至服务器中指定的文件夹下</li>
+<li>获取网络字节输出流对象，返回上传成功的消息（<strong>传输结束标记</strong>）</li>
+<li>释放资源</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ServerSocket</span> <span class="variable">serverSocket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServerSocket</span>(<span class="number">8888</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="type">Socket</span> <span class="variable">socket</span> <span class="operator">=</span> serverSocket.accept();</span><br><span class="line">    <span class="type">InputStream</span> <span class="variable">is</span> <span class="operator">=</span> socket.getInputStream();</span><br><span class="line">    <span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(is));</span><br><span class="line">    <span class="comment">// 判断文件加是否存在</span></span><br><span class="line">    <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;C:\\Users\\Hunter\\Downloads&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (!file.exists()) &#123;</span><br><span class="line">        file.mkdirs();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用【域名 + 系统时间 + 随机数】用于命名</span></span><br><span class="line">    <span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(file + File.separator + <span class="string">&quot;Hunter&quot;</span> + System.currentTimeMills() + <span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">999999</span>) + <span class="string">&quot;.md&quot;</span>);</span><br><span class="line">    <span class="type">BufferedWriter</span> <span class="variable">bw</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">OutputStreamWriter</span>(fos));</span><br><span class="line">    <span class="comment">// 将本地上传的文件内容输出至指定文件</span></span><br><span class="line">    String line;</span><br><span class="line">    <span class="keyword">while</span> ((line = br.readLine()) != <span class="literal">null</span>) &#123; <span class="comment">// 客户端socket.shutdownOutput()的操作，会传来文件的结束标记</span></span><br><span class="line">        bw.write(line);</span><br><span class="line">        bw.newLine(); <span class="comment">// 换行（根据不同的操作系统，获取不同的行分隔符）</span></span><br><span class="line">    &#125;</span><br><span class="line">    bw.close();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回上传成功的消息</span></span><br><span class="line">    <span class="type">OutputStream</span> <span class="variable">os</span> <span class="operator">=</span> socket.getOutputStream();</span><br><span class="line">    <span class="type">BufferedWriter</span> <span class="variable">bw2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">OutputStreamWriter</span>(os));</span><br><span class="line">    bw2.write(<span class="string">&quot;上传成功&quot;</span>);</span><br><span class="line"></span><br><span class="line">    bw2.flush();</span><br><span class="line">    socket.shutdownOutput(); <span class="comment">// 禁用套接字的输出流，同时会传输一个结束标记</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 释放资源</span></span><br><span class="line">    bw2.close();</span><br><span class="line">    br.close();</span><br><span class="line">    socket.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="客户端-1"><a href="#客户端-1" class="headerlink" title="客户端"></a>客户端</h4><ol>
+<li>创建一个本地字节输入流FileInputStream对象，读取本地文件</li>
+<li>创建客户端Socket对象</li>
+<li>使用Socket对象的getOutputStream方法，获取到网络字节输出流</li>
+<li>通过网络字节输出流传输本地文件内容至服务器（<strong>传输结束标记</strong>）</li>
+<li>读取服务端返回的消息</li>
+<li>释放资源</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建本地字节输入流</span></span><br><span class="line"><span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;C:\\Users\\Hunter\\Downloads\\xx.md&quot;</span>);</span><br><span class="line"><span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(fis));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建客户端Socket对象</span></span><br><span class="line"><span class="type">Socket</span> <span class="variable">socket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Socket</span>(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">8888</span>);</span><br><span class="line"><span class="comment">// 获取网络字节输出流</span></span><br><span class="line"><span class="type">OutputStream</span> <span class="variable">os</span> <span class="operator">=</span> socket.getOutputStream();</span><br><span class="line"><span class="type">BufferedWriter</span> <span class="variable">bw</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">OutputStreamWriter</span>(os));</span><br><span class="line"><span class="comment">// 将本地的文件上传至网络字节输出流</span></span><br><span class="line">String line;</span><br><span class="line"><span class="keyword">while</span> ((line = br.readLine()) != <span class="literal">null</span>) &#123;</span><br><span class="line">    bw.write(line);</span><br><span class="line">    bw.newLine(); <span class="comment">// 换行（根据不同的操作系统，获取不同的行分隔符）</span></span><br><span class="line">&#125;</span><br><span class="line">bw.flush();</span><br><span class="line">socket.shutdownOutput(); <span class="comment">// 上传完文件， 给服务端一个结束标记，否则服务端将阻塞</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取上传结果</span></span><br><span class="line"><span class="type">InputStream</span> <span class="variable">is</span> <span class="operator">=</span> socket.getInputStream();</span><br><span class="line"><span class="type">BufferedReader</span> <span class="variable">br2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(is));</span><br><span class="line"><span class="keyword">while</span> ((line = br2.readLine()) != <span class="literal">null</span>) &#123;</span><br><span class="line">    System.out.println(line);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 释放资源</span></span><br><span class="line">br.close();</span><br><span class="line">br2.close();</span><br><span class="line">socket.close();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="文件上传优化-——-多线程"><a href="#文件上传优化-——-多线程" class="headerlink" title="文件上传优化 —— 多线程"></a>文件上传优化 —— 多线程</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ServerSocket</span> <span class="variable">serverSocket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServerSocket</span>(<span class="number">8888</span>);</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="type">Socket</span> <span class="variable">socket</span> <span class="operator">=</span> serverSocket.accept();</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    * 使用多线程，提高程序效率</span></span><br><span class="line"><span class="comment">    * 有一个客户端上传文件，就开启一个线程，完成文件的上传</span></span><br><span class="line"><span class="comment">    * */</span></span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">InputStream</span> <span class="variable">is</span> <span class="operator">=</span> socket.getInputStream();</span><br><span class="line">            <span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(is));</span><br><span class="line">            <span class="comment">// 判断文件加是否存在</span></span><br><span class="line">            <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;C:\\Users\\Hunter\\Downloads&quot;</span>);</span><br><span class="line">            <span class="keyword">if</span> (!file.exists()) &#123;</span><br><span class="line">                file.mkdirs();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 使用【域名 + 系统时间 + 随机数】用于命名</span></span><br><span class="line">            <span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(file + File.separator + <span class="string">&quot;Hunter&quot;</span> + System.currentTimeMillis() + <span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">999999</span>) + <span class="string">&quot;.md&quot;</span>);</span><br><span class="line">            <span class="type">BufferedWriter</span> <span class="variable">bw</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">OutputStreamWriter</span>(fos));</span><br><span class="line">            <span class="comment">// 将本地上传的文件内容输出至指定文件</span></span><br><span class="line">            String line;</span><br><span class="line">            <span class="keyword">while</span> ((line = br.readLine()) != <span class="literal">null</span>) &#123; <span class="comment">// 客户端socket.shutdownOutput()的操作，会传来文件的结束标记</span></span><br><span class="line">                bw.write(line);</span><br><span class="line">                bw.newLine(); <span class="comment">// 换行（根据不同的操作系统，获取不同的行分隔符）</span></span><br><span class="line">            &#125;</span><br><span class="line">            bw.close();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 返回上传成功的消息</span></span><br><span class="line">            <span class="type">OutputStream</span> <span class="variable">os</span> <span class="operator">=</span> socket.getOutputStream();</span><br><span class="line">            <span class="type">BufferedWriter</span> <span class="variable">bw2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">OutputStreamWriter</span>(os));</span><br><span class="line">            bw2.write(<span class="string">&quot;上传成功&quot;</span>);</span><br><span class="line"></span><br><span class="line">            bw2.flush();</span><br><span class="line">            socket.shutdownOutput(); <span class="comment">// 禁用套接字的输出流，同时会传输一个结束标记</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 释放资源</span></span><br><span class="line">            bw2.close();</span><br><span class="line">            br.close();</span><br><span class="line">            socket.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h4><p>对于文件上传，浏览器将文件以流的形式提交到服务器，使用原生态的文件上传流<code>request.getInputStream()</code>获取十分麻烦，一般采用apache的开源工具<code>commons-fileupload</code>，其依赖于<code>commons-io</code>。</p>
+<h5 id="ServletFileUpload类"><a href="#ServletFileUpload类" class="headerlink" title="ServletFileUpload类"></a>ServletFileUpload类</h5><p><code>ServletFileUpload</code>负责处理上传的文件数据，使用其<code>parseRequest(HttpServletRequest)</code>方法，会将表单中每个HTML标签封装成一个<code>FileItem</code>对象，<strong>以List的形式返回</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.hunter.servlet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.commons.fileupload.FileItem;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.fileupload.FileUploadException;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.fileupload.disk.DiskFileItemFactory;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.fileupload.servlet.ServletFileUpload;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletException;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.UUID;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FileServlet</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doPost</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="comment">// 判断上传的文件是否普通表单</span></span><br><span class="line">        <span class="keyword">if</span> (!ServletFileUpload.isMultipartContent(req)) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建上传文件的保存路径，建议在WEB-INF路径下，安全，用户无法直接访问上传的文件</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">uploadPath</span> <span class="operator">=</span> <span class="built_in">this</span>.getServletContext().getRealPath(<span class="string">&quot;/WEB-INF/upload&quot;</span>);</span><br><span class="line">        <span class="type">File</span> <span class="variable">uploadFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(uploadPath);</span><br><span class="line">        <span class="keyword">if</span> (!uploadFile.exists()) &#123;</span><br><span class="line">            uploadFile.mkdir();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 缓存临时文件</span></span><br><span class="line">        <span class="comment">//  临时路径，假如文件超过了预期的大小，就放到临时文件中，超过设定的时间后自动删除，或提醒用户转存为永久</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">tmpUploadPath</span> <span class="operator">=</span> <span class="built_in">this</span>.getServletContext().getRealPath(<span class="string">&quot;/WEB-INF/tmp&quot;</span>);</span><br><span class="line">        <span class="type">File</span> <span class="variable">tmpUploadFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(tmpUploadPath);</span><br><span class="line">        <span class="keyword">if</span> (!tmpUploadFile.exists()) &#123;</span><br><span class="line">            tmpUploadFile.mkdir();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * ServletFileUpload负责处理上传的文件数据，使用其parseRequest(HttpServletRequest)方法，</span></span><br><span class="line"><span class="comment">         * 会将表单中每个HTML标签封装成一个FileItem对象，以List的形式返回。</span></span><br><span class="line"><span class="comment">         * 而使用ServletFileUpload对象解析请求时，需要DiskFileItemFactory对象。</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 1. 创建DiskFileItemFactory对象，处理文件上传 路径或大小限制</span></span><br><span class="line">            <span class="type">DiskFileItemFactory</span> <span class="variable">diskFileItemFactory</span> <span class="operator">=</span> getDiskFileItemFactory(tmpUploadFile);</span><br><span class="line">            <span class="comment">// 2. 获取ServletFileUpload</span></span><br><span class="line">            <span class="type">ServletFileUpload</span> <span class="variable">servletFileUpload</span> <span class="operator">=</span> getServletFileUpload(diskFileItemFactory);</span><br><span class="line">            <span class="comment">// 3. 处理上传的文件</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">msg</span> <span class="operator">=</span> uploadParseRequest(req, uploadPath, servletFileUpload);</span><br><span class="line"></span><br><span class="line">            req.setAttribute(<span class="string">&quot;msg&quot;</span>, msg);</span><br><span class="line">            req.getRequestDispatcher(<span class="string">&quot;info.jsp&quot;</span>).forward(req, resp);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (FileUploadException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String <span class="title function_">uploadParseRequest</span><span class="params">(HttpServletRequest request, String uploadPath, ServletFileUpload servletFileUpload)</span></span><br><span class="line">            <span class="keyword">throws</span> FileUploadException, IOException &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">msg</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="comment">// parseRequest(HttpServletRequest)方法，会将表单中每个HTML标签封装成一个FileItem对象，以List的形式返回。</span></span><br><span class="line">        List&lt;FileItem&gt; fileItems = servletFileUpload.parseRequest(request);</span><br><span class="line">        <span class="keyword">for</span> (FileItem fileItem : fileItems) &#123;</span><br><span class="line">            <span class="comment">// 是否普通表单</span></span><br><span class="line">            <span class="keyword">if</span> (fileItem.isFormField()) &#123;</span><br><span class="line">                <span class="comment">// 前端表单控件的name</span></span><br><span class="line">                <span class="type">String</span> <span class="variable">fieldName</span> <span class="operator">=</span> fileItem.getFieldName();</span><br><span class="line">                <span class="comment">// UTF-8 处理乱码</span></span><br><span class="line">                <span class="type">String</span> <span class="variable">value</span> <span class="operator">=</span> fileItem.getString(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">                System.out.println(fieldName + <span class="string">&quot;: &quot;</span> + value);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="type">String</span> <span class="variable">uploadFileName</span> <span class="operator">=</span> fileItem.getName();</span><br><span class="line">                <span class="comment">// 文件名可能不合法</span></span><br><span class="line">                <span class="keyword">if</span> (uploadFileName == <span class="literal">null</span> || uploadFileName.trim().equals(<span class="string">&quot;&quot;</span>)) &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 获得文件名</span></span><br><span class="line">                <span class="type">String</span> <span class="variable">fileName</span> <span class="operator">=</span> uploadFileName.substring(uploadFileName.lastIndexOf(<span class="string">&quot;/&quot;</span>) + <span class="number">1</span>);</span><br><span class="line">                System.out.println(<span class="string">&quot;文件信息【文件名：&quot;</span> + fileName + <span class="string">&quot;】&quot;</span>);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 使用UUID，保证文件名唯一。网络传输的东西，都需要序列化。</span></span><br><span class="line">                <span class="type">String</span> <span class="variable">uuidPath</span> <span class="operator">=</span> UUID.randomUUID().toString();</span><br><span class="line">                <span class="type">String</span> <span class="variable">realPath</span> <span class="operator">=</span> uploadPath + <span class="string">&quot;/&quot;</span> + uuidPath;</span><br><span class="line">                <span class="comment">// 给每个文件创建一个对应的文件夹</span></span><br><span class="line">                <span class="type">File</span> <span class="variable">realPathFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(realPath);</span><br><span class="line">                <span class="keyword">if</span> (!realPathFile.exists()) &#123;</span><br><span class="line">                    realPathFile.mkdir();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 获得文件上传的流</span></span><br><span class="line">                <span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> fileItem.getInputStream();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 创建一个文件输出流</span></span><br><span class="line">                <span class="type">FileOutputStream</span> <span class="variable">fileOutputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(realPath + <span class="string">&quot;/&quot;</span> + fileName);</span><br><span class="line">                <span class="comment">// 创建一个缓冲区</span></span><br><span class="line">                <span class="type">byte</span>[] buffer = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span> * <span class="number">1024</span>];</span><br><span class="line">                <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">while</span> ((len = inputStream.read(buffer)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                    fileOutputStream.write(buffer, <span class="number">0</span>, len);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 关闭流</span></span><br><span class="line">                fileOutputStream.close();</span><br><span class="line">                inputStream.close();</span><br><span class="line">                msg = <span class="string">&quot;文件上传成功&quot;</span>;</span><br><span class="line">                <span class="comment">// 清除临时文件</span></span><br><span class="line">                fileItem.delete();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> msg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取ServletFileUpload</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> diskFileItemFactory diskFileItemFactory</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> ServletFileUpload</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> ServletFileUpload <span class="title function_">getServletFileUpload</span><span class="params">(DiskFileItemFactory diskFileItemFactory)</span> &#123;</span><br><span class="line">        <span class="type">ServletFileUpload</span> <span class="variable">servletFileUpload</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServletFileUpload</span>(diskFileItemFactory);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 监听文件上传进度</span></span><br><span class="line">        servletFileUpload.setProgressListener(</span><br><span class="line">                (pBytesRead, pContentLength, pItems) -&gt;</span><br><span class="line">                        System.out.println(<span class="string">&quot;总大小：&quot;</span> + pContentLength + <span class="string">&quot; B，已上传：&quot;</span> + pBytesRead + <span class="string">&quot; B。&quot;</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 处理乱码问题</span></span><br><span class="line">        servletFileUpload.setHeaderEncoding(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">        <span class="comment">// 设置单个文件的最大值，10MB</span></span><br><span class="line">        servletFileUpload.setFileCountMax(<span class="number">1024</span> * <span class="number">1024</span> * <span class="number">10</span>);</span><br><span class="line">        <span class="comment">// 设置总共能上传文件的大小，10MB</span></span><br><span class="line">        servletFileUpload.setSizeMax(<span class="number">1024</span> * <span class="number">1024</span> * <span class="number">10</span>);</span><br><span class="line">        <span class="keyword">return</span> servletFileUpload;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建DiskFileItemFactory对象，处理文件上传 路径或大小限制</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> tmpUploadFile tmpUploadFile</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> DiskFileItemFactory</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> DiskFileItemFactory <span class="title function_">getDiskFileItemFactory</span><span class="params">(File tmpUploadFile)</span> &#123;</span><br><span class="line">        <span class="type">DiskFileItemFactory</span> <span class="variable">diskFileItemFactory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DiskFileItemFactory</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 通过这个工厂类，设置一个大小为1MB的缓冲区，当上传文件大于这个缓冲区时，放到临时文件中</span></span><br><span class="line">        diskFileItemFactory.setSizeThreshold(<span class="number">1024</span> * <span class="number">1024</span>);</span><br><span class="line">        diskFileItemFactory.setRepository(tmpUploadFile);</span><br><span class="line">        <span class="keyword">return</span> diskFileItemFactory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><p><code>java.net.DatagramPacket</code>：数据报包，包括目的地址和传递的数据</p>
+<p><code>java.net.DatagramSocket</code>：数据包套接字，通过<strong>send方法</strong>发送数据报包DatagramPacket对象</p>
+<hr>
+<h3 id="发送端"><a href="#发送端" class="headerlink" title="发送端"></a>发送端</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 建立一个socket</span></span><br><span class="line"><span class="type">DatagramSocket</span> <span class="variable">socket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DatagramSocket</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 建一个包</span></span><br><span class="line"><span class="type">String</span> <span class="variable">msg</span> <span class="operator">=</span> <span class="string">&quot;教练，我想打球&quot;</span>;</span><br><span class="line"><span class="type">InetAddress</span> <span class="variable">localhost</span> <span class="operator">=</span> InetAddress.getByName(<span class="string">&quot;localhost&quot;</span>);</span><br><span class="line"><span class="type">DatagramPacket</span> <span class="variable">packet</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DatagramPacket</span>(msg.getBytes(), <span class="number">0</span>, msg.getBytes().length, localhost, <span class="number">9090</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 发送包</span></span><br><span class="line">socket.send(packet);</span><br><span class="line"></span><br><span class="line">socket.close();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="接收端"><a href="#接收端" class="headerlink" title="接收端"></a>接收端</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 开放端口</span></span><br><span class="line"><span class="type">DatagramSocket</span> <span class="variable">socket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DatagramSocket</span>(<span class="number">9090</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 接收数据包</span></span><br><span class="line"><span class="type">byte</span>[] buffer = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];</span><br><span class="line"><span class="type">DatagramPacket</span> <span class="variable">packet</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DatagramPacket</span>(buffer, <span class="number">0</span>, buffer.length);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 接收包</span></span><br><span class="line">socket.receive(packet);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取发送端的相关信息</span></span><br><span class="line">System.out.println(packet.getAddress().getHostAddress());</span><br><span class="line">System.out.println(<span class="keyword">new</span> <span class="title class_">String</span>(packet.getData(), <span class="number">0</span>, packet.getLength())); <span class="comment">// 实际接收到的数据长度</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 关闭连接</span></span><br><span class="line">socket.close();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="互相聊天"><a href="#互相聊天" class="headerlink" title="互相聊天"></a>互相聊天</h3><p>实现了Runnable接口的接收类和发送类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TalkSend</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">DatagramSocket</span> <span class="variable">socket</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">BufferedReader</span> <span class="variable">reader</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> fromPort;</span><br><span class="line">    <span class="keyword">private</span> String toIp;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> toPort;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">TalkSend</span><span class="params">(<span class="type">int</span> fromPort, String toIp, <span class="type">int</span> toPort)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.fromPort = fromPort;</span><br><span class="line">        <span class="built_in">this</span>.toIp = toIp;</span><br><span class="line">        <span class="built_in">this</span>.toPort = toPort;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 1. 建立一个socket</span></span><br><span class="line">            socket = <span class="keyword">new</span> <span class="title class_">DatagramSocket</span>(<span class="built_in">this</span>.fromPort);</span><br><span class="line">            <span class="comment">// 控制台读取System.in</span></span><br><span class="line">            reader = <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(System.in));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SocketException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 2. 建一个包</span></span><br><span class="line">                <span class="type">byte</span>[] msg = reader.readLine().getBytes();</span><br><span class="line">                <span class="type">DatagramPacket</span> <span class="variable">packet</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DatagramPacket</span>(msg, <span class="number">0</span>, msg.length,</span><br><span class="line">                        <span class="keyword">new</span> <span class="title class_">InetSocketAddress</span>(<span class="built_in">this</span>.toIp, <span class="built_in">this</span>.toPort));</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 3. 发送包</span></span><br><span class="line">                socket.send(packet);</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">new</span> <span class="title class_">String</span>(msg).equals(<span class="string">&quot;bye&quot;</span>)) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 4. 关闭连接</span></span><br><span class="line">        socket.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TalkReceiver</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">DatagramSocket</span> <span class="variable">socket</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> port;</span><br><span class="line">    <span class="keyword">private</span> String msgFrom;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">TalkReceiver</span><span class="params">(<span class="type">int</span> port, String msgFrom)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.port = port;</span><br><span class="line">        <span class="built_in">this</span>.msgFrom = msgFrom;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 开放端口</span></span><br><span class="line">            socket = <span class="keyword">new</span> <span class="title class_">DatagramSocket</span>(<span class="built_in">this</span>.port);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SocketException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 接收数据包</span></span><br><span class="line">                <span class="type">byte</span>[] buffer = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];</span><br><span class="line">                <span class="type">DatagramPacket</span> <span class="variable">packet</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DatagramPacket</span>(buffer, <span class="number">0</span>, buffer.length);</span><br><span class="line">                socket.receive(packet);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 判断是否断开连接</span></span><br><span class="line">                <span class="type">String</span> <span class="variable">receiveData</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(packet.getData(), <span class="number">0</span>, packet.getLength());</span><br><span class="line">                System.out.println(msgFrom + <span class="string">&quot;: &quot;</span> + receiveData);</span><br><span class="line">                <span class="keyword">if</span> (receiveData.equals(<span class="string">&quot;bye&quot;</span>)) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="创建有发送和接收信息功能的对象"><a href="#创建有发送和接收信息功能的对象" class="headerlink" title="创建有发送和接收信息功能的对象"></a>创建有发送和接收信息功能的对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TalkTeacher</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 发送进程一个端口，接收进程一个端口；发送的目的端口和接收的端口要与聊天的对象对应起来</span></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">TalkSend</span>(<span class="number">5555</span>, <span class="string">&quot;localhost&quot;</span>, <span class="number">8888</span>)).start();</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">TalkReceiver</span>(<span class="number">9999</span>,<span class="string">&quot;student&quot;</span>)).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TalkStudent</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 开启两个线程，发送进程一个端口，接收进程一个端口；发送的目的端口和接收的端口要与聊天的对象对应起来</span></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">TalkSend</span>(<span class="number">7777</span>, <span class="string">&quot;localhost&quot;</span>, <span class="number">9999</span>)).start();</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">TalkReceiver</span>(<span class="number">8888</span>, <span class="string">&quot;teacher&quot;</span>)).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="SMTP与POP3协议"><a href="#SMTP与POP3协议" class="headerlink" title="SMTP与POP3协议"></a>SMTP与POP3协议</h2><ul>
+<li><p>SMTP </p>
+<p>  发送邮件。</p>
+</li>
+<li><p>POP3 </p>
+<p>  接收邮件。</p>
+</li>
+<li><p>MIME</p>
+<p>  附件。</p>
+</li>
+</ul>
+<hr>
+<h3 id="电子邮件"><a href="#电子邮件" class="headerlink" title="电子邮件"></a>电子邮件</h3><p>要在网络上实现邮件功能，必须有专门的<strong>邮件服务器</strong>。</p>
+<p>SMTP服务器地址一般是<code>smtp.xx.com</code>。</p>
+<p><img src="https://s2.loli.net/2023/04/22/3rWqkyUzcgYpR5S.png" alt="image-20230422174908282"></p>
+<hr>
+<h4 id="要发送邮件，需要获得协议和支持，开启服务POP3-x2F-SMTP"><a href="#要发送邮件，需要获得协议和支持，开启服务POP3-x2F-SMTP" class="headerlink" title="要发送邮件，需要获得协议和支持，开启服务POP3&#x2F;SMTP"></a>要发送邮件，需要获得协议和支持，开启服务POP3&#x2F;SMTP</h4><p>例如网易邮箱：</p>
+<p><img src="https://s2.loli.net/2023/04/22/AnFUNm9lQjso37R.png" alt="image-20230422224516310"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -3987,278 +4339,6 @@
 
 
 
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2021/03/14/IDEA%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/03/14/IDEA%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/" class="post-title-link" itemprop="url">IDEA使用技巧</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-03-14 22:42:44" itemprop="dateCreated datePublished" datetime="2021-03-14T22:42:44+08:00">2021-03-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-07-23 14:13:31" itemprop="dateModified" datetime="2024-07-23T14:13:31+08:00">2024-07-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java%E5%85%A8%E6%A0%88/IDE/" itemprop="url" rel="index"><span itemprop="name">IDE</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="日常使用"><a href="#日常使用" class="headerlink" title="日常使用"></a>日常使用</h2><ol>
-<li><p>快速输入<code>public static void main(String[] args)&#123;&#125;</code></p>
-<p><code>psvm</code> + tab即可</p>
-</li>
-<li><p>快速输入<code>System.out.println();</code></p>
-</li>
-</ol>
-<ul>
-<li><code>sout</code> + tab即可</li>
-<li>可以先输入任何想要输出的变量，再<code>.sout</code></li>
-</ul>
-<ol start="3">
-<li><p>想<strong>创建对象</strong>或使用一个<strong>能返回对象的方法</strong>时，直接写<code>new ClassName()</code>&#x2F;<code>ClassName.methodName(parameters)</code>，再<code>Alt + Enter</code>，即可自动产生对象名。</p>
-</li>
-<li><p>谷歌<code>IDEA优化</code>，进行相关操作</p>
-</li>
-<li><p>运行Java文件</p>
-</li>
-</ol>
-<ul>
-<li><strong>上次运行过</strong>的文件：Shift + F10</li>
-<li><strong>当前</strong>文件：Ctrl + Shift + F10</li>
-</ul>
-<ol start="6">
-<li><p><strong>反编译</strong></p>
-<ol>
-<li>工具栏 - Project Structure… - Project - Project compiler output，找到编译成字节码的class文件输出地址，在文件资源管理器中打开该地址；</li>
-<li>IDEA中，在中意的Package右键 - Show in Explore </li>
-<li>在文件资源管理器中，<strong>复制class文件到java文件所在的目录</strong>，之后再在IDEA中打开，<strong>即可查看反编译后的内容</strong>。</li>
-</ol>
-</li>
-<li><p>编写构造器</p>
-<p> Alt + insert  –&gt; Constructor</p>
-</li>
-<li><p>编写Getter和Setter方法</p>
-<p> Alt + insert  –&gt; Getter and Setter</p>
-</li>
-<li><p>方法的重载</p>
-<p> Alt + insert  –&gt; Override Methods…</p>
- <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建重载方法后，IDEA 会自动写一个注解(有功能的注释)</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">overrideMethod</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 方法体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>包裹选中的代码</strong></p>
-<p>Ctrl + Alt + T</p>
-</li>
-<li><p>自动清除无效import</p>
-<p>Settings -&gt; Editor -&gt; General -&gt; Auto Import -&gt; Java</p>
-<p>勾选<code>Optimize imports on the fly</code>。</p>
-<p><img src="https://s2.loli.net/2022/08/18/3FmoUBNnPJGzkTc.png" alt="image-20220818002554092"></p>
-</li>
-<li><p>在底部的Git标签页中，添加Local Changes标签页</p>
-<p>效果：</p>
-<p><img src="https://s2.loli.net/2022/12/14/ZzBeQisM6HN9lYp.png" alt="image-20221214231836532"></p>
-<p>操作：File - Settings - Version Control - Commit - <strong>取消勾选</strong>Use non-modal commit interfce</p>
-<img src="https://s2.loli.net/2022/12/14/lY5PNLcVWtRJQvU.png" alt="image-20221214231903047" style="zoom:80%;" />
-</li>
-<li><p>去掉import自动合并</p>
-</li>
-</ol>
-<p>​	<a target="_blank" rel="noopener" href="https://blog.csdn.net/mistytulip/article/details/103766872">IDEA java文件import去掉自动合并</a></p>
-<ol start="14">
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37751454/article/details/88541334">idea+tomcat实现热部署-修改java代码及时生效</a></li>
-</ol>
-<hr>
-<h2 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h2><p>设置快捷生成日志的提示：</p>
-<ol>
-<li>File - Settings - Editor - Live Templates - 加号 - Live Template</li>
-</ol>
-<p><img src="https://s2.loli.net/2023/09/17/1BxFcydvNzQneZf.png" alt="image-20230917005706530"></p>
-<ol start="2">
-<li><p>Abbreviation填写期望的快捷缩写，Template text填写期望的填充效果</p>
-<p><code>private static final Logger LOGGER = LoggerFactory.getLogger($CLASS_NAME$.class);</code></p>
-</li>
-<li><p>Edit Variables… - Expression选择<code>className()</code></p>
-</li>
-<li><p>左下角<code>Define</code>，设置生效的场景：<code>java: declaration</code></p>
-<img src="https://s2.loli.net/2023/09/17/pVGl8Xu3ACawOZL.png" alt="image-20230917012446212" style="zoom:80%;" /></li>
-</ol>
-<hr>
-<h2 id="文件和代码模板"><a href="#文件和代码模板" class="headerlink" title="文件和代码模板"></a>文件和代码模板</h2><h3 id="创建类时自动添加注释"><a href="#创建类时自动添加注释" class="headerlink" title="创建类时自动添加注释"></a>创建类时自动添加注释</h3><ul>
-<li>File - Settings - Editor - File and Code Tmplates</li>
-<li>Scheme: <code>Default</code></li>
-<li>Includes - File Header</li>
-</ul>
-<img src="https://s2.loli.net/2023/10/09/L4SKgVnwHfM7RQj.png" alt="image-20231009100131089" style="zoom:80%;" />
-
-<hr>
-<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><h3 id="断点"><a href="#断点" class="headerlink" title="断点"></a>断点</h3><p>IDEA中有4种基础断点：</p>
-<ol>
-<li><strong>行断点</strong></li>
-<li><strong>方法断点</strong></li>
-<li><strong>属性断点</strong></li>
-<li><strong>异常断点</strong></li>
-</ol>
-<p>以此4种断点为基础，衍生出了4种断点：</p>
-<ol>
-<li><p><strong>条件断点。</strong>右键断点，添加Condition。<strong>只有在满足条件时，断点才会阻断程序运行。</strong></p>
- <img src="https://s2.loli.net/2024/07/17/myB3TfJnUa4iZwj.png" alt="image-20240717110843181" style="zoom:80%;" />
-</li>
-<li><p><strong>源断点。</strong>可以在<strong>不阻断代码</strong>的情况下，在控制台上输出某些信息。</p>
-<p> <code>Shift</code>+鼠标左键 添加断点，勾选<code>&quot;Breakpoint hit&quot; message</code>和<code>Evaluate and log</code></p>
-<ul>
-<li><code>&quot;Breakpoint hit&quot; message</code>：在调试控制台中<strong>输出断点被出发的消息</strong>。默认消息为 “Breakpoint hit at &lt;文件名&gt;:&lt;行号&gt;”。</li>
-<li><code>Evaluate and log</code>：执行输入框中输入的表达式，并将结果输出到控制台。</li>
-</ul>
-<p> <img src="https://s2.loli.net/2024/07/17/pxmNtdA2egRX6SD.png" alt="image-20240717114900903"></p>
-</li>
-<li><p><strong>多线程断点</strong>。模拟线程的轮询执行。</p>
-<p> 右键断点，Suspend选择<code>Thread</code>。实际debug过程中，可以在<code>Debugger</code>的标签页看到不同的线程，通过切换线程进行Debug，就能模拟线程的轮询执行。</p>
- <img src="https://s2.loli.net/2024/07/17/uzNa8vZ7LqMjkFV.png" alt="image-20240717142624986" style="zoom:80%;" />
-</li>
-<li><p><strong>Stream断点。</strong>在Stream的代码行加上断点，就可以在运行到这行代码时，点击<code>Trace Current Stream Chain</code>，看到数据的流转情况。</p>
-<p> <img src="https://s2.loli.net/2024/07/17/5OWF97vfxKIuhqg.png" alt="image-20240717142837288"></p>
-</li>
-</ol>
-<hr>
-<h3 id="进入断点之后的调试技巧"><a href="#进入断点之后的调试技巧" class="headerlink" title="进入断点之后的调试技巧"></a>进入断点之后的调试技巧</h3><ol>
-<li><p><code>Step Over</code>：一行行往下执行，<strong>不会进入方法内部</strong>。</p>
- <img src="https://s2.loli.net/2024/07/17/pm35xOKgtUJlrnV.png" alt="Step Over" style="zoom:80%;" />
-</li>
-<li><p><code>Step Into</code>：进入方法内部。但是<strong>一些外部Jar包的方法会无法进入</strong>。如果想要进入外部Jar包方法，可以使用<code>Force Step Into</code></p>
- <img src="https://s2.loli.net/2024/07/17/n83GYrC7ojWbDHJ.png" alt="Step Into" style="zoom:80%;" />
-
- <img src="https://s2.loli.net/2024/07/17/OLzxPUIApHmuo3e.png" alt="Force Step Into" style="zoom:80%;" />
-</li>
-<li><p><code>Step Out</code>：跳转到调用方法处。</p>
-</li>
-<li><p><code>Run to Cursor</code>：跳转到鼠标光标所在位置。</p>
- <img src="https://s2.loli.net/2024/07/17/PdIeyuBhrSZDQ8K.png" alt="image-20240717144632995" style="zoom:80%;" /></li>
-</ol>
-<hr>
-<h3 id="回退重新执行方法-Reset-Frame"><a href="#回退重新执行方法-Reset-Frame" class="headerlink" title="回退重新执行方法 Reset Frame"></a>回退重新执行方法 <code>Reset Frame</code></h3><p>在调用栈中，点击希望回退的位置对应方法左侧的回退图标<code>Reset Frame</code>，就能实现回退。</p>
-<p><img src="https://s2.loli.net/2024/07/17/Ds1lcRIQN6ji7Uu.png" alt="image-20240717144332410"></p>
-<hr>
-<h3 id="跳转至下一个断点-Resume-Program"><a href="#跳转至下一个断点-Resume-Program" class="headerlink" title="跳转至下一个断点 Resume Program"></a>跳转至下一个断点 <code>Resume Program</code></h3><p>如果没有后续断点，就会将程序执行至结束。</p>
-<img src="https://s2.loli.net/2024/07/17/5nzkyJhKROS2jZd.png" alt="image-20240717144557317" style="zoom:80%;" />
-
-<hr>
-<h3 id="观察指定变量的变化情况-Watches"><a href="#观察指定变量的变化情况-Watches" class="headerlink" title="观察指定变量的变化情况 Watches"></a>观察指定变量的变化情况 <code>Watches</code></h3><p>Debug过程中，<strong>所有的变量都会被展示在Debugger栏中，如果只想要观察某几个特定的变量，不便于观察</strong>。</p>
-<p>勾选Debug标签页右侧<code>Layout Settings</code>下的<code>Separate Watches</code>选项。再添加一个想要监听的变量或表达式，就能只关注自己关心的变量信息。</p>
-<img src="https://s2.loli.net/2024/07/17/51ypjqJ9lnEOoCU.png" alt="image-20240717145055989" style="zoom:80%;" />
-
-<hr>
-<h3 id="手动修改变量的值"><a href="#手动修改变量的值" class="headerlink" title="手动修改变量的值"></a>手动修改变量的值</h3><p>通过<code>Evaluate Expression...</code>，<strong>就可以实现手动修改变量值，以快速进入某个代码逻辑中</strong>。</p>
-<img src="https://s2.loli.net/2024/07/17/3rFYSmOGMcTxXeg.png" alt="image-20240717145755575" style="zoom:80%;" />
-
-<hr>
-<h3 id="手动抛出异常，测试异常处理的代码逻辑"><a href="#手动抛出异常，测试异常处理的代码逻辑" class="headerlink" title="手动抛出异常，测试异常处理的代码逻辑"></a>手动抛出异常，测试异常处理的代码逻辑</h3><p>选择栈中方法后，右键选择<code>Throw Exception</code>：</p>
-<img src="https://s2.loli.net/2024/07/17/6Og5JTwcHpInMYt.png" alt="image-20240717150036571" style="zoom:80%;" />
-
-<p>例如构造一个空指针异常：</p>
-<img src="https://s2.loli.net/2024/07/17/R2oiJCEX6G8PhSa.png" alt="image-20240717150152071" style="zoom:80%;" />
-
-<hr>
-<h3 id="监控断点的开销"><a href="#监控断点的开销" class="headerlink" title="监控断点的开销"></a>监控断点的开销</h3><p>有时候打了断点会让项目执行很慢，尤其是一些复杂的条件断点。勾选<code>Overhead</code>，就能看到断点的执行次数和执行耗时。</p>
-<p><strong>如果发现断点耗时，可以去掉，节约资源。</strong></p>
-<img src="https://s2.loli.net/2024/07/17/a43YMTZnSuh1V56.png" alt="image-20240717150846260" style="zoom:80%;" />
-
-<hr>
-<h2 id="添加JVM启动参数"><a href="#添加JVM启动参数" class="headerlink" title="添加JVM启动参数"></a>添加JVM启动参数</h2><img src="https://s2.loli.net/2024/07/22/bl6B8tKdXoMefcr.png" alt="Edit Configurations..." style="zoom:80%;" />
-
-
-
-<img src="https://s2.loli.net/2024/07/22/85Dkq6YhjNAUx1r.png" alt="Modify options" style="zoom:80%;" />
-
-<img src="https://s2.loli.net/2024/07/22/trnBATwkCDUzGXL.png" alt="Add VM options" style="zoom:80%;" />
-
-<p><img src="https://s2.loli.net/2024/07/22/B3vPzZMTU7dmYpR.png" alt="添加JVM启动参数"></p>
-<ul>
-<li><p><code>-Xms</code>：堆内存最小值，例如<code>-Xms1m</code></p>
-</li>
-<li><p><code>-Xmx</code>：堆内存最大值，例如<code>-Xmx1m</code></p>
-</li>
-<li><p><code>-Xss</code>：指定线程栈的大小</p>
-<p>  通常不需要修改值，如果遇到栈溢出报错，可以适当增大；如果需要创建大量线程，可以适当减小。</p>
-</li>
-<li><p><code>-XX:+HeapDumpOnOutOfMemoryError</code>：发生OOM后，生成相应的dump文件</p>
-</li>
-<li><p><code>-XX:HeapDumpPath=[指定的存放路径]</code>：dump文件存放路径</p>
-</li>
-<li><p><code>-Xlog:gc*</code>：查看GC日志</p>
-</li>
-<li><p><code>-XX:MaxTenuringThreshold</code>：设置对象从Survivor区晋升到老年代的年龄阈值</p>
-</li>
-</ul>
 
       
     </div>

@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -344,6 +344,123 @@
             </div>
           <!--/noindex-->
         
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2024/07/28/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E6%9C%BA%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/07/28/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">数据库事务机制</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-07-28 12:18:50 / 修改时间：17:25:59" itemprop="dateCreated datePublished" datetime="2024-07-28T12:18:50+08:00">2024-07-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="ACID原则"><a href="#ACID原则" class="headerlink" title="ACID原则"></a>ACID原则</h2><p>事务机制遵循A<strong>C</strong>ID原则：</p>
+<ul>
+<li><code>Atomicity</code> 原子性：事务是一个原子操作，由一系列操作组成。事务的原子性确保<strong>所有操作要么完成，要么完全不起作用（完整性）</strong>。</li>
+<li><code>Consistency</code> 一致性：事务执行前后，系统必须确保它<strong>所建模的业务处于一致的状态</strong>。例如转账，无论事务是否成功，转账者和收款人的总额应该不变。</li>
+<li><code>Isolation</code> 隔离性：并发<strong>操作相同的数据</strong>时，<strong>各事务之间相互独立</strong>。（<strong>但难免会存在冲突</strong>）</li>
+<li><code>Durability</code> 持久性：一旦<strong>事务完成</strong>，它<strong>对数据的改变是持久的</strong>，即使数据库发生故障也不影响持久性。</li>
+</ul>
+<p><strong>只有保证了事务的持久性、原子性、隔离性之后，一致性才能得到保障（A、I、D是手段，C是目的）</strong>。</p>
+<hr>
+<h2 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h2><p>为了解决并发处理相同数据时，事务之间存在冲突的问题，事务有一套<strong>隔离机制</strong>，设置了<strong>隔离级别</strong>：</p>
+<ol>
+<li><p><code>READ_UNCOMMITTED</code> <strong>读未提交</strong></p>
+<p> 其他事务会读取当前事务<strong>尚未提交的更改</strong>（暂时缓存的内容）</p>
+</li>
+<li><p><code>READ_COMMITTED</code>  <strong>读已提交</strong></p>
+<p> 其他事务会读取当前事务已经提交的数据（直接读取数据库中已发生更改的内容）</p>
+</li>
+<li><p><code>REPEATABLE_READ</code> <strong>可重复读</strong></p>
+<p> 其他事务会读取当前事务已经提交的数据，并且其他事务执行过程中<strong>不允许再进行数据修改</strong>。</p>
+</li>
+<li><p><code>ISOLATION_SERIALIZABLE</code> 串行化</p>
+<p> 完全服从ACID原则，<strong>一个事务必须等待其他事务结束之后才能开始执行</strong>，效率很低。</p>
+</li>
+</ol>
+<hr>
+<h3 id="READ-UNCOMMITTED-读未提交"><a href="#READ-UNCOMMITTED-读未提交" class="headerlink" title="READ_UNCOMMITTED 读未提交"></a>READ_UNCOMMITTED 读未提交</h3><img src="https://s2.loli.net/2024/07/28/7wEZxlsRNXdWeVa.png" alt="image-20240728165009318" style="zoom:80%;" />
+
+<p>各个事务<strong>共享一个缓存区域</strong>，其他事务会读取当前事务<strong>尚未提交的更改</strong>（暂时缓存的内容），这样的更改是可以被回滚的。如图事务A读取的数据就是一个毫无意义的脏数据。这种现象之为<strong>脏读</strong>。</p>
+<hr>
+<h3 id="READ-COMMITTED-读已提交"><a href="#READ-COMMITTED-读已提交" class="headerlink" title="READ_COMMITTED 读已提交"></a>READ_COMMITTED 读已提交</h3><img src="https://s2.loli.net/2024/07/28/PeCRnxrMcyjD9v3.png" alt="image-20240728165158206" style="zoom:80%;" />
+
+<p>读已提交避免了脏读的问题，但是如果当前事务在<strong>其他事务2次读取相同数据之间，修改并提交了数据，会导致两次读取结果不一致</strong>。这种现象称为<strong>不可重复读</strong>。</p>
+<hr>
+<h3 id="READ-REPEATABLE-可重复读-默认"><a href="#READ-REPEATABLE-可重复读-默认" class="headerlink" title="READ_REPEATABLE 可重复读 (默认)"></a>READ_REPEATABLE 可重复读 (默认)</h3><p><img src="https://s2.loli.net/2024/07/28/qApIaotByvVGTs9.png" alt="image-20240728172233184"></p>
+<p>可重复读是MySQL的InnoDB存储引擎的<strong>默认隔离级别</strong>。它规定<strong>在其他事务执行时，当前事务不允许修改数据</strong>。</p>
+<p>这样可以有效避免不可重复读的问题，但是<strong>仍然不安全</strong>。仅仅是禁止了事务执行过程中的UPDATE操作，<strong>没有禁止INSERT操作</strong>。这样在同一个事务中，第一次和第二次查询<strong>同一个范围</strong>的数据，<strong>如果有其他事务插入了新的数据</strong>，就会导致<strong>返回的结果不一致</strong>。这种现象称为<strong>幻读</strong>。</p>
+<hr>
+<h3 id="ISOLATION-SERIALIZABLE-串行化"><a href="#ISOLATION-SERIALIZABLE-串行化" class="headerlink" title="ISOLATION_SERIALIZABLE 串行化"></a>ISOLATION_SERIALIZABLE 串行化</h3><p><strong>一个事务必须等待其他事务结束之后才能开始执行</strong>，效率很低。</p>
+<hr>
+
       
     </div>
 
@@ -1354,107 +1471,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/06/07/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2024/04/17/PriorityQueue%E4%B8%8EComparator/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/04/17/PriorityQueue%E4%B8%8EComparator/" class="post-title-link" itemprop="url">PriorityQueue与Comparator</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-04-17 16:54:36" itemprop="dateCreated datePublished" datetime="2024-04-17T16:54:36+08:00">2024-04-17</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-07-16 15:02:52" itemprop="dateModified" datetime="2024-07-16T15:02:52+08:00">2024-07-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%98%85%E8%AF%BB%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">阅读源码</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%98%85%E8%AF%BB%E6%BA%90%E7%A0%81/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="PriorityQueue的使用场景"><a href="#PriorityQueue的使用场景" class="headerlink" title="PriorityQueue的使用场景"></a>PriorityQueue的使用场景</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Queue&lt;Integer&gt; queue1 = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">Queue&lt;Integer&gt; queue2 = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;(Comparator.comparingInt(o -&gt; o));</span><br><span class="line"></span><br><span class="line">Queue&lt;Integer&gt; queue3 = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;(Comparator.comparingInt(o -&gt; -o));</span><br></pre></td></tr></table></figure>
-
-<p>Java中的PriorityQueue常用于实现小顶堆、大顶堆。由上述代码可见，通常有默认无参构造函数、传入Comparator对象等方式的实现。</p>
-<hr>
-<h1 id="困惑"><a href="#困惑" class="headerlink" title="困惑"></a>困惑</h1><p>从构造函数层面，<strong>完全不清楚默认构造函数的排序规则，也完全不明白Comparator实现的comparingInt方法对应的排序规则</strong>。</p>
-<p>根据网上绝大多数文章的描述，都没有解释或者只是说明了对应的排序规则，但是不知道为什么是对应升序或降序。通过阅读源码，才得到准确的认知。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/04/17/PriorityQueue%E4%B8%8EComparator/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
