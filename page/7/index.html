@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-count">89</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -159,7 +159,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">140</span>
+        <span class="site-state-item-count">144</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -176,6 +176,199 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2021/03/22/Java%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/22/Java%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" class="post-title-link" itemprop="url">Java流程控制</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-22 23:22:30" itemprop="dateCreated datePublished" datetime="2021-03-22T23:22:30+08:00">2021-03-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="用户交互Scanner"><a href="#用户交互Scanner" class="headerlink" title="用户交互Scanner"></a>用户交互Scanner</h2><p><code>java.util.Scanner</code>是<strong>Java5</strong>的特性。可以通过<strong>Scanner类</strong>来<strong>获取用户的输入</strong>。</p>
+<ul>
+<li><p>通过Scanner类的<code>next()</code>与<code>nextLine()</code>方法<strong>获取输入的字符串</strong>，在读取前我们一般需要使用<code>hasNext()</code>与<code>hasNextLine()</code><strong>判断是否还有输入的数据</strong>。</p>
+<ul>
+<li><p><code>next()</code></p>
+<ul>
+<li>一定要<strong>读取到有效字符后</strong>才会结束输入；</li>
+<li>对输入有效字符前遇到的<strong>空白</strong>，<code>next()</code>会将其<strong>自动去掉</strong>；</li>
+<li>只有输入有效字符后才将其<strong>后面输入的空白作为分隔符或结束符</strong>；</li>
+<li>&#x3D;&#x3D;<code>next()</code><strong>不能得到带有空格的字符串</strong>&#x3D;&#x3D;</li>
+</ul>
+</li>
+<li><p><code>nextLine()</code></p>
+<ul>
+<li>以<strong>Enter为结束符</strong></li>
+<li>可以获得空白</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Scanner</span> <span class="variable">s</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line"><span class="comment">// 判断用户有没有输入字符串</span></span><br><span class="line"><span class="keyword">if</span> (scanner.hasNext()) &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> scanner.next();</span><br><span class="line">    System.out.println(<span class="string">&quot;输出的内容为：&quot;</span> + str);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 凡是属于I/O流的类，如果不关闭会一直占用资源。用完就关掉。</span></span><br><span class="line">scanner.close();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>凡是属于I&#x2F;O流的类，如果不关闭会一直占用资源。</p>
+<p>  <strong>用完就关掉</strong>，<code>scanner.close()</code></p>
+</li>
+</ul>
+<hr>
+<h2 id="Switch选择结构"><a href="#Switch选择结构" class="headerlink" title="Switch选择结构"></a>Switch选择结构</h2><ul>
+<li>除了<code>if else</code>语句外，多选择结构还可以通过<code>switch case</code>语句实现</li>
+<li><strong>switch case</strong>语句判断一个<strong>变量</strong>与<strong>一系列值</strong>中的某一个值<strong>是否相等</strong>，每个值称为一个<strong>分支</strong>。</li>
+<li>switch 语句中的<strong>变量类型</strong>可以是<ul>
+<li>byte、short、int、char</li>
+<li><strong>JDK 7</strong>开始，switch支持<strong>String类型</strong></li>
+<li>case标签必须是<strong>字符串常量</strong>或<strong>字面量</strong></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (expression) &#123;</span><br><span class="line">    <span class="keyword">case</span> value:</span><br><span class="line">        <span class="comment">// 语句</span></span><br><span class="line">        <span class="keyword">break</span>; <span class="comment">// 可选，但最好写上</span></span><br><span class="line">    <span class="keyword">case</span> value:</span><br><span class="line">        <span class="comment">// 语句</span></span><br><span class="line">        <span class="keyword">break</span>; <span class="comment">// 可选，但最好写上</span></span><br><span class="line">    <span class="comment">// 可以有任意数量的case语句</span></span><br><span class="line">    <span class="keyword">default</span>: <span class="comment">// 可选，放最后</span></span><br><span class="line">        <span class="comment">// 语句 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>&#x3D;&#x3D;<strong>case穿透</strong>&#x3D;&#x3D;</p>
+<p>  如果<strong>分支中没有break</strong>，当变量<strong>成功匹配上一个分支后，之后的分支会顺序执行</strong>，直到语句结束或遇到break。</p>
+<p>  因此，规范写法：<strong>每个分支必须要有break</strong>。</p>
+</li>
+<li><p>default</p>
+<p>  变量值<strong>没能与其他分支匹配时，会执行default分支</strong>，</p>
+<p>  因此理论上<strong>应该放在最后</strong>。</p>
+</li>
+</ul>
+<hr>
+<h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><hr>
+<h3 id="do-while循环"><a href="#do-while循环" class="headerlink" title="do while循环"></a>do while循环</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">	<span class="comment">// 代码语句</span></span><br><span class="line">&#125; <span class="keyword">while</span> (布尔表达时);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>while 和 do while循环的区别</p>
+<p>  while先判断后执行，do while 先执行后判断</p>
+</li>
+<li><p>记住while之后要加**分号;**，当然，好的IDE都会相关有纠错提示</p>
+</li>
+</ul>
+<hr>
+<h2 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h2><hr>
+<ul>
+<li><p>for循环使一些循环结构变得更加简单；</p>
+</li>
+<li><p>for循环语句是<strong>支持迭代</strong>的一种通用结构，是<strong>最有效、最灵活</strong>的循环结构；</p>
+</li>
+<li><pre><code class="java">  for (初始化; 布尔表达式; 迭代) &#123;
+      // 代码语句
+  &#125;
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">## 增强for循环 foreach</span><br><span class="line"></span><br><span class="line">- **Java5** 引入了主要用于**数组或集合**的增强型for循环；</span><br><span class="line"></span><br><span class="line">- ```java</span><br><span class="line">	for (声明语句 : 表达式) &#123;</span><br><span class="line">	    // 代码语句</span><br><span class="line">	&#125;;</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>声明语句</p>
+<ul>
+<li>声明新的<strong>局部变量</strong>，该变量的<strong>类型必须和数组元素的类型匹配</strong>；</li>
+<li>其<strong>作用域限定在循环语句块</strong>，其值与此时数组元素的值相等；</li>
+</ul>
+</li>
+<li><p>表达式</p>
+<p>  表达式时要访问的<strong>数组名</strong>，或者是<strong>返回值为数组</strong>的方法；</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] numbers = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> x : numbers) &#123;</span><br><span class="line">    System.out.println(x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="break、continue、goto"><a href="#break、continue、goto" class="headerlink" title="break、continue、goto"></a>break、continue、goto</h2><h3 id="break"><a href="#break" class="headerlink" title="break"></a>break</h3><p>break用于<strong>强行退出</strong>循环，不执行剩余语句(break语句也在switch语句中使用)</p>
+<h3 id="continue"><a href="#continue" class="headerlink" title="continue"></a>continue</h3><p>continue语句用在循环语句体中，用于<strong>终止某次</strong>循环过程。即跳过循环体中尚未执行的语句，<strong>直接进行下一次是否执行循环的判定</strong>。</p>
+<h3 id="goto"><a href="#goto" class="headerlink" title="goto"></a>goto</h3><p>goto关键字很早就在程序设计语言中出现。尽管goto仍然是Java的一个保留字，但并未得到正式使用；<strong>Java没有goto</strong>。</p>
+<p>但在break和continue身上，我们能看出一些goto的影子——<strong>带标签</strong>的break和continue。</p>
+<ul>
+<li><p>标签是指<strong>后面跟一个冒号的标识符</strong>，如<code>label:</code></p>
+</li>
+<li><p>对Java来说，<strong>唯一用到标签</strong>的地方是在<strong>循环语句之前</strong>。</p>
+<p>  <strong>设置标签的唯一理由</strong>：我们希望在其中<strong>嵌套另一个循环</strong>，由于<strong>break和continue关键字通常只中断当前循环</strong>，但若随同标签使用，它们就会<strong>中断到存在标签的地方</strong>。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">outer: <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i&lt; <span class="number">9</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> （<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">2</span>; j &lt; i / <span class="number">2</span>; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i % j == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">continue</span> outer;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.print(i+<span class="string">&quot; &quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -221,7 +414,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-07-23 14:13:31" itemprop="dateModified" datetime="2024-07-23T14:13:31+08:00">2024-07-23</time>
+      <time title="修改时间：2024-07-29 14:35:37" itemprop="dateModified" datetime="2024-07-29T14:35:37+08:00">2024-07-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -307,7 +500,13 @@
 </ol>
 <p>​	<a target="_blank" rel="noopener" href="https://blog.csdn.net/mistytulip/article/details/103766872">IDEA java文件import去掉自动合并</a></p>
 <ol start="14">
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37751454/article/details/88541334">idea+tomcat实现热部署-修改java代码及时生效</a></li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37751454/article/details/88541334">idea+tomcat实现热部署-修改java代码及时生效</a></p>
+</li>
+<li><p><code>Endpoints</code>：查看web应用程序的请求映射</p>
+<p><code>view</code> - <code>Tool Windows</code> - <code>Endpoints</code></p>
+<img src="https://s2.loli.net/2024/07/29/H62LrA5ZcE1FMlu.png" alt="image-20240729143156072" style="zoom:80%;" />
+
+<img src="https://s2.loli.net/2024/07/29/vLOmajSuFynRNEP.png" alt="image-20240729143247150" style="zoom:80%;" /></li>
 </ol>
 <hr>
 <h2 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h2><p>设置快捷生成日志的提示：</p>
@@ -3027,162 +3226,6 @@
 <hr>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Partition_date, </span><br><span class="line">		(<span class="keyword">CASE</span></span><br><span class="line">			<span class="keyword">WHEN</span> DATEDIFF(t2.Partition_date, t1.Partition_date)<span class="operator">=</span><span class="number">1</span> <span class="keyword">THEN</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> t1.user_id) </span><br><span class="line">		<span class="keyword">END</span>) <span class="keyword">AS</span> <span class="string">&#x27;流失1天&#x27;</span>,</span><br><span class="line">		(<span class="keyword">CASE</span></span><br><span class="line">        	<span class="keyword">WHEN</span> DATEDIFF(t2.Partition_date, t1.Partition_date)<span class="operator">=</span><span class="number">2</span> <span class="keyword">THEN</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> t1.user_id) </span><br><span class="line">        <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="string">&#x27;流失2天&#x27;</span>,</span><br><span class="line">		(<span class="keyword">CASE</span></span><br><span class="line">        	<span class="keyword">WHEN</span> DATEDIFF(t2.Partition_date, t1.Partition_date)<span class="operator">=</span><span class="number">3</span> <span class="keyword">THEN</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> t1.user_id) </span><br><span class="line">        <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="string">&#x27;流失3天&#x27;</span>,</span><br><span class="line">		(<span class="keyword">CASE</span></span><br><span class="line">        	<span class="keyword">WHEN</span> DATEDIFF(t2.Partition_date, t1.Partition_date)<span class="operator">&gt;=</span><span class="number">30</span> <span class="keyword">THEN</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> t1.user_id) </span><br><span class="line">        <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="string">&#x27;流失30天以上&#x27;</span></span><br><span class="line"><span class="keyword">FROM</span> (<span class="keyword">SELECT</span> user_id, Partition_date</span><br><span class="line">      <span class="keyword">FROM</span> user_active</span><br><span class="line">      <span class="keyword">WHERE</span> daily_active_status_map<span class="operator">=</span><span class="number">1</span>) t1 <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> (<span class="keyword">SELECT</span> user_id, Partition_date</span><br><span class="line">                                                     <span class="keyword">FROM</span> usre_active</span><br><span class="line">                                                     <span class="keyword">WHERE</span> daily_active_status_map<span class="operator">=</span><span class="number">1</span>) t2</span><br><span class="line"><span class="keyword">ON</span> t1.user_id<span class="operator">=</span>t2.user_id</span><br><span class="line"><span class="keyword">WHERE</span> t2.user_id <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> Partition_date</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> Partition_date <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
 
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2020/06/16/MySQL%E6%8A%A5%E9%94%99%E7%9A%84%E5%88%86%E7%B1%BB%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/06/16/MySQL%E6%8A%A5%E9%94%99%E7%9A%84%E5%88%86%E7%B1%BB%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">MySQL报错的分类与解决方法</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-06-16 22:00:40" itemprop="dateCreated datePublished" datetime="2020-06-16T22:00:40+08:00">2020-06-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="无法插入中文字符"><a href="#无法插入中文字符" class="headerlink" title="无法插入中文字符"></a>无法插入中文字符</h2><ul>
-<li><p>报错内容：</p>
-<blockquote>
-<p>1366 - Incorrect string value: ‘\xE6\x9B\xBE\xE5\x8D\x8E’ for column ‘sname’ at row 1</p>
-</blockquote>
-</li>
-<li><p>原因</p>
-<p>MySQL默认配置：</p>
-<table>
-<thead>
-<tr>
-<th>variable_name</th>
-<th>value</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>character_set_database</td>
-<td><strong>latin1</strong></td>
-</tr>
-<tr>
-<td>character_set_server</td>
-<td><strong>latin1</strong></td>
-</tr>
-</tbody></table>
-<p>可通过<code>SHOW VARIABLES LIKE &#39;%char%&#39;;</code>查看。</p>
-</li>
-<li><p>解决方法</p>
-<ol>
-<li><p>修改<code>C:\ProgramData\MySQL\MySQL Server 5.7\my.ini</code>：</p>
-<ul>
-<li><p>找到<code>[mysql]</code></p>
-<p>在下方添加<code>default-character-set=utf8</code></p>
-</li>
-<li><p>找到<code>[mysqld]</code></p>
-<p>在下方添加<code>character-set-server=utf8</code></p>
-</li>
-<li><p>找到<code>[client]</code></p>
-<p>在下方添加<code>default-character-set=utf8</code></p>
-</li>
-</ul>
-</li>
-<li><p>重启MySQL，重新登录</p>
-<ul>
-<li><p><code>Win</code> + <code>R</code> - services.msc</p>
-</li>
-<li><p>找到<strong>MySQL</strong>57(57为版本号)，右键选择重新启动</p>
-</li>
-<li><p><code>Win</code> + <code>R</code> - cmd（或cmder）</p>
-<p>通过<code>mysql -u -root -p</code>命令并输入密码后访问数据库。</p>
-</li>
-<li><p>通过<code>SHOW VARIABLES LIKE &#39;%char%&#39;;</code>查看，字符集变为utf8即成功修改。</p>
-</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<hr>
-<h2 id="Navicat连接数据库报错"><a href="#Navicat连接数据库报错" class="headerlink" title="Navicat连接数据库报错"></a>Navicat连接数据库报错</h2><ul>
-<li><p>报错内容：</p>
-<blockquote>
-<p>2059 - Authentication plugin ‘caching_sha2_password’ cannot be loaded</p>
-</blockquote>
-</li>
-<li><p>原因：</p>
-<p>  MySQL<strong>8之前</strong>的版本中加密规则为<strong>mysql_native_password</strong>，而在MySQL<strong>8以后</strong>的加密规则为<strong>caching_sha2_password</strong>。</p>
-</li>
-<li><p>解决方法：</p>
-<p>  在命令行中<strong>登录MySQL后</strong>，使用命令行：</p>
-<p>  <code>ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED WITH mysql_native_password BY &#39;password&#39;;</code></p>
-</li>
-</ul>
 
       
     </div>

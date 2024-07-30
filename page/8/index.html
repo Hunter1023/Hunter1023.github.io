@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-count">89</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -159,7 +159,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">140</span>
+        <span class="site-state-item-count">144</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -176,6 +176,162 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2020/06/16/MySQL%E6%8A%A5%E9%94%99%E7%9A%84%E5%88%86%E7%B1%BB%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/06/16/MySQL%E6%8A%A5%E9%94%99%E7%9A%84%E5%88%86%E7%B1%BB%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">MySQL报错的分类与解决方法</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-16 22:00:40" itemprop="dateCreated datePublished" datetime="2020-06-16T22:00:40+08:00">2020-06-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="无法插入中文字符"><a href="#无法插入中文字符" class="headerlink" title="无法插入中文字符"></a>无法插入中文字符</h2><ul>
+<li><p>报错内容：</p>
+<blockquote>
+<p>1366 - Incorrect string value: ‘\xE6\x9B\xBE\xE5\x8D\x8E’ for column ‘sname’ at row 1</p>
+</blockquote>
+</li>
+<li><p>原因</p>
+<p>MySQL默认配置：</p>
+<table>
+<thead>
+<tr>
+<th>variable_name</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>character_set_database</td>
+<td><strong>latin1</strong></td>
+</tr>
+<tr>
+<td>character_set_server</td>
+<td><strong>latin1</strong></td>
+</tr>
+</tbody></table>
+<p>可通过<code>SHOW VARIABLES LIKE &#39;%char%&#39;;</code>查看。</p>
+</li>
+<li><p>解决方法</p>
+<ol>
+<li><p>修改<code>C:\ProgramData\MySQL\MySQL Server 5.7\my.ini</code>：</p>
+<ul>
+<li><p>找到<code>[mysql]</code></p>
+<p>在下方添加<code>default-character-set=utf8</code></p>
+</li>
+<li><p>找到<code>[mysqld]</code></p>
+<p>在下方添加<code>character-set-server=utf8</code></p>
+</li>
+<li><p>找到<code>[client]</code></p>
+<p>在下方添加<code>default-character-set=utf8</code></p>
+</li>
+</ul>
+</li>
+<li><p>重启MySQL，重新登录</p>
+<ul>
+<li><p><code>Win</code> + <code>R</code> - services.msc</p>
+</li>
+<li><p>找到<strong>MySQL</strong>57(57为版本号)，右键选择重新启动</p>
+</li>
+<li><p><code>Win</code> + <code>R</code> - cmd（或cmder）</p>
+<p>通过<code>mysql -u -root -p</code>命令并输入密码后访问数据库。</p>
+</li>
+<li><p>通过<code>SHOW VARIABLES LIKE &#39;%char%&#39;;</code>查看，字符集变为utf8即成功修改。</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="Navicat连接数据库报错"><a href="#Navicat连接数据库报错" class="headerlink" title="Navicat连接数据库报错"></a>Navicat连接数据库报错</h2><ul>
+<li><p>报错内容：</p>
+<blockquote>
+<p>2059 - Authentication plugin ‘caching_sha2_password’ cannot be loaded</p>
+</blockquote>
+</li>
+<li><p>原因：</p>
+<p>  MySQL<strong>8之前</strong>的版本中加密规则为<strong>mysql_native_password</strong>，而在MySQL<strong>8以后</strong>的加密规则为<strong>caching_sha2_password</strong>。</p>
+</li>
+<li><p>解决方法：</p>
+<p>  在命令行中<strong>登录MySQL后</strong>，使用命令行：</p>
+<p>  <code>ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED WITH mysql_native_password BY &#39;password&#39;;</code></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -5324,116 +5480,6 @@
 <p><code>sudo apt-get install tree</code></p>
 </li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2019/04/16/Cmder/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hunter">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talk is cheap">
-      <meta itemprop="description" content="Tough times never last, but tough people do.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Talk is cheap">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/04/16/Cmder/" class="post-title-link" itemprop="url">Cmder</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2019-04-16 17:38:25" itemprop="dateCreated datePublished" datetime="2019-04-16T17:38:25+08:00">2019-04-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8E%E8%BD%AF%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">操作系统与软件</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>官网下载Cmder（压缩包，解压即用），有两种不同的版本可供选择：</p>
-<ul>
-<li>Mini</li>
-<li>Full（附带msysgit工具）</li>
-</ul>
-<p>可根据设备是否已安装git自行选择</p>
-<hr>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="添加系统环境变量"><a href="#添加系统环境变量" class="headerlink" title="添加系统环境变量"></a>添加系统环境变量</h3><p>我的电脑 - 右键属性 - 高级系统设置 - 环境变量 - 系统变量，在<code>Path</code>中添加Cmder路径</p>
-<p><img src="https://i.loli.net/2019/04/16/5cb5a739330de.png"></p>
-<hr>
-<h3 id="添加Cmder到右键菜单"><a href="#添加Cmder到右键菜单" class="headerlink" title="添加Cmder到右键菜单"></a>添加Cmder到右键菜单</h3><ol>
-<li><code>Win + R</code> - 输入<code>Cmder</code>，确认，打开Cmder</li>
-<li>点击右下方的<code>Create new console</code></li>
-<li>Startup command or {Task} name - {bash::bash}</li>
-<li>Run as administrator</li>
-<li>Start，即打开一个管理员权限的控制台 <img src="https://i.loli.net/2019/04/17/5cb6b470b7f0f.png"></li>
-<li>输入 <code>Cmder.exe /REGISTER ALL</code>，回车。即可在每个文件夹中鼠标右键右键 - <code>Cmder here</code>，打开Cmder</li>
-</ol>
-<hr>
-<h2 id="默认开启设置"><a href="#默认开启设置" class="headerlink" title="默认开启设置"></a>默认开启设置</h2><p>Cmder窗口右下角右键<code>Show system menu</code> - General - Choose your startup task or even a shell with arguments: - {bash::bash} - Save settings</p>
-<p><img src="https://i.loli.net/2019/04/17/5cb6bbe028a30.png"></p>
-<hr>
-<h2 id="关闭Tab不提示"><a href="#关闭Tab不提示" class="headerlink" title="关闭Tab不提示"></a>关闭Tab不提示</h2><p>Cmder窗口右下角右键<code>Show system menu</code> - General - Confirm - Close confirmations下的复选框全不勾选 - Save settings</p>
-<p><img src="https://i.loli.net/2019/04/17/5cb6bd25b23b6.png"></p>
-<hr>
-<p>参考：<a target="_blank" rel="noopener" href="http://weikeqin.cn/2017/04/28/cmder-notes/">Cmder 使用 笔记</a></p>
 
       
     </div>

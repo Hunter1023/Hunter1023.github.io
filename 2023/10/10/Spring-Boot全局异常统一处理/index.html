@@ -22,7 +22,7 @@
     <meta name="description" content="背景以往的 Java Web 开发中，异常处理通常是通过 try-catch 语句块来实现。这种方法在应用程序规模较小的情况下还可以，但是在大型应用中，可能存在大量的代码重复和不一致问题。此外，在抛出未处理的异常时，用户会看到系统生成的默认错误页面，用户体验差。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring Boot全局异常统一处理">
-<meta property="og:url" content="https://hunter1023.github.io/2023/10/10/Springboot%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/index.html">
+<meta property="og:url" content="https://hunter1023.github.io/2023/10/10/Spring-Boot%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/index.html">
 <meta property="og:site_name" content="Talk is cheap">
 <meta property="og:description" content="背景以往的 Java Web 开发中，异常处理通常是通过 try-catch 语句块来实现。这种方法在应用程序规模较小的情况下还可以，但是在大型应用中，可能存在大量的代码重复和不一致问题。此外，在抛出未处理的异常时，用户会看到系统生成的默认错误页面，用户体验差。">
 <meta property="og:locale" content="zh_CN">
@@ -37,11 +37,11 @@
 <meta name="twitter:image" content="https://s2.loli.net/2024/07/04/JxjgbAYXVBo7Rwu.png">
 
 
-<link rel="canonical" href="https://hunter1023.github.io/2023/10/10/Springboot%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/">
+<link rel="canonical" href="https://hunter1023.github.io/2023/10/10/Spring-Boot%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2023/10/10/Springboot%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/","path":"2023/10/10/Springboot全局异常统一处理/","title":"Spring Boot全局异常统一处理"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2023/10/10/Spring-Boot%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/","path":"2023/10/10/Spring-Boot全局异常统一处理/","title":"Spring Boot全局异常统一处理"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Spring Boot全局异常统一处理 | Talk is cheap</title>
@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-count">89</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -167,7 +167,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">140</span>
+        <span class="site-state-item-count">144</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -194,7 +194,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/10/10/Springboot%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/10/10/Spring-Boot%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
