@@ -58,6 +58,15 @@
 <meta property="og:image" content="https://s2.loli.net/2024/07/18/cwJR5T4LPvoAfqr.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/18/F4dG5tijZgr3IOQ.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/18/TkSZ8AjUv39QcyI.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/19/v9j8efyHBJkMnx5.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/19/2NWeIDOTld5kqnw.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/19/MBiYtpULHrgeTCO.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/19/eWOiAQK483uq9LP.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/01/4B97xlWY6eUbmRS.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/01/qT4uc5Ih8Ri3Jjz.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/01/iUhegfCIynQuHGa.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/18/F4dG5tijZgr3IOQ.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/18/TkSZ8AjUv39QcyI.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/19/JQbuLg9Il7ZFspW.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/19/Rg9he4JbDwWS1YG.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/19/oSdw1e2FIzDfMcq.png">
@@ -66,7 +75,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/07/19/MBiYtpULHrgeTCO.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/19/eWOiAQK483uq9LP.png">
 <meta property="article:published_time" content="2023-06-10T13:40:01.000Z">
-<meta property="article:modified_time" content="2024-07-20T15:16:41.819Z">
+<meta property="article:modified_time" content="2024-08-01T09:05:16.697Z">
 <meta property="article:author" content="Hunter">
 <meta property="article:tag" content="Docker">
 <meta name="twitter:card" content="summary">
@@ -179,7 +188,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">Docker安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%95%9C%E5%83%8F-image"><span class="nav-number">2.</span> <span class="nav-text">镜像 image</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="nav-number">2.1.</span> <span class="nav-text">构建镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8commit%E5%91%BD%E4%BB%A4%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="nav-number">2.1.1.</span> <span class="nav-text">使用commit命令构建镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Dockerfile%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="nav-number">2.1.2.</span> <span class="nav-text">使用Dockerfile构建镜像</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E9%95%9C%E5%83%8F%E5%88%B0%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="nav-number">2.2.</span> <span class="nav-text">发布镜像到远程仓库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8-container"><span class="nav-number">3.</span> <span class="nav-text">容器 container</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86"><span class="nav-number">3.1.</span> <span class="nav-text">容器网络管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#none-%E7%BD%91%E7%BB%9C"><span class="nav-number">3.1.1.</span> <span class="nav-text">none 网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bridge-%E7%BD%91%E7%BB%9C"><span class="nav-number">3.1.2.</span> <span class="nav-text">bridge 网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#host-%E7%BD%91%E7%BB%9C"><span class="nav-number">3.1.3.</span> <span class="nav-text">host 网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C"><span class="nav-number">3.1.4.</span> <span class="nav-text">用户自定义网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E9%97%B4%E7%BD%91%E7%BB%9C"><span class="nav-number">3.1.5.</span> <span class="nav-text">容器间网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E5%A4%96%E9%83%A8%E7%BD%91%E7%BB%9C"><span class="nav-number">3.1.6.</span> <span class="nav-text">容器外部网络</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86"><span class="nav-number">3.2.</span> <span class="nav-text">容器存储管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E6%8C%81%E4%B9%85%E5%8C%96%E5%AD%98%E5%82%A8"><span class="nav-number">3.2.1.</span> <span class="nav-text">容器持久化存储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E6%95%B0%E6%8D%AE%E5%85%B1%E4%BA%AB"><span class="nav-number">3.2.2.</span> <span class="nav-text">容器数据共享</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86"><span class="nav-number">3.3.</span> <span class="nav-text">容器资源管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E5%91%BD%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text">Docker 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E5%90%84%E5%AE%B9%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">运行各容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Debian"><span class="nav-number">5.1.</span> <span class="nav-text">Debian</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZooKeeper"><span class="nav-number">5.2.</span> <span class="nav-text">ZooKeeper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL"><span class="nav-number">5.3.</span> <span class="nav-text">MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis"><span class="nav-number">5.4.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RabbitMQ"><span class="nav-number">5.5.</span> <span class="nav-text">RabbitMQ</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8IDEA%E6%9E%84%E5%BB%BASpring-Boot%E7%A8%8B%E5%BA%8F%E9%95%9C%E5%83%8F"><span class="nav-number">6.</span> <span class="nav-text">使用IDEA构建Spring Boot程序镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-Compose-%E8%BF%9B%E8%A1%8C%E5%8D%95%E6%9C%BA%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92"><span class="nav-number">7.</span> <span class="nav-text">Docker-Compose 进行单机容器编排</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">8.</span> <span class="nav-text">问题</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">Docker安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%95%9C%E5%83%8F-image"><span class="nav-number">2.</span> <span class="nav-text">镜像 image</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="nav-number">2.1.</span> <span class="nav-text">构建镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8commit%E5%91%BD%E4%BB%A4%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="nav-number">2.1.1.</span> <span class="nav-text">使用commit命令构建镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Dockerfile%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="nav-number">2.1.2.</span> <span class="nav-text">使用Dockerfile构建镜像</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E9%95%9C%E5%83%8F%E5%88%B0%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="nav-number">2.2.</span> <span class="nav-text">发布镜像到远程仓库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8-container"><span class="nav-number">3.</span> <span class="nav-text">容器 container</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86"><span class="nav-number">3.1.</span> <span class="nav-text">容器网络管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#none-%E7%BD%91%E7%BB%9C"><span class="nav-number">3.1.1.</span> <span class="nav-text">none 网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bridge-%E7%BD%91%E7%BB%9C"><span class="nav-number">3.1.2.</span> <span class="nav-text">bridge 网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#host-%E7%BD%91%E7%BB%9C"><span class="nav-number">3.1.3.</span> <span class="nav-text">host 网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C"><span class="nav-number">3.1.4.</span> <span class="nav-text">用户自定义网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E9%97%B4%E7%BD%91%E7%BB%9C"><span class="nav-number">3.1.5.</span> <span class="nav-text">容器间网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E5%A4%96%E9%83%A8%E7%BD%91%E7%BB%9C"><span class="nav-number">3.1.6.</span> <span class="nav-text">容器外部网络</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86"><span class="nav-number">3.2.</span> <span class="nav-text">容器存储管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E6%8C%81%E4%B9%85%E5%8C%96%E5%AD%98%E5%82%A8"><span class="nav-number">3.2.1.</span> <span class="nav-text">容器持久化存储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E6%95%B0%E6%8D%AE%E5%85%B1%E4%BA%AB"><span class="nav-number">3.2.2.</span> <span class="nav-text">容器数据共享</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86"><span class="nav-number">3.3.</span> <span class="nav-text">容器资源管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E5%91%BD%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text">Docker 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E5%90%84%E5%AE%B9%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">运行各容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Debian"><span class="nav-number">5.1.</span> <span class="nav-text">Debian</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZooKeeper"><span class="nav-number">5.2.</span> <span class="nav-text">ZooKeeper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL"><span class="nav-number">5.3.</span> <span class="nav-text">MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis"><span class="nav-number">5.4.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RabbitMQ"><span class="nav-number">5.5.</span> <span class="nav-text">RabbitMQ</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8IDEA%E6%9E%84%E5%BB%BASpring-Boot%E7%A8%8B%E5%BA%8F%E9%95%9C%E5%83%8F"><span class="nav-number">6.</span> <span class="nav-text">使用IDEA构建Spring Boot程序镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-Compose-%E8%BF%9B%E8%A1%8C%E5%8D%95%E6%9C%BA%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92"><span class="nav-number">7.</span> <span class="nav-text">Docker-Compose 进行单机容器编排</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E6%8E%92-SpringMVC-%E9%A1%B9%E7%9B%AE"><span class="nav-number">7.1.</span> <span class="nav-text">编排 SpringMVC 项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E6%8E%92-Spring-Boot-%E9%A1%B9%E7%9B%AE"><span class="nav-number">7.2.</span> <span class="nav-text">编排 Spring Boot 项目</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">8.</span> <span class="nav-text">问题</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -192,7 +201,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">89</span>
+          <span class="site-state-item-count">90</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -203,7 +212,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">144</span>
+        <span class="site-state-item-count">153</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -266,7 +275,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-07-20 23:16:41" itemprop="dateModified" datetime="2024-07-20T23:16:41+08:00">2024-07-20</time>
+      <time title="修改时间：2024-08-01 17:05:16" itemprop="dateModified" datetime="2024-08-01T17:05:16+08:00">2024-08-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -659,7 +668,57 @@
 
 <hr>
 <h2 id="Docker-Compose-进行单机容器编排"><a href="#Docker-Compose-进行单机容器编排" class="headerlink" title="Docker-Compose 进行单机容器编排"></a>Docker-Compose 进行单机容器编排</h2><p>比如现在我们要<strong>在一台主机上部署很多种类型的服务</strong>，包括数据库、消息队列、SpringBoot应用程序若干，或是想要搭建一个MySQL集群，这时我们就需要创建多个容器来完成来。但是我们希望<strong>能够实现一键部署</strong>，就可以<strong>使用Docker-Compose对容器进行编排</strong>。</p>
-<p>以部署SpringBoot项目为例，希望部署SpringBoot项目的同时，部署一个MySQL服务器，一个Redis服务器。</p>
+<hr>
+<h3 id="编排-SpringMVC-项目"><a href="#编排-SpringMVC-项目" class="headerlink" title="编排 SpringMVC 项目"></a>编排 SpringMVC 项目</h3><p>以使用Tomcat部署SpringMVC项目为例，SpringMVC项目默认打成War包，希望部署SpringMVC项目的同时，部署一个MySQL服务器，并且配置远程Debug。</p>
+<ol>
+<li>查看是否已安装Docker-Compose</li>
+</ol>
+  <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose version</span><br></pre></td></tr></table></figure>
+
+  <img src="https://s2.loli.net/2024/07/18/F4dG5tijZgr3IOQ.png" alt="image-20240718220544555" style="zoom:80%;" />
+
+
+<ol start="2">
+<li>在IDEA中配置Docker-Compose：</li>
+</ol>
+<p>  <img src="https://s2.loli.net/2024/07/18/TkSZ8AjUv39QcyI.png" alt="image-20240718221047907"></p>
+<ol start="3">
+<li>在IDEA中编写<code>compose.yaml</code>文件</li>
+</ol>
+<p>  <strong>war包的包名会被Tomcat默认作为所部署应用的基础URL</strong>，形如<code>http://localhost:8080/springmvc_demo-1.0-SNAPSHOT</code>。如果想变更包名，可以在<code>pom.xml</code>文件中更改：</p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--自定义打包文件名--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">finalName</span>&gt;</span>springmvc_demo<span class="tag">&lt;/<span class="name">finalName</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">            ...</span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>  <code>compose.yaml</code>文件如下：</p>
+  <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">    <span class="attr">springmvc:</span> <span class="comment"># 自定义的服务名称</span></span><br><span class="line">      <span class="attr">container_name:</span> <span class="string">app_springmvc_demo</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">tomcat:10.1.26-jdk17</span> <span class="comment"># 已经打包好JDK环境的tomcat镜像</span></span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;8080:8080&quot;</span> <span class="comment"># 提供正常访问的接口</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;5005:5005&quot;</span> <span class="comment"># 提供调试的接口</span></span><br><span class="line">      <span class="attr">volumes:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;./target:/usr/local/tomcat/webapps&quot;</span> <span class="comment"># 挂载需要部署的war包所在目录</span></span><br><span class="line">      <span class="attr">environment:</span></span><br><span class="line">        <span class="comment"># tomcat开启远程调试，不同的Jdk版本对应的参数格式不同（如下是JDK9及以上的格式）</span></span><br><span class="line">        <span class="attr">JAVA_OPTS:</span> <span class="string">&quot;-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005&quot;</span></span><br><span class="line"></span><br><span class="line">      <span class="attr">depends_on:</span></span><br><span class="line">        <span class="attr">mysql:</span></span><br><span class="line">          <span class="attr">condition:</span> <span class="string">service_healthy</span> <span class="comment"># mysql服务稳定后再创建项目容器</span></span><br><span class="line">    <span class="attr">mysql:</span></span><br><span class="line">      <span class="attr">container_name:</span> <span class="string">app_mysql</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">mysql/mysql-server:8.0.32</span> <span class="comment"># 表示使用对应的镜像，自动从仓库下载，然后启动容器</span></span><br><span class="line">      <span class="attr">environment:</span></span><br><span class="line">        <span class="attr">MYSQL_ROOT_HOST:</span> <span class="string">&#x27;%&#x27;</span> <span class="comment"># 登录的主机</span></span><br><span class="line">        <span class="attr">MYSQL_ROOT_PASSWORD:</span> <span class="string">&#x27;123456.root&#x27;</span> <span class="comment"># root账号的密码</span></span><br><span class="line">        <span class="attr">MYSQL_DATABASE:</span> <span class="string">&#x27;demo&#x27;</span> <span class="comment"># 启动时创建的数据库</span></span><br><span class="line">        <span class="attr">TZ:</span> <span class="string">&#x27;Asia/Shanghai&#x27;</span> <span class="comment"># 时区</span></span><br><span class="line">      <span class="attr">volumes:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">./src/main/resources/sql:/docker-entrypoint-initdb.d</span> <span class="comment"># 挂载需要执行的sql脚本所在目录</span></span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;3306:3306&quot;</span> <span class="comment"># 对外访问的端口</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>点击<code>compose.yaml</code>文件右上角的<code>Synchronize with the Services tool window</code>按钮</li>
+</ol>
+  <img src="https://s2.loli.net/2024/07/19/v9j8efyHBJkMnx5.png" alt="image-20240719155132066" style="zoom:80%;" />
+
+<p>  就可以在Services标签页查看。</p>
+<ol start="5">
+<li>执行<code>docker-compose up</code>或在Service标签页中，选择Compose进行deploy。</li>
+</ol>
+<p>  <img src="https://s2.loli.net/2024/07/19/2NWeIDOTld5kqnw.png" alt="image-20240719155518391"></p>
+  <img src="https://s2.loli.net/2024/07/19/MBiYtpULHrgeTCO.png" alt="image-20240719160238173" style="zoom:80%;" />
+
+<ol start="6">
+<li>查看部署情况，容器全部正在运行，并且会自动为这些容器创建一个bridge网络用于互通。</li>
+</ol>
+  <img src="https://s2.loli.net/2024/07/19/eWOiAQK483uq9LP.png" alt="image-20240719160819653" style="zoom:80%;" />
+
+<ol start="7">
+<li><strong>远程调试项目</strong>。</li>
+</ol>
+<p>  创建一个<code>Remote JVM Debug</code>配置。</p>
+  <img src="https://s2.loli.net/2024/08/01/4B97xlWY6eUbmRS.png" alt="image-20240801165511142" style="zoom:80%;" />
+
+<p>  一般来说，Java项目的调试端口都选择5005。确定好调试的<code>Host</code>和<code>port</code>，<strong>与<code>compose.yaml</code>中的配置保持一致</strong>。其实可以看到，填写<code>Host</code>和<code>Port</code>，下面的<code>Command line arguments for remote JVM</code>中会生成相应的命令行参数，其实是和<code>compose.yaml</code>中的配置一致的。</p>
+<p>  <img src="https://s2.loli.net/2024/08/01/qT4uc5Ih8Ri3Jjz.png" alt="image-20240801165703160"></p>
+<p>  配置无误的话，开启Debug时，Debug标签页会显示如下内容：</p>
+<p>  <img src="https://s2.loli.net/2024/08/01/iUhegfCIynQuHGa.png" alt="image-20240801170315686"></p>
+<hr>
+<h3 id="编排-Spring-Boot-项目"><a href="#编排-Spring-Boot-项目" class="headerlink" title="编排 Spring Boot 项目"></a>编排 Spring Boot 项目</h3><p>以部署SpringBoot项目为例，希望部署SpringBoot项目的同时，部署一个MySQL服务器，一个Redis服务器。</p>
 <ol>
 <li>查看是否已安装Docker-Compose</li>
 </ol>

@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">89</span>
+          <span class="site-state-item-count">90</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -159,7 +159,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">144</span>
+        <span class="site-state-item-count">153</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -176,6 +176,232 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2020/01/17/%E5%90%AF%E5%8A%A8U%E7%9B%98%E5%AE%89%E8%A3%85Ubuntu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/01/17/%E5%90%AF%E5%8A%A8U%E7%9B%98%E5%AE%89%E8%A3%85Ubuntu/" class="post-title-link" itemprop="url">启动U盘安装Ubuntu(单系统)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-17 20:40:24" itemprop="dateCreated datePublished" datetime="2020-01-17T20:40:24+08:00">2020-01-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-08-30 02:03:01" itemprop="dateModified" datetime="2023-08-30T02:03:01+08:00">2023-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8E%E8%BD%AF%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">操作系统与软件</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>由于<strong>PE方式只适用于安装windows</strong>，因此选择常规的<strong>制作启动U盘</strong>进行Ubuntu的安装。</p>
+<h3 id="操作系统镜像下载（桌面版，文件名后缀-iso-torrent）"><a href="#操作系统镜像下载（桌面版，文件名后缀-iso-torrent）" class="headerlink" title="操作系统镜像下载（桌面版，文件名后缀 .iso.torrent）"></a>操作系统镜像下载（桌面版，文件名后缀 .iso.torrent）</h3><ul>
+<li>方式一：<a target="_blank" rel="noopener" href="https://ubuntu.com/#download">Ubuntu官网直接下载镜像</a></li>
+<li>方式二：<a target="_blank" rel="noopener" href="http://releases.ubuntu.com/18.04/">Ubuntu官网下载镜像种子</a> + 迅雷下载镜像 （速度快，<strong>推荐</strong>）</li>
+</ul>
+<h3 id="3G及以上空间的U盘-x2F-移动硬盘-用于装载系统镜像"><a href="#3G及以上空间的U盘-x2F-移动硬盘-用于装载系统镜像" class="headerlink" title="3G及以上空间的U盘&#x2F;移动硬盘(用于装载系统镜像)"></a><strong>3G及以上空间</strong>的U盘&#x2F;移动硬盘(用于装载系统镜像)</h3><h3 id="制作启动U盘"><a href="#制作启动U盘" class="headerlink" title="制作启动U盘"></a>制作启动U盘</h3><ul>
+<li><p>方式一：<strong>Windows 10 可以直接打开 iso镜像文件，不用下载任何工具</strong></p>
+<ol>
+<li><p>格式化U盘</p>
+</li>
+<li><p>双击ISO文件，然后选中打开的所有文件，复制到U盘即可</p>
+</li>
+</ol>
+</li>
+<li><p>方式二：<a target="_blank" rel="noopener" href="http://rufus.ie/">下载U盘制作制作工具Rufus</a>(<strong>无需安装，可直接运行</strong>)</p>
+<ol>
+<li><p>选择设备(需要被制作的U盘&#x2F;移动硬盘)</p>
+<ul>
+<li>只有一个外接设备时会自动读取</li>
+<li>如果<strong>外接设备是移动硬盘</strong>，需要<strong>显示高级设备选项 — 显示USB外置硬盘</strong></li>
+</ul>
+</li>
+<li><p>选择操作系统镜像</p>
+</li>
+<li><p><strong>分区类型</strong>（<strong>理论上</strong>（联想Y480不知道为什么无法通过UEFI成功安装））</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av45677113">硬盘格式与引导方式、MBR与GPT、UEFI 与LEGACY bios的区别</a></p>
+<ul>
+<li><p>若选择GPT，之后系统安装时选择<strong>UEFI启动</strong>（<strong>推荐</strong>）</p>
+</li>
+<li><p>若选择MBR，之后系统安装时<strong>选择BIOS启动，否则报错</strong>（该模式一定能够安装成功）</p>
+</li>
+</ul>
+</li>
+<li><p>其余选项默认，点击<strong>开始</strong>，即可制作启动U盘</p>
+</li>
+</ol>
+<img src="https://i.loli.net/2020/01/17/9KOmaTAQcIqdkpo.png" alt="Rufus制作启动U盘" style="zoom:80%;" /></li>
+</ul>
+<hr>
+<h2 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h2><ol>
+<li><p>重启电脑，进入<strong>选择启动方式界面</strong>（联想笔记本：F12；惠普笔记本：F9）</p>
+</li>
+<li><p>选择启动U盘</p>
+<ul>
+<li>想要安装系统的硬盘的格式为<strong>GPT</strong>，选择<strong>UEFI启动，即 EFI USB Device</strong></li>
+<li>启动U盘分区类型为<strong>MBR</strong>，选择<strong>BIOS启动，即 选择对应的U盘</strong></li>
+</ul>
+</li>
+<li><p>欢迎 — 中文 — 安装Ubuntu</p>
+</li>
+<li><p>键盘布局 — 汉语</p>
+</li>
+<li><p>无线 — 不连接</p>
+</li>
+<li><p>更新和其他软件 — <strong>最小安装</strong></p>
+</li>
+<li><p>安装类型 — 其他选项 — 进行分区</p>
+<p>硬盘大小110GB</p>
+<ul>
+<li><p><strong>UEFI</strong>启动：</p>
+<table>
+<thead>
+<tr>
+<th>空间大小</th>
+<th>主分区&#x2F;逻辑分区</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200MB</td>
+<td><strong>逻辑分区</strong></td>
+<td><strong>EFI</strong></td>
+</tr>
+<tr>
+<td>8GB<br />（和内存大小一致）</td>
+<td>主分区</td>
+<td>swap(交换)</td>
+</tr>
+<tr>
+<td>40GB</td>
+<td>逻辑分区</td>
+<td>ext4<br />挂载至 “&#x2F;”</td>
+</tr>
+<tr>
+<td>剩余空间</td>
+<td>逻辑分区</td>
+<td>ext4<br />挂载至 “&#x2F;home”</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>BIOS</strong>启动：</p>
+<table>
+<thead>
+<tr>
+<th>空间大小</th>
+<th>主分区&#x2F;逻辑分区</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200MB</td>
+<td><strong>主分区</strong></td>
+<td><strong>biosxx</strong></td>
+</tr>
+<tr>
+<td>8GB （和内存大小一致）</td>
+<td>主分区</td>
+<td>swap(交换)</td>
+</tr>
+<tr>
+<td>40GB</td>
+<td>逻辑分区</td>
+<td>ext4 挂载至 “&#x2F;”</td>
+</tr>
+<tr>
+<td>剩余空间</td>
+<td>逻辑分区</td>
+<td>ext4 挂载至 “&#x2F;home”</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+<li><p>完成安装，根据提示重启即可(可拔去启动U盘&#x2F;硬盘，避免再次从启动U盘启动)</p>
+</li>
+</ol>
+<hr>
+<h2 id="将-从主服务器下载-更换为-国内镜像站点下载"><a href="#将-从主服务器下载-更换为-国内镜像站点下载" class="headerlink" title="将 从主服务器下载 更换为 国内镜像站点下载"></a>将 从主服务器下载 更换为 国内镜像站点下载</h2><p>​	显示应用程序 - 软件和更新 - Ubuntu软件 - 下载自 - 其他站点 - 选择最佳服务器（自动选择最合适的站点）</p>
+<hr>
+<h2 id="更新系统文件"><a href="#更新系统文件" class="headerlink" title="更新系统文件"></a>更新系统文件</h2><p><strong>打开终端</strong>的快捷键：<code>Ctrl</code>+<code>Alt</code>+<code>T</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="获得各种开发工具"><a href="#获得各种开发工具" class="headerlink" title="获得各种开发工具"></a>获得各种开发工具</h2><p><code>sudo apt-get install build-essential</code></p>
+<ul>
+<li><p>安装<strong>文字编辑器vim</strong>和<strong>浏览器chromium</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install vim</span><br><span class="line">sudo apt-get install chromium-browser</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>树视图</p>
+<p><code>sudo apt-get install tree</code></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
