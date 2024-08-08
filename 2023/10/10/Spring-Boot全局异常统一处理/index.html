@@ -29,10 +29,10 @@
 <meta property="og:image" content="https://s2.loli.net/2024/07/04/JxjgbAYXVBo7Rwu.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/04/Lu5qDYPx9A8ZmTB.png">
 <meta property="article:published_time" content="2023-10-10T03:12:40.000Z">
-<meta property="article:modified_time" content="2024-07-16T06:58:49.424Z">
+<meta property="article:modified_time" content="2024-08-08T12:38:31.142Z">
 <meta property="article:author" content="Hunter">
-<meta property="article:tag" content="Exception">
 <meta property="article:tag" content="Spring Boot">
+<meta property="article:tag" content="Exception">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://s2.loli.net/2024/07/04/JxjgbAYXVBo7Rwu.png">
 
@@ -230,7 +230,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-07-16 14:58:49" itemprop="dateModified" datetime="2024-07-16T14:58:49+08:00">2024-07-16</time>
+      <time title="修改时间：2024-08-08 20:38:31" itemprop="dateModified" datetime="2024-08-08T20:38:31+08:00">2024-08-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -286,7 +286,7 @@
 <h4 id="自定义一个异常类"><a href="#自定义一个异常类" class="headerlink" title="自定义一个异常类"></a>自定义一个异常类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GlobalException</span> <span class="keyword">extends</span> <span class="title class_">RuntimeException</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> RespBeanEnum respBeanEnum;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> RespBeanEnum <span class="title function_">getRespBeanEnum</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> respBeanEnum;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setRespBeanEnum</span><span class="params">(RespBeanEnum respBeanEnum)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.respBeanEnum = respBeanEnum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h4 id="编写统一异常处理类，统一捕获处理返回"><a href="#编写统一异常处理类，统一捕获处理返回" class="headerlink" title="编写统一异常处理类，统一捕获处理返回"></a>编写统一异常处理类，统一捕获处理返回</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestControllerAdvice</span> <span class="comment">// 表明统一处理异常</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GlobalExceptionHandler</span> &#123;</span><br><span class="line">    <span class="meta">@ExceptionHandler(Exception.class)</span> <span class="comment">// 希望捕获的异常类</span></span><br><span class="line">    <span class="keyword">public</span> RespBean <span class="title function_">exceptionHandler</span><span class="params">(Exception e)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (e <span class="keyword">instanceof</span> GlobalException) &#123;</span><br><span class="line">            <span class="type">GlobalException</span> <span class="variable">ex</span> <span class="operator">=</span> (GlobalException) e;</span><br><span class="line">            <span class="keyword">return</span> RespBean.error(ex.getRespBeanEnum());</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e <span class="keyword">instanceof</span> MethodArgumentNotValidException) &#123;</span><br><span class="line">            <span class="type">MethodArgumentNotValidException</span> <span class="variable">ex</span> <span class="operator">=</span> (MethodArgumentNotValidException) e;</span><br><span class="line">            <span class="type">RespBean</span> <span class="variable">respBean</span> <span class="operator">=</span> RespBean.error(RespBeanEnum.BIND_ERROR);</span><br><span class="line">            respBean.setMessage(<span class="string">&quot;参数校验异常：&quot;</span> + ex.getBindingResult().getAllErrors().get(<span class="number">0</span>).getDefaultMessage());</span><br><span class="line">            <span class="keyword">return</span> respBean;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> RespBean.error(RespBeanEnum.ERROR);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="编写统一异常处理类，统一捕获处理返回"><a href="#编写统一异常处理类，统一捕获处理返回" class="headerlink" title="编写统一异常处理类，统一捕获处理返回"></a>编写统一异常处理类，统一捕获处理返回</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestControllerAdvice</span> <span class="comment">// 表明统一处理异常</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GlobalExceptionHandler</span> &#123;</span><br><span class="line">    <span class="meta">@ExceptionHandler(Exception.class)</span> <span class="comment">// 希望捕获的异常类</span></span><br><span class="line">    <span class="keyword">public</span> RespBean <span class="title function_">exceptionHandler</span><span class="params">(Exception e)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (e <span class="keyword">instanceof</span> GlobalException ex) &#123;</span><br><span class="line">            <span class="keyword">return</span> RespBean.error(ex.getRespBeanEnum());</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e <span class="keyword">instanceof</span> MethodArgumentNotValidException ex) &#123;</span><br><span class="line">            <span class="type">RespBean</span> <span class="variable">respBean</span> <span class="operator">=</span> RespBean.error(RespBeanEnum.BIND_ERROR);</span><br><span class="line">            respBean.setMessage(<span class="string">&quot;参数校验异常：&quot;</span> + ex.getBindingResult().getAllErrors().get(<span class="number">0</span>).getDefaultMessage());</span><br><span class="line">            <span class="keyword">return</span> respBean;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> RespBean.error(RespBeanEnum.ERROR);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="源码分析-ExceptionHandler-如何捕获异常"><a href="#源码分析-ExceptionHandler-如何捕获异常" class="headerlink" title="源码分析 @ExceptionHandler 如何捕获异常"></a>源码分析 <code>@ExceptionHandler</code> 如何捕获异常</h2><p><code>@ExceptionHandler</code>是Spring框架提供的机制，用于集中处理<strong>Controller中的异常</strong>。当Controller的方法抛出一个未被捕获的异常时，Spring会寻找合适的处理器。</p>
@@ -295,7 +295,8 @@
  <img src="https://s2.loli.net/2024/07/04/JxjgbAYXVBo7Rwu.png" alt="image-20240704154047345" style="zoom:80%;" />
 </li>
 <li><p><code>HandlerExceptionResolver</code>处理异常</p>
-<p> <img src="https://s2.loli.net/2024/07/04/Lu5qDYPx9A8ZmTB.png" alt="image-20240704154652761"></p>
+ <img src="https://s2.loli.net/2024/07/04/Lu5qDYPx9A8ZmTB.png" alt="image-20240704154652761" style="zoom:80%;" />
+
 <p> 最后<code>getMappedMethod()</code>方法会找到可以匹配处理异常的所有方法信息，根据能处理的异常类进行从小到大的排序，取<strong>匹配度最高的处理异常方法</strong>。</p>
 </li>
 </ol>
@@ -308,8 +309,8 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Exception/" rel="tag"># Exception</a>
               <a href="/tags/Spring-Boot/" rel="tag"># Spring Boot</a>
+              <a href="/tags/Exception/" rel="tag"># Exception</a>
           </div>
 
         

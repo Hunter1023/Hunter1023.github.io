@@ -19,16 +19,18 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="logback已默认实现了slf4j标准，log4j、log4j2需要将基础库升级到slf4j标准 log4j + slf4j-log4j12 log4j2 + log4j-slf4j-impl 1private static final Logger LOGGER &#x3D; LoggerFactory.getLogger(xxx.class);   如何统一日志标准notebook&#x2F;log">
+    <meta name="description" content="日志门面和日志框架实现日志门面（Facade）把不同的日志系统的实现进行了抽象化，只提供了统一的日志使用接口。由于它只是一个接口，所以最终日志的格式、记录级别、输出方式等都要通过接口绑定的具体日志框架实现。  实际的项目开发中可能会使用到很多不同的框架，而这些框架又使用了不同的日志框架。我们希望所有的框架一律使用日志门面（Slf4j）进行日志打印，这时该怎么去解决？  logback直接实现了sl">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java日志">
 <meta property="og:url" content="https://hunter1023.github.io/2023/06/11/Java%E6%97%A5%E5%BF%97/index.html">
 <meta property="og:site_name" content="Talk is cheap">
-<meta property="og:description" content="logback已默认实现了slf4j标准，log4j、log4j2需要将基础库升级到slf4j标准 log4j + slf4j-log4j12 log4j2 + log4j-slf4j-impl 1private static final Logger LOGGER &#x3D; LoggerFactory.getLogger(xxx.class);   如何统一日志标准notebook&#x2F;log">
+<meta property="og:description" content="日志门面和日志框架实现日志门面（Facade）把不同的日志系统的实现进行了抽象化，只提供了统一的日志使用接口。由于它只是一个接口，所以最终日志的格式、记录级别、输出方式等都要通过接口绑定的具体日志框架实现。  实际的项目开发中可能会使用到很多不同的框架，而这些框架又使用了不同的日志框架。我们希望所有的框架一律使用日志门面（Slf4j）进行日志打印，这时该怎么去解决？  logback直接实现了sl">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2023/06/12/mrGLqT2c7UJCpoB.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/07/UXRHqM8flVcFIAw.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/07/Fa6QtCUIqAmhZO9.png">
 <meta property="article:published_time" content="2023-06-10T16:34:58.000Z">
-<meta property="article:modified_time" content="2023-09-17T07:12:48.020Z">
+<meta property="article:modified_time" content="2024-08-07T11:42:07.317Z">
 <meta property="article:author" content="Hunter">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://s2.loli.net/2023/06/12/mrGLqT2c7UJCpoB.png">
@@ -140,7 +142,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%BB%9F%E4%B8%80%E6%97%A5%E5%BF%97%E6%A0%87%E5%87%86"><span class="nav-number">1.</span> <span class="nav-text">如何统一日志标准</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E9%97%A8%E9%9D%A2%E5%92%8C%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">日志门面和日志框架实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Logback"><span class="nav-number">2.</span> <span class="nav-text">Logback</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#log4j2"><span class="nav-number">3.</span> <span class="nav-text">log4j2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E7%8B%AC%E4%BD%BF%E7%94%A8Log4j2%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6"><span class="nav-number">3.1.</span> <span class="nav-text">单独使用Log4j2日志框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%91%E5%AE%9Aslf4j%E9%97%A8%E9%9D%A2%E6%8E%A5%E5%8F%A3"><span class="nav-number">3.2.</span> <span class="nav-text">绑定slf4j门面接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9F%E4%B8%80%E6%97%A5%E5%BF%97%E6%A0%87%E5%87%86"><span class="nav-number">4.</span> <span class="nav-text">统一日志标准</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E4%B8%AD%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%90%8C%E7%9A%84%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6"><span class="nav-number">4.1.</span> <span class="nav-text">项目依赖中使用不同的日志框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E4%B8%AD%E9%83%BD%E4%BD%BF%E7%94%A8slf4j%E6%97%A5%E5%BF%97%E9%97%A8%E9%9D%A2%E6%8E%A5%E5%8F%A3"><span class="nav-number">4.2.</span> <span class="nav-text">项目依赖中都使用slf4j日志门面接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E4%B8%AD%E6%97%A2%E6%9C%89%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%EF%BC%8C%E5%8F%88%E6%9C%89slf4j%E6%97%A5%E5%BF%97%E9%97%A8%E9%9D%A2%E6%8E%A5%E5%8F%A3"><span class="nav-number">4.3.</span> <span class="nav-text">项目依赖中既有日志框架，又有slf4j日志门面接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -227,7 +229,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-09-17 15:12:48" itemprop="dateModified" datetime="2023-09-17T15:12:48+08:00">2023-09-17</time>
+      <time title="修改时间：2024-08-07 19:42:07" itemprop="dateModified" datetime="2024-08-07T19:42:07+08:00">2024-08-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -259,14 +261,106 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p><img src="https://s2.loli.net/2023/06/12/mrGLqT2c7UJCpoB.png" alt="image-20230612215155120"></p>
-<p>logback已默认实现了slf4j标准，log4j、log4j2需要将基础库升级到slf4j标准</p>
-<p>log4j + slf4j-log4j12</p>
-<p>log4j2 + log4j-slf4j-impl</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">LOGGER</span> <span class="operator">=</span> LoggerFactory.getLogger(xxx.class);</span><br></pre></td></tr></table></figure>
+    <div class="post-body" itemprop="articleBody"><h2 id="日志门面和日志框架实现"><a href="#日志门面和日志框架实现" class="headerlink" title="日志门面和日志框架实现"></a>日志门面和日志框架实现</h2><p>日志门面（Facade）把不同的日志系统的实现进行了抽象化，只提供了统一的日志使用接口。由于它只是一个接口，所以最终日志的格式、记录级别、输出方式等都要<strong>通过接口绑定的具体日志框架实现</strong>。</p>
+<p><img src="https://s2.loli.net/2023/06/12/mrGLqT2c7UJCpoB.png" alt="image-20230612215155120"></p>
+<p>实际的项目开发中可能会使用到很多不同的框架，而这些框架又使用了不同的日志框架。我们希望所有的框架一律使用日志门面（Slf4j）进行日志打印，这时该怎么去解决？</p>
+<ul>
+<li>logback<strong>直接实现了slf4j-api中的接口</strong>，通过接口实现的方式完成了门面的实现。</li>
+<li>log4j2没有直接实现接口，需要适配器<code>log4j-slf4j-impl</code></li>
+</ul>
+<span id="more"></span>
 
 <hr>
-<h2 id="如何统一日志标准"><a href="#如何统一日志标准" class="headerlink" title="如何统一日志标准"></a>如何统一日志标准</h2><p><a target="_blank" rel="noopener" href="https://github.com/sunwu51/notebook/blob/master/19.11/log_java%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6.md#user-content-%E5%A4%9A%E4%BE%9D%E8%B5%96%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%97%A5%E5%BF%97%E7%BB%9F%E4%B8%80">notebook&#x2F;log_java日志框架.md at master · sunwu51&#x2F;notebook · GitHub</a></p>
+<h2 id="Logback"><a href="#Logback" class="headerlink" title="Logback"></a>Logback</h2><ol>
+<li><p>添加logback依赖</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- logback --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>ch.qos.logback<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>logback-classic<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p> <img src="https://s2.loli.net/2024/08/07/UXRHqM8flVcFIAw.png" alt="image-20240807161938032"></p>
+<p> 可见，依赖中包含了对<code>slf4j-api</code>的依赖。<strong>logback实现了slf4j-api中的接口，通过接口实现的方式完成了门面的实现</strong>。</p>
+</li>
+<li><p>用<code>/resource/logback.xml</code>进行日志配置。</p>
+<blockquote>
+<p>官网<a target="_blank" rel="noopener" href="https://logback.qos.ch/manual/configuration.html">Chapter 3: Configuration (qos.ch)</a></p>
+<p>Logback can be configured either <strong>programmatically</strong> or <strong>with a configuration script expressed in XML, Groovy</strong> or <strong>serialized model format</strong>. </p>
+</blockquote>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">&quot;STDOUT&quot;</span> <span class="attr">class</span>=<span class="string">&quot;ch.qos.logback.core.ConsoleAppender&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- encoders are assigned the type</span></span><br><span class="line"><span class="comment">         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">encoder</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">pattern</span>&gt;</span>%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%p] %c: %m%n<span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">&quot;debug&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">&quot;STDOUT&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写日志输出，查看依赖以及输出。</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导入的是slf4j提供的日志相关类和接口</span></span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">LOGGER</span> <span class="operator">=</span> LoggerFactory.getLogger(Main.class);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        LOGGER.info(<span class="string">&quot;logback的日志打印&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 打印效果：</p>
+<p> <code>2024-08-07 16:01:10 [INFO] com.hunter.demo.Main: logback的日志打印</code></p>
+</li>
+</ol>
+<hr>
+<h2 id="log4j2"><a href="#log4j2" class="headerlink" title="log4j2"></a>log4j2</h2><h3 id="单独使用Log4j2日志框架"><a href="#单独使用Log4j2日志框架" class="headerlink" title="单独使用Log4j2日志框架"></a>单独使用Log4j2日志框架</h3><ol>
+<li><p>添加log4j2的依赖</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- log4j 2 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.logging.log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.23.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用<code>/resource/log4j2.properties</code>进行日志配置。</p>
+ <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">rootLogger.level</span>=<span class="string">info</span></span><br><span class="line"><span class="attr">rootLogger.appenderRef.stdout.ref</span>=<span class="string">STDOUT</span></span><br><span class="line"></span><br><span class="line"><span class="attr">appender.console.type</span>=<span class="string">Console</span></span><br><span class="line"><span class="attr">appender.console.name</span>=<span class="string">STDOUT</span></span><br><span class="line"><span class="attr">appender.console.layout.type</span>=<span class="string">PatternLayout</span></span><br><span class="line"><span class="attr">appender.console.layout.pattern</span>= <span class="string">%d&#123;yyyy-MM-dd HH:mm:ss&#125; [%p] %c: %m%n</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写日志输出，查看依赖以及输出。</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导入的都是log4j2自己提供的日志相关类和接口</span></span><br><span class="line"><span class="keyword">import</span> org.apache.logging.log4j.LogManager;</span><br><span class="line"><span class="keyword">import</span> org.apache.logging.log4j.Logger;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">LOGGER</span> <span class="operator">=</span> LogManager.getLogger();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        LOGGER.info(<span class="string">&quot;log4j2的日志打印&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 打印效果：</p>
+<p> <code>2024-08-07 16:01:10 [INFO] com.hunter.demo.Main: log4j 2的日志打印</code></p>
+</li>
+</ol>
+<hr>
+<h3 id="绑定slf4j门面接口"><a href="#绑定slf4j门面接口" class="headerlink" title="绑定slf4j门面接口"></a>绑定slf4j门面接口</h3><ol>
+<li><p>使用依赖<code>log4j-slf4j-impl</code></p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 绑定了slf4j日志门面的log4j2日志框架 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.logging.log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j-slf4j2-impl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.23.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+ <img src="https://s2.loli.net/2024/08/07/Fa6QtCUIqAmhZO9.png" alt="image-20240807164618497" style="zoom:80%;" />
+
+<p> 可见，该依赖中包含了对<code>slf4j-api</code>的依赖。</p>
+</li>
+<li><p><code>/resource/log4j2.properties</code>进行日志配置。</p>
+ <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">rootLogger.level</span>=<span class="string">info</span></span><br><span class="line"><span class="attr">rootLogger.appenderRef.stdout.ref</span>=<span class="string">STDOUT</span></span><br><span class="line"></span><br><span class="line"><span class="attr">appender.console.type</span>=<span class="string">Console</span></span><br><span class="line"><span class="attr">appender.console.name</span>=<span class="string">STDOUT</span></span><br><span class="line"><span class="attr">appender.console.layout.type</span>=<span class="string">PatternLayout</span></span><br><span class="line"><span class="attr">appender.console.layout.pattern</span>= <span class="string">%d&#123;yyyy-MM-dd HH:mm:ss&#125; [%p] %c: %m%n</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写日志输出，查看依赖。</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导入的是slf4j提供的日志相关类和接口</span></span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">LOGGER</span> <span class="operator">=</span> LoggerFactory.getLogger(Main.class);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        LOGGER.info(<span class="string">&quot;log4j2的日志打印&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h2 id="统一日志标准"><a href="#统一日志标准" class="headerlink" title="统一日志标准"></a>统一日志标准</h2><h3 id="项目依赖中使用不同的日志框架"><a href="#项目依赖中使用不同的日志框架" class="headerlink" title="项目依赖中使用不同的日志框架"></a>项目依赖中使用不同的日志框架</h3><ol>
+<li>依赖的项目A使用<strong>log4j2框架</strong></li>
+<li>依赖的项目B使用<strong>logback框架</strong></li>
+</ol>
+<p>所依赖的项目中的日志可以正常打印（使用各自的日志配置进行打印），<strong>不会产生冲突</strong>。</p>
+<p>如果日志输出的标准不一致，可以通过<strong>在当前项目分别定义对应日志框架的日志配置文件，覆盖依赖的项目中的日志配置文件</strong>。</p>
+<hr>
+<h3 id="项目依赖中都使用slf4j日志门面接口"><a href="#项目依赖中都使用slf4j日志门面接口" class="headerlink" title="项目依赖中都使用slf4j日志门面接口"></a>项目依赖中都使用slf4j日志门面接口</h3><ol>
+<li><p>依赖的项目A使用<strong>绑定了slf4j日志门面的log4j2日志框架</strong></p>
+<p> A 👉 slf4j 👉 log4j2</p>
+</li>
+<li><p>依赖的项目B使用<strong>logback框架</strong></p>
+<p> B 👉 slf4j 👉 logback</p>
+</li>
+</ol>
+<p>这样会使日志门面接口<strong>调用实际实现</strong>的时候混乱，因为有多个实现类。<strong>会根据类加载顺序指定实际使用的日志框架</strong>，并读取相应的日志配置文件。</p>
+<p>如果<strong>有明确要使用的日志框架</strong>，且恰好其加载顺序靠后，<strong>要如何指定日志框架</strong>？</p>
+<p>在<code>pom.xml</code>中，把<strong>非目标日志框架的依赖</strong>从主动依赖中**<code>exclude</code>**掉即可。这种情况，日志输出采用的是同一个日志配置文件，所以日志输出标准是一致的。</p>
+<hr>
+<h3 id="项目依赖中既有日志框架，又有slf4j日志门面接口"><a href="#项目依赖中既有日志框架，又有slf4j日志门面接口" class="headerlink" title="项目依赖中既有日志框架，又有slf4j日志门面接口"></a>项目依赖中既有日志框架，又有slf4j日志门面接口</h3><ol>
+<li><p>依赖的项目A使用<strong>log4j2框架</strong></p>
+</li>
+<li><p>依赖的项目B使用<strong>绑定了slf4j日志门面的log4j2日志框架</strong></p>
+<p> B 👉 slf4j 👉 log4j2</p>
+</li>
+<li><p>依赖的项目C使用<strong>logback框架</strong></p>
+<p> C 👉 slf4j 👉 logback</p>
+</li>
+</ol>
+<p>这个情况，日志门面接口<strong>调用实际实现</strong>的时候会混乱、<strong>日志框架会使用自己的日志配置进行打印</strong>。要统一日志标准，需要两步：</p>
+<ol>
+<li><p>把<strong>非目标日志框架的依赖</strong>从主动依赖中**<code>exclude</code>**掉。</p>
+</li>
+<li><p><strong><code>exclude</code> log4j2框架，使依赖中的log4j2也能”实现”slf4j日志门面</strong>。</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Log4j 2 API 和 SLF4J 之间的 Apache Log4j 绑定。 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.logging.log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j-to-slf4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.23.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>待阅读：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zoufh/p/17841410.html">手把手教你玩转 SpringBoot 日志 - 爱睡懒觉的我 - 博客园 (cnblogs.com)</a></p>
 
     </div>
 

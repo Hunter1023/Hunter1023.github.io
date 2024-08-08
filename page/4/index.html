@@ -411,7 +411,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-09-17 15:12:48" itemprop="dateModified" datetime="2023-09-17T15:12:48+08:00">2023-09-17</time>
+      <time title="修改时间：2024-08-07 19:42:07" itemprop="dateModified" datetime="2024-08-07T19:42:07+08:00">2024-08-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -437,15 +437,21 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p><img src="https://s2.loli.net/2023/06/12/mrGLqT2c7UJCpoB.png" alt="image-20230612215155120"></p>
-<p>logback已默认实现了slf4j标准，log4j、log4j2需要将基础库升级到slf4j标准</p>
-<p>log4j + slf4j-log4j12</p>
-<p>log4j2 + log4j-slf4j-impl</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">LOGGER</span> <span class="operator">=</span> LoggerFactory.getLogger(xxx.class);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="如何统一日志标准"><a href="#如何统一日志标准" class="headerlink" title="如何统一日志标准"></a>如何统一日志标准</h2><p><a target="_blank" rel="noopener" href="https://github.com/sunwu51/notebook/blob/master/19.11/log_java%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6.md#user-content-%E5%A4%9A%E4%BE%9D%E8%B5%96%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%97%A5%E5%BF%97%E7%BB%9F%E4%B8%80">notebook&#x2F;log_java日志框架.md at master · sunwu51&#x2F;notebook · GitHub</a></p>
-
+          <h2 id="日志门面和日志框架实现"><a href="#日志门面和日志框架实现" class="headerlink" title="日志门面和日志框架实现"></a>日志门面和日志框架实现</h2><p>日志门面（Facade）把不同的日志系统的实现进行了抽象化，只提供了统一的日志使用接口。由于它只是一个接口，所以最终日志的格式、记录级别、输出方式等都要<strong>通过接口绑定的具体日志框架实现</strong>。</p>
+<p><img src="https://s2.loli.net/2023/06/12/mrGLqT2c7UJCpoB.png" alt="image-20230612215155120"></p>
+<p>实际的项目开发中可能会使用到很多不同的框架，而这些框架又使用了不同的日志框架。我们希望所有的框架一律使用日志门面（Slf4j）进行日志打印，这时该怎么去解决？</p>
+<ul>
+<li>logback<strong>直接实现了slf4j-api中的接口</strong>，通过接口实现的方式完成了门面的实现。</li>
+<li>log4j2没有直接实现接口，需要适配器<code>log4j-slf4j-impl</code></li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/06/11/Java%E6%97%A5%E5%BF%97/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -507,7 +513,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-01 17:05:16" itemprop="dateModified" datetime="2024-08-01T17:05:16+08:00">2024-08-01</time>
+      <time title="修改时间：2024-08-04 22:28:18" itemprop="dateModified" datetime="2024-08-04T22:28:18+08:00">2024-08-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -809,7 +815,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-07-26 08:23:45" itemprop="dateModified" datetime="2024-07-26T08:23:45+08:00">2024-07-26</time>
+      <time title="修改时间：2024-08-04 11:42:34" itemprop="dateModified" datetime="2024-08-04T11:42:34+08:00">2024-08-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
