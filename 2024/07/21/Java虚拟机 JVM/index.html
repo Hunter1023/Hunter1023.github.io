@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="JVM启动入口：JLI_Launch函数以OPENJDK8源码GitHub - openjdk&#x2F;jdk at jdk8-b120为例，虚拟机的启动入口在jdk&#x2F;src&#x2F;share&#x2F;bin&#x2F;java.c的JLI_Launch函数，整个流程分为：  配置JVM装载环境 解析虚拟机参数 设置线程栈大小 执行JavaMain方法  JLI_Launch函数： 12345678910111213i">
+    <meta name="description" content="JVM启动入口：JLI_Launch函数以OPENJDK8源码GitHub - openjdk&#x2F;jdk at jdk8-b120为例，虚拟机的启动入口在jdk&#x2F;src&#x2F;share&#x2F;bin&#x2F;java.c的JLI_Launch函数，整个流程分为：  配置JVM装载环境 解析虚拟机参数 设置线程栈大小 执行JavaMain方法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java虚拟机 JVM">
 <meta property="og:url" content="https://hunter1023.github.io/2024/07/21/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%20JVM/index.html">
 <meta property="og:site_name" content="Talk is cheap">
-<meta property="og:description" content="JVM启动入口：JLI_Launch函数以OPENJDK8源码GitHub - openjdk&#x2F;jdk at jdk8-b120为例，虚拟机的启动入口在jdk&#x2F;src&#x2F;share&#x2F;bin&#x2F;java.c的JLI_Launch函数，整个流程分为：  配置JVM装载环境 解析虚拟机参数 设置线程栈大小 执行JavaMain方法  JLI_Launch函数： 12345678910111213i">
+<meta property="og:description" content="JVM启动入口：JLI_Launch函数以OPENJDK8源码GitHub - openjdk&#x2F;jdk at jdk8-b120为例，虚拟机的启动入口在jdk&#x2F;src&#x2F;share&#x2F;bin&#x2F;java.c的JLI_Launch函数，整个流程分为：  配置JVM装载环境 解析虚拟机参数 设置线程栈大小 执行JavaMain方法">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2024/07/21/LYwj61kvQXsPhJ3.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/22/DjtKdfeaPRpNICw.png">
@@ -42,7 +42,7 @@
 <meta property="og:image" content="https://s2.loli.net/2023/03/06/UIV6fJknmM4bojP.png">
 <meta property="og:image" content="https://s2.loli.net/2023/03/06/RFaE7s5CnmylgkT.png">
 <meta property="article:published_time" content="2024-07-21T02:52:30.000Z">
-<meta property="article:modified_time" content="2024-07-23T14:10:33.434Z">
+<meta property="article:modified_time" content="2024-08-09T03:05:58.619Z">
 <meta property="article:author" content="Hunter">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
@@ -168,18 +168,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-count">93</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">38</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">153</span>
+        <span class="site-state-item-count">156</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -242,7 +242,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-07-23 22:10:33" itemprop="dateModified" datetime="2024-07-23T22:10:33+08:00">2024-07-23</time>
+      <time title="修改时间：2024-08-09 11:05:58" itemprop="dateModified" datetime="2024-08-09T11:05:58+08:00">2024-08-09</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -281,6 +281,8 @@
 <li>设置线程栈大小</li>
 <li>执行<code>JavaMain</code>方法</li>
 </ol>
+<span id="more"></span>
+
 <p><code>JLI_Launch</code>函数：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span></span><br><span class="line"><span class="title function_">JLI_Launch</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> ** argv,              <span class="comment">/* main argc, argc */</span></span></span><br><span class="line"><span class="params">        <span class="type">int</span> jargc, <span class="type">const</span> <span class="type">char</span>** jargv,          <span class="comment">/* java args */</span></span></span><br><span class="line"><span class="params">        <span class="type">int</span> appclassc, <span class="type">const</span> <span class="type">char</span>** appclassv,  <span class="comment">/* app classpath */</span></span></span><br><span class="line"><span class="params">        <span class="type">const</span> <span class="type">char</span>* fullversion,                <span class="comment">/* full version defined */</span></span></span><br><span class="line"><span class="params">        <span class="type">const</span> <span class="type">char</span>* dotversion,                 <span class="comment">/* dot version defined */</span></span></span><br><span class="line"><span class="params">        <span class="type">const</span> <span class="type">char</span>* pname,                      <span class="comment">/* program name */</span></span></span><br><span class="line"><span class="params">        <span class="type">const</span> <span class="type">char</span>* lname,                      <span class="comment">/* launcher name */</span></span></span><br><span class="line"><span class="params">        jboolean javaargs,                      <span class="comment">/* JAVA_ARGS */</span></span></span><br><span class="line"><span class="params">        jboolean cpwildcard,                    <span class="comment">/* classpath wildcard*/</span></span></span><br><span class="line"><span class="params">        jboolean javaw,                         <span class="comment">/* windows-only javaw */</span></span></span><br><span class="line"><span class="params">        jint ergo                               <span class="comment">/* ergonomics class policy */</span></span></span><br><span class="line"><span class="params">)</span></span><br></pre></td></tr></table></figure>
 
@@ -618,7 +620,7 @@
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2024</span>
+    <span itemprop="copyrightYear">2025</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
