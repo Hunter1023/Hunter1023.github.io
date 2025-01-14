@@ -35,8 +35,11 @@
 <meta property="og:image" content="https://s2.loli.net/2024/05/11/ICKuGpRJNzmqWOo.png">
 <meta property="og:image" content="https://s2.loli.net/2024/05/13/SQg78t69MfY5u2J.png">
 <meta property="og:image" content="https://s2.loli.net/2023/11/15/2iSVrqBb7d1yMjk.png">
+<meta property="og:image" content="https://oss.itbaima.cn/internal/markdown/2023/03/06/VK3k7EAZDT1fjIo.jpg">
+<meta property="og:image" content="https://oss.itbaima.cn/internal/markdown/2023/03/06/JYiOHBdtT7jC98R.png">
+<meta property="og:image" content="https://oss.itbaima.cn/internal/markdown/2023/03/06/JKDHFTiCr2t5Oj9.png">
 <meta property="article:published_time" content="2023-11-15T02:32:56.000Z">
-<meta property="article:modified_time" content="2024-07-16T07:04:30.997Z">
+<meta property="article:modified_time" content="2025-01-14T17:56:06.972Z">
 <meta property="article:author" content="Hunter">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
@@ -149,7 +152,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFRedis"><span class="nav-number">1.</span> <span class="nav-text">什么是Redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.</span> <span class="nav-text">数据结构与对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2-SDS-Simple-Dynamic-String"><span class="nav-number">2.1.</span> <span class="nav-text">简单动态字符串 (SDS, Simple Dynamic String)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E6%95%B0%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%8E%B7%E5%8F%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6"><span class="nav-number">2.1.1.</span> <span class="nav-text">常数复杂度获取字符串长度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%9C%E7%BB%9D%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA"><span class="nav-number">2.1.2.</span> <span class="nav-text">杜绝缓冲区溢出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%8F%E5%B0%91%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%97%B6%E5%B8%A6%E6%9D%A5%E7%9A%84%E5%86%85%E5%AD%98%E9%87%8D%E5%88%86%E9%85%8D%E6%AC%A1%E6%95%B0"><span class="nav-number">2.1.3.</span> <span class="nav-text">减少修改字符串时带来的内存重分配次数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8"><span class="nav-number">2.1.4.</span> <span class="nav-text">二进制安全</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%93%BE%E8%A1%A8"><span class="nav-number">2.2.</span> <span class="nav-text">链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E5%85%B8"><span class="nav-number">2.3.</span> <span class="nav-text">字典</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="nav-number">2.3.1.</span> <span class="nav-text">哈希表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8%E8%8A%82%E7%82%B9"><span class="nav-number">2.3.2.</span> <span class="nav-text">哈希表节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">2.3.3.</span> <span class="nav-text">字典的结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E9%94%AE%E5%86%B2%E7%AA%81"><span class="nav-number">2.3.4.</span> <span class="nav-text">解决键冲突</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rehash"><span class="nav-number">2.3.5.</span> <span class="nav-text">rehash</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%B3%E8%B7%83%E8%A1%A8-skiplist"><span class="nav-number">2.4.</span> <span class="nav-text">跳跃表 skiplist</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%B3%E8%B7%83%E8%A1%A8%E8%8A%82%E7%82%B9"><span class="nav-number">2.4.1.</span> <span class="nav-text">跳跃表节点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88-intset"><span class="nav-number">2.5.</span> <span class="nav-text">整数集合 intset</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7"><span class="nav-number">2.5.1.</span> <span class="nav-text">升级</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8-ziplist"><span class="nav-number">2.6.</span> <span class="nav-text">压缩列表 ziplist</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8%E8%8A%82%E7%82%B9%E7%9A%84%E6%9E%84%E6%88%90"><span class="nav-number">2.6.1.</span> <span class="nav-text">压缩列表节点的构成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E9%94%81%E6%9B%B4%E6%96%B0"><span class="nav-number">2.6.2.</span> <span class="nav-text">连锁更新</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.7.</span> <span class="nav-text">对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%B1%BB%E5%9E%8B%E4%B8%8E%E7%BC%96%E7%A0%81"><span class="nav-number">2.7.1.</span> <span class="nav-text">对象的类型与编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.7.2.</span> <span class="nav-text">字符串对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-number">2.7.2.1.</span> <span class="nav-text">字符串相关命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.7.3.</span> <span class="nav-text">列表对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-number">2.7.3.1.</span> <span class="nav-text">列表相关命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.7.4.</span> <span class="nav-text">哈希对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-number">2.7.4.1.</span> <span class="nav-text">哈希相关命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.7.5.</span> <span class="nav-text">集合对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-number">2.7.5.1.</span> <span class="nav-text">集合相关命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.7.6.</span> <span class="nav-text">有序集合对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-number">2.7.6.1.</span> <span class="nav-text">有序集合相关命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%85%B1%E4%BA%AB"><span class="nav-number">2.7.7.</span> <span class="nav-text">对象共享</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%A9%BA%E8%BD%AC%E6%97%B6%E9%95%BF"><span class="nav-number">2.7.8.</span> <span class="nav-text">对象的空转时长</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8D%E5%9B%BE%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.7.9.</span> <span class="nav-text">位图对象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%9F%E5%BA%A6%E5%BF%AB%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">Redis为什么速度快？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6"><span class="nav-number">4.</span> <span class="nav-text">Redis持久化机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RDB-%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">4.1.</span> <span class="nav-text">RDB 持久化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOF%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">4.2.</span> <span class="nav-text">AOF持久化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.</span> <span class="nav-text">Redis线程模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%AD%96%E7%95%A5"><span class="nav-number">6.</span> <span class="nav-text">常见的缓存更新策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cache-Aside-Pattern-%E6%97%81%E8%B7%AF%E7%BC%93%E5%AD%98%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.1.</span> <span class="nav-text">Cache Aside Pattern 旁路缓存模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Read-x2F-Write-Through-Pattern-%E8%AF%BB%E5%86%99%E7%A9%BF%E9%80%8F%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.2.</span> <span class="nav-text">Read&#x2F;Write Through Pattern 读写穿透模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Write-Behind-Pattern-%E5%BC%82%E6%AD%A5%E7%BC%93%E5%AD%98%E5%86%99%E5%85%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.3.</span> <span class="nav-text">Write Behind Pattern 异步缓存写入模式</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFRedis"><span class="nav-number">1.</span> <span class="nav-text">什么是Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">基本操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.</span> <span class="nav-text">数据结构与对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2-SDS-Simple-Dynamic-String"><span class="nav-number">3.1.</span> <span class="nav-text">简单动态字符串 (SDS, Simple Dynamic String)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E6%95%B0%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%8E%B7%E5%8F%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6"><span class="nav-number">3.1.1.</span> <span class="nav-text">常数复杂度获取字符串长度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%9C%E7%BB%9D%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA"><span class="nav-number">3.1.2.</span> <span class="nav-text">杜绝缓冲区溢出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%8F%E5%B0%91%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%97%B6%E5%B8%A6%E6%9D%A5%E7%9A%84%E5%86%85%E5%AD%98%E9%87%8D%E5%88%86%E9%85%8D%E6%AC%A1%E6%95%B0"><span class="nav-number">3.1.3.</span> <span class="nav-text">减少修改字符串时带来的内存重分配次数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8"><span class="nav-number">3.1.4.</span> <span class="nav-text">二进制安全</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%93%BE%E8%A1%A8"><span class="nav-number">3.2.</span> <span class="nav-text">链表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E5%85%B8"><span class="nav-number">3.3.</span> <span class="nav-text">字典</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="nav-number">3.3.1.</span> <span class="nav-text">哈希表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8%E8%8A%82%E7%82%B9"><span class="nav-number">3.3.2.</span> <span class="nav-text">哈希表节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">3.3.3.</span> <span class="nav-text">字典的结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E9%94%AE%E5%86%B2%E7%AA%81"><span class="nav-number">3.3.4.</span> <span class="nav-text">解决键冲突</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rehash"><span class="nav-number">3.3.5.</span> <span class="nav-text">rehash</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%B3%E8%B7%83%E8%A1%A8-skiplist"><span class="nav-number">3.4.</span> <span class="nav-text">跳跃表 skiplist</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%B3%E8%B7%83%E8%A1%A8%E8%8A%82%E7%82%B9"><span class="nav-number">3.4.1.</span> <span class="nav-text">跳跃表节点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88-intset"><span class="nav-number">3.5.</span> <span class="nav-text">整数集合 intset</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7"><span class="nav-number">3.5.1.</span> <span class="nav-text">升级</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8-ziplist"><span class="nav-number">3.6.</span> <span class="nav-text">压缩列表 ziplist</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8%E8%8A%82%E7%82%B9%E7%9A%84%E6%9E%84%E6%88%90"><span class="nav-number">3.6.1.</span> <span class="nav-text">压缩列表节点的构成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9E%E9%94%81%E6%9B%B4%E6%96%B0"><span class="nav-number">3.6.2.</span> <span class="nav-text">连锁更新</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.7.</span> <span class="nav-text">对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%B1%BB%E5%9E%8B%E4%B8%8E%E7%BC%96%E7%A0%81"><span class="nav-number">3.7.1.</span> <span class="nav-text">对象的类型与编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.7.2.</span> <span class="nav-text">字符串对象</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.2.1.</span> <span class="nav-text">字符串相关命令</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.7.3.</span> <span class="nav-text">列表对象</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.3.1.</span> <span class="nav-text">列表相关命令</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.7.4.</span> <span class="nav-text">哈希对象</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.4.1.</span> <span class="nav-text">哈希相关命令</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.7.5.</span> <span class="nav-text">集合对象</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.5.1.</span> <span class="nav-text">集合相关命令</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.7.6.</span> <span class="nav-text">有序集合对象</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-number">3.7.6.1.</span> <span class="nav-text">有序集合相关命令</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%85%B1%E4%BA%AB"><span class="nav-number">3.7.7.</span> <span class="nav-text">对象共享</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%A9%BA%E8%BD%AC%E6%97%B6%E9%95%BF"><span class="nav-number">3.7.8.</span> <span class="nav-text">对象的空转时长</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%8D%E5%9B%BE%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.7.9.</span> <span class="nav-text">位图对象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%9F%E5%BA%A6%E5%BF%AB%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">Redis为什么速度快？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6"><span class="nav-number">5.</span> <span class="nav-text">Redis持久化机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB-%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">5.1.</span> <span class="nav-text">RDB 持久化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">5.2.</span> <span class="nav-text">AOF持久化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.</span> <span class="nav-text">Redis线程模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%AD%96%E7%95%A5"><span class="nav-number">7.</span> <span class="nav-text">常见的缓存更新策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cache-Aside-Pattern-%E6%97%81%E8%B7%AF%E7%BC%93%E5%AD%98%E6%A8%A1%E5%BC%8F"><span class="nav-number">7.1.</span> <span class="nav-text">Cache Aside Pattern 旁路缓存模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Read-x2F-Write-Through-Pattern-%E8%AF%BB%E5%86%99%E7%A9%BF%E9%80%8F%E6%A8%A1%E5%BC%8F"><span class="nav-number">7.2.</span> <span class="nav-text">Read&#x2F;Write Through Pattern 读写穿透模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Write-Behind-Pattern-%E5%BC%82%E6%AD%A5%E7%BC%93%E5%AD%98%E5%86%99%E5%85%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">7.3.</span> <span class="nav-text">Write Behind Pattern 异步缓存写入模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81%E6%9C%BA%E5%88%B6"><span class="nav-number">8.</span> <span class="nav-text">事务和锁机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Java%E4%B8%8ERedis%E4%BA%A4%E4%BA%92"><span class="nav-number">9.</span> <span class="nav-text">使用Java与Redis交互</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C-1"><span class="nav-number">9.1.</span> <span class="nav-text">基本操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringBoot%E6%95%B4%E5%90%88Redis"><span class="nav-number">9.2.</span> <span class="nav-text">SpringBoot整合Redis</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Redis%E5%81%9A%E7%BC%93%E5%AD%98"><span class="nav-number">10.</span> <span class="nav-text">使用Redis做缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MyBatis%E7%9A%84%E4%BA%8C%E7%BA%A7%E5%AD%98%E5%82%A8"><span class="nav-number">10.1.</span> <span class="nav-text">MyBatis的二级存储</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E7%BC%93%E5%AD%98%E7%B1%BB"><span class="nav-number">10.1.1.</span> <span class="nav-text">编写缓存类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E9%85%8D%E7%BD%AE%E7%B1%BB"><span class="nav-number">10.1.2.</span> <span class="nav-text">编写配置类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8Mapper%E4%B8%8A%E5%90%AF%E7%94%A8%E6%AD%A4%E7%BC%93%E5%AD%98"><span class="nav-number">10.1.3.</span> <span class="nav-text">在Mapper上启用此缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Token%E6%8C%81%E4%B9%85%E5%8C%96%E5%AD%98%E5%82%A8"><span class="nav-number">10.2.</span> <span class="nav-text">Token持久化存储</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0PersistentTokenRepository%E6%8E%A5%E5%8F%A3"><span class="nav-number">10.2.1.</span> <span class="nav-text">实现PersistentTokenRepository接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8Mapper%E4%B8%8A%E5%90%AF%E7%94%A8MyBatis%E7%9A%84Redis%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="nav-number">10.2.2.</span> <span class="nav-text">在Mapper上启用MyBatis的Redis二级缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E9%AA%8C%E8%AF%81Service"><span class="nav-number">10.2.3.</span> <span class="nav-text">实现验证Service</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SecurityConfiguration%E9%85%8D%E7%BD%AE"><span class="nav-number">10.2.4.</span> <span class="nav-text">SecurityConfiguration配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%A4%A7%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98"><span class="nav-number">11.</span> <span class="nav-text">三大缓存问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="nav-number">11.1.</span> <span class="nav-text">缓存穿透</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="nav-number">11.2.</span> <span class="nav-text">缓存击穿</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="nav-number">11.3.</span> <span class="nav-text">缓存雪崩</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -162,7 +165,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">93</span>
+          <span class="site-state-item-count">92</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -236,7 +239,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-07-16 15:04:30" itemprop="dateModified" datetime="2024-07-16T15:04:30+08:00">2024-07-16</time>
+      <time title="修改时间：2025-01-15 01:56:06" itemprop="dateModified" datetime="2025-01-15T01:56:06+08:00">2025-01-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -268,7 +271,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="什么是Redis"><a href="#什么是Redis" class="headerlink" title="什么是Redis"></a>什么是Redis</h1><p>Redis是基于C语言开发的NoSQL数据库，它是一种<strong>存储KV键值对数据</strong>的内存数据库，因此读写速度非常快，被广泛应用于<strong>分布式缓存</strong>方向。</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="什么是Redis"><a href="#什么是Redis" class="headerlink" title="什么是Redis"></a>什么是Redis</h2><p>Redis是基于C语言开发的NoSQL数据库，它是一种<strong>存储KV键值对数据</strong>的内存数据库，因此读写速度非常快，被广泛应用于<strong>分布式缓存</strong>方向。</p>
 <p>Redis内置了多种数据类型实现：</p>
 <ul>
 <li>5种基础数据类型<ol>
@@ -290,14 +293,81 @@
 <span id="more"></span>
 
 <hr>
-<h1 id="数据结构与对象"><a href="#数据结构与对象" class="headerlink" title="数据结构与对象"></a>数据结构与对象</h1><h2 id="简单动态字符串-SDS-Simple-Dynamic-String"><a href="#简单动态字符串-SDS-Simple-Dynamic-String" class="headerlink" title="简单动态字符串 (SDS, Simple Dynamic String)"></a>简单动态字符串 (SDS, Simple Dynamic String)</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录buf数组中已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于SDS所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    <span class="comment">// 记录buf数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    <span class="comment">// 字节数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>Redis是一个键值数据库，因此，可以像Map一样的操作方式，通过键值对向Redis数据库中添加数据（操作起来类似于向一个HashMap中存放数据）。</p>
+<p>在Redis下，<strong>数据库是由一个整数索引标识</strong>，而不是由一个数据库名称。 默认情况下，我们连接Redis数据库之后，会使用0号数据库，我们可以通过Redis配置文件中的参数来修改数据库总数，默认为16个。可以通过<code>select</code>语句进行切换：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> 序号;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>向redis数据库中<strong>添加数据</strong></li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="operator">&lt;</span>key<span class="operator">&gt;</span> <span class="operator">&lt;</span><span class="keyword">value</span><span class="operator">&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 批量添加</span></span><br><span class="line">mset [<span class="operator">&lt;</span>key<span class="operator">&gt;</span> <span class="operator">&lt;</span><span class="keyword">value</span><span class="operator">&gt;</span>] ...</span><br></pre></td></tr></table></figure>
+
+<p>所有存入的数据，<strong>默认以字符串的形式保存</strong>。键值具有一定的命名规范，以方便快速定位数据属于哪一个部分，比如用户数据：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 使用冒号进行板块分割，如下表示 设置某用户ID的name属性的值</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">user</span>:info:某用户ID:name hunter</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>通过键值<strong>获取存入的值</strong></li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">get</span> <span class="operator">&lt;</span>key<span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>redis在存值时，支持设置<strong>数据的过期时间</strong>：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="operator">&lt;</span>key<span class="operator">&gt;</span> <span class="operator">&lt;</span><span class="keyword">value</span><span class="operator">&gt;</span> EX 秒</span><br><span class="line"><span class="keyword">set</span> <span class="operator">&lt;</span>key<span class="operator">&gt;</span> <span class="operator">&lt;</span><span class="keyword">value</span><span class="operator">&gt;</span> PX 毫秒</span><br></pre></td></tr></table></figure>
+
+<p>也可以单独为其他的键值对设置过期时间：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expire <span class="operator">&lt;</span>key<span class="operator">&gt;</span> 秒</span><br></pre></td></tr></table></figure>
+
+<p>通过如下命令查询还有多少时间过期：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 秒级 显示</span></span><br><span class="line">ttl <span class="operator">&lt;</span>key<span class="operator">&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 毫秒级 显示</span></span><br><span class="line">pttl <span class="operator">&lt;</span>key<span class="operator">&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置为不过期</span></span><br><span class="line">persist <span class="operator">&lt;</span>key<span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<ol start="4">
+<li><strong>删除数据</strong></li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 可批量删除</span></span><br><span class="line">del [<span class="operator">&lt;</span>key<span class="operator">&gt;</span>] ...</span><br></pre></td></tr></table></figure>
+
+<hr>
+<ol start="5">
+<li><strong>查看键值</strong></li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查看所有键值</span></span><br><span class="line">keys <span class="operator">*</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询键是否存在</span></span><br><span class="line"><span class="keyword">exists</span> <span class="operator">&lt;</span>key<span class="operator">&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 随机拿一个键</span></span><br><span class="line">randomkey</span><br></pre></td></tr></table></figure>
+
+<hr>
+<ol start="6">
+<li><strong>移动数据</strong></li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">move <span class="operator">&lt;</span>key<span class="operator">&gt;</span> 数据库号</span><br></pre></td></tr></table></figure>
+
+<hr>
+<ol start="7">
+<li><strong>修改键名</strong></li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rename <span class="operator">&lt;</span>key<span class="operator">&gt;</span> <span class="operator">&lt;</span><span class="keyword">new</span> key name<span class="operator">&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 会检查新的名称是否已经存在</span></span><br><span class="line">renamex <span class="operator">&lt;</span>key<span class="operator">&gt;</span> <span class="operator">&lt;</span><span class="keyword">new</span> key name<span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<ol start="8">
+<li><strong>如果存放的是数字，可以进行自增自减操作</strong></li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 等价于a = a + 1</span></span><br><span class="line">incr <span class="operator">&lt;</span>key<span class="operator">&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 等价于a = a + b</span></span><br><span class="line">incrby <span class="operator">&lt;</span>key<span class="operator">&gt;</span> b</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 等价于a = a - 1</span></span><br><span class="line">decr <span class="operator">&lt;</span>key<span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<ol start="9">
+<li><strong>查看值的数据类型</strong></li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tyke <span class="operator">&lt;</span>key<span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="数据结构与对象"><a href="#数据结构与对象" class="headerlink" title="数据结构与对象"></a>数据结构与对象</h2><h3 id="简单动态字符串-SDS-Simple-Dynamic-String"><a href="#简单动态字符串-SDS-Simple-Dynamic-String" class="headerlink" title="简单动态字符串 (SDS, Simple Dynamic String)"></a>简单动态字符串 (SDS, Simple Dynamic String)</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录buf数组中已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于SDS所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    <span class="comment">// 记录buf数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    <span class="comment">// 字节数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>SDS遵循C字符串以空字符结尾的惯例，保存空字符的1字节空间不计算在SDS的len属性里面，并且为空字符分配额外的1字节空间，以及添加空字符到字符串末尾等操作，都是由SDS函数自动完成的，所以这个空字符对于SDS的使用者来说是完全透明的。遵循空字符结尾这一惯例的好处是，SDS可以直接重用一部分C字符串函数库里面的函数。</p>
-<h3 id="常数复杂度获取字符串长度"><a href="#常数复杂度获取字符串长度" class="headerlink" title="常数复杂度获取字符串长度"></a>常数复杂度获取字符串长度</h3><p>通过使用SDS而不是C字符串，Redis将获取字符串长度所需的复杂度从$O(N)$降低到了$O(1)$，这确保了<strong>获取字符串长度的工作不会成为Redis的性能瓶颈</strong>。</p>
+<h4 id="常数复杂度获取字符串长度"><a href="#常数复杂度获取字符串长度" class="headerlink" title="常数复杂度获取字符串长度"></a>常数复杂度获取字符串长度</h4><p>通过使用SDS而不是C字符串，Redis将获取字符串长度所需的复杂度从$O(N)$降低到了$O(1)$，这确保了<strong>获取字符串长度的工作不会成为Redis的性能瓶颈</strong>。</p>
 <hr>
-<h3 id="杜绝缓冲区溢出"><a href="#杜绝缓冲区溢出" class="headerlink" title="杜绝缓冲区溢出"></a>杜绝缓冲区溢出</h3><p>SDS的空间分配策略<strong>杜绝了发生缓冲区溢出的可能性</strong>。当SDS API需要对SDS进行修改时，<strong>API会先检查SDS的空间是否满足修改所需的要求，如果不满足的话，API会自动将SDS的空间扩展至执行修改所需的大小，然后才执行实际的修改操作</strong>。</p>
+<h4 id="杜绝缓冲区溢出"><a href="#杜绝缓冲区溢出" class="headerlink" title="杜绝缓冲区溢出"></a>杜绝缓冲区溢出</h4><p>SDS的空间分配策略<strong>杜绝了发生缓冲区溢出的可能性</strong>。当SDS API需要对SDS进行修改时，<strong>API会先检查SDS的空间是否满足修改所需的要求，如果不满足的话，API会自动将SDS的空间扩展至执行修改所需的大小，然后才执行实际的修改操作</strong>。</p>
 <hr>
-<h3 id="减少修改字符串时带来的内存重分配次数"><a href="#减少修改字符串时带来的内存重分配次数" class="headerlink" title="减少修改字符串时带来的内存重分配次数"></a>减少修改字符串时带来的<strong>内存重分配次数</strong></h3><ol>
+<h4 id="减少修改字符串时带来的内存重分配次数"><a href="#减少修改字符串时带来的内存重分配次数" class="headerlink" title="减少修改字符串时带来的内存重分配次数"></a>减少修改字符串时带来的<strong>内存重分配次数</strong></h4><ol>
 <li><p><strong>空间预分配</strong></p>
 <ol>
 <li>如果对SDS进行修改之后，SDS的长度（也即是len属性的值）<strong>小于1MB</strong>，那么程序<strong>分配和len属性同样大小的未使用空间</strong>，这时SDS len属性的值将和free属性的值相同。</li>
@@ -309,10 +379,10 @@
 </li>
 </ol>
 <hr>
-<h3 id="二进制安全"><a href="#二进制安全" class="headerlink" title="二进制安全"></a>二进制安全</h3><p>虽然数据库一般用于保存文本数据，但使用数据库来保存二进制数据的场景也不少见，因此，为了确保Redis可以适用于各种不同的使用场景，<strong>所有SDS API都会以处理二进制的方式来处理SDS存放在buf数组里的数据，程序不会对其中的数据做任何限制、过滤、或者假设，数据在写入时是什么样的，它被读取时就是什么样</strong>。这也是我们<strong>将SDS的buf属性称为字节数组</strong>的原因——Redis不是用这个数组来保存字符，而是用它来保存一系列二进制数据。</p>
+<h4 id="二进制安全"><a href="#二进制安全" class="headerlink" title="二进制安全"></a>二进制安全</h4><p>虽然数据库一般用于保存文本数据，但使用数据库来保存二进制数据的场景也不少见，因此，为了确保Redis可以适用于各种不同的使用场景，<strong>所有SDS API都会以处理二进制的方式来处理SDS存放在buf数组里的数据，程序不会对其中的数据做任何限制、过滤、或者假设，数据在写入时是什么样的，它被读取时就是什么样</strong>。这也是我们<strong>将SDS的buf属性称为字节数组</strong>的原因——Redis不是用这个数组来保存字符，而是用它来保存一系列二进制数据。</p>
 <p>使用SDS来保存之前提到的特殊数据格式就没有任何问题，因为<strong>SDS使用len属性的值而不是空字符来判断字符串是否结束</strong>。但SDS一样遵循C字符串以空字符结尾的惯例，这是<strong>为了让那些保存文本数据的SDS可以重用一部分&lt;string.h&gt;库定义的函数</strong>。</p>
 <hr>
-<h2 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h2><p>链表在Redis中的应用非常广泛，比如<strong>列表键的底层实现之一</strong>就是链表。当一个列表键包含了<strong>数量比较多的元素</strong>，又或者列表中<strong>包含的元素都是比较长的字符串</strong>时，Redis就会使用链表作为列表键的底层实现。</p>
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><p>链表在Redis中的应用非常广泛，比如<strong>列表键的底层实现之一</strong>就是链表。当一个列表键包含了<strong>数量比较多的元素</strong>，又或者列表中<strong>包含的元素都是比较长的字符串</strong>时，Redis就会使用链表作为列表键的底层实现。</p>
 <p>除了列表键之外，<strong>发布与订阅、慢查询、监视器</strong>等功能也用到了链表，Redis服务器本身还使用链表来<strong>保存多个客户端的状态信息</strong>，以及使用链表来<strong>构建客户端输出缓冲区（output buffer）</strong>。</p>
 <p>每个链表节点使用<code>adlist.h/listNode</code>结构来表示：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 前置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> * <span class="title">prev</span>;</span></span><br><span class="line">    <span class="comment">// 后置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> * <span class="title">next</span>;</span></span><br><span class="line">    <span class="comment">// 节点的值</span></span><br><span class="line">    <span class="type">void</span> * value;</span><br><span class="line">&#125;listNode;</span><br></pre></td></tr></table></figure>
@@ -336,11 +406,11 @@
 <li><strong>多态</strong>：链表节点使用<code>void*</code>指针来保存节点值，并且可以通过list结构的dup、free、match三个属性为节点值设置类型特定函数，所以链表可以用于保存各种不同类型的值。</li>
 </ol>
 <hr>
-<h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><p>字典是用于<strong>保存键值对</strong>的抽象数据结构。字典在Redis中的应用相当广泛，比如<strong>对数据库的增、删、查、改操作构建在对字典的操作之上</strong>。</p>
+<h3 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h3><p>字典是用于<strong>保存键值对</strong>的抽象数据结构。字典在Redis中的应用相当广泛，比如<strong>对数据库的增、删、查、改操作构建在对字典的操作之上</strong>。</p>
 <p>除了用来表示数据库之外，字典还是<strong>哈希键的底层实现之一</strong>，当一个哈希键包含的键值对比较多，又或者键值对中的元素都 是比较长的字符串时，Redis就会使用字典作为哈希键的底层实现。</p>
 <p>Redis的字典使用<strong>哈希表作为底层实现</strong>，<strong>每个哈希表节点保存了字典中的一个键值对</strong>。</p>
 <hr>
-<h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line">    <span class="comment">// 哈希表数组</span></span><br><span class="line">    dictEntry **table;</span><br><span class="line">    <span class="comment">// 哈希表大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line">    <span class="comment">// 哈希表大小掩码，用于计算索引值</span></span><br><span class="line">    <span class="comment">// 总是等于size-1</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line">    <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line">&#125; dictht;</span><br></pre></td></tr></table></figure>
+<h4 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line">    <span class="comment">// 哈希表数组</span></span><br><span class="line">    dictEntry **table;</span><br><span class="line">    <span class="comment">// 哈希表大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line">    <span class="comment">// 哈希表大小掩码，用于计算索引值</span></span><br><span class="line">    <span class="comment">// 总是等于size-1</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line">    <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line">&#125; dictht;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>table属性是一个<strong>数组</strong>，数组中的<strong>每个元素都是一个指向<code>dict.h/dictEntry</code>结构的指针，每个dictEntry结构保存着一个键值对</strong>。</li>
@@ -350,12 +420,12 @@
 <img src="https://s2.loli.net/2024/05/08/CgdAGeRpVjiEoPZ.png" alt=" 一个空的哈希表" style="zoom:50%;" />
 
 <hr>
-<h3 id="哈希表节点"><a href="#哈希表节点" class="headerlink" title="哈希表节点"></a>哈希表节点</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line">    <span class="comment">//键</span></span><br><span class="line">    <span class="type">void</span> *key;</span><br><span class="line">    <span class="comment">//值</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span>&#123;</span></span><br><span class="line">        <span class="type">void</span> *val;</span><br><span class="line">        uint64_tu64;</span><br><span class="line">        int64_ts64;</span><br><span class="line">    &#125; v;</span><br><span class="line">    <span class="comment">//指向下个哈希表节点，形成链表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; dictEntry;</span><br></pre></td></tr></table></figure>
+<h4 id="哈希表节点"><a href="#哈希表节点" class="headerlink" title="哈希表节点"></a>哈希表节点</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line">    <span class="comment">//键</span></span><br><span class="line">    <span class="type">void</span> *key;</span><br><span class="line">    <span class="comment">//值</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span>&#123;</span></span><br><span class="line">        <span class="type">void</span> *val;</span><br><span class="line">        uint64_tu64;</span><br><span class="line">        int64_ts64;</span><br><span class="line">    &#125; v;</span><br><span class="line">    <span class="comment">//指向下个哈希表节点，形成链表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; dictEntry;</span><br></pre></td></tr></table></figure>
 
 <p>next属性是<strong>指向另一个哈希表节点的指针</strong>，这个指针可以将多个<strong>哈希值相同</strong>的键值对连接在一起，以此来<strong>解决键冲突（collision）的问题</strong>。</p>
 <p><img src="https://s2.loli.net/2024/05/08/mdcQSf2gROHxC1z.png" alt="image-20240508162058600"></p>
 <hr>
-<h3 id="字典的结构"><a href="#字典的结构" class="headerlink" title="字典的结构"></a>字典的结构</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line">    <span class="comment">// 类型特定函数</span></span><br><span class="line">    dictType *type;</span><br><span class="line">    <span class="comment">// 私有数据</span></span><br><span class="line">    <span class="type">void</span> *privdata;</span><br><span class="line">    <span class="comment">// 哈希表</span></span><br><span class="line">    dictht ht[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">// rehash索引</span></span><br><span class="line">    <span class="comment">// 当rehash不在进行时，值为-1</span></span><br><span class="line">    in trehashidx; <span class="comment">/* rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line">&#125; dict;</span><br></pre></td></tr></table></figure>
+<h4 id="字典的结构"><a href="#字典的结构" class="headerlink" title="字典的结构"></a>字典的结构</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line">    <span class="comment">// 类型特定函数</span></span><br><span class="line">    dictType *type;</span><br><span class="line">    <span class="comment">// 私有数据</span></span><br><span class="line">    <span class="type">void</span> *privdata;</span><br><span class="line">    <span class="comment">// 哈希表</span></span><br><span class="line">    dictht ht[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">// rehash索引</span></span><br><span class="line">    <span class="comment">// 当rehash不在进行时，值为-1</span></span><br><span class="line">    in trehashidx; <span class="comment">/* rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line">&#125; dict;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>type属性是一个<strong>指向dictType结构</strong>的指针，每个dictType结构保存了一簇<strong>用于操作特定类型键值对的函数</strong>，Redis会为用途不同的字典设置不同的类型特定函数。</li>
@@ -367,10 +437,10 @@
 
 <p>当字典被用作数据库的底层实现，或者哈希键的底层实现时，<strong>Redis使用MurmurHash2算法来计算键的哈希值</strong>。这种算法的优点在于，<strong>即使输入的键是有规律的，算法仍能给出一个很好的随机分布性，并且算法的计算速度也非常快</strong>。</p>
 <hr>
-<h3 id="解决键冲突"><a href="#解决键冲突" class="headerlink" title="解决键冲突"></a>解决键冲突</h3><p>Redis的哈希表使用<strong>链地址法（separate chaining）</strong>来解决键冲突，<strong>每个哈希表节点都有一个next指针，多个哈希表节点可以用next指针构成一个单向链表</strong>，被分配到同一个索引上的多个节点可以用这个单向链表连接起来，这就解决了键冲突的问题。</p>
+<h4 id="解决键冲突"><a href="#解决键冲突" class="headerlink" title="解决键冲突"></a>解决键冲突</h4><p>Redis的哈希表使用<strong>链地址法（separate chaining）</strong>来解决键冲突，<strong>每个哈希表节点都有一个next指针，多个哈希表节点可以用next指针构成一个单向链表</strong>，被分配到同一个索引上的多个节点可以用这个单向链表连接起来，这就解决了键冲突的问题。</p>
 <p>因为<strong>dictEntry节点组成的链表没有指向链表表尾的指针，所以为了速度考虑，程序总是将新节点添加到链表的表头位置</strong>（复杂度为$O(1)$）。</p>
 <hr>
-<h3 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h3><p>随着操作的不断执行，哈希表保存的键值对会逐渐地增多或者减少，为了让哈希表的负载因子（load factor）维持在一个合理的范围之内，当哈希表保存的键值对数量太多或者太少时，程序需要对哈希表的大小进行相应的扩展或者收缩。这个工作通过执行rehash操作来完成。</p>
+<h4 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h4><p>随着操作的不断执行，哈希表保存的键值对会逐渐地增多或者减少，为了让哈希表的负载因子（load factor）维持在一个合理的范围之内，当哈希表保存的键值对数量太多或者太少时，程序需要对哈希表的大小进行相应的扩展或者收缩。这个工作通过执行rehash操作来完成。</p>
 <ol>
 <li>为字典的ht[1]哈希表分配空间，这个哈希表的空间大小取决于要执行的操作，以及ht[0]当前包含的键值对数量（也即是ht[0].used属性的值）</li>
 <li><strong>扩展操作</strong>，那么ht[1]的大小为第一个≥<code>ht[0].used*2</code>的$2^n$；</li>
@@ -381,7 +451,7 @@
 <p>为了避免rehash对服务器性能造成影响，<strong>rehash动作不是一次性、集中式地完成，而是分多次、渐进式地完成的</strong>。因为在进行渐进式rehash的过程中，字典会同时使用ht[0]和ht[1]两个哈希表，所以<strong>在渐进式rehash进行期间，字典的删除（delete）、查找（find）、更新（update）等操作会在两个哈希表上进行</strong>。例如，要在字典里面查找一个键的话，程序会先在ht[0]里面进行查找，如果没找到的话，就会继续到ht[1]里面进行查找，诸如此类。</p>
 <p>另外，在渐进式rehash执行期间，<strong>新添加到字典的键值对一律会被保存到ht[1]里面</strong>，而ht[0]则不再进行任何添加操作，这一措施保证了ht[0]包含的键值对数量会只减不增，并随着rehash操作的执行而最终变成空表。</p>
 <hr>
-<h2 id="跳跃表-skiplist"><a href="#跳跃表-skiplist" class="headerlink" title="跳跃表 skiplist"></a>跳跃表 skiplist</h2><p>跳表是一种<strong>链表+多级索引</strong>的有序数据结构，它通过<strong>在每个节点中维持多个指向其他节点的指针</strong>，从而达到快速访问节点的目的。  跳表支持平均$O(logN)$、最坏$O(N)$复杂度的节点查找，还可以通过顺序操作来批量处理节点。</p>
+<h3 id="跳跃表-skiplist"><a href="#跳跃表-skiplist" class="headerlink" title="跳跃表 skiplist"></a>跳跃表 skiplist</h3><p>跳表是一种<strong>链表+多级索引</strong>的有序数据结构，它通过<strong>在每个节点中维持多个指向其他节点的指针</strong>，从而达到快速访问节点的目的。  跳表支持平均$O(logN)$、最坏$O(N)$复杂度的节点查找，还可以通过顺序操作来批量处理节点。</p>
 <p>和链表、字典等数据结构被广泛地应用在Redis内部不同，<strong>Redis只在两个地方用到了跳跃表</strong>，一个是实现<strong>有序集合键</strong>，另一个是<strong>在集群节点中用作内部数据结构</strong>。</p>
 <p>跳跃表示例：</p>
 <img src="https://s2.loli.net/2024/05/09/dpgyu3QUiDNKWlf.png" alt="跳跃表示例" style="zoom: 50%;" />
@@ -415,7 +485,7 @@
 </li>
 </ul>
 <hr>
-<h3 id="跳跃表节点"><a href="#跳跃表节点" class="headerlink" title="跳跃表节点"></a>跳跃表节点</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
+<h4 id="跳跃表节点"><a href="#跳跃表节点" class="headerlink" title="跳跃表节点"></a>跳跃表节点</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
 
 <ol>
 <li><p>层</p>
@@ -427,7 +497,7 @@
 </ol>
 <p>在同一个跳跃表中，<strong>各个节点保存的成员对象必须是唯一的，但是多个节点保存的分值可以相同</strong>：分值相同的节点将<strong>按照成员对象在字典序中的大小来进行排序</strong>，成员对象较小的节点会排在前面（靠近表头的方向），而成员对象较大的节点则会排在后面（靠近表尾的方向）。</p>
 <hr>
-<h2 id="整数集合-intset"><a href="#整数集合-intset" class="headerlink" title="整数集合 intset"></a>整数集合 intset</h2><p>整数集合是<strong>集合键</strong>的底层实现之一。当一个集合<strong>只包含整数值元素</strong>并且<strong>元素数量不多</strong>时，Redis就会使用整数集合作为集合键的底层实现。它可以保存类型为<code>int16_t</code>、<code>int32_t</code>或者<code>int64_t</code>的整数值，并且保证<strong>集合中不会出现重复元素</strong>。</p>
+<h3 id="整数集合-intset"><a href="#整数集合-intset" class="headerlink" title="整数集合 intset"></a>整数集合 intset</h3><p>整数集合是<strong>集合键</strong>的底层实现之一。当一个集合<strong>只包含整数值元素</strong>并且<strong>元素数量不多</strong>时，Redis就会使用整数集合作为集合键的底层实现。它可以保存类型为<code>int16_t</code>、<code>int32_t</code>或者<code>int64_t</code>的整数值，并且保证<strong>集合中不会出现重复元素</strong>。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">intset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 编码方式</span></span><br><span class="line">    <span class="type">uint32_t</span> encoding;</span><br><span class="line">    <span class="comment">// 集合包含的元素数量</span></span><br><span class="line">    <span class="type">uint32_t</span> length;</span><br><span class="line">    <span class="comment">// 保存元素的数组</span></span><br><span class="line">    <span class="type">int8_t</span> contents[];</span><br><span class="line">&#125; intset;</span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -442,7 +512,7 @@
 </li>
 </ul>
 <hr>
-<h3 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h3><p>每当我们要将一个新元素添加到整数集合里面，并且<strong>新元素的类型比整数集合现有所有元素的类型都要长时</strong>，整数集合需要先进行升级（upgrade），然后才能将新元素添加到整数集合里面。</p>
+<h4 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h4><p>每当我们要将一个新元素添加到整数集合里面，并且<strong>新元素的类型比整数集合现有所有元素的类型都要长时</strong>，整数集合需要先进行升级（upgrade），然后才能将新元素添加到整数集合里面。</p>
 <ol>
 <li>根据新元素的类型，扩展整数集合底层数组的空间大小，并为新元素分配空间。</li>
 <li>底层数组现有的<strong>所有元素都转换成与新元素相同的类型</strong>，并将类型转换后的元素放置到正确的位上，而且在放置元素的过程中，需要继续维持底层数组的有序性质不变 。</li>
@@ -452,7 +522,7 @@
 <p>整数集合的升级策略有两个好处，<strong>一个是提升整数集合的灵活性（可以添加新类型），另一个是尽可能地节约内存（只有必要时才会升级）</strong>。</p>
 <p><strong>整数集合不支持降级操作</strong>，一旦对数组进行了升级，编码就会一直保持升级后的状态。</p>
 <hr>
-<h2 id="压缩列表-ziplist"><a href="#压缩列表-ziplist" class="headerlink" title="压缩列表 ziplist"></a>压缩列表 ziplist</h2><p>压缩列表（ziplist）是列表键和哈希键的底层实现之一。</p>
+<h3 id="压缩列表-ziplist"><a href="#压缩列表-ziplist" class="headerlink" title="压缩列表 ziplist"></a>压缩列表 ziplist</h3><p>压缩列表（ziplist）是列表键和哈希键的底层实现之一。</p>
 <ul>
 <li>当一个<strong>列表键</strong>只包含<strong>少量列表项</strong>（&lt; 512），并且每个列表项要么就是<strong>小整数值</strong>，要么就是<strong>长度比较短的字符串</strong>(&lt; 64字节)，Redis就会使用压缩列表来做列表键的底层实现。</li>
 <li>当一个<strong>哈希键</strong>只包含<strong>少量键值对</strong>，并且每个键值对的键和值要么就是<strong>小整数值</strong>，要么就是<strong>长度比较短的字符串</strong>，Redis就会使用压缩列表来做哈希键的底层实现。</li>
@@ -495,7 +565,7 @@
 </tr>
 </tbody></table>
 <hr>
-<h3 id="压缩列表节点的构成"><a href="#压缩列表节点的构成" class="headerlink" title="压缩列表节点的构成"></a>压缩列表节点的构成</h3><table>
+<h4 id="压缩列表节点的构成"><a href="#压缩列表节点的构成" class="headerlink" title="压缩列表节点的构成"></a>压缩列表节点的构成</h4><table>
 <thead>
 <tr>
 <th>previous_entry_length</th>
@@ -514,7 +584,7 @@
 </li>
 </ul>
 <hr>
-<h3 id="连锁更新"><a href="#连锁更新" class="headerlink" title="连锁更新"></a>连锁更新</h3><p>Redis将在特殊情况下产生的<strong>连续多次空间扩展操作</strong>称之为<strong>连锁更新</strong>。</p>
+<h4 id="连锁更新"><a href="#连锁更新" class="headerlink" title="连锁更新"></a>连锁更新</h4><p>Redis将在特殊情况下产生的<strong>连续多次空间扩展操作</strong>称之为<strong>连锁更新</strong>。</p>
 <p>因为连锁更新在最坏情况下需要对压缩列表执行N次空间重分配操作，而每次空间重分配的最坏复杂度为$O(N)$，所以连锁更新的最坏复杂度为$O(N^2)$。</p>
 <p>尽管连锁更新的复杂度较高，但它真正造成性能问题的几率很低：</p>
 <ul>
@@ -523,12 +593,12 @@
 </ul>
 <p>因为以上原因，<code>ziplistPush</code>等命令的平均复杂度仅为$O(N)$，在实际中，我们可以放心地使用这些函数，而不必担心连锁更新会影响压缩列表的性能。</p>
 <hr>
-<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><p>Redis<strong>没有直接使用上述的数据结构来实现键值对数据库</strong>，而是基于这些数据结构创建了一个<strong>对象系统</strong>。这个系统包含字符串对象（String）、列表对象（List）、哈希对象（Hash）、集合对象（Set）和有序集合（Zset）对象这五种类型的对象，<strong>每种对象都至少用到了一种前面介绍的数据结构</strong>。</p>
+<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>Redis<strong>没有直接使用上述的数据结构来实现键值对数据库</strong>，而是基于这些数据结构创建了一个<strong>对象系统</strong>。这个系统包含字符串对象（String）、列表对象（List）、哈希对象（Hash）、集合对象（Set）和有序集合（Zset）对象这五种类型的对象，<strong>每种对象都至少用到了一种前面介绍的数据结构</strong>。</p>
 <p>通过这五种不同类型的对象，Redis可以在执行命令之前，根据对象的类型来判断一个对象是否可以执行给定的命令。另外，可以针对不同的使用场景，<strong>为对象设置多种不同的数据结构实现</strong>，从而优化对象在不同场景下的使用效率。</p>
 <p>除此之外，Redis的对象系统还实现了<strong>基于引用计数技术的内存回收机制</strong>，当程序不再使用某个对象的时候，这个对象所占用的内存就会被自动释放；另外，Redis还<strong>通过引用计数技术实现了对象共享机制</strong>，这一机制可以在适当的条件下，通过让多个数据库键共享同一个对象来节约内存。</p>
 <p>最后，Redis的对象<strong>带有访问时间记录信息</strong>，该信息可以用于计算数据库键的空转时长，在服务器启用了maxmemory功能的情况下，空转时长较大的那些键可能会优先被服务器删除。</p>
 <hr>
-<h3 id="对象的类型与编码"><a href="#对象的类型与编码" class="headerlink" title="对象的类型与编码"></a>对象的类型与编码</h3><p>每次在Redis的数据库中新创建一个键值对时，我们至少会创建两个对象，一个对象用作键值对的键（键对象），另一个对象用作键值对的值（值对象）。</p>
+<h4 id="对象的类型与编码"><a href="#对象的类型与编码" class="headerlink" title="对象的类型与编码"></a>对象的类型与编码</h4><p>每次在Redis的数据库中新创建一个键值对时，我们至少会创建两个对象，一个对象用作键值对的键（键对象），另一个对象用作键值对的值（值对象）。</p>
 <p>Redis中的每个对象都由一个redisObject结构表示，该结构中和保存数据有关的三个属性分别是type属性、encoding属性和ptr属性：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line">	<span class="comment">// 类型</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 指向底层实现数据结构的指针</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
 
@@ -640,7 +710,7 @@
 </li>
 </ul>
 <hr>
-<h3 id="字符串对象"><a href="#字符串对象" class="headerlink" title="字符串对象"></a>字符串对象</h3><p>字符串对象的编码可以是int、raw或者embstr。</p>
+<h4 id="字符串对象"><a href="#字符串对象" class="headerlink" title="字符串对象"></a>字符串对象</h4><p>字符串对象的编码可以是int、raw或者embstr。</p>
 <ul>
 <li>如果字符串对象保存的是<strong>整数值</strong>，并且这个整数值<strong>可以用long类型来表示</strong>，那么字符串对象会将整数值保存在字符串对象结构的ptr属性里面（将void*转换成long），并将字符串对象的编码设置为<strong>int</strong>。</li>
 <li>如果字符串对象保存的是<strong>字符串值</strong>，并且这个字符串值的<strong>长度&gt;32字节</strong>，那么字符串对象将使用一个<strong>简单动态字符串（SDS）</strong>来保存这个字符串值，并将对象的编码设置为<strong>raw</strong>。</li>
@@ -658,7 +728,7 @@
 </li>
 </ul>
 <p>字符串对象是Redis五种类型的对象中<strong>唯一一种会被其他四种类型对象嵌套的对象</strong>。</p>
-<h4 id="字符串相关命令"><a href="#字符串相关命令" class="headerlink" title="字符串相关命令"></a>字符串相关命令</h4><table>
+<h5 id="字符串相关命令"><a href="#字符串相关命令" class="headerlink" title="字符串相关命令"></a>字符串相关命令</h5><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -691,14 +761,14 @@
 </tr>
 </tbody></table>
 <hr>
-<h3 id="列表对象"><a href="#列表对象" class="headerlink" title="列表对象"></a>列表对象</h3><p>列表对象的编码可以是ziplist或者linkedlist。</p>
+<h4 id="列表对象"><a href="#列表对象" class="headerlink" title="列表对象"></a>列表对象</h4><p>列表对象的编码可以是ziplist或者linkedlist。列表中存放一系列的字符串，<strong>它支持随机访问，支持双端操作</strong>，就像我们使用Java中的LinkedList一样。</p>
 <p>当列表对象同时满足2个条件时，使用ziplist编码：</p>
 <ol>
 <li>列表对象保存的所有字符串元素，<strong>长度都 &lt; 64字节</strong>。</li>
 <li>列表对象保存的<strong>元素数量 ≤ 512个</strong>。</li>
 </ol>
 <p>两个条件的<strong>上限值是可以修改的</strong>，具体请看配置文件中关于<code>list-max-ziplist-value</code>选项和<code>list-max-ziplist-entries</code>选项的说明。</p>
-<h4 id="列表相关命令"><a href="#列表相关命令" class="headerlink" title="列表相关命令"></a>列表相关命令</h4><table>
+<h5 id="列表相关命令"><a href="#列表相关命令" class="headerlink" title="列表相关命令"></a>列表相关命令</h5><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -706,32 +776,50 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>LPUSH</td>
+<td>LPUSH &lt;key&gt; &lt;element&gt;</td>
 <td>将元素推入到压缩列表的<strong>表头</strong></td>
 </tr>
 <tr>
-<td>RPUSH</td>
+<td>RPUSH &lt;key&gt; &lt;element&gt;</td>
 <td>将元素推入到压缩列表的<strong>表尾</strong></td>
 </tr>
 <tr>
-<td>LPOP</td>
+<td>LINSERT &lt;key&gt; before&#x2F;after &lt;指定元素&gt; &lt;element&gt;</td>
+<td>在指定元素前面&#x2F;后面插入元素</td>
+</tr>
+<tr>
+<td>LPOP &lt;key&gt;</td>
 <td>返回<strong>表头节点</strong>，并删除</td>
 </tr>
 <tr>
-<td>RPOP</td>
+<td>RPOP &lt;key&gt;</td>
 <td>返回<strong>表尾节点</strong>，并删除</td>
 </tr>
 <tr>
-<td>LINDEX</td>
-<td>返回<strong>指定节点</strong>保存的元素</td>
+<td>LRANGE &lt;key&gt; start stop</td>
+<td>获取指定范围内的元素</td>
+</tr>
+<tr>
+<td>LINDEX &lt;key&gt; &lt;下标&gt;</td>
+<td>返回<strong>指定下标</strong>保存的元素</td>
 </tr>
 <tr>
 <td>LLEN</td>
 <td>列表的长度</td>
 </tr>
+<tr>
+<td>RPOPPUSH 当前数组 目标数组</td>
+<td>从前一个数组的最后取一个数出来放到另一个数组的头部，并返回元素</td>
+</tr>
+<tr>
+<td>BLPOP &lt;key&gt;… timeout</td>
+<td>如果列表中没有元素，那么就等待，如果指定时间（秒）内被添加了数据，那么就执行pop操作，如果超时就作废，<strong>支持同时等待多个列表，只要其中一个列表有元素了，那么就能执行</strong></td>
+</tr>
 </tbody></table>
 <hr>
-<h3 id="哈希对象"><a href="#哈希对象" class="headerlink" title="哈希对象"></a>哈希对象</h3><p>哈希对象的编码可以是ziplist或者hashtable。</p>
+<h4 id="哈希对象"><a href="#哈希对象" class="headerlink" title="哈希对象"></a>哈希对象</h4><p>哈希对象的编码可以是ziplist或者hashtable。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Redis默认存String类似于这样：</span></span><br><span class="line">Map&lt;String, String&gt; hash = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Redis存Hash类型的数据类似于这样：</span></span><br><span class="line">Map&lt;String, Map&lt;String, String&gt;&gt; hash = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br></pre></td></tr></table></figure>
+
 <p>ziplist编码的哈希对象，每当有新的键值对要加入时，程序会先将<strong>保存了键的压缩列表节点推入到压缩列表表尾</strong>，然后再将<strong>保存了值的压缩列表节点推入到压缩列表表尾</strong>，因此<strong>保存了键值对的两个节点总是紧挨在一起，保存键的节点在前，保存值的节点在后</strong>。</p>
 <p>当哈希对象同时满足如下两个条件时，哈希对象使用ziplist编码：</p>
 <ol>
@@ -739,7 +827,7 @@
 <li>保存的<strong>键值对</strong>数量<strong>≤ 512个</strong>。</li>
 </ol>
 <p>两个条件的<strong>上限值是可以修改的</strong>，具体请看配置文件中关于<code>hash-max-ziplist-value</code>选项和<code>hash-max-ziplist-entries</code>选项的说明。</p>
-<h4 id="哈希相关命令"><a href="#哈希相关命令" class="headerlink" title="哈希相关命令"></a>哈希相关命令</h4><table>
+<h5 id="哈希相关命令"><a href="#哈希相关命令" class="headerlink" title="哈希相关命令"></a>哈希相关命令</h5><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -747,32 +835,36 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>HSET</td>
+<td>HSET &lt;key&gt; [&lt;字段&gt; &lt;值&gt;]…</td>
 <td>添加键值对</td>
 </tr>
 <tr>
-<td>HGET</td>
+<td>HGET &lt;key&gt; &lt;字段&gt;</td>
 <td>根据键，返回值节点</td>
 </tr>
 <tr>
-<td>HEXISTS</td>
+<td>HGETALL &lt;key&gt;</td>
+<td>一次性返回所有的字段和值</td>
+</tr>
+<tr>
+<td>HEXISTS &lt;key&gt; &lt;字段&gt;</td>
 <td>根据指定键，查找是否存在键值对</td>
 </tr>
 <tr>
-<td>HDEL</td>
-<td>删除键值对</td>
+<td>HDEL &lt;key&gt;</td>
+<td>删除Hash中的某个字段</td>
 </tr>
 <tr>
-<td>HLEN</td>
+<td>HLEN &lt;key&gt;</td>
 <td>获取键值对的数量</td>
 </tr>
 <tr>
-<td>HGETALL</td>
-<td>获取所有的键值对</td>
+<td>HVALS &lt;key&gt;</td>
+<td>获取所有字段的值</td>
 </tr>
 </tbody></table>
 <hr>
-<h3 id="集合对象"><a href="#集合对象" class="headerlink" title="集合对象"></a>集合对象</h3><p>集合对象的编码可以是intset或者hashtable。</p>
+<h4 id="集合对象"><a href="#集合对象" class="headerlink" title="集合对象"></a>集合对象</h4><p>集合对象的编码可以是intset或者hashtable。</p>
 <ul>
 <li>intset编码的集合对象，包含的所有元素都被保存在<strong>整数集合</strong>里面。</li>
 <li>hashtable编码的集合对象，字典的<strong>每个键都是一个字符串对象，每个字符串对象包含了一个集合元素，而字典的值则全部被设置为NULL</strong>。</li>
@@ -783,7 +875,7 @@
 <li>保存的元素数量<strong>≤512个</strong>。</li>
 </ol>
 <p>第二个条件的<strong>上限值是可以修改的</strong>，具体请看配置文件中关于<code>set-max-intset-entries</code>选项的说明。</p>
-<h4 id="集合相关命令"><a href="#集合相关命令" class="headerlink" title="集合相关命令"></a>集合相关命令</h4><table>
+<h5 id="集合相关命令"><a href="#集合相关命令" class="headerlink" title="集合相关命令"></a>集合相关命令</h5><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -791,36 +883,64 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>SADD</td>
+<td>SADD &lt;key&gt; [&lt;value&gt;] …</td>
 <td>添加元素到集合中</td>
 </tr>
 <tr>
-<td>SCARD</td>
+<td>SCARD &lt;key&gt;</td>
 <td>返回集合对象的元素数量</td>
 </tr>
 <tr>
-<td>SISMEMBER</td>
+<td>SISMEMBER &lt;key&gt; &lt;value&gt;</td>
 <td>查找元素是否存在</td>
 </tr>
 <tr>
-<td>SMEMBERS</td>
+<td>SMEMBERS &lt;key&gt;</td>
 <td>返回所有集合元素</td>
 </tr>
 <tr>
-<td>SRANDMEMBER</td>
+<td>SRANDMEMBER &lt;key&gt;</td>
 <td>随机返回一个元素</td>
 </tr>
 <tr>
-<td>SPOP</td>
+<td>SPOP &lt;key&gt;</td>
 <td>随机返回一个元素，并删除</td>
 </tr>
 <tr>
-<td>SREM</td>
+<td>SREM &lt;key&gt; [&lt;value&gt;] …</td>
 <td>批量删除指定的元素</td>
+</tr>
+<tr>
+<td>SDIFF &lt;key1&gt; &lt;key2&gt;</td>
+<td>集合之间的差集</td>
+</tr>
+<tr>
+<td>SINTER &lt;key1&gt; &lt;key2&gt;</td>
+<td>集合之间的交集</td>
+</tr>
+<tr>
+<td>SUNION &lt;key1&gt; &lt;key2&gt;</td>
+<td>集合之间的并集</td>
+</tr>
+<tr>
+<td>SDIFFSTORE 目标 &lt;key1&gt; &lt;key2&gt;</td>
+<td>将集合之间的差集存到目标集合中</td>
+</tr>
+<tr>
+<td>SINTERSTORE 目标 &lt;key1&gt; &lt;key2&gt;</td>
+<td>将集合之间的交集存到目标集合中</td>
+</tr>
+<tr>
+<td>SUNIONSTORE 目标 &lt;key1&gt; &lt;key2&gt;</td>
+<td>将集合之间的并集存到目标集合中</td>
+</tr>
+<tr>
+<td>SMOVE &lt;key&gt; 目标 value</td>
+<td>移动指定值到另一个集合中</td>
 </tr>
 </tbody></table>
 <hr>
-<h3 id="有序集合对象"><a href="#有序集合对象" class="headerlink" title="有序集合对象"></a>有序集合对象</h3><p>有序集合的编码可以是ziplist或者skiplist。</p>
+<h4 id="有序集合对象"><a href="#有序集合对象" class="headerlink" title="有序集合对象"></a>有序集合对象</h4><p>有序集合的编码可以是ziplist或者skiplist。</p>
 <p>当有序集合对象同时满足以下两个条件时，使用 ziplist：</p>
 <ol>
 <li>ZSet 保存的元素数量 <strong>≤ 128 个</strong>；</li>
@@ -840,7 +960,7 @@
 </li>
 </ul>
 <p>有序集合每个元素的成员都是一个<strong>字符串对象</strong>，而每个元素的分值都是一个<strong>double类型的浮点数</strong>。虽然zset结构<strong>同时使用跳跃表和字典来保存有序集合元素</strong>，但这两种数据结构都会<strong>通过指针来共享相同元素的成员和分值</strong>，所以不会产生任何重复成员或者分值，也不会因此而浪费额外的内存。</p>
-<h4 id="有序集合相关命令"><a href="#有序集合相关命令" class="headerlink" title="有序集合相关命令"></a>有序集合相关命令</h4><table>
+<h5 id="有序集合相关命令"><a href="#有序集合相关命令" class="headerlink" title="有序集合相关命令"></a>有序集合相关命令</h5><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -848,31 +968,35 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>ZADD</td>
+<td>ZADD &lt;key&gt; [&lt;value&gt; &lt;score&gt;] …</td>
 <td>将成员和分值添加到有序集合中</td>
 </tr>
 <tr>
-<td>ZCARD</td>
+<td>ZCARD &lt;key&gt;</td>
 <td>获取集合元素的数量</td>
 </tr>
 <tr>
-<td>ZCOUNT</td>
+<td>ZCOUNT &lt;key&gt;  start stop</td>
 <td>统计分值在给定范围内节点的数量</td>
 </tr>
 <tr>
-<td>ZRANGE</td>
+<td>ZRANGE &lt;key&gt; start stop</td>
 <td>从表头向表尾遍历有序集合，返回给定索引范围内的所有元素</td>
+</tr>
+<tr>
+<td>ZRANGEBYSCORE &lt;key&gt; start stop [withscores] [limit]</td>
+<td>通过分数段查看</td>
 </tr>
 <tr>
 <td>ZREVRANGE</td>
 <td>从表尾向表头遍历有序集合，返回给定索引范围内的所有元素</td>
 </tr>
 <tr>
-<td>ZRANK</td>
+<td>ZRANK &lt;key&gt; &lt;value&gt;</td>
 <td>获取指定成员对应元素的排名</td>
 </tr>
 <tr>
-<td>ZREM</td>
+<td>ZREM &lt;key&gt; [&lt;value&gt;] …</td>
 <td>删除指定对象</td>
 </tr>
 <tr>
@@ -881,20 +1005,20 @@
 </tr>
 </tbody></table>
 <hr>
-<h3 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h3><p>对象的<strong>引用计数属性</strong>除了用于内存回收，还带有对象共享的作用。</p>
+<h4 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h4><p>对象的<strong>引用计数属性</strong>除了用于内存回收，还带有对象共享的作用。</p>
 <p>以<strong>Redis 3.0</strong>来说，Redis在初始化服务器时，<strong>会创建1万个字符串对象</strong>，包含了<strong>从0到9999的所有整数值</strong>，当服务器需要用到值为0到9999的字符串对象时，服务器就会使用这些共享对象，而不是新创建对象。创建共享字符串对象的数量可以通过修改<code>redis.h/REDIS_SHARED_INTEGERS</code>常量来修改。</p>
 <img src="https://s2.loli.net/2024/05/13/SQg78t69MfY5u2J.png" alt="被共享的字符串对象" style="zoom:50%;" />
 
 <p>这些共享对象不单单只有字符串键可以使用，那些在数据结构中嵌套了字符串对象的对象（linkedlist编码的列表对象、hashtable编码的哈希对象、hashtable编码的集合对象，以及zset编码的有序集合对象）都可以使用这些共享对象。</p>
 <p>由于只有在共享对象和目标对象完全相同的情况下，程序才会将共享对象用作键的值对象，而一个共享对象<strong>保存的值越复杂</strong>，验证共享对象和目标对象是否相同所需的<strong>复杂度就会越高</strong>，<strong>消耗的CPU时间也会越多</strong>，因此，Redis只对<strong>包含整数值的字符串对象</strong>进行共享。</p>
 <hr>
-<h3 id="对象的空转时长"><a href="#对象的空转时长" class="headerlink" title="对象的空转时长"></a>对象的空转时长</h3><p>redisObject结构还包含一个lru属性，记录了<strong>最后一次被程序访问的时间</strong>。<code>OBJECT IDLETIME</code>命令可以打印指定键的空转时长，通过<strong>当前时间 - 键的值对象的lru时间</strong>得出。<code>OBJECT IDLETIME</code>命令的实现比较特叔，在访问键的值对象时，<strong>不会修改值对象的lru属性</strong>。</p>
+<h4 id="对象的空转时长"><a href="#对象的空转时长" class="headerlink" title="对象的空转时长"></a>对象的空转时长</h4><p>redisObject结构还包含一个lru属性，记录了<strong>最后一次被程序访问的时间</strong>。<code>OBJECT IDLETIME</code>命令可以打印指定键的空转时长，通过<strong>当前时间 - 键的值对象的lru时间</strong>得出。<code>OBJECT IDLETIME</code>命令的实现比较特叔，在访问键的值对象时，<strong>不会修改值对象的lru属性</strong>。</p>
 <p>如果服务器打开了maxmemory选项，并且用于回收内存的算法为<code>volatile-lru</code>或者<code>allkeys-lru</code>，那么当服务器占用的内存数超过maxmemory设置的上限值时，<strong>空转时长较高的键会被优先释放</strong>，从而回收内存。</p>
 <hr>
-<h3 id="位图对象"><a href="#位图对象" class="headerlink" title="位图对象"></a>位图对象</h3><p>Bitmap 存储的是<strong>连续的</strong>二进制数字（0 和 1），只需要一个 bit 位来表示<strong>某个元素对应的值或者状态</strong>，<strong>key 就是对应元素本身</strong> 。可以把BitMap看作一个bit数组，数组的下标就是偏移量offset。BitMap<strong>内存开销小，效率高且操作简单</strong>。</p>
+<h4 id="位图对象"><a href="#位图对象" class="headerlink" title="位图对象"></a>位图对象</h4><p>Bitmap 存储的是<strong>连续的</strong>二进制数字（0 和 1），只需要一个 bit 位来表示<strong>某个元素对应的值或者状态</strong>，<strong>key 就是对应元素本身</strong> 。可以把BitMap看作一个bit数组，数组的下标就是偏移量offset。BitMap<strong>内存开销小，效率高且操作简单</strong>。</p>
 <p>使用场景：统计用户活跃状态（是否登录、签到）</p>
 <hr>
-<h1 id="Redis为什么速度快？"><a href="#Redis为什么速度快？" class="headerlink" title="Redis为什么速度快？"></a>Redis为什么速度快？</h1><ol>
+<h2 id="Redis为什么速度快？"><a href="#Redis为什么速度快？" class="headerlink" title="Redis为什么速度快？"></a>Redis为什么速度快？</h2><ol>
 <li><p>Redis基于内存，内存的访问速度是磁盘的上千倍。</p>
 </li>
 <li><p>Redis基于Reactor模式，设计开发了一套高效的<strong>事件处理模型</strong>，主要是<strong>单线程事件循环</strong>和<strong>IO多路复用</strong>。</p>
@@ -904,7 +1028,7 @@
 </li>
 </ol>
 <hr>
-<h1 id="Redis持久化机制"><a href="#Redis持久化机制" class="headerlink" title="Redis持久化机制"></a>Redis持久化机制</h1><p>使用缓存的时候，我们经常需要对内存中的数据进行持久化，也就是<strong>将内存中的数据写入到硬盘中</strong>。大部分原因是为了之后<strong>重用数据</strong>（比如重启机器、机器故障之后恢复数据），或者是为了做<strong>数据同步</strong>（比如 Redis 集群的<strong>主从节点通过 RDB 文件同步数据</strong>）。</p>
+<h2 id="Redis持久化机制"><a href="#Redis持久化机制" class="headerlink" title="Redis持久化机制"></a>Redis持久化机制</h2><p>使用缓存的时候，我们经常需要对内存中的数据进行持久化，也就是<strong>将内存中的数据写入到硬盘中</strong>。大部分原因是为了之后<strong>重用数据</strong>（比如重启机器、机器故障之后恢复数据），或者是为了做<strong>数据同步</strong>（比如 Redis 集群的<strong>主从节点通过 RDB 文件同步数据</strong>）。</p>
 <p>Redis 支持 3 种持久化方式:</p>
 <ul>
 <li>快照（snapshotting，RDB）</li>
@@ -912,19 +1036,21 @@
 <li>RDB 和 AOF 的混合持久化(Redis 4.0 新增）</li>
 </ul>
 <hr>
-<h2 id="RDB-持久化"><a href="#RDB-持久化" class="headerlink" title="RDB 持久化"></a>RDB 持久化</h2><p>Redis 可以通过<strong>创建快照</strong>来获得存储在内存里面的数据在 <strong>某个时间点</strong> 上的副本。Redis 创建快照之后，可以对快照进行备份，可以将快照复制到其他服务器从而创建具有相同数据的服务器副本（Redis 主从结构，主要用来提高 Redis 性能），还可以将快照留在原地以便重启服务器的时候使用。</p>
+<h3 id="RDB-持久化"><a href="#RDB-持久化" class="headerlink" title="RDB 持久化"></a>RDB 持久化</h3><p>Redis 可以通过<strong>创建快照</strong>来获得存储在内存里面的数据在 <strong>某个时间点</strong> 上的副本。Redis 创建快照之后，可以对快照进行备份，可以将快照复制到其他服务器从而创建具有相同数据的服务器副本（Redis 主从结构，主要用来提高 Redis 性能），还可以将快照留在原地以便重启服务器的时候使用。</p>
 <p>快照持久化是 Redis 默认采用的持久化方式，在 <code>redis.conf</code> 配置文件中默认有此下配置：</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">save <span class="number">900</span> <span class="number">1</span>           #在<span class="number">900</span>秒(<span class="number">15</span>分钟)之后，如果至少有<span class="number">1</span>个key发生变化，Redis就会自动触发bgsave命令创建快照。</span><br><span class="line"></span><br><span class="line">save <span class="number">300</span> <span class="number">10</span>          #在<span class="number">300</span>秒(<span class="number">5</span>分钟)之后，如果至少有<span class="number">10</span>个key发生变化，Redis就会自动触发bgsave命令创建快照。</span><br><span class="line"></span><br><span class="line">save <span class="number">60</span> <span class="number">10000</span>        #在<span class="number">60</span>秒(<span class="number">1</span>分钟)之后，如果至少有<span class="number">10000</span>个key发生变化，Redis就会自动触发bgsave命令</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在900秒(15分钟)之后，如果至少有1个key发生变化，Redis就会自动触发bgsave命令(单独一个子进程后台执行)创建快照。</span></span><br><span class="line">save 900 1  </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在300秒(5分钟)之后，如果至少有10个key发生变化，Redis就会自动触发bgsave命令创建快照。</span></span><br><span class="line">save 300 10          </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在60秒(1分钟)之后，如果至少有10000个key发生变化，Redis就会自动触发bgsave命令</span></span><br><span class="line">save 60 10000        </span><br></pre></td></tr></table></figure>
 
+<p><img src="https://oss.itbaima.cn/internal/markdown/2023/03/06/VK3k7EAZDT1fjIo.jpg" alt="RDB持久化机制"></p>
 <hr>
-<h2 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h2><p>与快照持久化相比，AOF （append only file）持久化的<strong>实时性更好</strong>。Redis 6.0 之后默认开启了AOF持久化，可以通过 <code>appendonly</code> 参数开启：</p>
+<h3 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h3><p>与快照持久化相比，AOF （append only file）持久化的<strong>实时性更好</strong>。Redis 6.0 之后默认开启了AOF持久化，可以通过 <code>appendonly</code> 参数开启：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">appendonly <span class="built_in">yes</span></span><br></pre></td></tr></table></figure>
 
 <p>开启 AOF 持久化后，每执行一条会更改 Redis 中的数据的命令，Redis 就会将该命令<strong>写入到 AOF 缓冲区 <code>server.aof_buf</code> 中，然后再写入到 AOF 文件中</strong>（此时还在系统内核缓存区未同步到磁盘），最后再根据持久化方式（ <code>fsync</code>策略）的配置来决定何时将系统内核缓存区的数据同步到硬盘中的。</p>
 <p>只有同步到磁盘中才算持久化保存了，否则依然存在数据丢失的风险，比如说：系统内核缓存区的数据还未同步，磁盘机器就宕机了，那这部分数据就算丢失了。</p>
 <p>AOF 文件的保存位置和 RDB 文件的位置相同，都是通过 <code>dir</code> 参数设置的，默认的文件名是 <code>appendonly.aof</code>。</p>
+<p><img src="https://oss.itbaima.cn/internal/markdown/2023/03/06/JYiOHBdtT7jC98R.png" alt="AOF持久化机制"></p>
 <hr>
-<h1 id="Redis线程模型"><a href="#Redis线程模型" class="headerlink" title="Redis线程模型"></a>Redis线程模型</h1><p>对于<strong>读写命令</strong>来说，Redis 一直是<strong>单线程模型</strong>。在 Redis <strong>4.0</strong> 版本之后引入了多线程来执行一些<strong>大键值对的异步删除操作</strong>， Redis <strong>6.0</strong> 版本之后引入了多线程来<strong>处理网络请求（提高网络 IO 读写性能）</strong>。</p>
+<h2 id="Redis线程模型"><a href="#Redis线程模型" class="headerlink" title="Redis线程模型"></a>Redis线程模型</h2><p>对于<strong>读写命令</strong>来说，Redis 一直是<strong>单线程模型</strong>。在 Redis <strong>4.0</strong> 版本之后引入了多线程来执行一些<strong>大键值对的异步删除操作</strong>， Redis <strong>6.0</strong> 版本之后引入了多线程来<strong>处理网络请求（提高网络 IO 读写性能）</strong>。</p>
 <hr>
 <ol>
 <li><p>内存是有限的，如果缓存中的所有数据都是一直保存的话，分分钟直接 Out of memory。</p>
@@ -935,7 +1061,7 @@
 </li>
 </ol>
 <hr>
-<h1 id="常见的缓存更新策略"><a href="#常见的缓存更新策略" class="headerlink" title="常见的缓存更新策略"></a>常见的缓存更新策略</h1><h2 id="Cache-Aside-Pattern-旁路缓存模式"><a href="#Cache-Aside-Pattern-旁路缓存模式" class="headerlink" title="Cache Aside Pattern 旁路缓存模式"></a>Cache Aside Pattern 旁路缓存模式</h2><p>比较适合<strong>读比较多</strong>的场景。</p>
+<h2 id="常见的缓存更新策略"><a href="#常见的缓存更新策略" class="headerlink" title="常见的缓存更新策略"></a>常见的缓存更新策略</h2><h3 id="Cache-Aside-Pattern-旁路缓存模式"><a href="#Cache-Aside-Pattern-旁路缓存模式" class="headerlink" title="Cache Aside Pattern 旁路缓存模式"></a>Cache Aside Pattern 旁路缓存模式</h3><p>比较适合<strong>读比较多</strong>的场景。</p>
 <p>Cache Aside Pattern中，服务端需要<strong>同时维系数据库和缓存</strong>，并且<strong>以db为准</strong>。</p>
 <ul>
 <li><p><strong>写</strong>步骤：</p>
@@ -994,16 +1120,90 @@
 </li>
 </ol>
 <hr>
-<h2 id="Read-x2F-Write-Through-Pattern-读写穿透模式"><a href="#Read-x2F-Write-Through-Pattern-读写穿透模式" class="headerlink" title="Read&#x2F;Write Through Pattern 读写穿透模式"></a>Read&#x2F;Write Through Pattern 读写穿透模式</h2><p>读写穿透模式中，<strong>服务端把cache视为主要数据存储</strong>，从中读取数据并将数据写入其中。<strong>cache服务负责将此数据读取和写入db</strong>，从而减轻应用程序的职责。</p>
+<h3 id="Read-x2F-Write-Through-Pattern-读写穿透模式"><a href="#Read-x2F-Write-Through-Pattern-读写穿透模式" class="headerlink" title="Read&#x2F;Write Through Pattern 读写穿透模式"></a>Read&#x2F;Write Through Pattern 读写穿透模式</h3><p>读写穿透模式中，<strong>服务端把cache视为主要数据存储</strong>，从中读取数据并将数据写入其中。<strong>cache服务负责将此数据读取和写入db</strong>，从而减轻应用程序的职责。</p>
 <p>这个模式在平时开发过程中<strong>非常少见</strong>，大概率是因为Redis没有提供cache将数据写入db的功能。</p>
 <p>Read-Through Pattern实际只是在Cache Aside Pattern之上进行了封装。在Cache<br>Aside Pattern下，发生读请求的时候，如果cache中不存在对应的数据，是<strong>由客户端自己负责把数据写入cache</strong>，而Read Through Pattern则是<strong>cache服务自己来写入缓存的，这对客户端是透明的</strong>。</p>
 <hr>
-<h2 id="Write-Behind-Pattern-异步缓存写入模式"><a href="#Write-Behind-Pattern-异步缓存写入模式" class="headerlink" title="Write Behind Pattern 异步缓存写入模式"></a>Write Behind Pattern 异步缓存写入模式</h2><p>Write Behind Pattern 异步缓存写入模式 和 Read&#x2F;Write Through Pattern 读写穿透模式很相似，两者都是由cache服务负责cache和db的读写。</p>
+<h3 id="Write-Behind-Pattern-异步缓存写入模式"><a href="#Write-Behind-Pattern-异步缓存写入模式" class="headerlink" title="Write Behind Pattern 异步缓存写入模式"></a>Write Behind Pattern 异步缓存写入模式</h3><p>Write Behind Pattern 异步缓存写入模式 和 Read&#x2F;Write Through Pattern 读写穿透模式很相似，两者都是由cache服务负责cache和db的读写。</p>
 <p>但是读写穿透模式<strong>同步更新cache和db</strong>，而<strong>异步缓存写入模式只是更新缓存，不直接更新db，改为异步批量的方式更新db</strong>。</p>
 <p>这对数据一致性带来了更大的挑战，比如cache数据可能还没异步更新db，但cache服务就挂掉了。</p>
 <p>这种策略在我们平时开发过程中也非常非常少见，但是不代表它的应用场景少。比如消息队列中消息的异步写入磁盘、MySQL的Innodb Buffer Pool机制都用到了这种策略。</p>
 <p>Write Behind Pattern下db的<strong>写性能非常高</strong>，非常适合一些数据经常变化又对数据一致性要求没那么高的场景，比如浏览量、点赞量。</p>
+<hr>
+<h2 id="事务和锁机制"><a href="#事务和锁机制" class="headerlink" title="事务和锁机制"></a>事务和锁机制</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">开启事务</span></span><br><span class="line">multi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">输入完所有要执行的命令后，可以立即执行事务</span></span><br><span class="line">exec</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">可以中途取消事务</span></span><br><span class="line">discard</span><br></pre></td></tr></table></figure>
 
+<p>实际上<strong>整个事务是创建了一个命令队列</strong>，它不像MySQL那种在事务中也能单独得到结果，而是我们提前将所有的命令装在队列中，但是并不会执行，而是<strong>等提交事务的时候再统一执行</strong>。</p>
+<p>Redis中有<strong>乐观锁</strong>，不同于MySQL的锁是悲观锁。</p>
+<blockquote>
+<ul>
+<li>悲观锁：时刻认为别人会来抢占资源，禁止一切外来访问，直到释放锁，具有强烈的排他性质。</li>
+<li>乐观锁：并不认为会有人来抢占资源，所以会直接对数据进行操作，在操作时再去验证是否有其他人抢占资源。</li>
+</ul>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">监视一个目标，如果执行事务之前被监视目标发生了修改，则取消本次事务</span></span><br><span class="line">watch</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">取消监视</span></span><br><span class="line">unwatch</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="使用Java与Redis交互"><a href="#使用Java与Redis交互" class="headerlink" title="使用Java与Redis交互"></a>使用Java与Redis交互</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Jedis is a blazingly small and sane Redis java client. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>redis.clients<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jedis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="基本操作-1"><a href="#基本操作-1" class="headerlink" title="基本操作"></a>基本操作</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="comment">// 创建Jedis对象</span></span><br><span class="line">    <span class="type">Jedis</span> <span class="variable">jedis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Jedis</span>(<span class="string">&quot;localhost&quot;</span>, <span class="number">6379</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用之后关闭连接</span></span><br><span class="line">    jedis.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过Jedis对象，可以直接调用命令的同名方法来执行Redis命令：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="comment">// 直接使用try-with-resouse，省去close</span></span><br><span class="line">    <span class="keyword">try</span> (<span class="type">Jedis</span> <span class="variable">jedis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Jedis</span>(<span class="string">&quot;192.168.10.3&quot;</span>, <span class="number">6379</span>)) &#123;</span><br><span class="line">        jedis.set(<span class="string">&quot;test&quot;</span>, <span class="string">&quot;hunter&quot;</span>); <span class="comment">// 等同于 set test hunter 命令</span></span><br><span class="line">        System.out.println(jedis.get(<span class="string">&quot;test&quot;</span>)); <span class="comment">// 等同于 get test 命令</span></span><br><span class="line"></span><br><span class="line">        jedis.hset(<span class="string">&quot;hhh&quot;</span>, <span class="string">&quot;name&quot;</span>, <span class="string">&quot;hunter&quot;</span>); <span class="comment">// 等同于 hset hhh name hunter</span></span><br><span class="line">        jedis.hset(<span class="string">&quot;hhh&quot;</span>, <span class="string">&quot;age&quot;</span>, <span class="string">&quot;30&quot;</span>); <span class="comment">// 等同于 hset hhh age 30</span></span><br><span class="line">        jedis.hgetAll(<span class="string">&quot;hhh&quot;</span>).forEach((k, v) -&gt; System.out.println(k + <span class="string">&quot;: &quot;</span> + v));</span><br><span class="line">        </span><br><span class="line">        jedis.lpush(<span class="string">&quot;mylist&quot;</span>, <span class="string">&quot;111&quot;</span>, <span class="string">&quot;222&quot;</span>, <span class="string">&quot;333&quot;</span>); <span class="comment">// 等同于 lpush mylist 111 222 333 命令</span></span><br><span class="line">        jedis.lrange(<span class="string">&quot;mylist&quot;</span>, <span class="number">0</span>, -<span class="number">1</span>)</span><br><span class="line">                .forEach(System.out::println); <span class="comment">// 等同于 lrange mylist 0 -1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="SpringBoot整合Redis"><a href="#SpringBoot整合Redis" class="headerlink" title="SpringBoot整合Redis"></a>SpringBoot整合Redis</h3><p>SpringBoot整合的Redis框架底层<strong>不是用Jedis，而是Lettuce</strong>。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>starter提供的<strong>默认配置</strong>会去连接<strong>本地的Redis服务器</strong>，并使用<strong>0号数据库</strong>。<code>application.yml</code>中可以进行相应的配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">  	<span class="comment"># Redis服务器地址</span></span><br><span class="line">    <span class="attr">host:</span> <span class="number">192.168</span><span class="number">.10</span><span class="number">.3</span></span><br><span class="line">    <span class="comment"># 端口</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">6379</span></span><br><span class="line">    <span class="comment"># 使用几号数据库</span></span><br><span class="line">    <span class="attr">database:</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>这个starter已经提供了两个默认的模板类：</p>
+<ul>
+<li><code>StringRedisTemplate</code>：当所有操作都基于字符串，或者你需要确保键和值都是字符串形式时。</li>
+<li><code>RedisTemplate&lt;Object, Object&gt;</code>：当需要处理复杂的数据结构（如 Java 对象），或者需要使用 Redis 的各种复杂数据类型时。可以根据需要配置自定义的序列化器以优化性能和可读性。</li>
+</ul>
+<p>使用<code>StringRedisTemplate</code>，可以**直接注入<code>StringRedisTemplate</code>**来使用模板：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SpringBootTestApplicationTests</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    StringRedisTemplate template;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">contextLoads</span><span class="params">()</span> &#123;</span><br><span class="line">        ValueOperations&lt;String, String&gt; operations = template.opsForValue();</span><br><span class="line">        operations.set(<span class="string">&quot;c&quot;</span>, <span class="string">&quot;xxxxx&quot;</span>);   <span class="comment">// 设置值</span></span><br><span class="line">        System.out.println(operations.get(<span class="string">&quot;c&quot;</span>));   <span class="comment">// 获取值</span></span><br><span class="line"></span><br><span class="line">        template.delete(<span class="string">&quot;c&quot;</span>);    <span class="comment">// 删除键</span></span><br><span class="line">        System.out.println(template.hasKey(<span class="string">&quot;c&quot;</span>));   <span class="comment">// 判断是否包含键</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所有的值的操作都被封装到了<code>ValueOperations</code>对象中，而普通的键操作直接通过模板对象就可以使用了，大致使用方式其实和Jedis一致。</p>
+<hr>
+<p>由于Spring没有专门的Redis事务管理器，所以只能借用JDBC提供的：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    StringRedisTemplate template;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostConstruct</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span>&#123;</span><br><span class="line">        template.setEnableTransactionSupport(<span class="literal">true</span>);   <span class="comment">//需要开启事务</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional</span>  <span class="comment">// 需要添加事务注解</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span>&#123;</span><br><span class="line">        template.multi();</span><br><span class="line">        template.opsForValue().set(<span class="string">&quot;d&quot;</span>, <span class="string">&quot;xxxxx&quot;</span>);</span><br><span class="line">        template.exec();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还可以为RedisTemplate对象配置一个Serializer来实现对象的JSON存储：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">contextLoad2</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 注意Student需要实现序列化接口才能存入Redis</span></span><br><span class="line">    template.opsForValue().set(<span class="string">&quot;student&quot;</span>, <span class="keyword">new</span> <span class="title class_">Student</span>());</span><br><span class="line">    System.out.println(template.opsForValue().get(<span class="string">&quot;student&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="使用Redis做缓存"><a href="#使用Redis做缓存" class="headerlink" title="使用Redis做缓存"></a>使用Redis做缓存</h2><h3 id="MyBatis的二级存储"><a href="#MyBatis的二级存储" class="headerlink" title="MyBatis的二级存储"></a>MyBatis的二级存储</h3><p><img src="https://oss.itbaima.cn/internal/markdown/2023/03/06/JKDHFTiCr2t5Oj9.png" alt="MyBatis二级缓存示意"></p>
+<p>MyBatis的二级缓存，是<strong>Mapper级别的缓存，能作用于所有会话</strong>。但是MyBati<strong>s默认的二级缓存只能是单机的</strong>。将Redis作为MyBatis的二级缓存，就能实现多台服务器使用同一个二级缓存，所有的服务器全部存储在Redis服务器上。</p>
+<hr>
+<h4 id="编写缓存类"><a href="#编写缓存类" class="headerlink" title="编写缓存类"></a>编写缓存类</h4><p>需要编写缓存类<code>RedisMyBatisCache</code>，<strong>实现MyBatis提供的<code>Cache</code>接口</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.ibatis.cache.Cache;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.connection.RedisServerCommands;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisMyBatisCache</span> <span class="keyword">implements</span> <span class="title class_">Cache</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> RedisTemplate&lt;Object, Object&gt; template;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String id;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造方法必须带一个String类型的参数接收id</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RedisMyBatisCache</span><span class="params">(String id)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化时通过配置类将RedisTemplate给过来</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setTemplate</span><span class="params">(RedisTemplate&lt;Object, Object&gt; template)</span> &#123;</span><br><span class="line">        RedisMyBatisCache.template = template;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getId</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">putObject</span><span class="params">(Object o, Object o1)</span> &#123;</span><br><span class="line">        <span class="comment">// 直接向Redis数据库中丢数据即可，o就是Key，o1就是Value，60秒为过期时间</span></span><br><span class="line">        template.opsForValue().set(o, o1, <span class="number">60</span>, TimeUnit.SECONDS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">getObject</span><span class="params">(Object o)</span> &#123;</span><br><span class="line">        <span class="comment">// 根据Key直接从Redis数据库中获取值</span></span><br><span class="line">        <span class="keyword">return</span> template.opsForValue().get(o);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">removeObject</span><span class="params">(Object o)</span> &#123;</span><br><span class="line">        <span class="comment">// 根据Key删除</span></span><br><span class="line">        <span class="keyword">return</span> template.delete(o);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">clear</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 由于template中没封装清除操作，只能通过connection来执行</span></span><br><span class="line">        template.execute((RedisCallback&lt;Void&gt;) connection -&gt; &#123;</span><br><span class="line">            <span class="comment">// 通过connection对象执行清空操作</span></span><br><span class="line">            connection.serverCommands().flushDb();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getSize</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 这里也是使用connection对象来获取当前的Key数量</span></span><br><span class="line">        <span class="keyword">return</span> Objects.requireNonNull(template.execute(RedisServerCommands::dbSize)).intValue();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="编写配置类"><a href="#编写配置类" class="headerlink" title="编写配置类"></a>编写配置类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyBatisConfiguration</span> &#123;</span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    RedisTemplate&lt;Object, Object&gt; template;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostConstruct</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">// 把RedisTemplate给到RedisMybatisCache</span></span><br><span class="line">        RedisMyBatisCache.setTemplate(template);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="在Mapper上启用此缓存"><a href="#在Mapper上启用此缓存" class="headerlink" title="在Mapper上启用此缓存"></a>在Mapper上启用此缓存</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改缓存实现类implementation为自定义的缓存类RedisMyBatisCache</span></span><br><span class="line"><span class="meta">@CacheNamespace(implementation = RedisMyBatisCache.class)</span></span><br><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">MainMapper</span> &#123;</span><br><span class="line">    <span class="meta">@Select(&quot;select name from student where sid = 1&quot;)</span></span><br><span class="line">    String <span class="title function_">getSid</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Token持久化存储"><a href="#Token持久化存储" class="headerlink" title="Token持久化存储"></a>Token持久化存储</h3><h4 id="实现PersistentTokenRepository接口"><a href="#实现PersistentTokenRepository接口" class="headerlink" title="实现PersistentTokenRepository接口"></a>实现<code>PersistentTokenRepository</code>接口</h4><p>单独使用SpringSecurity时，remember-me的Token<strong>可以设置为持久化存储，是存储在数据库中</strong>，那么现在让Token信息存储在缓存中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实现PersistentTokenRepository接口</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisTokenRepository</span> <span class="keyword">implements</span> <span class="title class_">PersistentTokenRepository</span> &#123;</span><br><span class="line">    <span class="comment">// Key名称前缀，用于区分</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">String</span> <span class="variable">REMEMBER_ME_KEY</span> <span class="operator">=</span> <span class="string">&quot;spring:security:rememberMe:&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    RedisTemplate&lt;Object, Object&gt; template;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">createNewToken</span><span class="params">(PersistentRememberMeToken token)</span> &#123;</span><br><span class="line">        <span class="comment">// 这里要放两个，一个存seriesId-&gt;Token，一个存username-&gt;seriesId，因为删除时是通过username删除</span></span><br><span class="line">        template.opsForValue().set(REMEMBER_ME_KEY + <span class="string">&quot;username:&quot;</span> + token.getUsername(), token.getSeries());</span><br><span class="line">        template.expire(REMEMBER_ME_KEY + <span class="string">&quot;username:&quot;</span> + token.getUsername(), <span class="number">1</span>, TimeUnit.DAYS);</span><br><span class="line">        <span class="built_in">this</span>.setToken(token);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 先获取，然后修改创建一个新的，再放入</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">updateToken</span><span class="params">(String series, String tokenValue, Date lastUsed)</span> &#123;</span><br><span class="line">        <span class="type">PersistentRememberMeToken</span> <span class="variable">token</span> <span class="operator">=</span> <span class="built_in">this</span>.getToken(series);</span><br><span class="line">        <span class="keyword">if</span> (token != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="built_in">this</span>.setToken(<span class="keyword">new</span> <span class="title class_">PersistentRememberMeToken</span>(token.getUsername(), series, tokenValue, lastUsed));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> PersistentRememberMeToken <span class="title function_">getTokenForSeries</span><span class="params">(String seriesId)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.getToken(seriesId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过username找seriesId直接删除这两个</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">removeUserTokens</span><span class="params">(String username)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">series</span> <span class="operator">=</span> (String) template.opsForValue().get(REMEMBER_ME_KEY + <span class="string">&quot;username:&quot;</span> + username);</span><br><span class="line">        template.delete(REMEMBER_ME_KEY + series);</span><br><span class="line">        template.delete(REMEMBER_ME_KEY + <span class="string">&quot;username:&quot;</span> + username);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 由于PersistentRememberMeToken没实现序列化接口，这里只能用Hash来存储了，所以单独编写一个set和get操作</span></span><br><span class="line">    <span class="keyword">private</span> PersistentRememberMeToken <span class="title function_">getToken</span><span class="params">(String series)</span> &#123;</span><br><span class="line">        Map&lt;Object, Object&gt; map = template.opsForHash().entries(REMEMBER_ME_KEY + series);</span><br><span class="line">        <span class="keyword">if</span>(map.isEmpty()) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">PersistentRememberMeToken</span>(</span><br><span class="line">            (String) map.get(<span class="string">&quot;username&quot;</span>),</span><br><span class="line">            (String) map.get(<span class="string">&quot;series&quot;</span>),</span><br><span class="line">            (String) map.get(<span class="string">&quot;tokenValue&quot;</span>),</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Date</span>(Long.parseLong((String) map.get(<span class="string">&quot;date&quot;</span>))));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">setToken</span><span class="params">(PersistentRememberMeToken token)</span> &#123;</span><br><span class="line">        Map&lt;String, String&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">&quot;username&quot;</span>, token.getUsername());</span><br><span class="line">        map.put(<span class="string">&quot;series&quot;</span>, token.getSeries());</span><br><span class="line">        map.put(<span class="string">&quot;tokenValue&quot;</span>, token.getTokenValue());</span><br><span class="line">        map.put(<span class="string">&quot;date&quot;</span>, <span class="string">&quot;&quot;</span>+token.getDate().getTime());</span><br><span class="line">        template.opsForHash().putAll(REMEMBER_ME_KEY + token.getSeries(), map);</span><br><span class="line">        template.expire(REMEMBER_ME_KEY + token.getSeries(), <span class="number">1</span>, TimeUnit.DAYS);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="在Mapper上启用MyBatis的Redis二级缓存"><a href="#在Mapper上启用MyBatis的Redis二级缓存" class="headerlink" title="在Mapper上启用MyBatis的Redis二级缓存"></a>在Mapper上启用MyBatis的Redis二级缓存</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Account</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">    String username;</span><br><span class="line">    String password;</span><br><span class="line">    String role;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CacheNamespace(implementation = RedisMyBatisCache.class)</span></span><br><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">AccountMapper</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select(&quot;select * from users where username = #&#123;username&#125;&quot;)</span></span><br><span class="line">    Account <span class="title function_">getAccountByUsername</span><span class="params">(String username)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="实现验证Service"><a href="#实现验证Service" class="headerlink" title="实现验证Service"></a>实现验证Service</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AuthService</span> <span class="keyword">implements</span> <span class="title class_">UserDetailsService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    AccountMapper mapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> UserDetails <span class="title function_">loadUserByUsername</span><span class="params">(String username)</span> <span class="keyword">throws</span> UsernameNotFoundException &#123;</span><br><span class="line">        <span class="type">Account</span> <span class="variable">account</span> <span class="operator">=</span> mapper.getAccountByUsername(username);</span><br><span class="line">        <span class="keyword">if</span> (account == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UsernameNotFoundException</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> User</span><br><span class="line">            .withUsername(username)</span><br><span class="line">            .password(account.getPassword())</span><br><span class="line">            .roles(account.getRole())</span><br><span class="line">            .build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="SecurityConfiguration配置"><a href="#SecurityConfiguration配置" class="headerlink" title="SecurityConfiguration配置"></a>SecurityConfiguration配置</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SecurityConfiguration</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> RedisTokenRepository tokenRepository;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> AuthService authService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> SecurityFilterChain <span class="title function_">securityFilterChain</span><span class="params">(HttpSecurity httpSecurity)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="keyword">return</span> httpSecurity</span><br><span class="line">            ...</span><br><span class="line">            .rememberMe(rememberMeConfigurer -&gt; &#123;</span><br><span class="line">                rememberMeConfigurer</span><br><span class="line">                    .tokenRepository(tokenRepository); <span class="comment">// 持久化存储</span></span><br><span class="line">            &#125;)</span><br><span class="line">            .userDetailsService(authService) <span class="comment">// 自定义用户验证逻辑</span></span><br><span class="line">            .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> PasswordEncoder <span class="title function_">passwordEncoder</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 将BCryptPasswordEncoder直接注册为Bean，Security会自动处理密码对比</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">BCryptPasswordEncoder</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三大缓存问题"><a href="#三大缓存问题" class="headerlink" title="三大缓存问题"></a>三大缓存问题</h2><h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3>
     </div>
 
     
