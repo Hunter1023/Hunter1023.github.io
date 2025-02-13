@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="终端界面的说明示例：hunter@Hunter-PC:~$  最左侧的hunter是目前用户的账号 @之后的Hunter-PC是主机名 ~是目前所在目录；~为当前用户的home目录 $是提示字符；root的提示符为#，普通用户为$  登录后取得的程序被称为Shell(壳，因为该程序负责最外面跟使用者沟通，被戏称称为壳程序） 在Linux下平常最好使用一般账号来登录，需要动用到系统功能修订时，再使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu下的一些终端操作">
+<meta property="og:url" content="https://hunter1023.github.io/2018/06/27/Ubuntu%E4%B8%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="终端界面的说明示例：hunter@Hunter-PC:~$  最左侧的hunter是目前用户的账号 @之后的Hunter-PC是主机名 ~是目前所在目录；~为当前用户的home目录 $是提示字符；root的提示符为#，普通用户为$  登录后取得的程序被称为Shell(壳，因为该程序负责最外面跟使用者沟通，被戏称称为壳程序） 在Linux下平常最好使用一般账号来登录，需要动用到系统功能修订时，再使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9c99ef62fbb.png">
+<meta property="article:published_time" content="2018-06-27T10:53:54.000Z">
+<meta property="article:modified_time" content="2025-01-23T15:29:13.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="Ubuntu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/28/5c9c99ef62fbb.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2018/06/27/Ubuntu%E4%B8%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2018/06/27/Ubuntu%E4%B8%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C/","path":"2018/06/27/Ubuntu下的一些终端操作/","title":"Ubuntu下的一些终端操作"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Ubuntu下的一些终端操作 | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%88%E7%AB%AF%E7%95%8C%E9%9D%A2%E7%9A%84%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">终端界面的说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E8%AF%B4%E6%98%8E%E5%8F%8A%E6%8A%80%E5%B7%A7"><span class="nav-number">2.</span> <span class="nav-text">操作说明及技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="nav-number">3.</span> <span class="nav-text">快捷键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text">操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E7%B3%BB%E7%BB%9F%E6%96%87%E4%BB%B6"><span class="nav-number">4.1.</span> <span class="nav-text">更新系统文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6"><span class="nav-number">4.2.</span> <span class="nav-text">安装软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD%E8%BD%AF%E4%BB%B6"><span class="nav-number">4.3.</span> <span class="nav-text">卸载软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4"><span class="nav-number">4.4.</span> <span class="nav-text">磁盘管理命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">4.5.</span> <span class="nav-text">文件操作命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%91%BD%E4%BB%A4"><span class="nav-number">4.6.</span> <span class="nav-text">系统命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E5%91%BD%E4%BB%A4"><span class="nav-number">4.7.</span> <span class="nav-text">权限命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E9%87%8D%E8%A6%81%E7%9A%84%E7%83%AD%E9%94%AE"><span class="nav-number">5.</span> <span class="nav-text">几个重要的热键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%B8%AE%E5%8A%A9"><span class="nav-number">6.</span> <span class="nav-text">查看帮助</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4%E5%90%8D%E5%90%8E%E5%8A%A0%E4%B8%8A-help"><span class="nav-number">6.1.</span> <span class="nav-text">指令名后加上--help</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#man-page"><span class="nav-number">6.2.</span> <span class="nav-text">man page</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2018/06/27/Ubuntu%E4%B8%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Ubuntu下的一些终端操作 | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ubuntu下的一些终端操作<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/Ubuntu%E4%B8%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-06-27 18:53:54" itemprop="dateCreated datePublished" datetime="2018-06-27T18:53:54+08:00">2018-06-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-23 23:29:13" itemprop="dateModified" datetime="2025-01-23T23:29:13+08:00">2025-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="终端界面的说明"><a href="#终端界面的说明" class="headerlink" title="终端界面的说明"></a>终端界面的说明</h2><p>示例：<br><code>hunter@Hunter-PC:~$</code></p>
+<ul>
+<li>最左侧的<code>hunter</code>是<strong>目前用户的账号</strong></li>
+<li>@之后的<code>Hunter-PC</code>是<strong>主机名</strong></li>
+<li><code>~</code>是<strong>目前所在目录</strong>；<code>~</code>为<strong>当前用户的home目录</strong></li>
+<li><code>$</code>是<strong>提示字符</strong>；root的提示符为<code>#</code>，普通用户为<code>$</code></li>
+</ul>
+<p>登录后取得的程序被称为<code>Shell</code>(壳，因为该程序负责最外面跟使用者沟通，被戏称称为壳程序）</p>
+<p>在Linux下平常<strong>最好使用一般账号来登录</strong>，需要动用到系统功能修订时，再使用root。</p>
+<hr>
+<h2 id="操作说明及技巧"><a href="#操作说明及技巧" class="headerlink" title="操作说明及技巧"></a>操作说明及技巧</h2><p><strong>Linux严格区分大小写</strong>。</p>
+<p>在指令列模式里面下达指令时，会有两种主要的情况：</p>
+<ul>
+<li>直接显示结果，然后回到命令提示字符，等待下一个指令的输入</li>
+<li>进入到该指令的环境，直到结束该指令，回到命令提示字符的环境</li>
+</ul>
+<hr>
+<ul>
+<li>指令太长的时候，可以使用<code>\</code>使指令连续到下一行。<code>\</code>后需要立刻接<br><strong>回车</strong>，才能跳脱！</li>
+</ul>
+<hr>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ctrl + Alt + T</td>
+<td>打开终端</td>
+</tr>
+<tr>
+<td>Shift + Ctrl + C&#x2F;V</td>
+<td>复制&#x2F;粘贴</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="操作命令"><a href="#操作命令" class="headerlink" title="操作命令"></a>操作命令</h2><p><strong>Linux命令中，参数一般是无序的，特殊情况除外</strong>。</p>
+<h3 id="更新系统文件"><a href="#更新系统文件" class="headerlink" title="更新系统文件"></a>更新系统文件</h3><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">sudo apt update
+sudo apt upgrade<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h3><p><code>sudo apt-get install xxx（程序名）</code></p>
+<h3 id="卸载软件"><a href="#卸载软件" class="headerlink" title="卸载软件"></a>卸载软件</h3><ul>
+<li><p><code>sudo apt-get remove -purge xxx(程序名)</code></p>
+</li>
+<li><p><code>sudo apt autoremove</code></p>
+</li>
+</ul>
+<h3 id="磁盘管理命令"><a href="#磁盘管理命令" class="headerlink" title="磁盘管理命令"></a>磁盘管理命令</h3><ul>
+<li><p>注销Linux：<code>exit</code>(Linux本身还在运行，只是退出了登录的操作)</p>
+</li>
+<li><p>语系</p>
+<ul>
+<li>显示目前支持的语系：<br>  <code>locale</code></li>
+<li>修改语系：  <pre class="line-numbers language-none"><code class="language-none">LANG&#x3D;en_US.utf8
+export LC_ALL&#x3D;en_US.utf8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+  LANG只与<strong>输出讯息</strong>有关，若需要更改其他不同的信息，要同步更新<code>LC_ALL</code>。</li>
+</ul>
+</li>
+<li><p>显示日期：<code>date</code></p>
+</li>
+<li><p>计算器：<code>bc</code>(win10的ubuntu子系统需要先安装)<br>  事实上，该操作是<strong>进入到<code>bc</code>这个软件的工作环境</strong>。<br>  　　<code>bc</code>预设仅<strong>输出整数</strong>，如果要输出小数，需要先执行<code>scale=number</code>，<code>number</code>是小数点位数</p>
+<ul>
+<li>要离开<code>bc</code>，需要输入<code>quit</code>命令</li>
+</ul>
+</li>
+<li><p>转换成root用户：<code>sudo su</code></p>
+</li>
+<li><p>展示文件和目录：<code>ls</code></p>
+<ul>
+<li><code>-a/--all</code> 展示当前目录下<strong>所有文件和目录</strong>（隐藏文件和特殊目录以<code>.</code>开头）</li>
+<li><code>-l</code> 查询详细列表(可以组合使用<code>-al</code>)</li>
+<li><code>-h</code> 友好展示信息<br>  <code>ls -l</code>可以简写为<code>ll</code></li>
+</ul>
+</li>
+<li><p>切换目录：<code>cd</code></p>
+<ul>
+<li><code>~</code> 当前用户的家目录</li>
+<li><code>/</code> 根目录</li>
+<li><code>-</code> 切换到上次访问的目录</li>
+</ul>
+</li>
+<li><p>显示当前所在目录：<code>pwd</code>(print working directory)</p>
+</li>
+<li><p>创建目录：<code>mkdir</code></p>
+<ul>
+<li><code>-p</code>(parents) 父目录不存在的情况下，生成父目录</li>
+<li><code>-v</code> 显示命令执行过程中的详细信息</li>
+</ul>
+</li>
+<li><p>删除<strong>空</strong>目录：<code>rmdir</code></p>
+</li>
+</ul>
+<h3 id="文件操作命令"><a href="#文件操作命令" class="headerlink" title="文件操作命令"></a>文件操作命令</h3><ul>
+<li><p>快捷查看当前文件的内容：<code>cat</code>，<strong>适合查看少量信息的文件</strong></p>
+</li>
+<li><p>分页显示内容，标注每行的行号：<code>less -mN</code>(<strong>适用于大量数据的查看</strong>)</p>
+<ul>
+<li><code>回车</code> 向下n行（需要定义，默认为1行）</li>
+<li><code>空格</code> 向下一页</li>
+<li><code>b</code> 向上一页</li>
+<li><code>q</code> 退出</li>
+</ul>
+</li>
+<li><p>快速查看文件后n行的内容：<code>tail -n</code>(<strong>查看日志</strong>)</p>
+</li>
+<li><p>复制文件&#x2F;目录：<code>cp 需要复制的文件 复制的位置</code></p>
+<ul>
+<li><code>-r/--recursive</code> 递归处理，将指定目录下的子目录一并处理<br>  示例：</li>
+</ul>
+  <pre class="line-numbers language-none"><code class="language-none">需求：把&#x2F;root&#x2F;Demo.java 文件复制到 &#x2F;root&#x2F;t1 目录中，改名为d.java
+位置：root
+命令：cp Demo.java t1&#x2F;d.java<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>文件移动：<code>mv 需要移动的文件 移动的位置</code></p>
+<ul>
+<li><code>-f</code> 强制性覆盖</li>
+<li><strong>文件&#x2F;目录重命名操作</strong>：<code>mv 原文件 新文件名</code>（原文件名即转换为新文件名）</li>
+</ul>
+</li>
+<li><p>文件&#x2F;目录删除：</p>
+<ul>
+<li><code>rm 文件名</code><ul>
+<li><code>-f/--force</code> 强制删除</li>
+<li><code>-r/--recursive</code> 递归处理，将指定目录下的子目录一并处理</li>
+</ul>
+</li>
+<li><code>rm -rf 目录</code></li>
+</ul>
+</li>
+<li><p>查找文件或目录：<code>find [目录名] -name &#39;需要查找的字符串&#39;</code>（不填写目录名则在当前目录下查找）</p>
+</li>
+<li><p>压缩、解压命令：<code>tar</code></p>
+<ul>
+<li><code>-c</code> 建立一个压缩文件(create)</li>
+<li><code>-x</code> 解开一个压缩文件(extract)</li>
+<li><code>-z</code> 用gzip压缩</li>
+<li><code>-v</code> 压缩过程中显示文件(verbose)</li>
+<li><code>-f</code> 使用档名，在f之后要接档名(file)</li>
+</ul>
+</li>
+</ul>
+<p>Linux的压缩包格式：<code>*.tar</code>(打包不压缩)、<code>*.tar.gz</code>(打包并压缩文件大小)<br>	- 压缩：<code>tar -zcvf 压缩包名.tar.gz 需要压缩的内容</code><br>	例如<code>tar -zcvf test.tar.gz *</code>(将当前目录下内容进行打包压缩)<br>	- 解压：<code>tar -zxvf 需要解压的压缩包名.tar.gz [-C 指定解压路径]</code>
+	</p>
+<h3 id="系统命令"><a href="#系统命令" class="headerlink" title="系统命令"></a>系统命令</h3><ul>
+<li><p>查看系统进程：<code>ps -ef</code>(Process Status) 同时会显示执行ps命令的进程信息<br>示例：<code>ps -ef | grep -i vim</code> 查看vim相关的进程</p>
+</li>
+<li><p>强制结束进程：<code>kill -9 pid号</code></p>
+</li>
+<li><p>显示网络设备：<code>ifconfig</code></p>
+</li>
+<li><p>测试和目标的连通性：<code>ping ip地址</code></p>
+</li>
+</ul>
+<h3 id="权限命令"><a href="#权限命令" class="headerlink" title="权限命令"></a>权限命令</h3><ul>
+<li>权限更改：<code>chmod 权限设置 需要更改权限的文件</code><ul>
+<li><code>-R/--recursive</code> 递归处理<br>  示例：</li>
+<li>更改所属用户(user)的权限：<code>chmod u=rwx test.txt</code></li>
+<li>更改所属组(group)的权限：<code>chmod g=rx test.txt</code></li>
+<li>更改其他用户(other)的权限：<code>chmod o=rx test.txt</code></li>
+<li>更改所有用户(all)的权限：<code>chmod a=r test.txt</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="几个重要的热键"><a href="#几个重要的热键" class="headerlink" title="几个重要的热键"></a>几个重要的热键</h2><ul>
+<li><p><code>Tab</code><br><code>Tab</code>具有<strong>命令补全</strong>和<strong>文件补齐</strong>的功能，<strong>可以避免打错指令或文件名</strong>。</p>
+<ul>
+<li><code>Tab</code>接在一串指令的第一个字的后面，则为<strong>命令补全</strong></li>
+<li><code>Tab</code>接在一串指令的第二个字以后时，则为<strong>文件补齐</strong></li>
+</ul>
+</li>
+<li><p><code>Ctrl + c</code>：中断目前程序</p>
+</li>
+<li><p><code>Ctrl + d</code>: 键盘输入结束；也可以用来取代<code>exit</code>的输入</p>
+</li>
+<li><p><code>Ctrl + PgUp/PgDown</code>：翻页（指令执行后，显示的内容很长时可以用到）</p>
+</li>
+</ul>
+<hr>
+<h2 id="查看帮助"><a href="#查看帮助" class="headerlink" title="查看帮助"></a>查看帮助</h2><h3 id="指令名后加上-help"><a href="#指令名后加上-help" class="headerlink" title="指令名后加上--help"></a>指令名后加上<code>--help</code></h3><p>即可查看指令的用法，如<code>cal --help</code>。</p>
+<h3 id="man-page"><a href="#man-page" class="headerlink" title="man page"></a>man page</h3><p>　　<code>man</code>是<code>manual</code>(操作说明)的简写，通过<code>man 指令名</code>进入的画面，就是<code>man page</code>。</p>
+<p><strong>man page下</strong>能使用的相关操作：  </p>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>进行工作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>空格键</td>
+<td>向下翻一页</td>
+</tr>
+<tr>
+<td>PgDn</td>
+<td>向下翻一页</td>
+</tr>
+<tr>
+<td>PgUp</td>
+<td>向上翻一页</td>
+</tr>
+<tr>
+<td>Home</td>
+<td>去到第一页</td>
+</tr>
+<tr>
+<td>End</td>
+<td>去到最后一页</td>
+</tr>
+<tr>
+<td><code>/string</code></td>
+<td>向<strong>下</strong>搜寻string这个字符串，如果要搜寻vbird 的话，就输入&#x2F;vbird</td>
+</tr>
+<tr>
+<td><code>?string</code></td>
+<td>向<strong>上</strong>搜寻string 这个字符串</td>
+</tr>
+<tr>
+<td><code>n, N</code></td>
+<td>利用<code>/</code>或<code>?</code>来查找字符串时，可以用<code>n</code>来继续下一个查找，利用<code>N</code>来进</td>
+</tr>
+<tr>
+<td>行<strong>反向查找</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>q</td>
+<td>结束这次的man page</td>
+</tr>
+</tbody></table>
+<hr>
+<p>示例（<code>man date</code>）:<br><img src="https://i.loli.net/2019/03/28/5c9c99ef62fbb.png" alt="man date操作之后的页面"></p>
+<p>在页面第一行，可以看到<code>DATE(1)</code>，<code>DATE</code>是指令名称，<code>(1)</code>代表<strong>一般用户可使用的指令</strong>。</p>
+<table>
+<thead>
+<tr>
+<th align="right">代号</th>
+<th>代表内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">1</td>
+<td>用户在shell 环境中可以操作的指令或可执行文件</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td>系统核心可呼叫的函数与工具等</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td>一些常用的函数(function)与函式库(library)，大部分为C 的函式库(libc)</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td>装置文件的说明，通常在&#x2F;dev 下的文件</td>
+</tr>
+<tr>
+<td align="right">5</td>
+<td>配置文件或者是某些文件的格式</td>
+</tr>
+<tr>
+<td align="right">6</td>
+<td>游戏(games)</td>
+</tr>
+<tr>
+<td align="right">7</td>
+<td>惯例与协议等，例如Linux 文件系统、网络协议、ASCII code 等等的说明</td>
+</tr>
+<tr>
+<td align="right">8</td>
+<td>系统管理员可用的管理指令</td>
+</tr>
+<tr>
+<td align="right">9</td>
+<td>跟kernel 有关的文件</td>
+</tr>
+</tbody></table>
+<hr>
+<p><code>man page</code>大致分成以下几个部分：</p>
+<table>
+<thead>
+<tr>
+<th>代号</th>
+<th>内容说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NAME</td>
+<td>简短的指令、数据名称说明</td>
+</tr>
+<tr>
+<td>SYNOPSIS</td>
+<td>简短的指令下达语法(syntax)简介</td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>较为完整的说明，这部分最好仔细看看！</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>针对SYNOPSIS 部分中，有列举的所有可用的选项说明</td>
+</tr>
+<tr>
+<td>COMMANDS</td>
+<td>当这个程序(软件)在执行的时候，可以在此程序(软件)中下达的指令</td>
+</tr>
+<tr>
+<td>FILES</td>
+<td>这个程序或数据所使用或参考或连结到的某些文件</td>
+</tr>
+<tr>
+<td>SEE ALSO</td>
+<td>可以参考的，跟这个指令或数据有相关的其他说明！</td>
+</tr>
+<tr>
+<td>EXAMPLE</td>
+<td>一些可以参考的范例</td>
+</tr>
+</tbody></table>
+<p>在查询某个数据时可以这样来查阅：</p>
+<ol>
+<li>先察看NAME的项目，看一下这个资料的意思</li>
+<li>再详看一下DESCRIPTION，这个部分会提到很多相关的资料与使用时机，从这个地方可以学到很多小细节</li>
+<li>如果这个指令已经很熟悉了，主要就是查询关于OPTIONS的部分，可以知道每个选项的意义，可以下达比较细部的指令内容</li>
+<li>最后再看一下，跟这个资料有关的还有哪些东西可以使用。举例来说，date的<code>SEE ALSO</code>就告知我们还可以利用<code>info coreutils date</code>来进一步查阅数据；</li>
+<li>某些说明内容还会列举有关的文件(FILES部分)来提供我们参考！这些都是很有帮助的！</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Ubuntu/" rel="tag"><i class="fa fa-tag"></i> Ubuntu</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/06/14/%E6%A0%B9%E6%8D%AE%E8%AF%B7%E6%B1%82%E7%9A%84%E5%85%B7%E4%BD%93%E6%89%A9%E5%B1%95%E5%90%8D%E3%80%81%E8%AF%B7%E6%B1%82%E5%A4%B4%E4%B8%8D%E5%90%8C%EF%BC%8C%E8%BF%94%E5%9B%9E%E4%B8%8D%E5%90%8C%E6%A0%BC%E5%BC%8F%E7%9A%84%E7%9B%B8%E5%90%8C%E5%86%85%E5%AE%B9/" rel="prev" title="根据请求的具体扩展名、请求头不同，返回不同格式的相同内容">
+                  <i class="fa fa-angle-left"></i> 根据请求的具体扩展名、请求头不同，返回不同格式的相同内容
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/07/18/C%E8%AF%AD%E8%A8%80%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" rel="next" title="C语言的基本概念">
+                  C语言的基本概念 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="JSP概述JSP(Java Server Pages)是一种动态网页开发技术。它使用JSP标签在HTML网页中插入Java代码。JSP是一种Java Servlet，主要用于实现Java Web应用程序的用户界面部分。 JSP原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSP">
+<meta property="og:url" content="https://hunter1023.github.io/2022/03/27/JSP/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="JSP概述JSP(Java Server Pages)是一种动态网页开发技术。它使用JSP标签在HTML网页中插入Java代码。JSP是一种Java Servlet，主要用于实现Java Web应用程序的用户界面部分。 JSP原理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/03/27/ld2RNqkyDYpeFBK.png">
+<meta property="article:published_time" content="2022-03-27T06:52:22.000Z">
+<meta property="article:modified_time" content="2025-01-23T15:29:13.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="JSP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/03/27/ld2RNqkyDYpeFBK.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2022/03/27/JSP/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2022/03/27/JSP/","path":"2022/03/27/JSP/","title":"JSP"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>JSP | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">JSP概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">JSP原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP%E6%89%80%E9%9C%80%E4%BE%9D%E8%B5%96"><span class="nav-number">3.</span> <span class="nav-text">JSP所需依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">JSP基础语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1%E5%8F%8A%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">5.</span> <span class="nav-text">JSP内置对象及作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9%E5%A4%A7%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1"><span class="nav-number">5.1.</span> <span class="nav-text">9大内置对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E3%80%81JSP%E6%A0%87%E7%AD%BE%E3%80%81JSTL%E6%A0%87%E7%AD%BE"><span class="nav-number">6.</span> <span class="nav-text">EL表达式、JSP标签、JSTL标签</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">6.1.</span> <span class="nav-text">示例</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2022/03/27/JSP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="JSP | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JSP<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/JSP.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-27 14:52:22" itemprop="dateCreated datePublished" datetime="2022-03-27T14:52:22+08:00">2022-03-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-23 23:29:13" itemprop="dateModified" datetime="2025-01-23T23:29:13+08:00">2025-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/" itemprop="url" rel="index"><span itemprop="name">JavaWeb</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="JSP概述"><a href="#JSP概述" class="headerlink" title="JSP概述"></a>JSP概述</h2><p>JSP(Java Server Pages)是一种<strong>动态网页开发技术</strong>。它<strong>使用JSP标签在HTML网页中插入Java代码</strong>。JSP<strong>是一种Java Servlet</strong>，<strong>主要用于实现Java Web应用程序的用户界面部分</strong>。</p>
+<h2 id="JSP原理"><a href="#JSP原理" class="headerlink" title="JSP原理"></a>JSP原理</h2><span id="more"></span>
+
+<p>JSP最终也会被转换成一个Java类，<strong>JSP本质上就是一个Servlet</strong>。</p>
+<p><img src="https://s2.loli.net/2022/03/27/ld2RNqkyDYpeFBK.png" alt="image-20220324005200077"></p>
+<p>在JSP页面中，JAVA代码会被原封不动地输出，HTML代码会被转换为<code>out.write(&quot;&lt;html&gt;\r\n&quot;);</code></p>
+<hr>
+<h2 id="JSP所需依赖"><a href="#JSP所需依赖" class="headerlink" title="JSP所需依赖"></a>JSP所需依赖</h2><blockquote>
+<p>Tomcat版本：10.0.14</p>
+</blockquote>
+<p><strong><code>Tomcat 10</code>想要使用JSP，需要搭配当前同样最新的<code>jakarta.Servlet</code>。</strong></p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token comment">&lt;!-- Servlet依赖 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>jakarta.servlet<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jakarta.servlet-api<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>5.0.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+
+<span class="token comment">&lt;!-- JSP依赖 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>jakarta.servlet.jsp<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jakarta.servlet.jsp-api<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>3.0.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+
+<span class="token comment">&lt;!-- JSTL表达式的依赖 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>jakarta.servlet.jsp.jstl<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jakarta.servlet.jsp.jstl-api<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.0.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.glassfish.web<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jakarta.servlet.jsp.jstl<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.0.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<hr>
+<h2 id="JSP基础语法"><a href="#JSP基础语法" class="headerlink" title="JSP基础语法"></a>JSP基础语法</h2><p>JSP作为<strong>Java技术的一种应用</strong>，在支持Java所有语法的基础上，还<strong>拥有一些扩充语法</strong>。</p>
+<pre class="line-numbers language-jsp" data-language="jsp"><code class="language-jsp">&lt;%--
+  JSP表达式：
+  - 作用：将程序的输出，输出到客户端
+  - 形式： &lt;%&#x3D; 变量 或者 表达式 %&gt;
+--%&gt;
+&lt;%&#x3D; new java.util.Date() %&gt;
+
+&lt;%-- 分隔符 --%&gt;
+&lt;hr&gt;
+
+&lt;%-- java脚本片段 --%&gt;
+&lt;%
+    int sum &#x3D; 0;
+    for (int i &#x3D; 0; i &lt; 100; i++) &#123;
+        sum +&#x3D; i;
+    &#125;
+    &#x2F;&#x2F; 输出到前端页面
+    out.println(&quot;&lt;h1&gt;Sum&#x3D;&quot; + sum + &quot;&lt;&#x2F;h1&gt;&quot;);
+%&gt;
+
+&lt;%-- JSP声明 --%&gt;
+&lt;%!
+    static &#123;
+        System.out.println(&quot;Loading Servlet!&quot;);
+    &#125;
+
+    private int globalVar &#x3D; 0;
+
+    public void hunter() &#123;
+        System.out.println(&quot;进入了方法hunter!&quot;);
+    &#125;
+%&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><strong>JSP声明</strong>会被编译到JSP生成的Java类中，其他的就会被生成到<code>_jspService</code>方法中。</li>
+<li>JSP的注释不会在客户端显示，HTML的注释会显示。</li>
+</ul>
+<hr>
+<h2 id="JSP内置对象及作用域"><a href="#JSP内置对象及作用域" class="headerlink" title="JSP内置对象及作用域"></a>JSP内置对象及作用域</h2><h3 id="9大内置对象"><a href="#9大内置对象" class="headerlink" title="9大内置对象"></a>9大内置对象</h3><ul>
+<li><p>PageContext</p>
+<p>  <code>pageContext.setAttribute()</code> 保存的数据<strong>只在一个页面中有效</strong>。</p>
+</li>
+<li><p>Request</p>
+<p>  <code>request.setAttribute()</code> 保存的数据<strong>只在一次请求中有效</strong>，<strong>请求转发会携带这个数据</strong>。</p>
+</li>
+<li><p>Session</p>
+<p>  <code>session.setAttribute()</code> 保存的数据在一次会话中有效，<strong>从打开浏览器到关闭浏览器</strong>。</p>
+</li>
+<li><p>Application (ServletContext)</p>
+<p>  <code>application.setAttribute()</code> 保存的数据只在服务器中有效，<strong>从打开服务器到关闭服务器</strong>。</p>
+</li>
+<li><p>Response</p>
+</li>
+<li><p>config (ServletConfig)</p>
+</li>
+<li><p>out</p>
+</li>
+<li><p>page</p>
+</li>
+<li><p>exception</p>
+</li>
+</ul>
+<hr>
+<pre class="line-numbers language-jsp" data-language="jsp"><code class="language-jsp">&lt;%-- 在一个JSP中，使用内置对象 --%&gt;
+&lt;%
+    pageContext.setAttribute(&quot;name1&quot;, &quot;特叔服务1&quot;);
+    request.setAttribute(&quot;name2&quot;, &quot;特叔服务2&quot;);
+    session.setAttribute(&quot;name3&quot;, &quot;特叔服务3&quot;);
+    application.setAttribute(&quot;name4&quot;, &quot;特叔服务4&quot;);
+    
+    &#x2F;&#x2F; 请求转发可以drequest设置的属性
+    &#x2F;&#x2F; 效果等价于 application.getRequestDispatcher(&quot;&#x2F;getInitParam&quot;).forward(request, response);
+    pageContext.forward(&quot;&#x2F;pageDemo01.jsp&quot;);
+%&gt;
+
+
+&lt;%-- 在另一个JSP中，尝试读取上述JSP设置的参数 --%&gt;
+&lt;%
+    &#x2F;&#x2F; 不同于getAttribute 只从pageContext本身中寻找属性，
+    &#x2F;&#x2F; findAttribute是按作用域范围从小到大寻找，pageContext -&gt; request -&gt; session -&gt; application
+    String name1 &#x3D; (String) pageContext.findAttribute(&quot;name1&quot;); &#x2F;&#x2F; 找不到
+    String name2 &#x3D; (String) pageContext.findAttribute(&quot;name2&quot;); &#x2F;&#x2F; 找不到
+    String name3 &#x3D; (String) pageContext.findAttribute(&quot;name3&quot;);
+    String name4 &#x3D; (String) pageContext.findAttribute(&quot;name4&quot;);
+%&gt;
+
+&lt;%-- EL表达式 --%&gt;
+&lt;h1&gt;$&#123;name1&#125;&lt;&#x2F;h1&gt;
+&lt;h1&gt;$&#123;name2&#125;&lt;&#x2F;h1&gt;
+&lt;h1&gt;$&#123;name3&#125;&lt;&#x2F;h1&gt;
+&lt;h1&gt;$&#123;name4&#125;&lt;&#x2F;h1&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="EL表达式、JSP标签、JSTL标签"><a href="#EL表达式、JSP标签、JSTL标签" class="headerlink" title="EL表达式、JSP标签、JSTL标签"></a>EL表达式、JSP标签、JSTL标签</h2><p><strong>EL(Expression Language)表达式</strong><code>$&#123; &#125;</code></p>
+<ul>
+<li><p>获取数据</p>
+</li>
+<li><p>执行运算</p>
+</li>
+<li><p>获取web开发的常用对象</p>
+<p>  例如获取表单中的数据：</p>
+<p>  <code>$&#123;param.参数名&#125;</code></p>
+  <pre class="line-numbers language-jsp" data-language="jsp"><code class="language-jsp">&lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;username&quot; value&#x3D;&quot;$&#123;param.username&#125;&quot;&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ul>
+<hr>
+<p><strong>JSP标签</strong></p>
+<pre class="line-numbers language-jsp" data-language="jsp"><code class="language-jsp">&lt;%-- 在页面被请求时引入别的文件，如head.jsp、foot.jsp --%&gt;
+&lt;%-- jsp:include --%&gt;
+
+&lt;%--
+如下JSP标签的效果：
+请求转发至 http:&#x2F;&#x2F;localhost:8080&#x2F;jsptag2.jsp?name&#x3D;hunter&amp;age&#x3D;88
+--%&gt;
+
+&lt;jsp:forward page&#x3D;&quot;&#x2F;jsptag2.jsp&quot;&gt;
+    &lt;jsp:param name&#x3D;&quot;name&quot; value&#x3D;&quot;hunter&quot;&gt;&lt;&#x2F;jsp:param&gt;
+    &lt;jsp:param name&#x3D;&quot;age&quot; value&#x3D;&quot;88&quot;&gt;&lt;&#x2F;jsp:param&gt;
+&lt;&#x2F;jsp:forward&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<p><strong>JSTL(JSP Standard Tag Library)标签</strong></p>
+<p>JSTL标签库的使用是为了<strong>弥补HTML标签的不足</strong>，它自定义了许多标签，标签的功能和Java代码一样。</p>
+<p><strong>核心库</strong></p>
+<pre class="line-numbers language-jsp" data-language="jsp"><code class="language-jsp">&lt;%-- 引入JSTL核心标签库，才能引用JSTL core标签 --%&gt;
+&lt;%@taglib prefix&#x3D;&quot;c&quot; uri&#x3D;&quot;http:&#x2F;&#x2F;java.sun.com&#x2F;jsp&#x2F;jstl&#x2F;core&quot; %&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<table>
+<thead>
+<tr>
+<th>标签</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;c:out&gt;</code></td>
+<td>用于在JSP中显示数据，就像<code>&lt;%= ... &gt;</code></td>
+</tr>
+<tr>
+<td><code>&lt;c:set&gt;</code></td>
+<td>用于保存数据</td>
+</tr>
+<tr>
+<td><code>&lt;c:remove&gt;</code></td>
+<td>用于删除数据</td>
+</tr>
+<tr>
+<td><code>&lt;c:if&gt;</code></td>
+<td>和if一样</td>
+</tr>
+<tr>
+<td><code>&lt;c:choose&gt;</code></td>
+<td>switch case —— switch</td>
+</tr>
+<tr>
+<td><code>&lt;c:when&gt;</code></td>
+<td>switch case —— case</td>
+</tr>
+<tr>
+<td><code>&lt;c:otherwise&gt;</code></td>
+<td>switch case —— default</td>
+</tr>
+<tr>
+<td><code>&lt;c:forEach&gt;</code></td>
+<td>迭代标签</td>
+</tr>
+<tr>
+<td><code>&lt;c:url&gt;</code></td>
+<td>使用可选的查询参数来创造一个URL</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><pre class="line-numbers language-jsp" data-language="jsp"><code class="language-jsp">&lt;%-- ------------------ &lt;c:if&gt; 和 &lt;c:out&gt; 示例 -------------------- --%&gt;
+&lt;form action&#x3D;&quot;coreif.jsp&quot; method&#x3D;&quot;get&quot;&gt;
+    &lt;%-- EL表达式获取表单中的数据 $&#123;param.username&#125; --%&gt;
+    &lt;label&gt;
+        &lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;username&quot; value&#x3D;&quot;$&#123;param.username&#125;&quot;&gt;
+    &lt;&#x2F;label&gt;
+    &lt;input type&#x3D;&quot;submit&quot; value&#x3D;&quot;登录&quot;&gt;
+&lt;&#x2F;form&gt;
+
+&lt;%-- 判断如果提交的用户名是管理员，则登录成功 --%&gt;
+&lt;c:if test&#x3D;&quot;$&#123;param.username&#x3D;&#x3D;&#39;admin&#39;&#125;&quot; var&#x3D;&quot;isAdmin&quot;&gt;
+    &lt;c:out value&#x3D;&quot;管理员，您好&quot;&#x2F;&gt;
+&lt;&#x2F;c:if&gt;
+
+&lt;c:out value&#x3D;&quot;$&#123;isAdmin&#125;&quot;&#x2F;&gt;
+
+
+&lt;%-- ------------ &lt;c:set&gt;、&lt;c:choose&gt;、&lt;c:when&gt; 示例 ---------------- --%&gt;
+&lt;c:set var&#x3D;&quot;score&quot; value&#x3D;&quot;85&quot; &#x2F;&gt;
+&lt;c:choose&gt;
+    &lt;c:when test&#x3D;&quot;$&#123;score &gt;&#x3D; 90&#125;&quot;&gt;
+        你的成绩为优秀
+    &lt;&#x2F;c:when&gt;
+    &lt;c:when test&#x3D;&quot;$&#123;score &gt;&#x3D; 80&#125;&quot;&gt;
+        你的成绩为良好
+    &lt;&#x2F;c:when&gt;
+    &lt;c:when test&#x3D;&quot;$&#123;score &gt;&#x3D; 70&#125;&quot;&gt;
+        你的成绩为一般
+    &lt;&#x2F;c:when&gt;
+    &lt;c:when test&#x3D;&quot;$&#123;score &gt;&#x3D; 60&#125;&quot;&gt;
+        你的成绩为及格
+    &lt;&#x2F;c:when&gt;
+    &lt;c:when test&#x3D;&quot;$&#123;score &lt; 60&#125;&quot;&gt;
+        你的成绩为不及格
+    &lt;&#x2F;c:when&gt;
+&lt;&#x2F;c:choose&gt;
+
+
+&lt;%-- ------------------------ &lt;c:forEach&gt; 示例 -------------------------- --%&gt;
+&lt;%
+    List&lt;String&gt; people &#x3D; new ArrayList&lt;&gt;();
+    people.add(&quot;赵1&quot;);
+    people.add(&quot;赵2&quot;);
+    people.add(&quot;赵3&quot;);
+    people.add(&quot;赵4&quot;);
+    people.add(&quot;赵5&quot;);
+    request.setAttribute(&quot;list&quot;, people);
+%&gt;
+
+&lt;%--
+    var：每一次遍历出来的变量
+    items：要遍历的对象
+ --%&gt;
+&lt;c:forEach var&#x3D;&quot;person&quot; items&#x3D;&quot;$&#123;list&#125;&quot;&gt;
+    &lt;c:out value&#x3D;&quot;$&#123;person&#125;&quot;&#x2F;&gt; &lt;br&gt;
+&lt;&#x2F;c:forEach&gt;
+
+&lt;%--
+    var：每一次遍历出来的变量
+    items：要遍历的对象
+    begin：开始的下标
+    end：结束的下标
+    step：步长
+ --%&gt;
+&lt;hr&gt;
+
+&lt;c:forEach var&#x3D;&quot;person&quot; items&#x3D;&quot;$&#123;list&#125;&quot; begin&#x3D;&quot;1&quot; end&#x3D;&quot;3&quot; step&#x3D;&quot;2&quot;&gt;
+    &lt;c:out value&#x3D;&quot;$&#123;person&#125;&quot;&#x2F;&gt; &lt;br&gt;
+&lt;&#x2F;c:forEach&gt;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JSP/" rel="tag"><i class="fa fa-tag"></i> JSP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/03/27/IDEA%E5%90%AF%E5%8A%A8Tomcat%EF%BC%8C%E6%8E%A7%E5%88%B6%E5%8F%B0%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/" rel="prev" title="IDEA启动Tomcat，控制台中文乱码">
+                  <i class="fa fa-angle-left"></i> IDEA启动Tomcat，控制台中文乱码
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/03/27/tomcat%E6%8E%A7%E5%88%B6%E5%8F%B0%E6%8F%90%E7%A4%BA%E8%87%B3%E5%B0%91%E6%9C%89%E4%B8%80%E4%B8%AAJAR%E8%A2%AB%E6%89%AB%E6%8F%8F%E7%94%A8%E4%BA%8ETLD%E4%BD%86%E5%B0%9A%E6%9C%AA%E5%8C%85%E5%90%ABTLD/" rel="next" title="Tomcat控制台提示至少有一个JAR被扫描用于TLD但尚未包含TLD">
+                  Tomcat控制台提示至少有一个JAR被扫描用于TLD但尚未包含TLD <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

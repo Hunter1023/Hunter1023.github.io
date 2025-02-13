@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="输入输出   C语言 C++ 比较    scanf函数printf函数 cincout cin 和 cout 无需指定输入输出格式，但消耗的时间比 scanf 和 printf 多得多    头文件   内容 C语言 C++    输入输出库 #include &lt;stdio.h&gt; #include &lt;cstdio&gt;#include &lt;iostream&gt;   数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言和C++的比较">
+<meta property="og:url" content="https://hunter1023.github.io/2020/02/01/C%E8%AF%AD%E8%A8%80%E5%92%8CC++%E7%9A%84%E6%AF%94%E8%BE%83/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="输入输出   C语言 C++ 比较    scanf函数printf函数 cincout cin 和 cout 无需指定输入输出格式，但消耗的时间比 scanf 和 printf 多得多    头文件   内容 C语言 C++    输入输出库 #include &lt;stdio.h&gt; #include &lt;cstdio&gt;#include &lt;iostream&gt;   数">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-01T05:36:33.000Z">
+<meta property="article:modified_time" content="2025-01-23T15:29:13.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="C语言">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2020/02/01/C%E8%AF%AD%E8%A8%80%E5%92%8CC++%E7%9A%84%E6%AF%94%E8%BE%83/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2020/02/01/C%E8%AF%AD%E8%A8%80%E5%92%8CC++%E7%9A%84%E6%AF%94%E8%BE%83/","path":"2020/02/01/C语言和C++的比较/","title":"C语言和C++的比较"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>C语言和C++的比较 | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="nav-number">1.</span> <span class="nav-text">输入输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">头文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">变量类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E5%9E%8B%E5%8F%98%E9%87%8F"><span class="nav-number">3.1.</span> <span class="nav-text">布尔型变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">3.2.</span> <span class="nav-text">字符串</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%87%BD%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">排序函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B3%E8%AF%B7%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4"><span class="nav-number">5.</span> <span class="nav-text">申请动态内存空间</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2020/02/01/C%E8%AF%AD%E8%A8%80%E5%92%8CC++%E7%9A%84%E6%AF%94%E8%BE%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="C语言和C++的比较 | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C语言和C++的比较<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/C%E8%AF%AD%E8%A8%80%E5%92%8CC++%E7%9A%84%E6%AF%94%E8%BE%83.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-01 13:36:33" itemprop="dateCreated datePublished" datetime="2020-02-01T13:36:33+08:00">2020-02-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-23 23:29:13" itemprop="dateModified" datetime="2025-01-23T23:29:13+08:00">2025-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h2><table>
+<thead>
+<tr>
+<th>C语言</th>
+<th>C++</th>
+<th>比较</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>scanf函数<br />printf函数</strong></td>
+<td>cin<br />cout</td>
+<td>cin 和 cout <strong>无需指定输入输出格式</strong>，<br />但<strong>消耗的时间</strong>比 scanf 和 printf <strong>多得多</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2><table>
+<thead>
+<tr>
+<th>内容</th>
+<th>C语言</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>输入输出库</td>
+<td>#include &lt;stdio.h&gt;</td>
+<td><strong>#include &lt;cstdio&gt;</strong><br /><strong>#include &lt;iostream&gt;</strong></td>
+</tr>
+<tr>
+<td>数学函数</td>
+<td>#include &lt;math.h&gt;</td>
+<td><strong>#include &lt;cmath&gt;</strong></td>
+</tr>
+<tr>
+<td>字符串有关函数</td>
+<td>#include &lt;string.h&gt;</td>
+<td><strong>#include &lt;cstring&gt;</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="变量类型"><a href="#变量类型" class="headerlink" title="变量类型"></a>变量类型</h2><h3 id="布尔型变量"><a href="#布尔型变量" class="headerlink" title="布尔型变量"></a>布尔型变量</h3><table>
+<thead>
+<tr>
+<th>C语言</th>
+<th>C++</th>
+<th>比较</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>#include &lt;stdbool.h&gt;</td>
+<td><strong>可直接使用</strong></td>
+<td>true(存储时为1)<br />false(存储时为0)</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><table>
+<thead>
+<tr>
+<th>内容</th>
+<th>C语言</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>表示方法</td>
+<td>通过 字符数组 表示</td>
+<td>通过 string类 表示</td>
+</tr>
+<tr>
+<td>字符串长度的表示</td>
+<td>#include &lt;string.h&gt;<br />strlen(str)</td>
+<td>#include &lt;string&gt;<br />str.length()</td>
+</tr>
+<tr>
+<td>字符串拼接</td>
+<td>#include &lt;string.h&gt;<br />strcat(str1, str2); &#x2F;&#x2F;把str2拼接到str1之后</td>
+<td>str1 +&#x3D; str2;</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="排序函数"><a href="#排序函数" class="headerlink" title="排序函数"></a>排序函数</h2><ul>
+<li>C语言 — qsort</li>
+</ul>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h></span></span>
+
+<span class="token keyword">int</span> <span class="token function">cmp</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">void</span> <span class="token operator">*</span>a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">void</span> <span class="token operator">*</span>b<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span><span class="token punctuation">)</span>a <span class="token operator">-</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span><span class="token punctuation">)</span>b<span class="token punctuation">;</span> <span class="token comment">//升序</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token function">qsort</span><span class="token punctuation">(</span>排序数组<span class="token punctuation">,</span> 元素数量<span class="token punctuation">,</span> 每个元素的大小<span class="token punctuation">(</span>可用<span class="token keyword">sizeof</span>获得<span class="token punctuation">)</span><span class="token punctuation">,</span> 比较函数cmp<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>C++ — sort</li>
+</ul>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;algorithm&gt;
+
+bool cmp(int a, int b) &#123;
+    return a &gt; b; &#x2F;&#x2F;降序
+&#125;
+
+sort(首元素地址, 尾元素地址的下一个地址, 比较函数cmp(非必填));<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<table>
+<thead>
+<tr>
+<th>cmp函数的区别</th>
+<th>C语言</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>返回值类型</td>
+<td>int</td>
+<td>bool</td>
+</tr>
+<tr>
+<td>排序的判断</td>
+<td>返回值 &gt; 0, a 将被排在b后面;<br />返回值 &lt; 0, a 将被排在b前面;</td>
+<td><strong>默认升序</strong><br />返回值为<strong>true</strong>时，a将被排在b<strong>前面</strong></td>
+</tr>
+<tr>
+<td>比较方式</td>
+<td>元素<strong>相减</strong><br />不能用$&gt;$、$&lt;$比较符（<strong>返回无负值</strong>）</td>
+<td>$&gt;$、$&lt;$比较符</td>
+</tr>
+</tbody></table>
+<p><code>qsort</code>函数的使用需要运用指针，且写法上没有<code>sort</code>函数简洁。<code>sort</code>函数<strong>根据具体情形使用不同的排序方法</strong>，效率较高，在实现中<strong>规避了经典快速排序中可能出现的会导致实际复杂度退化到$O(n^2)$的极端情况</strong>。</p>
+<p>因此<strong>更推荐使用C++的<code>sort</code>函数</strong>进行代码编写。</p>
+<hr>
+<h2 id="申请动态内存空间"><a href="#申请动态内存空间" class="headerlink" title="申请动态内存空间"></a>申请动态内存空间</h2><p><strong>内存泄露</strong>是指申请到的内存空间在<strong>使用过后没有释放</strong>，导致一些程序<strong>内存消耗过快，最后无内存可分配</strong>的情况。一般考试中，分配的内存空间在程序结束时即被释放，因此即便不是放空间，也不会产生什么影响，并且内存大小一般也足够一道题的使用。但是<strong>从编程习惯上，需要养成即时释放空间的习惯</strong>。</p>
+<ul>
+<li><p>C语言</p>
+<p><code>&lt;stdlib.h&gt;</code></p>
+<ul>
+<li><p>申请内存空间 — <code>malloc</code>函数：</p>
+<p>以<strong>需要申请的内存空间</strong>为参数，返回<strong>指向这块空间的指针</strong>，因为<strong>返回的指针是<code>void*</code>型，因此需要强制转换为对应类型</strong>：<code>typename* p = (typename*)malloc(sizeof(typename));</code></p>
+<p>示例：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span><span class="token operator">*</span> p <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+node<span class="token operator">*</span> p <span class="token operator">=</span> <span class="token punctuation">(</span>node<span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>通常情况下，内存空间的申请不会失败。失败一般发生在使用<code>malloc</code><strong>申请了较大的动态数组</strong>，如：<code>int* p = (int*)malloc(1000000 * sizeof(int));</code>。<strong>申请失败会返回空指针<code>NULL</code></strong>。</p>
+</li>
+<li><p>释放内存 — <code>free</code>函数：</p>
+<p>以<strong>需要释放的内存空间的指针变量</strong>为参数：<code>free(p);</code>，执行之后，<strong>指针变量<code>p</code>没有消失，只是指向了空地址<code>NULL</code></strong>。</p>
+</li>
+</ul>
+</li>
+<li><p>C++</p>
+<ul>
+<li><p>申请内存空间 — <code>new</code>运算符：</p>
+<p>使用<strong>new + 类型名</strong>即可分配一块该类型的内存空间，<strong>返回申请的同变量类型的指针</strong>：<code>typename* p = new typename;</code></p>
+<p>示例：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int* p &#x3D; new int;
+node* p &#x3D; new node;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>通常情况下，内存空间的申请不会失败。失败一般发生在使用<code>new</code><strong>申请了较大的动态数组</strong>，如：<code>int* p = new int[1000000];</code>。<strong>申请失败会发生异常</strong>。</p>
+</li>
+<li><p>释放内存 — <code>delete</code>运算符：</p>
+<p>以<strong>需要释放的内存空间的指针变量</strong>为参数：<code>delete(p);</code>，执行之后，<strong>指针变量<code>p</code>没有消失，只是指向了空地址<code>NULL</code></strong>。</p>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag"><i class="fa fa-tag"></i> C语言</a>
+              <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/01/17/%E5%90%AF%E5%8A%A8U%E7%9B%98%E5%AE%89%E8%A3%85Ubuntu/" rel="prev" title="启动U盘安装Ubuntu(单系统)">
+                  <i class="fa fa-angle-left"></i> 启动U盘安装Ubuntu(单系统)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/02/01/C_C++%E8%A7%A3%E9%A2%98%E5%B9%B2%E8%B4%A7/" rel="next" title="C/C++解题干货">
+                  C/C++解题干货 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

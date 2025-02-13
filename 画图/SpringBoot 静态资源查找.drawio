@@ -1,0 +1,132 @@
+<mxfile host="Electron" modified="2024-08-07T03:05:09.490Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.6.4 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="yQyvs1Q1bmGB-qVmwU-O" version="24.6.4" type="device">
+  <diagram name="查找静态资源" id="gDAKVaC_476W2h3ycEzQ">
+    <mxGraphModel dx="2389" dy="909" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="YbljDrRdOhLkNJLp3lob-5" value="PathResourceResolver" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="327" y="184" width="198" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-20" value="ClassLoader" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="564" y="317" width="215" height="295" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-10" value="ClassPathResource" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="327" y="317" width="191" height="295" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-1" value="DefaultResourceResolverChain" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="326" y="41" width="225" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="YbljDrRdOhLkNJLp3lob-2" target="YbljDrRdOhLkNJLp3lob-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="570" y="104" />
+              <mxPoint x="570" y="244" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-2" value="resolveResource" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;" vertex="1" parent="1">
+          <mxGeometry x="376" y="73" width="125" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="YbljDrRdOhLkNJLp3lob-3" target="YbljDrRdOhLkNJLp3lob-8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="296" y="246" />
+              <mxPoint x="296" y="382" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="YbljDrRdOhLkNJLp3lob-8" target="YbljDrRdOhLkNJLp3lob-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-8" value="createRelative&lt;div&gt;&lt;b&gt;拼接static-location和&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;请求的相对路径&lt;/b&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;rounded=0;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="364.5" y="348" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="YbljDrRdOhLkNJLp3lob-11" target="YbljDrRdOhLkNJLp3lob-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-11" value="isReadable" style="whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="364.5" y="443.5" width="120" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="YbljDrRdOhLkNJLp3lob-13" target="YbljDrRdOhLkNJLp3lob-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="549" y="546" />
+              <mxPoint x="549" y="391" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-13" value="resolveURL" style="whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="364.5" y="525" width="120" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-15" value="ResourceHttpRequestHandler" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="48" y="41" width="226" height="198" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="aN9RaiHDOJMvhayxLOLA-2" target="YbljDrRdOhLkNJLp3lob-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="301" y="189" />
+              <mxPoint x="301" y="104" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aN9RaiHDOJMvhayxLOLA-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="YbljDrRdOhLkNJLp3lob-16" target="aN9RaiHDOJMvhayxLOLA-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-16" value="getResource" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;" vertex="1" parent="1">
+          <mxGeometry x="98.5" y="74" width="125" height="59" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-22" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="YbljDrRdOhLkNJLp3lob-18" target="YbljDrRdOhLkNJLp3lob-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-18" value="getResource" style="whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="628" y="361" width="93" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="YbljDrRdOhLkNJLp3lob-21" target="YbljDrRdOhLkNJLp3lob-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-21" value="findResource" style="whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="614.5" y="446" width="120" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-24" value="findResourceOnClassPath" style="whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="582" y="535" width="185" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aN9RaiHDOJMvhayxLOLA-2" value="getPath&lt;div&gt;获取到的路径是&lt;/div&gt;&lt;div&gt;&lt;b&gt;经由模式匹配处理过的路径&lt;/b&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;rounded=0;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="101" y="159" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YbljDrRdOhLkNJLp3lob-3" value="getResource" style="whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="366" y="215" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6F24E_1Zkf6vl3TR683o-1" value="PathPattern" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;verticalAlign=top;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="-252" y="160" width="230" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="6F24E_1Zkf6vl3TR683o-2" value="AbstractHandlerMapping" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;verticalAlign=top;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="-538" y="159" width="224" height="256" as="geometry" />
+        </mxCell>
+        <mxCell id="6F24E_1Zkf6vl3TR683o-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6F24E_1Zkf6vl3TR683o-4" target="6F24E_1Zkf6vl3TR683o-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6F24E_1Zkf6vl3TR683o-4" value="getHandler" style="whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-481" y="264" width="110" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="6F24E_1Zkf6vl3TR683o-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="6F24E_1Zkf6vl3TR683o-6" target="6F24E_1Zkf6vl3TR683o-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6F24E_1Zkf6vl3TR683o-6" value="lookupHandler&lt;div&gt;&lt;b&gt;判断URL模式&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;与请求路径是否匹配&lt;/b&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;rounded=0;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="-493" y="334" width="134" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="6F24E_1Zkf6vl3TR683o-7" value="+ pathPatternHandlerMap:&amp;nbsp;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;b&gt;匹配静态资源请求的URL模式&lt;/b&gt;&lt;/div&gt;" style="text;strokeColor=#b85450;fillColor=#f8cecc;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-522.5" y="196" width="193" height="53" as="geometry" />
+        </mxCell>
+        <mxCell id="6F24E_1Zkf6vl3TR683o-8" value="extractPathWithinPattern&lt;div&gt;&lt;b&gt;去除路径中的模式匹配部分&lt;/b&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=MesloLGS NF;rounded=0;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="-230" y="205" width="186" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="6F24E_1Zkf6vl3TR683o-9" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="6F24E_1Zkf6vl3TR683o-8" target="aN9RaiHDOJMvhayxLOLA-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="20" y="376" as="sourcePoint" />
+            <mxPoint x="70" y="326" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

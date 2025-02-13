@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="根据《算法笔记》一书，对PAT甲级、乙级真题和codeup部分试题进行分类。 1. C&#x2F;C++快速入门1.1 数组 codeup 杨辉三角   1.2 指针 codeup C语言10.16   1.3 结构体的使用 codeup C语言11.1 codeup C语言11.2 codeup C语言11.4   2. 入门模拟2.1 简单模拟不涉及算法，只是根据题目描述来编写代码，考察代码能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法题目分类">
+<meta property="og:url" content="https://hunter1023.github.io/2020/02/16/%E7%AE%97%E6%B3%95%E9%A2%98%E7%9B%AE%E5%88%86%E7%B1%BB/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="根据《算法笔记》一书，对PAT甲级、乙级真题和codeup部分试题进行分类。 1. C&#x2F;C++快速入门1.1 数组 codeup 杨辉三角   1.2 指针 codeup C语言10.16   1.3 结构体的使用 codeup C语言11.1 codeup C语言11.2 codeup C语言11.4   2. 入门模拟2.1 简单模拟不涉及算法，只是根据题目描述来编写代码，考察代码能">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/03/07/KlvHnuEwTJkcVsP.png">
+<meta property="article:published_time" content="2020-02-16T04:18:51.000Z">
+<meta property="article:modified_time" content="2025-01-23T15:29:13.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="PAT">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/03/07/KlvHnuEwTJkcVsP.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2020/02/16/%E7%AE%97%E6%B3%95%E9%A2%98%E7%9B%AE%E5%88%86%E7%B1%BB/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2020/02/16/%E7%AE%97%E6%B3%95%E9%A2%98%E7%9B%AE%E5%88%86%E7%B1%BB/","path":"2020/02/16/算法题目分类/","title":"算法题目分类"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>算法题目分类 | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-C-C-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">1. C&#x2F;C++快速入门</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%95%B0%E7%BB%84"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E6%8C%87%E9%92%88"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 结构体的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%85%A5%E9%97%A8%E6%A8%A1%E6%8B%9F"><span class="nav-number">2.</span> <span class="nav-text">2. 入门模拟</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E7%AE%80%E5%8D%95%E6%A8%A1%E6%8B%9F"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 简单模拟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%9F%A5%E6%89%BE%E5%85%83%E7%B4%A0"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 查找元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%9B%BE%E5%BD%A2%E8%BE%93%E5%87%BA"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 图形输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E6%97%A5%E6%9C%9F%E5%A4%84%E7%90%86"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 日期处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 进制转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 字符串处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%AE%97%E6%B3%95%E5%88%9D%E6%AD%A5"><span class="nav-number">3.</span> <span class="nav-text">3. 算法初步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%8E%92%E5%BA%8F"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1-%E7%AE%80%E5%8D%95%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%EF%BC%88-O-n-2-%EF%BC%89"><span class="nav-number">3.1.1.</span> <span class="nav-text">3.1.1 简单选择排序（$O(n^2)$）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-2-%E7%9B%B4%E6%8E%A5%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F%EF%BC%88-O-n-2-%EF%BC%89"><span class="nav-number">3.1.2.</span> <span class="nav-text">3.1.2 直接插入排序（$O(n^2)$）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-3-%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%EF%BC%88-O-n-2-%EF%BC%89"><span class="nav-number">3.1.3.</span> <span class="nav-text">3.1.3 冒泡排序（$O(n^2)$）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-4-%E6%8E%92%E5%BA%8F%E9%A2%98%E4%B8%8Esort%E5%87%BD%E6%95%B0%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">3.1.4.</span> <span class="nav-text">3.1.4 排序题与sort函数的应用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%95%A3%E5%88%97"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 散列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-%E6%95%A3%E5%88%97-hash-%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E6%95%B4%E6%95%B0%E6%95%A3%E5%88%97"><span class="nav-number">3.2.1.</span> <span class="nav-text">3.2.1 散列(hash)的定义与整数散列</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">散列函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%B2%E7%AA%81"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">冲突</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-%E5%AD%97%E7%AC%A6%E4%B8%B2hash%E5%88%9D%E6%AD%A5"><span class="nav-number">3.2.2.</span> <span class="nav-text">3.2.2 字符串hash初步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-%E7%9B%B8%E5%85%B3%E4%B9%A0%E9%A2%98"><span class="nav-number">3.2.3.</span> <span class="nav-text">3.2.3 相关习题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E9%80%92%E5%BD%92"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 递归</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-%E5%88%86%E6%B2%BB"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1 分治</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-%E9%80%92%E5%BD%92"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.3.2 递归</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E8%B4%AA%E5%BF%83"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 贪心</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-1-%E7%AE%80%E5%8D%95%E8%B4%AA%E5%BF%83"><span class="nav-number">3.4.1.</span> <span class="nav-text">3.4.1 简单贪心</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-2-%E5%8C%BA%E9%97%B4%E8%B4%AA%E5%BF%83"><span class="nav-number">3.4.2.</span> <span class="nav-text">3.4.2 区间贪心</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-3-%E7%9B%B8%E5%85%B3%E4%B9%A0%E9%A2%98"><span class="nav-number">3.4.3.</span> <span class="nav-text">3.4.3 相关习题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E4%BA%8C%E5%88%86"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 二分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-1-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE"><span class="nav-number">3.5.1.</span> <span class="nav-text">3.5.1 二分查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-2-%E4%BA%8C%E5%88%86%E6%B3%95%E6%8B%93%E5%B1%95"><span class="nav-number">3.5.2.</span> <span class="nav-text">3.5.2 二分法拓展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-3-%E5%BF%AB%E9%80%9F%E5%B9%82"><span class="nav-number">3.5.3.</span> <span class="nav-text">3.5.3 快速幂</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-4-%E7%9B%B8%E5%85%B3%E4%B9%A0%E9%A2%98"><span class="nav-number">3.5.4.</span> <span class="nav-text">3.5.4 相关习题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-tow-pointers"><span class="nav-number">3.6.</span> <span class="nav-text">3.6 tow pointers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-1-%E4%BB%80%E4%B9%88%E6%98%AFtwo-pointers"><span class="nav-number">3.6.1.</span> <span class="nav-text">3.6.1 什么是two pointers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-2-%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="nav-number">3.6.2.</span> <span class="nav-text">3.6.2 归并排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-3-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="nav-number">3.6.3.</span> <span class="nav-text">3.6.3 快速排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-4-%E7%9B%B8%E5%85%B3%E4%B9%A0%E9%A2%98"><span class="nav-number">3.6.4.</span> <span class="nav-text">3.6.4 相关习题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-7-%E5%85%B6%E4%BB%96%E9%AB%98%E6%95%88%E6%8A%80%E5%B7%A7%E4%B8%8E%E7%AE%97%E6%B3%95"><span class="nav-number">3.7.</span> <span class="nav-text">3.7 其他高效技巧与算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-1-%E6%89%93%E8%A1%A8"><span class="nav-number">3.7.1.</span> <span class="nav-text">3.7.1 打表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-2-%E6%B4%BB%E7%94%A8%E9%80%92%E6%8E%A8"><span class="nav-number">3.7.2.</span> <span class="nav-text">3.7.2 活用递推</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-3-%E9%9A%8F%E6%9C%BA%E9%80%89%E6%8B%A9%E6%B3%95"><span class="nav-number">3.7.3.</span> <span class="nav-text">3.7.3 随机选择法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-4-%E7%9B%B8%E5%85%B3%E4%B9%A0%E9%A2%98"><span class="nav-number">3.7.4.</span> <span class="nav-text">3.7.4 相关习题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%95%B0%E5%AD%A6%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">4.  数学问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E7%AE%80%E5%8D%95%E6%95%B0%E5%AD%A6"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 简单数学</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E4%B8%8E%E6%9C%80%E5%B0%8F%E5%85%AC%E5%80%8D%E6%95%B0"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 最大公约数与最小公倍数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E5%88%86%E6%95%B0%E7%9A%84%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 分数的四则运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E7%B4%A0%E6%95%B0"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 素数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-%E8%B4%A8%E5%9B%A0%E5%AD%90%E5%88%86%E8%A7%A3"><span class="nav-number">4.5.</span> <span class="nav-text">4.5 质因子分解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-%E5%A4%A7%E6%95%B4%E6%95%B0%E8%BF%90%E7%AE%97"><span class="nav-number">4.6.</span> <span class="nav-text">4.6 大整数运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95"><span class="nav-number">4.7.</span> <span class="nav-text">4.7 扩展欧几里得算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-8-%E7%BB%84%E5%90%88%E6%95%B0"><span class="nav-number">4.8.</span> <span class="nav-text">4.8 组合数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-C-%E6%A0%87%E5%87%86%E6%A8%A1%E6%9D%BF%E5%BA%93%E4%BB%8B%E7%BB%8D"><span class="nav-number">5.</span> <span class="nav-text">5. C++标准模板库介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-vector"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 vector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-set"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-string"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 string</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-map"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 map</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-queue"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 queue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-6-priority-queue"><span class="nav-number">5.6.</span> <span class="nav-text">5.6 priority_queue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-7-stack"><span class="nav-number">5.7.</span> <span class="nav-text">5.7 stack</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-8-pair"><span class="nav-number">5.8.</span> <span class="nav-text">5.8 pair</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-9-algorithm"><span class="nav-number">5.9.</span> <span class="nav-text">5.9 algorithm</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%981"><span class="nav-number">6.</span> <span class="nav-text">6. 数据结构专题1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E6%A0%88%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 栈的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E9%98%9F%E5%88%97%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 队列的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-%E9%93%BE%E8%A1%A8%E5%A4%84%E7%90%86"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 链表处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%90%9C%E7%B4%A2%E4%B8%93%E9%A2%98"><span class="nav-number">7.</span> <span class="nav-text">7. 搜索专题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2DFS"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 深度优先搜索DFS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2BFS"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 广度优先搜索BFS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%93%E9%A2%982"><span class="nav-number">8.</span> <span class="nav-text">8. 数据结构专题2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-%E6%A0%91%E4%B8%8E%E4%BA%A4%E5%8F%89%E6%A0%91"><span class="nav-number">8.1.</span> <span class="nav-text">8.1 树与交叉树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86"><span class="nav-number">8.2.</span> <span class="nav-text">8.2 二叉树的遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86"><span class="nav-number">8.3.</span> <span class="nav-text">8.3 树的遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-4-%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91BST"><span class="nav-number">8.4.</span> <span class="nav-text">8.4 二叉查找树BST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-5-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">8.5.</span> <span class="nav-text">8.5 平衡二叉树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-6-%E5%B9%B6%E6%9F%A5%E9%9B%86"><span class="nav-number">8.6.</span> <span class="nav-text">8.6 并查集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-7-%E5%A0%86"><span class="nav-number">8.7.</span> <span class="nav-text">8.7 堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-8-%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91"><span class="nav-number">8.8.</span> <span class="nav-text">8.8 哈夫曼树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E5%9B%BE%E7%AE%97%E6%B3%95%E4%B8%93%E9%A2%98"><span class="nav-number">9.</span> <span class="nav-text">9. 图算法专题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1-%E5%9B%BE%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E7%9B%B8%E5%85%B3%E6%9C%AF%E8%AF%AD"><span class="nav-number">9.1.</span> <span class="nav-text">9.1 图的定义和相关术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-%E5%9B%BE%E7%9A%84%E5%AD%98%E5%82%A8"><span class="nav-number">9.2.</span> <span class="nav-text">9.2 图的存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-3-%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86"><span class="nav-number">9.3.</span> <span class="nav-text">9.3 图的遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-4-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84"><span class="nav-number">9.4.</span> <span class="nav-text">9.4 最短路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-5-%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91"><span class="nav-number">9.5.</span> <span class="nav-text">9.5 最小生成树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-6-%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F"><span class="nav-number">9.6.</span> <span class="nav-text">9.6 拓扑排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-7-%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84"><span class="nav-number">9.7.</span> <span class="nav-text">9.7 关键路径</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%B8%93%E9%A2%98"><span class="nav-number">10.</span> <span class="nav-text">10. 动态规划专题</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2020/02/16/%E7%AE%97%E6%B3%95%E9%A2%98%E7%9B%AE%E5%88%86%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="算法题目分类 | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          算法题目分类<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/%E7%AE%97%E6%B3%95%E9%A2%98%E7%9B%AE%E5%88%86%E7%B1%BB.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-16 12:18:51" itemprop="dateCreated datePublished" datetime="2020-02-16T12:18:51+08:00">2020-02-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-23 23:29:13" itemprop="dateModified" datetime="2025-01-23T23:29:13+08:00">2025-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>根据《算法笔记》一书，对PAT甲级、乙级真题和<a target="_blank" rel="noopener" href="http://codeup.cn/contest.php">codeup</a>部分试题进行分类。</p>
+<h2 id="1-C-C-快速入门"><a href="#1-C-C-快速入门" class="headerlink" title="1. C&#x2F;C++快速入门"></a>1. C&#x2F;C++快速入门</h2><h3 id="1-1-数组"><a href="#1-1-数组" class="headerlink" title="1.1 数组"></a>1.1 数组</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39345384/article/details/104146906">codeup 杨辉三角</a></li>
+</ul>
+<hr>
+<h3 id="1-2-指针"><a href="#1-2-指针" class="headerlink" title="1.2 指针"></a>1.2 指针</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39345384/article/details/104151149">codeup C语言10.16</a></li>
+</ul>
+<hr>
+<h3 id="1-3-结构体的使用"><a href="#1-3-结构体的使用" class="headerlink" title="1.3 结构体的使用"></a>1.3 结构体的使用</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39345384/article/details/104156997">codeup C语言11.1</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39345384/article/details/104158080">codeup C语言11.2</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39345384/article/details/104158719">codeup C语言11.4</a></li>
+</ul>
+<hr>
+<h2 id="2-入门模拟"><a href="#2-入门模拟" class="headerlink" title="2. 入门模拟"></a>2. 入门模拟</h2><h3 id="2-1-简单模拟"><a href="#2-1-简单模拟" class="headerlink" title="2.1 简单模拟"></a>2.1 简单模拟</h3><p><strong>不涉及算法，只是根据题目描述来编写代码，考察代码能力。</strong></p>
+<table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39345384/article/details/104163314">codeup 问题 B: A+B</a></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1001 害死人不偿命的(3n+1)猜想</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1010 一元多项式求导</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1011 A+B和C</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1012 数字分类</strong></td>
+<td>有条不紊地整理</td>
+</tr>
+<tr>
+<td><strong>B1016 部分A+B</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1018 锤子剪刀布</strong></td>
+<td><strong>注意scanf留在缓冲区的换行符<code>\n</code>的处理</strong></td>
+</tr>
+<tr>
+<td><strong>B1026 程序运行时间</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1032 挖掘机技术哪家强</strong></td>
+<td>统计各学校总分的方式</td>
+</tr>
+<tr>
+<td><strong>B1046 划拳</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>A1002</strong> <strong>A+B for Polynomials</strong></td>
+<td>非零系数项个数的统计</td>
+</tr>
+<tr>
+<td><strong>A1009</strong> <strong>Product of Polynomials</strong></td>
+<td>第二个多项式可边读边处理</td>
+</tr>
+<tr>
+<td><strong>A1042</strong> <strong>Shuffling Machine</strong></td>
+<td><strong>将扑克顺序号转为实际牌号的方式</strong></td>
+</tr>
+<tr>
+<td><strong>A1046 Shortest Distance</strong></td>
+<td>便于计算距离的方式</td>
+</tr>
+<tr>
+<td><strong>A1065</strong> <strong>A+B and C (64bit)</strong></td>
+<td><strong>B1011</strong> <strong>A+B 和 C 进阶版</strong><br /><strong>负数相加若溢出，可能得到0</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="2-2-查找元素"><a href="#2-2-查找元素" class="headerlink" title="2.2 查找元素"></a>2.2 查找元素</h3><p>查找是学习写代码的一项基本功。</p>
+<ul>
+<li>一般来说，如果需要在一个比较小范围的数据集内内进行查找，<strong>直接遍历</strong>即可。</li>
+<li>如果需要查找的范围较大，可以用<a href="#35-%E4%BA%8C%E5%88%86">二分查找</a><strong>等算法</strong>进行更快速的查找</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>B1004</strong> <strong>成绩排名</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1028</strong> <strong>人口普查</strong></td>
+<td><strong>1. 不合理年龄的判断方式</strong><br /><strong>2. 需要考虑全不合理的情况</strong></td>
+</tr>
+<tr>
+<td><strong>B1032</strong> <strong>挖掘机技术哪家强</strong></td>
+<td>统计各学校总分的方式</td>
+</tr>
+<tr>
+<td><strong>B1041</strong> <strong>考试座位号</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>A1011</strong> <strong>World Cup Betting</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>A1006</strong> <strong>Sign In and Sign Out</strong></td>
+<td>方法类似 B1028 人口普查</td>
+</tr>
+<tr>
+<td><strong>A1036</strong> <strong>Boys vs Girls</strong></td>
+<td>\</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="2-3-图形输出"><a href="#2-3-图形输出" class="headerlink" title="2.3 图形输出"></a>2.3 图形输出</h3><p>做法一般有两种：</p>
+<ul>
+<li>通过规律，直接进行输出</li>
+<li>定义一个二维字符数组，通过规律填充，然后输出整个二维数组</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>B1027</strong> <strong>打印沙漏</strong></td>
+<td><strong>沙漏高度和符号数量的关系</strong></td>
+</tr>
+<tr>
+<td><strong>B1036</strong> <strong>跟奥巴马一起编程</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>A1031</strong> <strong>Hello World for U</strong></td>
+<td>根据 n1和n3为  $\leq$ n2，且满足 n1+n2+n3 &#x3D; N+2 的最大值，求出n1，n2，n3</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="2-4-日期处理"><a href="#2-4-日期处理" class="headerlink" title="2.4 日期处理"></a>2.4 日期处理</h3><p>需要处理好<strong>平年和闰年、大月和小月</strong>的问题，需要<strong>细心</strong>处理。</p>
+<p>闰年的判断方法：</p>
+<ol>
+<li><p><strong>非整百年</strong>：能<strong>被4整除</strong>为闰年</p>
+</li>
+<li><p><strong>整百年</strong>：能<strong>被400整除</strong>的是闰年（<strong>1900年不是闰年</strong>）</p>
+</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39345384/article/details/104252546">codeup 问题 A: 日期差值</a></li>
+</ul>
+<hr>
+<h3 id="2-5-进制转换"><a href="#2-5-进制转换" class="headerlink" title="2.5 进制转换"></a>2.5 进制转换</h3><p>对一个<strong>P进制的数</strong>，如果要<strong>转换为Q进制</strong>，需要分两步：</p>
+<ol>
+<li><p>将 P进制数x <strong>转换为 十进制数y</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int y &#x3D; 0, pro &#x3D; 1;
+while(x !&#x3D; 0) &#123;
+    y +&#x3D; (x % 10) * pro;
+    x &#x2F;&#x3D; 10;
+    pro *&#x3D; p;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>将 十进制数y <strong>转换为 Q进制数z</strong></p>
+<p>采用<strong>除基取余法</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int z[40], num &#x3D; 0; &#x2F;&#x2F;数组z 存放 Q进制数y 的每一位，num为位数
+do &#123;
+    z[num++] &#x3D; y % Q; &#x2F;&#x2F;除基取余
+    y &#x2F;&#x3D; Q;
+&#125; while(y !&#x3D; 0);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>使用<code>do···while</code>语句而不是<code>while</code>的原因是：<strong>如果十进制数y &#x3D; 0，使用<code>while</code>语句将使循环直接跳出，导致结果出错</strong>。</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>B1022</strong> <strong>D进制的A+B</strong></td>
+<td><strong>除基取余法</strong></td>
+</tr>
+<tr>
+<td><strong>B1037</strong> <strong>在霍格沃茨找零钱</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>A1019</strong> <strong>General Palindromic Number</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>A1027</strong> <strong>Colors in Mars</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>A1058</strong> <strong>A+B in Hogwarts</strong></td>
+<td>题型同 乙级1037 在霍格沃茨找零钱<br />单位转换过程可能会超过int范围</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="2-6-字符串处理"><a href="#2-6-字符串处理" class="headerlink" title="2.6 字符串处理"></a>2.6 字符串处理</h3><p>考察<strong>代码能力</strong>的题型。一般需要<strong>仔细分析清楚</strong>题目中的<strong>输入和输出格式</strong>才能顺利AC。</p>
+<p>有些题目中，可能<strong>实现逻辑非常麻烦</strong>，有很多<strong>细节</strong>和<strong>边界</strong>情况，此类题目需要<strong>多做多想，积累经验</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>B1002</strong> <strong>写出这个数</strong></td>
+<td><strong>数字转为字符串</strong>：<br />C语言：<code>sprintf(str, &quot;%d&quot;, num)</code><br />C++：<code>to_string(num)</code></td>
+</tr>
+<tr>
+<td><strong>B1006</strong> <strong>换个格式输出整数</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1009</strong> <strong>说反话</strong></td>
+<td><strong>句子颠倒，单词本身不颠倒</strong><br />C++ 待更新</td>
+</tr>
+<tr>
+<td><strong>B1014</strong> <strong>福尔摩斯的约会</strong><br /><strong>A1061</strong> <strong>Dating</strong></td>
+<td><strong>正确归纳</strong>解码方式</td>
+</tr>
+<tr>
+<td><strong>B1021</strong> <strong>个位数统计</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1024</strong> <strong>科学计数法</strong><br /><strong>A1073</strong> <strong>Scientific Notation</strong></td>
+<td><strong>1. 利用正则表达式，分开读取 数字部分 和 指数部分</strong><br />2. 指数 &lt; 0：整数部分必然为 0<br />3. 指数 &gt;&#x3D; 0：<br/>     - <strong>仍有小数点，何时输出小数点</strong><br/>     - 没有小数点，后续输出0</td>
+</tr>
+<tr>
+<td><strong>B1031</strong> <strong>查验身份证</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1048</strong> <strong>数字加密</strong></td>
+<td><strong>1. 对齐两个整数</strong> <br/>     - 若加密正整数A 比 B 长，B<strong>高位补0</strong>后进行加密 <br/>     - 若加密正整数A 比 B 短，B<strong>多余的部分正常输出，等同于A高位补0</strong>后进行加密 <br/> 2. 结果从数字高位(<strong>字符串低位</strong>)<strong>开始输出</strong></td>
+</tr>
+<tr>
+<td><strong>A1001</strong> <strong>A+B Format</strong></td>
+<td>从<strong>数字高位(字符串低位)开始</strong>，需要添加<code>,</code>的位置满足**<code>(i + 1) % 3 == len % 3</code> 且 不是最后一位**</td>
+</tr>
+<tr>
+<td><strong>A1005</strong> <strong>Spell It Right</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>A1035</strong> <strong>Password</strong></td>
+<td>(待优化)</td>
+</tr>
+<tr>
+<td><strong>A1077</strong> <strong>Kuchiguse</strong></td>
+<td><strong>1. 通过<code>reverse()</code>反转字符串，将后缀转换为前缀，便于比较</strong><br />2. <code>getline()</code>之前注意<strong>读取换行符</strong>。</td>
+</tr>
+<tr>
+<td><strong>A1082</strong> <strong>Read Number in Chinese</strong></td>
+<td>1. <strong>四位数字分为一节</strong>，单位为个、万、亿<br />2. <strong>一节中数字全为0</strong>，则不输出<strong>节的单位</strong><br />3. 节中<strong>第一个非零数之前有0</strong>，则输出<strong>1个</strong>0</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="3-算法初步"><a href="#3-算法初步" class="headerlink" title="3. 算法初步"></a>3. 算法初步</h2><h3 id="3-1-排序"><a href="#3-1-排序" class="headerlink" title="3.1 排序"></a>3.1 排序</h3><h4 id="3-1-1-简单选择排序（-O-n-2-）"><a href="#3-1-1-简单选择排序（-O-n-2-）" class="headerlink" title="3.1.1 简单选择排序（$O(n^2)$）"></a>3.1.1 简单选择排序（$O(n^2)$）</h4><p>简单选择排序是指，对一个序列A中的元素<code>A[0] ~ A[n-1]</code>，令<code>i</code>从 0 到 n-1 枚举，进行 n 趟操作，每一趟从<strong>待排部分</strong>$[i, n-1]$中<strong>选择最小元素（记录下标）</strong>，令其<strong>与待排部分</strong>的**第一个元素A[i]**进行交换，使得$[0, i]$<strong>区间有序</strong>。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void selectSort(int A[]) &#123; &#x2F;&#x2F;降序 简单选择排序
+    for(int i &#x3D; 0; i &lt; n; i++) &#123;
+        int k &#x3D; i;
+        for(int j &#x3D; i; j &lt; n; j++) &#123; &#x2F;&#x2F;选出最小的元素
+            if(A[j] &lt; A[i])
+                k &#x3D; j; &#x2F;&#x2F;记录更小元素的下标
+        &#125;
+        int tmp &#x3D; A[i]; &#x2F;&#x2F;交换A[k]与A[i]
+        A[i] &#x3D; A[j];
+        A[j] &#x3D; tmp;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h4 id="3-1-2-直接插入排序（-O-n-2-）"><a href="#3-1-2-直接插入排序（-O-n-2-）" class="headerlink" title="3.1.2 直接插入排序（$O(n^2)$）"></a>3.1.2 直接插入排序（$O(n^2)$）</h4><p>直接插入排序是指，对序列A的n个元素<code>A[0]~A[n-1]</code>，令 i **从 1 **到 n-1 枚举，进行 n - 1 趟操作。</p>
+<p>某一趟时，序列A的前 i 个元素 <code>A[0]~A[i-1]</code>已经有序，则该趟在范围$[0, i - 1]$中，<strong>从后往前</strong>寻找某个位置j，使得<code>A[i]</code>插入后，范围$[0, i]$有序(<strong><code>A[j]~A[i]</code>后移一位</strong>)。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void insertSort(int A[]) &#123; &#x2F;&#x2F;升序 直接插入排序
+    for(int i &#x3D; 1; i &lt; n; i++) &#123;
+        int tmp &#x3D; A[i], j &#x3D; i;
+        &#x2F;&#x2F;从后往前遍历，便于编写代码
+        while(j &gt; 0 &amp;&amp; tmp &lt; A[j - 1]) &#123;
+            A[j] &#x3D; A[j - 1];
+            j--;
+        &#125;
+        A[j] &#x3D; tmp;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h4 id="3-1-3-冒泡排序（-O-n-2-）"><a href="#3-1-3-冒泡排序（-O-n-2-）" class="headerlink" title="3.1.3 冒泡排序（$O(n^2)$）"></a>3.1.3 冒泡排序（$O(n^2)$）</h4><p>冒泡排序的本质在于<strong>交换</strong>，即每次通过交换的方式把当前<strong>剩余元素的最大值(升序)<strong>移动到一端，当</strong>剩余元素减少到0</strong>时，排序结束。整个过程执行 <strong>n-1 趟</strong>，每一趟<strong>从左到右依次比较相邻的元素</strong>，如果<strong>大的数在左边，则交换</strong>，该趟结束时，<strong>最大数</strong>被移动到<strong>当前剩余数的最右边</strong>。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void bubbleSort(int A[]) &#123; &#x2F;&#x2F;升序 冒泡排序
+    for(int i &#x3D; 1; i &lt; n; i++) &#123;&#x2F;&#x2F;进行 n - 1 趟排序
+        for(int j &#x3D; 0; j &lt; n - i; j++) &#123;
+            if(a[j] &gt; a[j + 1]) &#123;
+                int tmp &#x3D; a[j];
+                a[j] &#x3D; a[j + 1];
+                a[j + 1] &#x3D; tmp;
+            &#125;
+        &#125;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<hr>
+<h4 id="3-1-4-排序题与sort函数的应用"><a href="#3-1-4-排序题与sort函数的应用" class="headerlink" title="3.1.4 排序题与sort函数的应用"></a>3.1.4 排序题与sort函数的应用</h4><p>PAT中的排序题，大部分<strong>只需要得到排序的最终结果，而不需要去写排序的完整过程(例如冒泡排序、快速排序等)</strong>，因此推荐直接使用<strong>C语言的库函数<code>qsort</code><strong>或是</strong>C++的<code>sort</code>函数</strong>进行排序。<code>qsort</code>函数的使用需要运用指针，且写法上没有<code>sort</code>函数简洁。<code>sort</code>函数<strong>根据具体情形使用不同的排序方法</strong>，效率较高，在实现中<strong>规避了经典快速排序中可能出现的会导致实际复杂度退化到$O(n^2)$的极端情况</strong>。</p>
+<p>因此<strong>更推荐使用C++的<code>sort</code>函数</strong>进行代码编写。</p>
+<ul>
+<li><p><strong>结构体数组的排序</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct node &#123;
+    int x;
+    int y;
+&#125; ssd[10];<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果想先<strong>按x</strong>从大到小排序，<strong>在x相等的情况下</strong>，<strong>按y</strong>从小到大排序(即<strong>二级排序</strong>)，cmp的写法是：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">bool cmp(node a, node b) &#123; &#x2F;&#x2F;返回值为true时，a排在b之前
+    if(a.x !&#x3D; b.x) &#123;
+        return a.x &gt; b.x; &#x2F;&#x2F;降序
+    &#125; else &#123;
+        return a.y &lt; b.y; &#x2F;&#x2F;升序
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>排名的实现</strong></p>
+<p>很多排序题要求<strong>在排序之后</strong>计算每个个体的<strong>排名</strong>，规则一般是：<strong>分数相同的排名相同，占用一个排位</strong>。例如有5个学生的分数分别为90、88、88、88、86，其排名分别为1、2、2、2、5。</p>
+<p><strong>方法：</strong></p>
+<p>将第一个个体排名记为1，遍历剩余个体，如果当前分数等于上一个个体的分数，则当前个体排名等于<strong>上一个个体的排名</strong>，否则当前个体的排名等于<strong>数组下标+1</strong></p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>B1015</strong> <strong>德才论</strong><br /><strong>A1062</strong> <strong>Talent and Virtue</strong></td>
+<td>设置flag作为考生的分类，便于所有考生<strong>统一排序</strong></td>
+</tr>
+<tr>
+<td><strong>A1012</strong> <strong>The Best Rank</strong></td>
+<td>1. <strong>利用全局变量设计cmp函数</strong><br />2. 通过<strong>记录所有科目的排名</strong>，最后选出最好的排名以及对应科目<br />3. 相同分数者排名相同，<strong>下一不同分数者</strong>排名为<strong>数组下标+1</strong></td>
+</tr>
+<tr>
+<td><strong>A1016</strong> <strong>Phone Bills</strong></td>
+<td><strong>（待优化）</strong><br />1. <strong>通话记录统一先排序</strong>后处理<br />2. <strong>连续的两个通话记录，判断是否为 同一用户 且 为先通话后挂断的状态</strong><br />3. <strong>通话时长的统计方法</strong><br />4. 单位美分cents 要转换为 美元$</td>
+</tr>
+<tr>
+<td><strong>A1025</strong> <strong>PAT Ranking</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>A1028</strong> <strong>List Sorting</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>A1055</strong> <strong>The World’s Richest</strong></td>
+<td><strong>超时问题。要求输出的人数$\leq$100，通过筛去每个年龄多余的人解决</strong></td>
+</tr>
+<tr>
+<td><strong>A1075</strong> <strong>PAT Judge</strong></td>
+<td><strong>(待优化)</strong><br />1. <strong>不能编译</strong>的提交<strong>得分为0</strong><br />2. 没有提交过的答案需要输出为<code>-</code>，利用<code>&lt;cstring&gt;</code>中的<code>memset</code>函数，<strong>为 得分数组 赋值 -1，表示没有提交过答案</strong><br />3. <strong>没有任何一题通过编译 或 没有提交过答案的人</strong>不记录排名，<strong>设置 是否有通过编译的标识</strong>，进行筛选<br />4. 读取数据时，<strong>将用户数组下标看作id</strong>，便于统计<br />5. 排序<strong>以 是否有通过编译 为 第一排序条件</strong></td>
+</tr>
+<tr>
+<td>A1080</td>
+<td></td>
+</tr>
+<tr>
+<td>A1083</td>
+<td></td>
+</tr>
+<tr>
+<td>A1095</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="3-2-散列"><a href="#3-2-散列" class="headerlink" title="3.2 散列"></a>3.2 散列</h3><h4 id="3-2-1-散列-hash-的定义与整数散列"><a href="#3-2-1-散列-hash-的定义与整数散列" class="headerlink" title="3.2.1 散列(hash)的定义与整数散列"></a>3.2.1 散列(hash)的定义与整数散列</h4><blockquote>
+<p>例题:</p>
+<p>给出$N$个正整数，再给出$M$个正整数，问这$M$个数中的每个数分别是否在$N$个数中出现过，其中 $N, M \leq10^5$，且所有正整数均不超过$10^5$。例如 $N &#x3D; 5，M &#x3D; 3$， $N$个正整数为 ${8， 3， 7， 6， 2}$，欲查询的$M$个正整数为 ${7， 4， 2}$。</p>
+</blockquote>
+<p>对这个问题，最直观的思路是：对每个欲查询的正整数$x$，遍历所有$N$个数，看是否有一个数与$x$相等。这种做法的时间复杂度为$O(NM)$，显然不是好方法。可以采取<strong>用空间换时间</strong>的方式，用<strong>数组下标</strong>作为<strong>对应整数的标识</strong>，即设定一个<code>bool</code>型数组<code>hashTable[100001]</code>，其中<code>hashTable[x] == true</code>表示正整数$x$在$N$个整数中出现过。这样就可以在一开始读入$N$个正整数时进行预处理。于是，对$M$个欲查询的数，就能直接通过<code>hashTable</code>数组判断出每个数是否出现过，这种做法的时间复杂度为$O(N+M)$。<strong>直接把输入的数作为数组的下标</strong>来对这个数的性质进行统计的方法<strong>非常实用，务必掌握</strong>。</p>
+<p>但是这个方法有一个问题：如果<strong>输入的整数可能是$10^9$大小</strong>，甚至是<strong>字符串</strong>，就<strong>不能将其直接作为数组下标</strong>了。因此我们寻找一种做法，<strong>将元素通过一个函数转换为一个在能接受范围内的整数，使得该整数尽可能唯一地代表这个元素</strong>。这样的方法称为<strong>散列(hash)</strong>，用于转换的函数称为<strong>散列函数H</strong>，也就是说，如果元素在转换前为<code>key</code>，那么转换后就是一个整数<code>H(key)</code>。</p>
+<h5 id="散列函数"><a href="#散列函数" class="headerlink" title="散列函数"></a>散列函数</h5><p>对<code>key</code>是<strong>整数</strong>的情况来说，常用的<strong>散列函数</strong>有：</p>
+<ol>
+<li><p><strong>直接定址法</strong></p>
+<ul>
+<li><p>恒等变换，即 <code>H(key) = key</code></p>
+</li>
+<li><p>线性变换，即 <code>H(key) =  a * key + b</code></p>
+</li>
+</ul>
+</li>
+<li><p><strong>除留余数法</strong></p>
+<p>把<code>key</code><strong>除以一个数<code>mod</code>得到的余数</strong>作为 <code>hash</code>值 的方法，即 <code>H(key) = key % mod</code></p>
+<p>通过这个散列函数，可以把很大的数转换为不超过 mod 的整数，这样就可以将它作为可用的数组下标。显然，当<code>mod</code>是一个<strong>素数</strong>时，<code>H(key)</code><strong>能尽可能覆盖<code>[0,mod]</code>范围内的每一个数</strong>。</p>
+</li>
+<li><p>平方取中法(<strong>很少用</strong>)</p>
+<p>取<code>key</code>的<strong>平方的中间若干位</strong>作为hash值</p>
+</li>
+</ol>
+<hr>
+<h5 id="冲突"><a href="#冲突" class="headerlink" title="冲突"></a>冲突</h5><p>当两个不同的数<code>key1</code>和<code>key2</code>他们的hash值相同时，这样的情况称为<strong>冲突</strong>。<strong>解决冲突的常用方法：</strong></p>
+<ol>
+<li><p><strong>开放定址法(获取新的hash值)</strong></p>
+<ul>
+<li><p><strong>线性探查法 (Linear Probing)</strong></p>
+<p>当表中下标为<code>H(key)</code>的位置已经被其他元素占用，则<strong>检查下一个位置<code>H(key)+1</code></strong>，以此类推。<strong>如果检查过程中超过了表长<code>m</code>，那么就回到表的首位继续循环</strong>，直到找到一个可用的位置，或是所有位置都已经被使用。</p>
+<p><code>H = (H(key) + i) % m</code>；<strong>(i &#x3D; 0, 1, 2, …, m-1)</strong></p>
+<p><strong>缺点</strong>：容易导致<strong>大量元素在相邻的散列地址上“聚集”(堆积)，大大降低查找效率</strong>。</p>
+</li>
+<li><p><strong>平方探查法 (Quadratic Probing)</strong></p>
+<p>当表中下标为<code>H(key)</code>的位置已经被其他元素占用，则按如下顺序检查表中位置</p>
+<p><code>H = (H(key) + i) % m</code>；i &#x3D; $0, 1^2, -1^2, 2^2, -2^2, …, k^2, -k^2;(k \leq m&#x2F;2)$</p>
+<p>可<strong>避免聚集</strong>问题。</p>
+<p>缺点：<strong>不能探测到散列表上所有单元</strong>(但至少能探测到一半单元)。</p>
+</li>
+<li><p><strong>再散列法(双散列法)</strong></p>
+<p><code>H = (H1(key) + i * H2(key)) % m</code>；<strong>i 是冲突次数</strong></p>
+</li>
+</ul>
+</li>
+<li><p><strong>链地址法 (拉链法)</strong></p>
+<p>不计算新的hash值，而是把 <strong>所有H(key)相同的key</strong>(称为<strong>同义词</strong>) <strong>存储在一个线性链表中</strong>，由散列地址唯一标识。</p>
+</li>
+</ol>
+<hr>
+<p>一般来说，可以使用**标准库模板库中的<code>map</code>**来直接使用hash的功能（C++11以后可以用 <code>unordered_map</code>，<strong>速度更快</strong>），因此除非必须模拟这些方法或是对算法的效率要求比较高，一般不需要自己实现上面解决冲突的方法。</p>
+<hr>
+<h4 id="3-2-2-字符串hash初步"><a href="#3-2-2-字符串hash初步" class="headerlink" title="3.2.2 字符串hash初步"></a>3.2.2 字符串hash初步</h4><p>如果**<code>key</code>不是整数**，应该如何设计散列函数？</p>
+<blockquote>
+<p>例题：</p>
+<p>如何将一个二维整点$P$的坐标映射为一个整数，使得整点$P$可以由该整数唯一标识？</p>
+</blockquote>
+<p>假设一个整点$P$的坐标是$(x,y)$，其中$0\leq x,y\leq Range$，那么可以令<code>hash</code>函数为<code>H(P) = x * Range + y</code>，这样对数据范围内的任意两个整点$P1$与$P2$，<code>H(P1)</code>都不会等于<code>H(P2)</code>，就可以用<code>H(P)</code>来唯一地标识该整点P，<strong>接着</strong>便可以<strong>通过整数hash的方法进一步映射到较小的范围</strong>。</p>
+<p>字符串hash是指<strong>将一个字符串S映射为一个整数</strong>，使得该整数可以尽可能唯一地代表字符串S。</p>
+<p>为了讨论问题方便，<strong>假设字符串均由大写字母A~Z构成</strong>，不妨把 A<del>Z 视为 0</del>25。接着按照<strong>26进制转换为10进制</strong>的思路，实现将字符串映射为整数的需求(转换成的整数最大为$26^{len}-1$，len为字符串长度)。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int hashFunc(char S[], int len) &#123; &#x2F;&#x2F;将字符串S转换为整数
+    int id &#x3D; 0;
+    for(int i &#x3D; 0; i &lt; len; i++)
+		id &#x3D; id * 26 + (S[i] - &#39;A&#39;); &#x2F;&#x2F;将26进制转换为10进制
+    return id;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>为了避免转换成的整数过大，需要注意 字符串长度len 不能太长。如果字符串中<strong>还有小写字母，可以把 A<del>Z 作为 0</del>25，把 a<del>z 作为 26</del>51</strong>，这样就变成了<strong>52进制转换为10进制</strong>的问题。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int hashFunc(char S[], int len) &#123;
+    int id &#x3D; 0;
+    for(int i &#x3D; 0l i &lt; len; i++) &#123;
+        if(isupper(S[i])) &#123;
+            id &#x3D; id * 52 + (S[i] - &#39;A&#39;);
+        &#125; else if(islower(S[i])) &#123;
+            id &#x3D; id * 52 + (S[i] - &#39;a&#39;);
+        &#125;
+    &#125;
+    return id;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果字符中还有数字，一般有两种处理方法：</p>
+<ol>
+<li><p>按照小写字母的处理方法，<strong>增大进制数至62</strong>。</p>
+</li>
+<li><p>如果保证在字符串的<strong>末尾是个确定的数字</strong>，就可以把前面英文字母的部分按上面的思路转换成整数，再<strong>将末尾的数字直接拼接上去</strong>。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int hashFunc(char S[], int len) &#123;
+    int id &#x3D; 0;
+    for(int i &#x3D; 0; i &lt; len - 1; i++)
+        id &#x3D; id * 26 + (S[i] - &#39;A&#39;);
+   	id &#x3D; id * 10 + (S[len - 1] - &#39;0&#39;);
+    return id;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<blockquote>
+<p>例题：</p>
+<p>给出N个字符串(由三位大写字母组成)，再给出M个查询字符串，问每个查询字符串在N个字符串中出现的次数。</p>
+</blockquote>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+
+int hashFunc(char S[], int len) &#123; &#x2F;&#x2F;将字符串S转换为整数
+    int id &#x3D; 0;
+    for(int i &#x3D; 0; i &lt; len; i++)
+		id &#x3D; id * 26 + (S[i] - &#39;A&#39;); &#x2F;&#x2F;将26进制转换为10进制
+    return id;
+&#125;
+
+int main() &#123;
+    int N, M;
+    int hashTable[26 * 26 * 26] &#x3D; &#123;0&#125;;
+    cin &gt;&gt; N &gt;&gt; M;
+    string S[N];
+    for(int i &#x3D; 0; i &lt; N; i++) &#123;
+        cin &gt;&gt; S[i];
+        int id &#x3D; hashFunc(S[i], 3);
+        hashTable[id]++; &#x2F;&#x2F;字符串出现的次数+1
+    &#125;
+    string tmp;
+    for(int i &#x3D; 0; i &lt; M; i++) &#123;
+        cin &gt;&gt; tmp;
+        int id &#x3D; hashFunc(tmp, 3);
+        cout &lt;&lt; hashTable[id] &lt;&lt; endl; &#x2F;&#x2F;输出字符串出现的次数
+    &#125;
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h4 id="3-2-3-相关习题"><a href="#3-2-3-相关习题" class="headerlink" title="3.2.3 相关习题"></a>3.2.3 相关习题</h4><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>B1005</strong> <strong>继续(3n+1)猜想</strong></td>
+<td>奇数在判断过程中，可能大小会超过100</td>
+</tr>
+<tr>
+<td><strong>B1029</strong> <strong>旧键盘</strong><br /><strong>A1084</strong> <strong>Broken Keyboard</strong></td>
+<td>待优化</td>
+</tr>
+<tr>
+<td><strong>B1033</strong> <strong>旧键盘打字</strong></td>
+<td><strong>不能用<code>scanf</code>或<code>cin</code>读取字符串</strong>，应采用<code>gets(str)</code>或<code>getline(cin, str)</code>，因为题目<strong>只保证第 2 行输入的文字串非空</strong></td>
+</tr>
+<tr>
+<td><strong>B1038</strong> <strong>统计同成绩学生</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1039</strong> <strong>到底买不买</strong><br /><strong>A1092</strong> <strong>To Buy or Not to Buy</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1042</strong> <strong>字符统计</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1043</strong> <strong>输出PATest</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1047</strong> <strong>编程团体赛</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td>A1041</td>
+<td></td>
+</tr>
+<tr>
+<td>A1050</td>
+<td></td>
+</tr>
+<tr>
+<td>A1048</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="3-3-递归"><a href="#3-3-递归" class="headerlink" title="3.3 递归"></a>3.3 递归</h3><h4 id="3-3-1-分治"><a href="#3-3-1-分治" class="headerlink" title="3.3.1 分治"></a>3.3.1 分治</h4><p><strong>分治(divide and conquer)<strong>的全称为“<strong>分而治之</strong>”。分治法</strong>将原问题划分成若干个规模较小而结构与原问题相同或类似的子问题，然后分别解决这些子问题，最后合并子问题的解，即可得到原问题的解</strong>。分治法的三个步骤：</p>
+<ol>
+<li>分解：将原问题分解为若干和原问题拥有相同或相似结构的子问题。</li>
+<li>解决：递归求解所有子问题。如果存在子问题的规模小到可以直接解决，就直接解决它。</li>
+<li>合并：将子问题的解合并为原问题的解。</li>
+</ol>
+<p>分治法<strong>分解出的子问题</strong>应当是<strong>相互独立、没有交叉</strong>的。如果存在两个子问题有相交部分，就不应该使用分治法解决。分治法作为一种算法思想，<strong>既可以使用递归的手段实现，也可以通过非递归的手段实现</strong>。一般来说，<strong>使用 递归 实现较为容易</strong>。</p>
+<hr>
+<h4 id="3-3-2-递归"><a href="#3-3-2-递归" class="headerlink" title="3.3.2 递归"></a>3.3.2 递归</h4><p>递归很适合用来<strong>实现分治思想</strong>。</p>
+<p>递归的逻辑中一般有两个重要概念：</p>
+<ol>
+<li><strong>递归边界</strong></li>
+<li><strong>递归调用</strong></li>
+</ol>
+<p>其中<strong>递归调用</strong>是将原问题<strong>分解为若干个子问题</strong>的手段，而<strong>递归边界</strong>则是<strong>分解的尽头</strong>。递归的代码结构中一定存在这两个该概念，<strong>它们支撑起了整个递归最关键的逻辑</strong>。</p>
+<blockquote>
+<p>经典例子1：使用递归求解n的阶乘</p>
+</blockquote>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+
+int F(int n) &#123;
+    if(n &#x3D;&#x3D; 0) &#123;
+        return 1;
+    &#125; else &#123;
+        return n * F(n-1);
+    &#125;
+&#125;
+
+int main() &#123;
+    int n;
+    cin &gt;&gt; n;
+    cout &lt;&lt; F(n) &lt;&lt; endl;
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>经典例子2：求 Fibonacci 数列的第n项</p>
+<p>Fibonacci 数列(即斐波那契数列) 是满足 F(0) &#x3D; 1, F(1) &#x3D; 1, F(n) &#x3D; F(n-1) + F(n-2) (n $\geq$ 2) 的数列，数列的前几项为 1, 1, 2, 3, 5, 8, 13, 21, … 。</p>
+</blockquote>
+<p>从定义中可以获知<strong>递归边界为 F(0) &#x3D; 1 和 F(1) &#x3D; 1</strong>，且递归调用为 F(n) &#x3D; F(n-1) + F(n-2)  (n $\geq$ 2) ，因此可以仿照求解n的阶乘的写法。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+
+int F(int n) &#123;
+    if(n &#x3D;&#x3D; 0 || n &#x3D;&#x3D; 1) &#123; &#x2F;&#x2F;递归边界
+        return 1;
+    &#125; else &#123;
+        return F(n-1) + F(n-2);
+    &#125;
+&#125;
+
+int main() &#123;
+    int n;
+    cin &gt;&gt; n;
+    cout &lt;&lt; F(n) &lt;&lt; endl;
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>最后来看<strong>全排列(Full Permutation)</strong>。全排列指<strong>n个整数能形成的 所有排列</strong>。</p>
+<p>现在需要按字典序从小到大的顺序输出$1\sim n$的全排列，其中$(a_1, a_2, …, a_n)$的字典序小于$(b_1, b_2, …, b_n)$是指存在一个$i$，使得$a_1&#x3D;b_1$、$a_2 &#x3D; b_2$、…、$a_{i-1} &#x3D; b_{i-1}$、$a_i &lt; b_i$成立。</p>
+<p>从递归的角度考虑，就可以分为若干个子问题：“输出以1开头的全排列”、“输出以2开头的全排列” … “输出以n开头的全排列”。<strong>不妨设定一个数组<code>P</code></strong>，用来存放当前的排列；再设定一个<strong>散列数组<code>hashTable</code></strong>，其中<code>hashTable[x]</code>，当整数<code>x</code>已经在数组<code>P</code>中时，为<code>1</code>。</p>
+<p>按顺序往<code>P</code>的第1位到第n位中填入数字。<strong>不妨假设当前已经填好了<code>P[1] ~ P[index-1]</code>，正准备填<code>P[index]</code></strong>。显然需要枚举 1 ~ n，如果当前枚举的数字<code>x</code>还没有在<code>P[1] ~ P[index-1]</code>中(即<code>hashTable[x] == 0</code>)，那么就把它填入<code>P[index]</code>，同时将<code>hashTable[x]</code>置为<code>1</code>，然后去处理<code>P</code>的第<code>index + 1</code>位(<strong>即进行递归</strong>)；<strong>当递归完成时，再将<code>hashTable[x]</code>还原为<code>0</code>，以便让<code>P[index]</code>填下一个数字</strong>。</p>
+<p>那么<strong>递归边界</strong>是什么呢？显然，当<code>index</code>达到<code>n + 1</code>时，说明<code>P</code>的的第<code>1 ~ n</code>位都已经填好了，此时可以把数组P输出，表示生成了一个排列，然后直接<code>return</code>即可。下面给出<code>n = 3</code>时的代码：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+
+void generateP(int index, int n) &#123;
+    if(index &#x3D;&#x3D; n + 1) &#123; &#x2F;&#x2F;递归边界，已经处理完排列的 1~n 位
+		for(int i &#x3D; 1; i &lt;&#x3D; n; i++)
+            cout &lt;&lt; P[i];
+        cout &lt;&lt; endl;
+        return;
+    &#125;
+    for(int x &#x3D; 1; x &lt;&#x3D; n; x++) &#123; &#x2F;&#x2F;枚举 1~n，试图将 x 填入 P[index]
+        if(hashTable[x] &#x3D;&#x3D; 0) &#123; &#x2F;&#x2F;如果 x 不在 P[1] ~ P[index - 1] 中
+            P[index] &#x3D; x; &#x2F;&#x2F;令 P 的第 index 位为 x，即把x加如当前排列
+            hashTable[x] &#x3D; 1; &#x2F;&#x2F;记 x 已在 P 中
+            generateP(index + 1, n); &#x2F;&#x2F;处理排列的第 index + 1 号位
+            hashTable[x] &#x3D; 0; &#x2F;&#x2F;已处理完 P[index] 为 x 的子问题，还原状态
+        &#125;
+    &#125;
+&#125;
+
+
+int main() &#123;
+    int n &#x3D; 3, P[11], hashTable[11] &#x3D; &#123;0&#125;;
+	generateP(1); &#x2F;&#x2F;从P[1]开始填
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>最后的最后</strong>来看**$n$皇后问题**。$n$皇后问题是指在一个$n<em>n$的国际象棋棋盘上放置$n$个皇后，使得这$n$个皇后*<em>两两均不在同一行、同一列、同一条对角线上</em></em>，求合法的方案数。</p>
+<p>对于这个问题，如果采用组合数的方式来枚举每一种情况(即从$n^2$个位置中选择$n$个位置)，那么需要$C_{n\times n}^n$的枚举量。但是<strong>换个思路，考虑到每行只能放置一个皇后、每列也只能放置一个皇后，如果把n列皇后所在的行号依次写出，那么就会是$1 \sim n$的一个排列</strong>。于是只需要枚举$1 \sim n$的所有排列，查看每个排列对应的放置方案是否合法，统计其中合法的方案即可。</p>
+<p>于是可以<strong>在全排列的代码基础上进行求解</strong>。由于当达到递归边界时表示生成了一个排列，所以<strong>需要在起内部判断是否为合法方案</strong>，即<strong>遍历每两个皇后</strong>，判断它们<strong>是否在同一条对角线上</strong>(显然不在同一行和同一列)，若不是，则累计计数变量<code>cnt</code>即可。主要代码如下：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int cnt &#x3D; 0;
+
+void generateP(int index) &#123;
+    if(index &#x3D;&#x3D; n + 1) &#123; &#x2F;&#x2F;递归边界，生成一个排列
+        int flag &#x3D; 1; &#x2F;&#x2F;flag为true表示当前排列为一个合法方案
+        for(int i &#x3D; 1; i &lt;&#x3D; n; i++) &#123; &#x2F;&#x2F;遍历任意两个皇后
+            for(int j &#x3D; i + 1; j &lt;&#x3D; n; j++) &#123;
+                if(abs(i - j) &#x3D;&#x3D; abs(P[i] - P[j])) &#x2F;&#x2F;如果在一条对角线上
+                    flag &#x3D; 0;
+            &#125;
+        &#125;
+        if(flag) &#x2F;&#x2F;当前方案合法
+            cnt++;
+    	return;
+    &#125;
+    for(int x &#x3D; 1; x &lt;&#x3D; n; x++) &#123;
+        if(hashTable[x] &#x3D;&#x3D; 0) &#123;
+            P[index] &#x3D; x;
+            hashTable[x] &#x3D; 1;
+            generateP(index + 1);
+            hashTable[x] &#x3D; 0;
+        &#125;
+	&#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这种<strong>枚举所有情况，然后判断每一种情况是否合法的朴素做法</strong>称为<strong>暴力法</strong>。</p>
+<p>通过思考可以发现，当已经放置了一部分皇后时，<strong>可能剩余的皇后无论怎样放置都不可能合法，就不需要继续递归，直接返回上层即可</strong>。这种做法称为<strong>回溯法</strong>。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void generateP(int index) &#123;
+    if(index &#x3D;&#x3D; n + 1) &#123; &#x2F;&#x2F;递归边界，生成一个 合法方案
+        cnt++;
+        return;
+    &#125;
+    for(int x &#x3D; 1; x &lt;&#x3D; n; x++) &#123; &#x2F;&#x2F;第 x 行
+        if(hashTable[x] &#x3D;&#x3D; 0) &#123; &#x2F;&#x2F;第 x 行还没有皇后
+            int flag &#x3D; 1; &#x2F;&#x2F;flag 为 1 表示当前皇后不会和之前的皇后冲突
+            for(int pre &#x3D; 1; pre &lt; index; pre++) &#123; &#x2F;&#x2F;遍历之前的皇后
+				if(abs(index - pre) &#x3D;&#x3D; abs(x - P[pre])) &#123;
+                    flag &#x3D; 0; &#x2F;&#x2F;与之前的皇后在一条对角线冲突
+                    break;
+                &#125;
+            &#125;
+            if(flag) &#123; &#x2F;&#x2F;如果可以把皇后放在第 x 行
+                P[index] &#x3D; x; &#x2F;&#x2F;令第 index 列皇后的行号为 x
+                hashTable[x] &#x3D; 1; &#x2F;&#x2F;第 x 行已被占用
+                generateP(index + 1); &#x2F;&#x2F;递归处理第 index + 1 行皇后
+                hashTable[x] &#x3D; 0; &#x2F;&#x2F;递归完毕，还原第 x 行 为 为占用
+            &#125;
+        &#125;
+	&#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<hr>
+<h3 id="3-4-贪心"><a href="#3-4-贪心" class="headerlink" title="3.4 贪心"></a>3.4 贪心</h3><h4 id="3-4-1-简单贪心"><a href="#3-4-1-简单贪心" class="headerlink" title="3.4.1 简单贪心"></a>3.4.1 简单贪心</h4><p>贪心法是<strong>求解一类最优化问题</strong>的方法，它总是考虑在当前状态下<strong>局部最优(或较优)<strong>的策略，来</strong>使全局的结果达到最优(或较优)</strong>。要获得<strong>最优</strong>结果，要求中间的每步策略都是最优的，因此<strong>严谨使用</strong>贪心法来求解最优化问题<strong>需要对采取的策略进行证明</strong>。证明的一般思路是使用<strong>反证法及数学归纳法</strong>，即假设策略不能导致最优解，然后通过一系列推导来得到矛盾，以此证明策略是最优的，最后用数学归纳法保证全局最优。不过对平常使用来说，也许没有时间或不太容易对想到的策略进行严谨的证明(<strong>贪心的证明往往比贪心本身更难</strong>)，因此一般来说，<strong>如果在想到某个似乎可行的策略，并且自己无法举出反例，那么就勇敢的实现它</strong>。</p>
+<hr>
+<h4 id="3-4-2-区间贪心"><a href="#3-4-2-区间贪心" class="headerlink" title="3.4.2 区间贪心"></a>3.4.2 区间贪心</h4><p><strong>区间不相交问题</strong>：给出$N$个开区间$(x, y)$，从中选择尽可能多的开区间，使得这些开区间两两没有交集。例如对开区间$(1, 3)$、$(2,4)$、$(3, 5)$、$(6, 7)$来说，可以选出最多三个区间$(1, 3)$、$(3, 5)$、$(6, 7)$，它们互相没有交集。</p>
+<p>首先考虑最简单的情况，如果开区间$I_1$被开区间$I_2$包含(如图4-5a所示)，则选择$I_1$是最好的选择，因为这样就<strong>有更大的空间去容纳其他开区间</strong>。</p>
+<p>接下来<strong>把所有开区间按左端点$x$从大到小排序</strong>，如果去掉区间包含的情况，那么一定有$y_1 &gt; y_2 &gt; … &gt; y_n$成立(如图4-5b所示)。观察发现，$I_1$右边有一段一定不会和其他区间重叠，如果把它去掉，那么$I_1$的左边剩余部分就会被$I_2$包含，由图4-5a的情况可知，应当选择$I_1$。因此对这种情况，<strong>总是先选择 左端点最大 的区间</strong>。值得注意的是，<strong>总是先选择右端点最小的区间</strong>的策略也是可行的。</p>
+<img src="https://i.loli.net/2020/03/07/KlvHnuEwTJkcVsP.png" style="zoom:67%;" />
+
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+const int maxn &#x3D; 110;
+
+struct Inteval &#123;
+    int x, y; &#x2F;&#x2F;开区间左右端点
+&#125; I[maxn];
+
+bool cmp(Inteval a, Inteval b) &#123;
+    if(a.x !&#x3D; b.x) &#123; &#x2F;&#x2F;先按左端点从大到小排序
+        return a.x &gt; b.x; 
+    else &#123; &#x2F;&#x2F;左端点相同的 按右端点从小到大排序
+        return a.y &gt; b.y;
+    &#125;
+&#125;
+    
+int main() &#123;
+    int n;
+    while(cin &gt;&gt; n, n !&#x3D; 0) &#123;
+        for(int i &#x3D; 0; i &lt; n; i++)
+            cin &gt;&gt; I[i].x &gt;&gt; I[i].y;
+    sort(I, I + n, cmp);
+    int cnt &#x3D; 1, lastX &#x3D; I[0].x; &#x2F;&#x2F;记录不相交区间的个数，上一个被选中区间的左端点
+    for(int i &#x3D; 1; i &lt; n; i++) &#123;
+        if(I[i].y &lt;&#x3D; lastX) &#123; &#x2F;&#x2F;如果该区间右端点在 lastX 左边
+            lastX &#x3D; I[i].x; &#x2F;&#x2F;以 I[i] 作为新选中的区间
+            cnt++; &#x2F;&#x2F;不相交区间个数加1
+        &#125;
+        cout &lt;&lt; cnt &lt;&lt; endl;
+    &#125;
+    return 0
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>与这个问题类似的是<strong>区间选点问题：给出$N$个闭区间$[x, y]$，求最少需要确定多少个点，才能使每个闭区间中都至少存在一个点</strong>。例如对闭区间$[1,4]$、$[2, 6]$、$[5, 7]$来说，需要两个点(例如3、5)才能保证每个闭区间内都有至少一个点。</p>
+<p>事实上，这个问题和区间不相交问题的策略是一致的。首先，回到图4-5a，如果闭区间$I_1$被闭区间$I_2$包含，那么在$I_1$中取点可以保证这个点一定在$I_2$内。接着<strong>把所有区间按左端点从大到小排序，去除掉区间包含的情况</strong>，就可以得到图4-5b。由于每个闭区间中都需要存在一个点，因此<strong>对左端点最大的区间$I_1$来说，取左端点就能让它尽可能多地覆盖其他区间</strong>。区间选点问题的代码只需要把区间不想交问题代码中的<code>I[i].y &lt;= lastX</code>改为<code>I[i].y &lt; lastX</code>即可。</p>
+<p>总的来说，不是所有问题都适合使用贪心法，但是这并不妨碍贪心算法称为一个简洁、实用、高效的算法。</p>
+<hr>
+<h4 id="3-4-3-相关习题"><a href="#3-4-3-相关习题" class="headerlink" title="3.4.3 相关习题"></a>3.4.3 相关习题</h4><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>B1020</strong> <strong>月饼</strong><br /><strong>A1070</strong> <strong>Mooncake</strong></td>
+<td>库存量和售价都应该定义为double类型</td>
+</tr>
+<tr>
+<td><strong>B1023</strong> <strong>组个最小数</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>A1033</strong> <strong>To Fill or Not to Fill</strong></td>
+<td><strong>能到达的距离</strong>内，<strong>由近到远遍历</strong>，有三种情况：<br /><br />1. 最近距离的加油站都到不了<br />2. 出现油价比目前低的加油站，就直接去<br />    2.1 <strong>油不够</strong>，只加能刚好到达的油量<br />    2.2 <strong>不用加油</strong><br />3. 没有更低价的加油站，就<strong>加满油(能尽量少加更贵的油)</strong>，去<strong>价格相对 最低</strong>的加油站</td>
+</tr>
+<tr>
+<td>A1037</td>
+<td></td>
+</tr>
+<tr>
+<td>A1038</td>
+<td></td>
+</tr>
+<tr>
+<td>A1067</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="3-5-二分"><a href="#3-5-二分" class="headerlink" title="3.5 二分"></a>3.5 二分</h3><h4 id="3-5-1-二分查找"><a href="#3-5-1-二分查找" class="headerlink" title="3.5.1 二分查找"></a>3.5.1 二分查找</h4><p>二分查找的<strong>高效之处</strong>在于，<strong>每一步都可以去除当前区间中的一半元素</strong>，因此其时间复杂度是$O(\log n)$，这是十分优秀的。</p>
+<p>在严格<strong>递增</strong>序列中查找给定的数$x$的做法：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+
+int binarySearch(int A[], int left, int right, int x) &#123;
+    int mid;
+    while(left &lt;&#x3D; right) &#123;
+        mid &#x3D; (left + right) &#x2F; 2;
+        if(A[mid] &#x3D;&#x3D; x) &#123;
+            return mid;
+        &#125; else if(A[mid] &gt; x) &#123;
+            right &#x3D; mid - 1;
+        &#125; else &#123;
+            left &#x3D; mid + 1;
+        &#125;
+    &#125;
+    return -1; &#x2F;&#x2F;查找失败
+&#125;
+
+int main() &#123;
+    int A[n] &#x3D; &#123;1, 3, 4, 6, 7, 8, 10, 11, 12, 15&#125;;
+    printf(&quot;%d %d\n&quot;, binarySearch(A, 0, n - 1, 6), binarySearch(A, 0, n - 1, 9));
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>需要注意的是，如果过二分<strong>上界超过<code>int</code>型数据范围的一半</strong>，当欲查询元素在序列较靠后位置时，语句<code>mid = (left + right) / 2</code>中的<code>left + right</code>就<strong>有可能超过int而导致溢出</strong>，通常<strong>使用等价语句<code>mid = left + (right - left) / 2</code>作为代替</strong>，以避免溢出。另外，二分法可以<strong>使用递归</strong>进行实现，但在程序设计时，<strong>更多采用非递归的写法</strong>。</p>
+<p>接下来探讨更进一步的问题：如果递增序列$A$中的<strong>元素可能重复</strong>，那么如何对给定的欲查询元素$x$，<strong>求出序列中第一个$\geq x$的元素位置$L$以及第一个$&gt;x$的元素的位置$R$</strong>，这样元素$x$在序列中的存在区间就是$[L, R)$。</p>
+<p>例如对下标从0开始、有5个元素的序列${1,3,3,3,6}$来说，如果要查询3，则应当得到$L &#x3D; 1$、$R &#x3D; 4$；如果查询 5，则应当得到$L &#x3D; R &#x3D; 4$。<strong>如果序列中没有$x$，$L$和$R$也可以理解为 假设序列中存在$x$，则$x$应当在的位置</strong>。</p>
+<p>先来考虑第一个小问：求序列中的第一个$\geq x$的元素位置。</p>
+<ol>
+<li>若<code>A[mid] &gt;= x</code>，说明第一个$\geq x$的元素的位置一定在**<code>mid</code>处或<code>mid</code>的左侧，应往左子区间[left, mid]继续查询，即令<code>right = mid</code>**</li>
+<li>若<code>A[mid] &lt; x</code>，说明第一个$\geq x$的元素的位置一定在**<code>mid</code>右侧，应往右子区间[mid+1, right]继续查询，即令<code>left = mid + 1</code>**</li>
+</ol>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int lower_bound(int A[], int left, int right, int x) &#123;
+    int mid;
+    while(left &lt; right) &#123;
+        mid &#x3D; (left + right) &#x2F; 2;
+        if(A[mid] &gt;&#x3D; x) &#123; &#x2F;&#x2F;中间值 &gt;&#x3D; x
+            right &#x3D; mid;
+        &#125; else &#123; &#x2F;&#x2F;中间值 &lt; x
+            left &#x3D; mid + 1;
+        &#125;
+    &#125;
+    return left; &#x2F;&#x2F;返回夹出来的位置
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上述代码有两个需要注意的地方：</p>
+<ol>
+<li>循环条件为<code>left &lt; right</code>，而不是之前的<code>left &lt;= right</code>，这是由问题本身决定的。因为<strong>如果想要返回第一个<code>&gt;= x</code>的元素的位置，就不需要判断元素<code>x</code>本身是否存在</strong>。</li>
+<li>二分的<strong>初始区间</strong>应当能<strong>覆盖到所有可能返回的结果</strong>，考虑到欲查询元素可能比序列中所有元素都大，此时应当返回n，因此<strong>二分上界是n</strong>，故二分的初始区间为<code>[left, right] = [0, n]</code>。</li>
+</ol>
+<p>接下来解决第二小问：求序列中第一个大于x的元素的位置。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int upper_bound(int A[], int left, itn right, int x) &#123;
+    int mid;
+    while(left &lt; right) &#123;
+        mid &#x3D; (left + right) &#x2F; 2;
+        if(A[mid] &gt; x) &#123;
+            right &#x3D; mid;
+        &#125; else &#123;
+            left &#x3D; mid + 1；
+        &#125;
+    &#125;
+    return left; &#x2F;&#x2F;返回夹出来的位置
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>lower_bound</code>和<code>upper_bound</code>函数都在解决这样一个问题：<strong>寻找有序序列中第一个满足某条件的元素的位置</strong>。这是一个非常重要且经典的问题，平时能碰到的大部分二分法问题都可以归结于这个问题。</p>
+<hr>
+<h4 id="3-5-2-二分法拓展"><a href="#3-5-2-二分法拓展" class="headerlink" title="3.5.2 二分法拓展"></a>3.5.2 二分法拓展</h4><p>首先介绍如何计算$\sqrt2$的<strong>近似值</strong>。</p>
+<p>对$f(x) &#x3D; x^2$来说，在$x \in [1, 2]$范围内，$f(x)$随着$x$的增大而增大，<strong>这就给使用二分法创造了条件</strong>。</p>
+<p><strong>以精确到$10^{-5}$为例</strong>，令浮点型<code>left</code>和<code>right</code>的<strong>初值分别是 1 和 2</strong>，然后根据中点<code>mid</code>处$f(x)$的值与 2 的大小来选择子区间进行逼近：</p>
+<ol>
+<li>若<code>f(mid) &gt; 2</code>，说明<code>mid</code> &gt; $\sqrt2$，令<code>right = mid</code></li>
+<li>若<code>f(mid) &lt; 2</code>，说明<code>mid</code> &lt; $\sqrt2$，令<code>left = mid</code></li>
+</ol>
+<p>上面两个步骤当<code>right - left</code> &lt; $10^{-5}$时结束，显然<strong>当<code>left</code>与<code>right</code>的距离 &lt; $10^{-5}$ 时已满足精度要求</strong>，<code>mid</code>即为所求的近似值。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">const double eps &#x3D; 1e-5; &#x2F;&#x2F;精度为 10^&#123;-5&#125;，科学计数法
+
+double f(double x) &#123;
+    return x * x;
+&#125;
+
+double calSqrt() &#123;
+	double left &#x3D; 1, right &#x3D; 2, mid;
+    while(right - left &gt; eps) &#123;
+        mid &#x3D; (left + right) &#x2F; 2;
+        if(f(mid) &gt; 2) &#123; &#x2F;&#x2F;即 mid &gt; sqrt(2)
+            right &#x3D; mid;
+        &#125; else &#123;
+            left &#x3D; mid;
+        &#125;
+    &#125;
+    return mid;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>事实上，计算$\sqrt2$的近似值的问题是这样一个问题的特例：<strong>给定一个定义在$[L, R]$上的单调函数$f(x)$，求方程<code>f(x) = 0</code>的根</strong>。</p>
+<p>同样假设精度要求为<code>eps</code> &#x3D; $10^{-5}$，函数$f(x)$在$[L,R]$上递增，<strong>令<code>left</code>与<code>right</code>的初值分别为$L$、$R$</strong>。根据<strong>中点<code>mid</code>的函数值<code>f(mid)</code> 与 0 的大小关系</strong>来判断往哪个子区间继续逼近<code>f(x) = 0</code>的根：</p>
+<ol>
+<li>若<code>f(mid) &gt; 0</code>，说明<code>f(x) = 0</code>的根在<code>mid</code>左侧，应往左子区间继续逼近，即令<code>right = mid</code></li>
+<li>若<code>f(mid) &lt; 0</code>，说明<code>f(x) = 0</code>的根在<code>mid</code>右侧，应往右子区间继续逼近，即令<code>left = mid</code></li>
+</ol>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">const double eps &#x3D; 1e-5; &#x2F;&#x2F;精度为 10^&#123;-5&#125;，科学计数法
+
+double f(double x) &#123;
+    return ...;
+&#125;
+
+double solve() &#123;
+	double left &#x3D; L, right &#x3D; R, mid;
+    while(right - left &gt; eps) &#123;
+        mid &#x3D; (left + right) &#x2F; 2;
+        if(f(mid) &gt; 0) &#123;
+            right &#x3D; mid;
+        &#125; else &#123;
+            left &#x3D; mid;
+        &#125;
+    &#125;
+    return mid; &#x2F;&#x2F;f(x) &#x3D; 0 的根
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<hr>
+<h4 id="3-5-3-快速幂"><a href="#3-5-3-快速幂" class="headerlink" title="3.5.3 快速幂"></a>3.5.3 快速幂</h4><h4 id="3-5-4-相关习题"><a href="#3-5-4-相关习题" class="headerlink" title="3.5.4 相关习题"></a>3.5.4 相关习题</h4><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A1010</strong> <strong>Radix</strong></td>
+<td>1. <strong>基数上界为 已确认数字的十进制大小 + 1 与 下界中的较大值（确保不会出现多个解(而且基数不确定的数，只有一位数的时候才可能多个解) )</strong><br />2. 基数过大时，数值转换为十进制会发生<strong>上溢，存储结果为负数</strong></td>
+</tr>
+<tr>
+<td>A1044</td>
+<td></td>
+</tr>
+<tr>
+<td>A1048</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="3-6-tow-pointers"><a href="#3-6-tow-pointers" class="headerlink" title="3.6 tow pointers"></a>3.6 tow pointers</h3><h4 id="3-6-1-什么是two-pointers"><a href="#3-6-1-什么是two-pointers" class="headerlink" title="3.6.1 什么是two pointers"></a>3.6.1 什么是two pointers</h4><h4 id="3-6-2-归并排序"><a href="#3-6-2-归并排序" class="headerlink" title="3.6.2 归并排序"></a>3.6.2 归并排序</h4><h4 id="3-6-3-快速排序"><a href="#3-6-3-快速排序" class="headerlink" title="3.6.3 快速排序"></a>3.6.3 快速排序</h4><h4 id="3-6-4-相关习题"><a href="#3-6-4-相关习题" class="headerlink" title="3.6.4 相关习题"></a>3.6.4 相关习题</h4><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>B1030</strong> <strong>完美数列</strong><br /><strong>A1085</strong> <strong>Perfect Sequence</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>B1035</strong> <strong>插入与归并</strong><br /><strong>A1089</strong> <strong>Insert or Merge</strong></td>
+<td>1. 插入排序：<strong>未排序部分和初始序列一定相同</strong><br/> 2. 归并排序：<strong>末尾不足数量的子序列同样需要排序</strong><br/> 3. <strong>插入排序 更容易判断，将其作为判断排序类型的切入点</strong><br />4. 插入和归并排序的**实际操作由排序函数<code>sort</code>&#x2F;<code>qsort</code>**代替</td>
+</tr>
+<tr>
+<td>A1029</td>
+<td></td>
+</tr>
+<tr>
+<td>A1048</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="3-7-其他高效技巧与算法"><a href="#3-7-其他高效技巧与算法" class="headerlink" title="3.7 其他高效技巧与算法"></a>3.7 其他高效技巧与算法</h3><h4 id="3-7-1-打表"><a href="#3-7-1-打表" class="headerlink" title="3.7.1 打表"></a>3.7.1 打表</h4><h4 id="3-7-2-活用递推"><a href="#3-7-2-活用递推" class="headerlink" title="3.7.2 活用递推"></a>3.7.2 活用递推</h4><h4 id="3-7-3-随机选择法"><a href="#3-7-3-随机选择法" class="headerlink" title="3.7.3 随机选择法"></a>3.7.3 随机选择法</h4><h4 id="3-7-4-相关习题"><a href="#3-7-4-相关习题" class="headerlink" title="3.7.4 相关习题"></a>3.7.4 相关习题</h4><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>B1040</strong> <strong>有几个PAT</strong><br /><strong>A1093</strong> <strong>Count PAT’s</strong></td>
+<td>1. A前有P，后有T才能形成PAT；<br/>2. 当前A能构成的PAT数量 &#x3D; 之前P的数量 * 之后T的数量<br/>3. 突破口：<strong>先遍历一遍，获取T的数量</strong></td>
+</tr>
+<tr>
+<td><strong>B1045</strong> <strong>快速排序</strong><br /><strong>A1101</strong> <strong>Quick Sort</strong></td>
+<td>1. <strong>可能的主元：左侧的最大值比自身小；右侧的最小值比自身大</strong><br />2. <strong>输出即使没有主元，也得换行</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="4-数学问题"><a href="#4-数学问题" class="headerlink" title="4.  数学问题"></a>4.  数学问题</h2><h3 id="4-1-简单数学"><a href="#4-1-简单数学" class="headerlink" title="4.1 简单数学"></a>4.1 简单数学</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B1003</td>
+<td></td>
+</tr>
+<tr>
+<td>B1019<br />A1069</td>
+<td></td>
+</tr>
+<tr>
+<td>B1049<br />A1104</td>
+<td></td>
+</tr>
+<tr>
+<td>A1008</td>
+<td></td>
+</tr>
+<tr>
+<td>A1049</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="4-2-最大公约数与最小公倍数"><a href="#4-2-最大公约数与最小公倍数" class="headerlink" title="4.2 最大公约数与最小公倍数"></a>4.2 最大公约数与最小公倍数</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B1008</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="4-3-分数的四则运算"><a href="#4-3-分数的四则运算" class="headerlink" title="4.3 分数的四则运算"></a>4.3 分数的四则运算</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B1034<br />A1088</td>
+<td></td>
+</tr>
+<tr>
+<td>A1081</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="4-4-素数"><a href="#4-4-素数" class="headerlink" title="4.4 素数"></a>4.4 素数</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B1007</td>
+<td></td>
+</tr>
+<tr>
+<td>B1013</td>
+<td></td>
+</tr>
+<tr>
+<td>A1015</td>
+<td></td>
+</tr>
+<tr>
+<td>A1078</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="4-5-质因子分解"><a href="#4-5-质因子分解" class="headerlink" title="4.5 质因子分解"></a>4.5 质因子分解</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A1059</td>
+<td></td>
+</tr>
+<tr>
+<td>A1096</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="4-6-大整数运算"><a href="#4-6-大整数运算" class="headerlink" title="4.6 大整数运算"></a>4.6 大整数运算</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A1023</td>
+<td></td>
+</tr>
+<tr>
+<td>A1024</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="4-7-扩展欧几里得算法"><a href="#4-7-扩展欧几里得算法" class="headerlink" title="4.7 扩展欧几里得算法"></a>4.7 扩展欧几里得算法</h3><h3 id="4-8-组合数"><a href="#4-8-组合数" class="headerlink" title="4.8 组合数"></a>4.8 组合数</h3><hr>
+<h2 id="5-C-标准模板库介绍"><a href="#5-C-标准模板库介绍" class="headerlink" title="5. C++标准模板库介绍"></a>5. C++标准模板库介绍</h2><h3 id="5-1-vector"><a href="#5-1-vector" class="headerlink" title="5.1 vector"></a>5.1 vector</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A1039</td>
+<td></td>
+</tr>
+<tr>
+<td>A1047</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="5-2-set"><a href="#5-2-set" class="headerlink" title="5.2 set"></a>5.2 set</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A1063</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="5-3-string"><a href="#5-3-string" class="headerlink" title="5.3 string"></a>5.3 string</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A1060</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="5-4-map"><a href="#5-4-map" class="headerlink" title="5.4 map"></a>5.4 map</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B1044<br />A1100</td>
+<td></td>
+</tr>
+<tr>
+<td>A1022</td>
+<td></td>
+</tr>
+<tr>
+<td>A1054</td>
+<td></td>
+</tr>
+<tr>
+<td>A1071</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="5-5-queue"><a href="#5-5-queue" class="headerlink" title="5.5 queue"></a>5.5 queue</h3><h3 id="5-6-priority-queue"><a href="#5-6-priority-queue" class="headerlink" title="5.6 priority_queue"></a>5.6 priority_queue</h3><h3 id="5-7-stack"><a href="#5-7-stack" class="headerlink" title="5.7 stack"></a>5.7 stack</h3><h3 id="5-8-pair"><a href="#5-8-pair" class="headerlink" title="5.8 pair"></a>5.8 pair</h3><h3 id="5-9-algorithm"><a href="#5-9-algorithm" class="headerlink" title="5.9 algorithm"></a>5.9 algorithm</h3><hr>
+<h2 id="6-数据结构专题1"><a href="#6-数据结构专题1" class="headerlink" title="6. 数据结构专题1"></a>6. 数据结构专题1</h2><h3 id="6-1-栈的应用"><a href="#6-1-栈的应用" class="headerlink" title="6.1 栈的应用"></a>6.1 栈的应用</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A1051</strong> <strong>Pop Sequence</strong></td>
+<td>1. 可能会发生<strong>堆栈溢出</strong><br />2. <strong>栈顶元素和当前需要出栈的元素相同时，出栈。该判断之前必须先判断栈是否不为空(否则会报错)</strong><br />3. 标记出栈序列中待出栈元素下标，最终<strong>标记只有超出序列下标，才可能是出栈序列</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="6-2-队列的应用"><a href="#6-2-队列的应用" class="headerlink" title="6.2 队列的应用"></a>6.2 队列的应用</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A1056</strong> <strong>Mice and Rice</strong></td>
+<td>1. 输入的第二行是按老鼠的序号给出的重量。<strong>第三行给出的是老鼠的序号，而不是按序号给出的比赛序号</strong><br />2. 用<strong>队列记录老鼠的序号</strong>(而不是记录老鼠的结构体，<strong>有利于减少内存的占用</strong>)，<strong>晋级的老鼠重新入队</strong><br />3. 最后的分组中，老鼠数量可能不足(利用&lt;cmath&gt;中的<code>ceil</code>函数<strong>向上取整</strong>)</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="6-3-链表处理"><a href="#6-3-链表处理" class="headerlink" title="6.3 链表处理"></a>6.3 链表处理</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>B1025</strong> <strong>反转链表</strong><br /><strong>A1074</strong> <strong>Reversing Linked List</strong></td>
+<td>1. 通过<strong>数组下标来表示地址</strong>，便于链接各个节点<br/> 2. 可能<strong>存在无效结点</strong><br/>3. <strong>只根据 链表顺序的地址 进行反转</strong>，有利于节约开销</td>
+</tr>
+<tr>
+<td><strong>A1032</strong> <strong>Sharing</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>A1052</strong> <strong>Linked List Sorting</strong></td>
+<td>存在<strong>无有效结点</strong>的情况</td>
+</tr>
+<tr>
+<td>A1097</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="7-搜索专题"><a href="#7-搜索专题" class="headerlink" title="7. 搜索专题"></a>7. 搜索专题</h2><h3 id="7-1-深度优先搜索DFS"><a href="#7-1-深度优先搜索DFS" class="headerlink" title="7.1 深度优先搜索DFS"></a>7.1 深度优先搜索DFS</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A1103</strong> <strong>Integer Factorization</strong></td>
+<td>1. 利用<code>vector</code>(<strong>可根据<code>size</code>函数确认符合要求的元素个数</strong>)，<strong>预先存储所有 ≤ N的 元素(整数的P次幂值)</strong><br />2. <strong>为了保证底数最大的序列被选中，从大到小遍历</strong><br />3. DFS函数的参数：<strong>当前</strong>元素下标，<strong>已选</strong>元素数量，<strong>已选</strong>元素之和，<strong>已选</strong>元素的底数之和<br />4. DFS函数的<strong>递归边界</strong>：已选元素数量为K且和为N<br />5. DFS函数的<strong>递归调用</strong>：<strong>选择当前元素和不选择当前元素</strong><br />6. <strong>剪枝</strong>：<strong>和超过N 或 已选元素数量超过K 或 遍历完底数序列</strong>时，不必再递归</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="7-2-广度优先搜索BFS"><a href="#7-2-广度优先搜索BFS" class="headerlink" title="7.2 广度优先搜索BFS"></a>7.2 广度优先搜索BFS</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A1091</strong> <strong>Acute Stroke</strong></td>
+<td>1. <strong>设定相对当前位置的前后左右上下6个方向的增量</strong>，便于枚举<br />2. 设置数组<code>inq</code><strong>记录当前位置是否入过队</strong><br />3. <strong>越界、当前位置为0、已入过队的位置</strong>无需再判断。<br />4. 在BFS函数中，<strong>利用队列进行BFS</strong>，使用STL的<code>queue</code>，<code>push</code>函数只将所选元素的<strong>副本入队，后续对原元素的操作不改变队列中的副本</strong>。</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="8-数据结构专题2"><a href="#8-数据结构专题2" class="headerlink" title="8. 数据结构专题2"></a>8. 数据结构专题2</h2><h3 id="8-1-树与交叉树"><a href="#8-1-树与交叉树" class="headerlink" title="8.1 树与交叉树"></a>8.1 树与交叉树</h3><h3 id="8-2-二叉树的遍历"><a href="#8-2-二叉树的遍历" class="headerlink" title="8.2 二叉树的遍历"></a>8.2 二叉树的遍历</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A1020</strong> <strong>Tree Traversals</strong></td>
+<td>\</td>
+</tr>
+<tr>
+<td><strong>A1086</strong> <strong>Tree Traversals Again</strong></td>
+<td><strong>先序</strong>序列相当于<strong>入栈</strong>次序；<strong>中序</strong>序列相当于<strong>出栈</strong>次序</td>
+</tr>
+<tr>
+<td><strong>A1102</strong> <strong>Invert a Binary Tree</strong></td>
+<td>1. 题目给的是<strong>结点编号</strong>的关系，故<strong>采用静态链表</strong>存储二叉树<br />2. 反转二叉树即<strong>每个结点的左右子树对换</strong>，选择<strong>后序</strong>遍历</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="8-3-树的遍历"><a href="#8-3-树的遍历" class="headerlink" title="8.3 树的遍历"></a>8.3 树的遍历</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A1004</strong> <strong>Counting Leaves</strong></td>
+<td>1. 利用数组<strong>存储每层的叶结点个数</strong><br />2. 根据<strong>出队结点的层数，获取最大层数</strong>，遍历输出每层叶结点个数<br /></td>
+</tr>
+<tr>
+<td><strong>A1053</strong> <strong>Path of Equal Weight</strong></td>
+<td>1. 输出的路径序列要求降序，因此<strong>在读入结点时</strong>就将孩子节点<strong>按权重降序</strong>排序，这样，之后遍历时得到的路径即为降序<br /><br />2. 利用<code>vector</code>的<code>begin</code>和<code>end</code>函数获得<code>vector</code>的<strong>首元素地址</strong>和<strong>尾后地址</strong>，用于<code>sort</code>函数排序<br />3. 利用<code>vector</code>存储路径，在<strong>递归子结点之前</strong>，用<code>push_back</code>函数<strong>将子结点加入路径</strong>，递归<strong>回溯后</strong>，用<code>pop_back</code><strong>将先前加入的子结点移出路径</strong></td>
+</tr>
+<tr>
+<td><strong>A1079</strong> <strong>Total Sales of Supply Chain</strong></td>
+<td>1. <strong>静态写法</strong>表示树，即用数组下标指代结点<br />2. 结点的结构体中设有<strong>货物量</strong>变量，用来<strong>判断是否为零售商</strong>（本题采用了BFS；也可DFS）</td>
+</tr>
+<tr>
+<td><strong>A1090</strong> <strong>Highest Price in Supply Chain</strong></td>
+<td>由于<strong>不涉及结点的数据域</strong>，可以直接<strong>用<code>vector&lt;int&gt; child[maxn]</code>存放树</strong></td>
+</tr>
+<tr>
+<td>A1094</td>
+<td></td>
+</tr>
+<tr>
+<td>A1106</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="8-4-二叉查找树BST"><a href="#8-4-二叉查找树BST" class="headerlink" title="8.4 二叉查找树BST"></a>8.4 二叉查找树BST</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A1043</strong> <strong>Is It a Binary Search Tree</strong></td>
+<td>1. <strong>静态写法</strong>(<strong>变长数组</strong>)表示二叉树<br />2. 根据BST左子树所有结点的数据域 &lt; 根结点的数据域，右子树所有结点的数据域 <strong>≥</strong> 根结点的数据域(<strong>由输入样例得出大小关系</strong>，镜像则相反)，<strong>获取左右子树的边界，判断是否符合先序序列，若符合</strong>，则按照<strong>左右根的顺序递归，将符合的根结点存入<code>vector</code>(获取后序序列)</strong><br />3. <strong>若vecotr中元素数量 &#x3D; 输入序列的元素数量(能顺利转换为BST的后序序列)，说明输入序列为先序序列</strong></td>
+</tr>
+<tr>
+<td><strong>A1064</strong> <strong>Complete Binary Search Tree</strong></td>
+<td>1. 输入的元素<strong>升序排序</strong>，即为二叉树的<strong>中序遍历序列</strong>。<br />2. <strong>静态写法</strong>(<strong>变长数组</strong>)按照<strong>层序存储</strong>完全二叉排序树<br />3. 对二叉树进行<strong>中序遍历</strong>，依次<strong>填入中序遍历序列的元素</strong>即可得到层序存储的二叉树。注意：中序遍历时，二叉树数组<strong>根结点的下标</strong>：<br />        <strong>若设为1</strong>，则左右孩子结点下标为<code>root * 2</code>和<code>root * 2 + 1</code>；<br />        <strong>若设为0</strong>，则左右孩子结点下标为<code>root * 2 + 1</code>和<code>root * 2 + 2</code><br />4. <strong>顺序输出</strong>二叉树数组元素即为<strong>层序遍历</strong>序列</td>
+</tr>
+<tr>
+<td><strong>A1099</strong> <strong>Build A Binary Search Tree</strong></td>
+<td><strong>静态写法</strong>表示树，解题方法和 A1064 基本一致</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="8-5-平衡二叉树"><a href="#8-5-平衡二叉树" class="headerlink" title="8.5 平衡二叉树"></a>8.5 平衡二叉树</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A1066</strong> <strong>Root of AVL Tree</strong></td>
+<td>即写出<strong>平衡二叉树的代码模板</strong><br />1. <strong>新建结点的初始高度为1</strong><br />2. 获取树高时，注意<strong>递归到空结点</strong>时，<strong>返回0</strong><br />3. 插入结点，递归过程中从<strong>系统栈出栈后</strong>：<br />        1) 平衡因子为2时，<strong>树型可能为LR型或LL型</strong>，LR型需要先对当前结点的<strong>左子树</strong>进行<strong>右旋</strong>；之后，LR型和LL型<strong>都需要对当前结点进行右旋</strong><br />        2) 平衡因子为-2时，<strong>树型可能为RL型或RR型</strong>，RL型需要先对当前结点的<strong>右子树</strong>进行<strong>左旋</strong>；之后，RL型和RR型<strong>都需要对当前结点进行左旋</strong><br />4. 左旋和右旋过程中要<strong>及时更新树高</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="8-6-并查集"><a href="#8-6-并查集" class="headerlink" title="8.6 并查集"></a>8.6 并查集</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A1107</strong> <strong>Social Clusters</strong></td>
+<td>1. <strong>根据共同(包括潜在的→有共同爱好的人另外的爱好)爱好</strong>来确定潜在<strong>朋友的集合</strong>，利用<code>hobby[1001]</code><strong>记录 任意一个 拥有对应爱好的结点</strong>，<strong>便于合并操作</strong><br />2. 遍历各用户，<strong>根据根结点统计各集合的人数</strong><br />3. 将集合<strong>按包含人数降序</strong>排序，再<strong>遍历</strong>即可<strong>筛选统计出集合个数</strong><br />4. 路径压缩<strong>可选</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="8-7-堆"><a href="#8-7-堆" class="headerlink" title="8.7 堆"></a>8.7 堆</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A1098</strong> <strong>Insertion or Heap Sort</strong></td>
+<td>1. 用于<strong>表示树的数组</strong>，注意下标<strong>从 0或1 开始，孩子结点表示的区别</strong><br />2. 插入排序：<strong>未排序部分和初始序列一定相同</strong><br/>3. 堆排序：<strong>后面的元素有序，前面无规律</strong><br/>4. <strong>插入排序 更容易判断，将其作为判断排序类型的切入点</strong><br />4. <strong>插入排序</strong>的<strong>实际操作可由排序函数<code>sort</code><strong>实现<br /><br />5. 要用堆排序得到</strong>递增序列</strong>，则需要建立<strong>大根堆</strong><br />6. 堆排序<strong>从后往前</strong>找到<strong>第一个 $&lt;$ 堆顶</strong>的元素，与堆顶元素交换，再<strong>对整个堆向下调整</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="8-8-哈夫曼树"><a href="#8-8-哈夫曼树" class="headerlink" title="8.8 哈夫曼树"></a>8.8 哈夫曼树</h3><hr>
+<h2 id="9-图算法专题"><a href="#9-图算法专题" class="headerlink" title="9. 图算法专题"></a>9. 图算法专题</h2><h3 id="9-1-图的定义和相关术语"><a href="#9-1-图的定义和相关术语" class="headerlink" title="9.1 图的定义和相关术语"></a>9.1 图的定义和相关术语</h3><h3 id="9-2-图的存储"><a href="#9-2-图的存储" class="headerlink" title="9.2 图的存储"></a>9.2 图的存储</h3><h3 id="9-3-图的遍历"><a href="#9-3-图的遍历" class="headerlink" title="9.3 图的遍历"></a>9.3 图的遍历</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A1013</strong> <strong>Battle Over Cities</strong></td>
+<td>1. 问题等价于求 一个无向图<strong>去掉一个结点后，连通分量的数量</strong>，这种问题一般有两种方法：<strong>图的遍历</strong>和<strong>并查集</strong><br />2. <strong><code>cin</code>会超时，需要改为<code>scanf</code></strong>，邻接矩阵和邻接表都可存储图<br />3. <strong>每次输入被占领的城市之前，要重置城市的访问状态为未访问</strong><br />4. 将<strong>失去的城市标记为已访问</strong>，即可<strong>达到失去的效果(没有公路可以到达)</strong></td>
+</tr>
+<tr>
+<td>A1021</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>A1034</strong> <strong>Head of a Gang</strong></td>
+<td>1. 相同人员之间可能<strong>多次通话</strong><br />2. <code>map&lt;type1, type2&gt;</code><strong>自动按<code>type1</code>从小到大输出</strong>，使用<code>map&lt;string, int&gt;</code>建立头目姓名与成员数量的关系，便于输出结果<br />3. 图中可能<strong>有环</strong>，为了<strong>边权不被漏加</strong>，需要<strong>先累加边权再递归</strong>；同时<strong>为了防止边权被重复计算</strong>，累加后<strong>删除这条边，以免走回头路、重复计算边权</strong></td>
+</tr>
+<tr>
+<td><strong>A1076</strong> <strong>Forwards on Weibo</strong></td>
+<td>1. 转发是<strong>粉丝转发博主</strong>的信息，因此要<strong>根据用户的关注情况</strong>建立<strong>从博主到粉丝(即反向)<strong>的</strong>有向图</strong><br />2. <strong>DFS</strong>记录访问过的结点数量<strong>比较麻烦</strong>，BFS比较方便<br />3. 可能形成环 ，必须控制<strong>每个用户只能转发一次</strong>(<strong>遍历时只能访问一次</strong>)</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="9-4-最短路径"><a href="#9-4-最短路径" class="headerlink" title="9.4 最短路径"></a>9.4 最短路径</h3><table>
+<thead>
+<tr>
+<th>题目</th>
+<th>解题关键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A1003</strong> <strong>Emergency</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>A1018</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>A1030</strong> <strong>Travel Plan</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>A1072</td>
+<td></td>
+</tr>
+<tr>
+<td>A1087</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="9-5-最小生成树"><a href="#9-5-最小生成树" class="headerlink" title="9.5 最小生成树"></a>9.5 最小生成树</h3><h3 id="9-6-拓扑排序"><a href="#9-6-拓扑排序" class="headerlink" title="9.6 拓扑排序"></a>9.6 拓扑排序</h3><h3 id="9-7-关键路径"><a href="#9-7-关键路径" class="headerlink" title="9.7 关键路径"></a>9.7 关键路径</h3><hr>
+<h2 id="10-动态规划专题"><a href="#10-动态规划专题" class="headerlink" title="10. 动态规划专题"></a>10. 动态规划专题</h2>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/PAT/" rel="tag"><i class="fa fa-tag"></i> PAT</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/02/03/%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/" rel="prev" title="黑盒测试">
+                  <i class="fa fa-angle-left"></i> 黑盒测试
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/06/01/Excel%E6%8A%80%E5%B7%A7/" rel="next" title="Excel技巧">
+                  Excel技巧 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

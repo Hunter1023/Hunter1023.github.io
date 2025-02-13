@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="NIO框架存在的问题客户端关闭会导致服务端空轮询">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Netty框架">
+<meta property="og:url" content="https://hunter1023.github.io/2023/09/12/Netty%E6%A1%86%E6%9E%B6/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="NIO框架存在的问题客户端关闭会导致服务端空轮询">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2023/09/12/rkHTjSdKhG3bse1.png">
+<meta property="og:image" content="https://s2.loli.net/2023/09/12/HtTrMniGjZNR2om.png">
+<meta property="og:image" content="https://s2.loli.net/2023/09/12/ExS9yGXDhO4vBqR.png">
+<meta property="article:published_time" content="2023-09-12T02:09:33.000Z">
+<meta property="article:modified_time" content="2025-01-23T15:29:13.000Z">
+<meta property="article:author" content="Hunter">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2023/09/12/rkHTjSdKhG3bse1.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2023/09/12/Netty%E6%A1%86%E6%9E%B6/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2023/09/12/Netty%E6%A1%86%E6%9E%B6/","path":"2023/09/12/Netty框架/","title":"Netty框架"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Netty框架 | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#NIO%E6%A1%86%E6%9E%B6%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">NIO框架存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%85%B3%E9%97%AD%E4%BC%9A%E5%AF%BC%E8%87%B4%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%A9%BA%E8%BD%AE%E8%AF%A2"><span class="nav-number">1.1.</span> <span class="nav-text">客户端关闭会导致服务端空轮询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B2%98%E5%8C%85%E3%80%81%E6%8B%86%E5%8C%85%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">粘包、拆包问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B5%B0%E8%BF%9BNetty%E6%A1%86%E6%9E%B6"><span class="nav-number">2.</span> <span class="nav-text">走进Netty框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ByteBuf%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.1.</span> <span class="nav-text">ByteBuf介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E6%93%8D%E4%BD%9C"><span class="nav-number">2.1.1.</span> <span class="nav-text">读写操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%92%E5%88%86%E6%93%8D%E4%BD%9C"><span class="nav-number">2.1.2.</span> <span class="nav-text">划分操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E6%89%A9%E5%AE%B9"><span class="nav-number">2.1.3.</span> <span class="nav-text">动态扩容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E6%B1%A0%E5%8C%96%E5%92%8C%E6%B1%A0%E5%8C%96-%E7%BC%93%E5%86%B2%E5%8C%BA%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-number">2.1.4.</span> <span class="nav-text">非池化和池化 缓冲区生成器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Netty%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">Netty工作模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Channel%E8%AF%A6%E8%A7%A3"><span class="nav-number">2.3.</span> <span class="nav-text">Channel详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ctx-close-%E5%92%8C-ctx-channel-close"><span class="nav-number">2.4.</span> <span class="nav-text">ctx.close() 和 ctx.channel().close()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-ctx-close-%E4%BC%9A%E8%A7%A6%E5%8F%91%E5%BD%93%E5%89%8DHandler%E5%92%8C%E5%BD%93%E5%89%8DHandler%E4%B9%8B%E5%89%8D%E7%9A%84close%E4%BA%8B%E4%BB%B6%EF%BC%9B"><span class="nav-number">2.4.0.1.</span> <span class="nav-text">1. ctx.close()会触发当前Handler和当前Handler之前的close事件；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-channel-close-%E6%89%80%E6%9C%89Handler%E9%83%BD%E4%BC%9A%E8%A7%A6%E5%8F%91"><span class="nav-number">2.4.0.2.</span> <span class="nav-text">2. channel.close()所有Handler都会触发;</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Netty%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%87%8D%E8%BF%9E"><span class="nav-number">3.</span> <span class="nav-text">Netty客户端重连</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E9%80%80%E9%81%BF%E6%9C%BA%E5%88%B6"><span class="nav-number">3.1.</span> <span class="nav-text">指数退避机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Netty%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%8C%87%E6%95%B0%E9%80%80%E9%81%BF%E6%96%B9%E5%BC%8F%E9%87%8D%E8%BF%9E"><span class="nav-number">3.1.1.</span> <span class="nav-text">Netty客户端中使用指数退避方式重连</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/09/12/Netty%E6%A1%86%E6%9E%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Netty框架 | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Netty框架<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/Netty%E6%A1%86%E6%9E%B6.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-09-12 10:09:33" itemprop="dateCreated datePublished" datetime="2023-09-12T10:09:33+08:00">2023-09-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-23 23:29:13" itemprop="dateModified" datetime="2025-01-23T23:29:13+08:00">2025-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="NIO框架存在的问题"><a href="#NIO框架存在的问题" class="headerlink" title="NIO框架存在的问题"></a>NIO框架存在的问题</h1><h2 id="客户端关闭会导致服务端空轮询"><a href="#客户端关闭会导致服务端空轮询" class="headerlink" title="客户端关闭会导致服务端空轮询"></a>客户端关闭会导致<strong>服务端空轮询</strong></h2><span id="more"></span>
+
+<p>当客户端主动与服务端断开连接时，<strong>会导致READ事件一直被触发</strong>，即<code>selector.select()</code>会直接通过，并且是可读的状态，但是实际上读到的数据是空的。</p>
+<p><img src="https://s2.loli.net/2023/09/12/rkHTjSdKhG3bse1.png" alt="image-20230912111813493"></p>
+<p>我在第一次发现这个问题时，也是相同的现象。但是之后复现，却变成了如下这个不同的报错，两者的原因应该是一致的，但是呈现的效果却不同。无法读到空数据，直接会报错。导致不同结果的根本原因，可能要以后再探究了。</p>
+<p><img src="https://s2.loli.net/2023/09/12/HtTrMniGjZNR2om.png" alt="image-20230912112056768"></p>
+<hr>
+<h2 id="粘包、拆包问题"><a href="#粘包、拆包问题" class="headerlink" title="粘包、拆包问题"></a>粘包、拆包问题</h2><p>操作系统通过TCP协议发送数据时，也会将数据先存放在缓冲区，至于什么时候真正地发出这些数据，由TCP本身决定，我们无法控制。也就是说，比如我们<strong>发送两个数据包（P1、P2）</strong>，理想情况下，这两个包应该依次到达服务端，并且服务端正确读取两次数据，但是由于TCP传输数据的时间、顺序不可控，可能出现如下情况：</p>
+<ol>
+<li>P1、P2<strong>被合在一起</strong>发送给了服务端（粘包）</li>
+<li>完整的P1和<strong>P2的前半部分</strong>合在一起发送给了服务端（拆包）</li>
+<li>P1的前半部分被单独作为一个部分发给了服务端，后半部分和P2一起发送给了服务端（拆包）</li>
+</ol>
+<p>粘包、拆包问题，也有一些常见的解决方案：</p>
+<ol>
+<li><strong>消息定长</strong>。只接收、发送固定大小的消息长度，如果不够，空位补空格，只有接收了固定的字节长度后，才会作为一个完整的数据包进行处理。</li>
+<li>在每个包的末尾<strong>使用固定的分隔符</strong>。</li>
+<li>将消息分为头部和消息体，<strong>在头部中保存当前整个数据包的长度</strong>。</li>
+</ol>
+<hr>
+<h1 id="走进Netty框架"><a href="#走进Netty框架" class="headerlink" title="走进Netty框架"></a>走进Netty框架</h1><p>Netty是由JBOSS提供的一个开源Java网络编程框架，主要<strong>对Java的NIO包进行了再次封装</strong>，提供了更强大、稳定的功能和易于使用的api。</p>
+<p>微服务之间的远程调用，也可以使用Netty来完成，比如Dubbo的RPC框架。包括SpringWebFlux框架，也抛弃了内嵌Tomcat，而使用Netty作为通信框架。</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>io.netty<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>netty-all<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>4.1.97.Final<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="ByteBuf介绍"><a href="#ByteBuf介绍" class="headerlink" title="ByteBuf介绍"></a>ByteBuf介绍</h2><p>Netty没有使用NIO中提供了ByteBuffer来进行数据装载，而是自定义了一个<code>ByteBuf</code>类。该类与NIO中的ByteBuffer相比有如下几个优势：</p>
+<ol>
+<li>写操作完成后，无需<code>flip()</code>翻转</li>
+<li>具有比ByteBuffer更快的响应速度</li>
+<li>可以动态扩容</li>
+</ol>
+<h3 id="读写操作"><a href="#读写操作" class="headerlink" title="读写操作"></a>读写操作</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 创建一个初始容量为10的ByteBuf缓冲区，Unpooled是用于快速生成ByteBuf的工具类</span>
+    <span class="token class-name">ByteBuf</span> buf <span class="token operator">=</span> <span class="token class-name">Unpooled</span><span class="token punctuation">.</span><span class="token function">buffer</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"初始状态：&#123;&#125;"</span><span class="token punctuation">,</span> buf<span class="token punctuation">.</span><span class="token function">array</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 写入一个Int数据</span>
+    buf<span class="token punctuation">.</span><span class="token function">writeInt</span><span class="token punctuation">(</span><span class="token number">892323985</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"写入Int后：&#123;&#125;"</span><span class="token punctuation">,</span> buf<span class="token punctuation">.</span><span class="token function">array</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 无需翻转，直接读取一个short数据</span>
+    buf<span class="token punctuation">.</span><span class="token function">readShort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"读出short后：&#123;&#125;"</span><span class="token punctuation">,</span> buf<span class="token punctuation">.</span><span class="token function">array</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 丢弃操作，将当前的可读部分内容丢到最前面，并且读写指针向前移动丢弃的距离</span>
+    buf<span class="token punctuation">.</span><span class="token function">discardReadBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"丢弃之后：&#123;&#125;"</span><span class="token punctuation">,</span> buf<span class="token punctuation">.</span><span class="token function">array</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 清空操作，读写指针都归零</span>
+    buf<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"清空之后：&#123;&#125;"</span><span class="token punctuation">,</span> buf<span class="token punctuation">.</span><span class="token function">array</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="划分操作"><a href="#划分操作" class="headerlink" title="划分操作"></a>划分操作</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">slice</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 和ByteBuffer一样，将一个byte[]直接包装进缓冲区。但是将写指针设置到了最后</span>
+    <span class="token class-name">ByteBuf</span> buf <span class="token operator">=</span> <span class="token class-name">Unpooled</span><span class="token punctuation">.</span><span class="token function">wrappedBuffer</span><span class="token punctuation">(</span><span class="token string">"abcdefg"</span><span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Unpooled.copiedBuffer() 复制操作也能将数据拷贝进一个新的缓冲区</span>
+
+    <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"内容：&#123;&#125;"</span><span class="token punctuation">,</span> <span class="token class-name">Arrays</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>buf<span class="token punctuation">.</span><span class="token function">array</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 读取一个字节</span>
+    buf<span class="token punctuation">.</span><span class="token function">readByte</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 现在读指针位于1，然后进行划分</span>
+    <span class="token class-name">ByteBuf</span> slice <span class="token operator">=</span> buf<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"偏移地址：&#123;&#125;"</span><span class="token punctuation">,</span> slice<span class="token punctuation">.</span><span class="token function">arrayOffset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"内容：&#123;&#125;"</span><span class="token punctuation">,</span> <span class="token class-name">Arrays</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>slice<span class="token punctuation">.</span><span class="token function">array</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="动态扩容"><a href="#动态扩容" class="headerlink" title="动态扩容"></a>动态扩容</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">dynamicExpansion</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 通过指定最大容量，就无法动态扩容，如Unpooled.buffer(10, 10);</span>
+    <span class="token class-name">ByteBuf</span> buf <span class="token operator">=</span> <span class="token class-name">Unpooled</span><span class="token punctuation">.</span><span class="token function">buffer</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"缓冲区容量：&#123;&#125; 字节"</span><span class="token punctuation">,</span> buf<span class="token punctuation">.</span><span class="token function">capacity</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 写一个字符串</span>
+    <span class="token class-name">String</span> str <span class="token operator">=</span> <span class="token string">"陆离，混斗"</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token class-name">StandardCharsets</span><span class="token punctuation">.</span><span class="token constant">UTF_8</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">></span> buf<span class="token punctuation">.</span><span class="token function">maxCapacity</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> buf<span class="token punctuation">.</span><span class="token function">writerIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"超出字符限制，不能写入"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        buf<span class="token punctuation">.</span><span class="token function">writeCharSequence</span><span class="token punctuation">(</span><span class="token string">"陆离，混斗"</span><span class="token punctuation">,</span> <span class="token class-name">StandardCharsets</span><span class="token punctuation">.</span><span class="token constant">UTF_8</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"缓冲区容量：&#123;&#125; 字节"</span><span class="token punctuation">,</span> buf<span class="token punctuation">.</span><span class="token function">capacity</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="非池化和池化-缓冲区生成器"><a href="#非池化和池化-缓冲区生成器" class="headerlink" title="非池化和池化 缓冲区生成器"></a>非池化和池化 缓冲区生成器</h3><p>上述代码创建缓冲区都是使用的<code>Unpooled</code>工具类，查看其代码，实际是通过<code>UnpooledByteBufAllocator.DEFAULT</code>这样一个<strong>非池化缓冲区生成器</strong>进行创建。</p>
+<p>顾名思义，池化缓冲区利用了池化思想，将缓冲区通过设置内存池，进行内存块的复用，这样就不用频繁申请内存，避免了性能损失。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">ByteBufAllocator</span> allocator <span class="token operator">=</span> <span class="token class-name">PooledByteBufAllocator</span><span class="token punctuation">.</span><span class="token constant">DEFAULT</span><span class="token punctuation">;</span>
+    <span class="token class-name">ByteBuf</span> buf <span class="token operator">=</span> allocator<span class="token punctuation">.</span><span class="token function">directBuffer</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//申请一个容量为10的直接缓冲区</span>
+    buf<span class="token punctuation">.</span><span class="token function">writeChar</span><span class="token punctuation">(</span><span class="token char">'T'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//随便操作操作</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>buf<span class="token punctuation">.</span><span class="token function">readChar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    buf<span class="token punctuation">.</span><span class="token function">release</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//释放此缓冲区</span>
+
+    <span class="token class-name">ByteBuf</span> buf2 <span class="token operator">=</span> allocator<span class="token punctuation">.</span><span class="token function">directBuffer</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//重新再申请一个同样大小的直接缓冲区</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>buf2 <span class="token operator">==</span> buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在使用完一个缓冲区之后，将其进行资源释放，当我们再次申请一个同样大小的缓冲区时，会直接得到之前已经申请好的缓冲区，所以，<code>PooledByteBufAllocator</code>实际上是将ByteBuf实例放入池中在进行复用。</p>
+<hr>
+<h2 id="Netty工作模型"><a href="#Netty工作模型" class="headerlink" title="Netty工作模型"></a>Netty工作模型</h2><p>Netty以<strong>主从Reactor多线程模型</strong>为基础，构建出了一套高效的工作模型。</p>
+<img src="https://s2.loli.net/2023/09/12/ExS9yGXDhO4vBqR.png" alt="image-20230912165110096" style="zoom:80%;" />
+
+<ul>
+<li>Netty抽象出两组线程池BossGroup和WorkerGroup，BossGroup专门负责接收客户端的连接，WorkerGroup专门负责读写。</li>
+<li>无论是BossGroup还是WorkerGroup，都是使用<code>EventLoop</code>（事件循环，不断地<strong>进行事件通知</strong>）来进行事件监听。整个Netty也是使用事件驱动来运作，比如客户端已经准备好读写、连接建立时，都会进行事件通知。EventLoopGroup就是BossGroup和WorkerGroup的具体实现。</li>
+<li>在BossGroup之后，会正常将SocketChannel绑定到WorkerGroup中的其中一个EventLoop上，进行后续的读写监听。</li>
+</ul>
+<hr>
+<h2 id="Channel详解"><a href="#Channel详解" class="headerlink" title="Channel详解"></a>Channel详解</h2><p><code>io.netty.channel.Channel</code></p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Channel</span> <span class="token keyword">extends</span> <span class="token class-name">AttributeMap</span><span class="token punctuation">,</span> <span class="token class-name">ChannelOutboundInvoker</span><span class="token punctuation">,</span> <span class="token class-name">Comparable</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Channel</span><span class="token punctuation">></span></span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">ChannelId</span> <span class="token function">id</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//通道ID</span>
+    <span class="token class-name">EventLoop</span> <span class="token function">eventLoop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//获取此通道所属的EventLoop，因为一个Channel在它的生命周期内只能注册到一个EventLoop中</span>
+    <span class="token class-name">Channel</span> <span class="token function">parent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//Channel是具有层级关系的，这里是返回父Channel</span>
+    <span class="token class-name">ChannelConfig</span> <span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">boolean</span> <span class="token function">isOpen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//通道当前的相关状态</span>
+    <span class="token keyword">boolean</span> <span class="token function">isRegistered</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">boolean</span> <span class="token function">isActive</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">ChannelMetadata</span> <span class="token function">metadata</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//通道相关信息</span>
+    <span class="token class-name">SocketAddress</span> <span class="token function">localAddress</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token class-name">SocketAddress</span> <span class="token function">remoteAddress</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">ChannelFuture</span> <span class="token function">closeFuture</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//关闭通道，但是会用到ChannelFuture</span>
+    <span class="token keyword">boolean</span> <span class="token function">isWritable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">long</span> <span class="token function">bytesBeforeUnwritable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">long</span> <span class="token function">bytesBeforeWritable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Unsafe</span> <span class="token function">unsafe</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">ChannelPipeline</span> <span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//流水线，之后也会说</span>
+    <span class="token class-name">ByteBufAllocator</span> <span class="token function">alloc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//可以直接从Channel拿到ByteBufAllocator的实例，来分配ByteBuf</span>
+    <span class="token class-name">Channel</span> <span class="token function">read</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Channel</span> <span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//刷新，基操</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Netty中的Channel主要特点：</p>
+<ol>
+<li><p><strong>所有的IO操作都是异步的</strong></p>
+<p>方法调用了之后就直接返回，那么操作的结果如何获取？答案是通过<code>ChannelFuture</code>。</p>
+</li>
+</ol>
+<hr>
+<h2 id="ctx-close-和-ctx-channel-close"><a href="#ctx-close-和-ctx-channel-close" class="headerlink" title="ctx.close() 和 ctx.channel().close()"></a>ctx.close() 和 ctx.channel().close()</h2><h4 id="1-ctx-close-会触发当前Handler和当前Handler之前的close事件；"><a href="#1-ctx-close-会触发当前Handler和当前Handler之前的close事件；" class="headerlink" title="1. ctx.close()会触发当前Handler和当前Handler之前的close事件；"></a>1. <code>ctx.close()</code>会触发当前Handler和当前Handler之前的close事件；</h4><h4 id="2-channel-close-所有Handler都会触发"><a href="#2-channel-close-所有Handler都会触发" class="headerlink" title="2. channel.close()所有Handler都会触发;"></a>2. <code>channel.close()</code>所有Handler都会触发;</h4><pre class="line-numbers language-php" data-language="php"><code class="language-php">ch<span class="token operator">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">InboundHandler1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+ch<span class="token operator">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">InboundHandler2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+ch<span class="token operator">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">OutboundHandler1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+ch<span class="token operator">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">OutboundHandler2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+
+链表中的顺序为head<span class="token operator">-></span><span class="token property">in1</span><span class="token operator">-></span><span class="token property">in2</span><span class="token operator">-></span><span class="token property">out1</span><span class="token operator">-></span><span class="token property">out2</span><span class="token operator">-></span><span class="token property">tail</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果在InboundHandler2中执行的是ctx.channel().writeAndFlush，执行顺序是：</p>
+<pre class="line-numbers language-undefined" data-language="undefined"><code class="language-undefined">InboundHandler1 
+InboundHandler2 
+OutboundHandler2
+OutboundHandler1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果在InboundHandler2中执行的是ctx.writeAndFlush，执行顺序是：</p>
+<pre class="line-numbers language-undefined" data-language="undefined"><code class="language-undefined">InboundHandler1 
+InboundHandler2 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>这样的顺序对于write操作和close都是一样道理的。</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/fdbdbf8bcf8a">Netty4中Handler的执行顺序以及ctx.close() 与 ctx.channel().close()的区别 - 简书 (jianshu.com)</a></p>
+<hr>
+<h1 id="Netty客户端重连"><a href="#Netty客户端重连" class="headerlink" title="Netty客户端重连"></a>Netty客户端重连</h1><h2 id="指数退避机制"><a href="#指数退避机制" class="headerlink" title="指数退避机制"></a>指数退避机制</h2><p>可以理解为每次重连失败时，就把重连的时间设置为之前的指数级别。例如2秒、4秒、8秒。</p>
+<h3 id="Netty客户端中使用指数退避方式重连"><a href="#Netty客户端中使用指数退避方式重连" class="headerlink" title="Netty客户端中使用指数退避方式重连"></a>Netty客户端中使用指数退避方式重连</h3><p>客户端连接服务器时，调用 Bootstrap 的 connect 方法：</p>
+<pre class="line-numbers language-scss" data-language="scss"><code class="language-scss">bootstrap.<span class="token function">connect</span><span class="token punctuation">(</span>host<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这个方法会返回 ChannelFuture ，ChannelFuture 实现了 netty 的 Future , 而Future 继承自 java.util.concurrent.Future ，这是异步操作的结果，因此 connect 方法是一个异步方法。我们可以通过调用addListener 添加监听器，监听是否连接成功。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token class-name">Bootstrap</span> bootstrap<span class="token punctuation">,</span> <span class="token class-name">String</span> host<span class="token punctuation">,</span> <span class="token keyword">int</span> port<span class="token punctuation">,</span> <span class="token keyword">int</span> retry<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+
+    bootstrap<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span>host<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addListener</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelFutureListener</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">operationComplete</span><span class="token punctuation">(</span><span class="token class-name">ChannelFuture</span> future<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>future<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"连接服务器成功!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>retry <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"重连次数已用完，放弃连接！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                <span class="token comment">// 第几次重连</span>
+                <span class="token keyword">int</span> order <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token constant">MAX_RETRY</span> <span class="token operator">-</span> retry<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                <span class="token comment">// 本次重连的间隔</span>
+                <span class="token keyword">int</span> delay <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> order<span class="token punctuation">;</span>
+                <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">": 连接失败，第"</span> <span class="token operator">+</span> order <span class="token operator">+</span> <span class="token string">"次重连……"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+				<span class="token comment">// bootstrap.config().group().schedule()实现定时任务逻辑</span>
+                bootstrap<span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">group</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">schedule</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token function">connect</span><span class="token punctuation">(</span>bootstrap<span class="token punctuation">,</span> host<span class="token punctuation">,</span> port<span class="token punctuation">,</span> retry <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> delay<span class="token punctuation">,</span> <span class="token class-name">TimeUnit</span><span class="token punctuation">.</span><span class="token constant">SECONDS</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/08/29/NIO%E5%9F%BA%E7%A1%80/" rel="prev" title="NIO基础">
+                  <i class="fa fa-angle-left"></i> NIO基础
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/09/17/Kryo%E5%BA%8F%E5%88%97%E5%8C%96/" rel="next" title="Kryo序列化">
+                  Kryo序列化 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

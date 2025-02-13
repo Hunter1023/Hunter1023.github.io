@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="JVM启动入口：JLI_Launch函数以OPENJDK8源码GitHub - openjdk&#x2F;jdk at jdk8-b120为例，虚拟机的启动入口在jdk&#x2F;src&#x2F;share&#x2F;bin&#x2F;java.c的JLI_Launch函数，整个流程分为：  配置JVM装载环境 解析虚拟机参数 设置线程栈大小 执行JavaMain方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java虚拟机 JVM">
+<meta property="og:url" content="https://hunter1023.github.io/2024/07/21/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%20JVM/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="JVM启动入口：JLI_Launch函数以OPENJDK8源码GitHub - openjdk&#x2F;jdk at jdk8-b120为例，虚拟机的启动入口在jdk&#x2F;src&#x2F;share&#x2F;bin&#x2F;java.c的JLI_Launch函数，整个流程分为：  配置JVM装载环境 解析虚拟机参数 设置线程栈大小 执行JavaMain方法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2024/07/21/LYwj61kvQXsPhJ3.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/22/DjtKdfeaPRpNICw.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/22/cSFv3xboygi8R2V.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/22/qbTVeG7hM2ZjrQn.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/22/Bb8ueD1YSoGXVv5.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/22/d5xIyiRFW8TPXa3.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/22/FpizjealgWUMHJT.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/22/dpvZyJ1Fa5boBPS.png">
+<meta property="og:image" content="https://s2.loli.net/2023/03/06/lENKm3CMuxk1JFI.png">
+<meta property="og:image" content="https://s2.loli.net/2023/03/06/xU6LY3nDukNg2rv.png">
+<meta property="og:image" content="https://s2.loli.net/2023/03/06/2RD3AnPvbh1lQ5N.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/23/lLobEs7haTmiHYB.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/23/HDATGorV2nxNfhC.png">
+<meta property="og:image" content="https://s2.loli.net/2023/03/06/UIV6fJknmM4bojP.png">
+<meta property="og:image" content="https://s2.loli.net/2023/03/06/RFaE7s5CnmylgkT.png">
+<meta property="article:published_time" content="2024-07-21T02:52:30.000Z">
+<meta property="article:modified_time" content="2025-01-23T15:29:13.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/07/21/LYwj61kvQXsPhJ3.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2024/07/21/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%20JVM/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2024/07/21/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%20JVM/","path":"2024/07/21/Java虚拟机 JVM/","title":"Java虚拟机 JVM"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Java虚拟机 JVM | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM%E5%90%AF%E5%8A%A8%E5%85%A5%E5%8F%A3%EF%BC%9AJLI-Launch%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">JVM启动入口：JLI_Launch函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JNI%E8%B0%83%E7%94%A8%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">JNI调用本地方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">JVM内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E5%88%92%E5%88%86"><span class="nav-number">3.1.</span> <span class="nav-text">内存区域划分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-number">3.1.1.</span> <span class="nav-text">程序计数器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="nav-number">3.1.2.</span> <span class="nav-text">虚拟机栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="nav-number">3.1.3.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86"><span class="nav-number">3.1.4.</span> <span class="nav-text">堆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="nav-number">3.1.5.</span> <span class="nav-text">方法区</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98"><span class="nav-number">3.2.</span> <span class="nav-text">直接内存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6"><span class="nav-number">4.</span> <span class="nav-text">垃圾回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%AD%98%E6%B4%BB%E5%88%A4%E5%AE%9A%E7%AE%97%E6%B3%95"><span class="nav-number">4.1.</span> <span class="nav-text">对象存活判定算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E6%B3%95"><span class="nav-number">4.1.1.</span> <span class="nav-text">引用计数法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="nav-number">4.1.2.</span> <span class="nav-text">可达性分析算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95"><span class="nav-number">4.2.</span> <span class="nav-text">垃圾回收算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E6%9C%BA%E5%88%B6"><span class="nav-number">4.2.1.</span> <span class="nav-text">分代收集机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E5%88%86%E9%85%8D%E6%8B%85%E4%BF%9D"><span class="nav-number">4.2.2.</span> <span class="nav-text">空间分配担保</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0-%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95"><span class="nav-number">4.2.3.</span> <span class="nav-text">标记-清除算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0-%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-number">4.2.4.</span> <span class="nav-text">标记-复制算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0-%E6%95%B4%E7%90%86%E7%AE%97%E6%B3%95"><span class="nav-number">4.2.5.</span> <span class="nav-text">标记-整理算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">4.3.</span> <span class="nav-text">垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Serial-%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">4.3.1.</span> <span class="nav-text">Serial 收集器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ParNew-%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">4.3.2.</span> <span class="nav-text">ParNew 收集器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Parallel-Scavenge-Parallel-Old-%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">4.3.3.</span> <span class="nav-text">Parallel Scavenge &#x2F; Parallel Old 收集器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CMS-%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">4.3.4.</span> <span class="nav-text">CMS 收集器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Garbage-First-%EF%BC%88G1%EF%BC%89%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">4.3.5.</span> <span class="nav-text">Garbage First （G1）收集器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E7%A9%BA%E9%97%B4"><span class="nav-number">4.4.</span> <span class="nav-text">元空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.5.</span> <span class="nav-text">引用类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%BA%E5%BC%95%E7%94%A8"><span class="nav-number">4.5.1.</span> <span class="nav-text">强引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AF%E5%BC%95%E7%94%A8"><span class="nav-number">4.5.2.</span> <span class="nav-text">软引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%B1%E5%BC%95%E7%94%A8"><span class="nav-number">4.5.3.</span> <span class="nav-text">弱引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E5%BC%95%E7%94%A8-phantom"><span class="nav-number">4.5.4.</span> <span class="nav-text">虚引用 phantom</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="nav-number">5.</span> <span class="nav-text">类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B"><span class="nav-number">5.1.</span> <span class="nav-text">类加载过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD"><span class="nav-number">5.1.1.</span> <span class="nav-text">加载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%93%BE%E6%8E%A5"><span class="nav-number">5.1.2.</span> <span class="nav-text">链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">5.1.3.</span> <span class="nav-text">初始化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">5.2.</span> <span class="nav-text">类加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.2.1.</span> <span class="nav-text">双亲委派模型</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2024/07/21/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%20JVM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Java虚拟机 JVM | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java虚拟机 JVM<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%20JVM.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-07-21 10:52:30" itemprop="dateCreated datePublished" datetime="2024-07-21T10:52:30+08:00">2024-07-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-23 23:29:13" itemprop="dateModified" datetime="2025-01-23T23:29:13+08:00">2025-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="JVM启动入口：JLI-Launch函数"><a href="#JVM启动入口：JLI-Launch函数" class="headerlink" title="JVM启动入口：JLI_Launch函数"></a>JVM启动入口：<code>JLI_Launch</code>函数</h2><p>以OPENJDK8源码<a target="_blank" rel="noopener" href="https://github.com/openjdk/jdk/tree/jdk8-b120">GitHub - openjdk&#x2F;jdk at jdk8-b120</a>为例，虚拟机的启动入口在<code>jdk/src/share/bin/java.c</code>的<code>JLI_Launch</code>函数，整个流程分为：</p>
+<ol>
+<li>配置JVM装载环境</li>
+<li>解析虚拟机参数</li>
+<li>设置线程栈大小</li>
+<li>执行<code>JavaMain</code>方法</li>
+</ol>
+<span id="more"></span>
+
+<p><code>JLI_Launch</code>函数：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span>
+<span class="token function">JLI_Launch</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span> argv<span class="token punctuation">,</span>              <span class="token comment">/* main argc, argc */</span>
+        <span class="token keyword">int</span> jargc<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">*</span> jargv<span class="token punctuation">,</span>          <span class="token comment">/* java args */</span>
+        <span class="token keyword">int</span> appclassc<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">*</span> appclassv<span class="token punctuation">,</span>  <span class="token comment">/* app classpath */</span>
+        <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> fullversion<span class="token punctuation">,</span>                <span class="token comment">/* full version defined */</span>
+        <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> dotversion<span class="token punctuation">,</span>                 <span class="token comment">/* dot version defined */</span>
+        <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> pname<span class="token punctuation">,</span>                      <span class="token comment">/* program name */</span>
+        <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> lname<span class="token punctuation">,</span>                      <span class="token comment">/* launcher name */</span>
+        jboolean javaargs<span class="token punctuation">,</span>                      <span class="token comment">/* JAVA_ARGS */</span>
+        jboolean cpwildcard<span class="token punctuation">,</span>                    <span class="token comment">/* classpath wildcard*/</span>
+        jboolean javaw<span class="token punctuation">,</span>                         <span class="token comment">/* windows-only javaw */</span>
+        jint ergo                               <span class="token comment">/* ergonomics class policy */</span>
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 初始化操作</span>
+<span class="token function">InitLauncher</span><span class="token punctuation">(</span>javaw<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">DumpState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// debug信息打印配置</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">JLI_IsTraceLauncher</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Command line args:\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> argc <span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"argv[%d] = %s\n"</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> argv<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">AddOption</span><span class="token punctuation">(</span><span class="token string">"-Dsun.java.launcher.diag=true"</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 选择合适的JRE版本</span>
+<span class="token function">SelectVersion</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token operator">&amp;</span>main_class<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 创建JVM执行环境，例如确定数据模型是32位还是64位，以及JVM本身的一些配置在jvm.cfg文件中读取和解析。</span>
+<span class="token comment">// 此函数只在java.h头文件中定义，具体的实现是根据不同平台而定的。</span>
+<span class="token function">CreateExecutionEnvironment</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>argc<span class="token punctuation">,</span> <span class="token operator">&amp;</span>argv<span class="token punctuation">,</span>
+                               jrepath<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>jrepath<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                               jvmpath<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>jvmpath<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                               jvmcfg<span class="token punctuation">,</span>  <span class="token keyword">sizeof</span><span class="token punctuation">(</span>jvmcfg<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 启动JVM</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">LoadJavaVM</span><span class="token punctuation">(</span>jvmpath<span class="token punctuation">,</span> <span class="token operator">&amp;</span>ifn<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+
+<span class="token comment">// ...</span>
+
+<span class="token comment">// 初始化JVM</span>
+<span class="token keyword">return</span> <span class="token function">JVMInit</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ifn<span class="token punctuation">,</span> threadStackSize<span class="token punctuation">,</span> argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> mode<span class="token punctuation">,</span> what<span class="token punctuation">,</span> ret<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>JVM的启动执行过程：</p>
+<img src="https://s2.loli.net/2024/07/21/LYwj61kvQXsPhJ3.png" alt="image-20240721171034652" style="zoom:80%;" />
+
+<hr>
+<h2 id="JNI调用本地方法"><a href="#JNI调用本地方法" class="headerlink" title="JNI调用本地方法"></a>JNI调用本地方法</h2><p>JNI（Java Native Interface），Java本地接口。它允许在JVM内运行的Java代码与其他编程语言编写的程序和库进行交互。</p>
+<blockquote>
+<ul>
+<li><p>操作系统：Windows 11</p>
+</li>
+<li><p>JDK11</p>
+</li>
+<li><p>MYSYS2安装C++环境（<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42417071/article/details/137438374#%E4%B8%89%E3%80%81%E5%AE%89%E8%A3%85%20MinGW-W64%20%E5%8F%8A%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">安装 MinGW-W64 及配置环境变量</a>）</p>
+<p>  <img src="https://s2.loli.net/2024/07/22/DjtKdfeaPRpNICw.png" alt="image-20240722113643917"></p>
+</li>
+</ul>
+</blockquote>
+<p>以<strong>让C语言程序帮助实现Java程序的a+b运算功能</strong>为例：</p>
+<ol>
+<li><p>创建一个本地方法：</p>
+ <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">package</span> <span class="token namespace">com<span class="token punctuation">.</span>hunter<span class="token punctuation">.</span>demo</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 本地方法 native关键字</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">native</span> <span class="token keyword">int</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>生成位于jni目录下的C头文件</p>
+ <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">javac <span class="token parameter variable">-h</span> .<span class="token punctuation">\</span>jni <span class="token parameter variable">-classpath</span> .<span class="token punctuation">\</span>src<span class="token punctuation">\</span>main<span class="token punctuation">\</span>java<span class="token punctuation">\</span> <span class="token parameter variable">-d</span> .<span class="token punctuation">\</span>jni .<span class="token punctuation">\</span>src<span class="token punctuation">\</span>main<span class="token punctuation">\</span>java<span class="token punctuation">\</span>com<span class="token punctuation">\</span>hunter<span class="token punctuation">\</span>demo<span class="token punctuation">\</span>Main.java<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p> <img src="https://s2.loli.net/2024/07/22/cSFv3xboygi8R2V.png" alt="image-20240722114111437"></p>
+ <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;jni.h></span></span>
+<span class="token comment">/* Header for class com_hunter_demo_Main */</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">_Included_com_hunter_demo_Main</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">_Included_com_hunter_demo_Main</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifdef</span> <span class="token expression">__cplusplus</span></span>
+<span class="token keyword">extern</span> <span class="token string">"C"</span> <span class="token punctuation">&#123;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+<span class="token comment">/*
+ * Class:     com_hunter_demo_Main
+ * Method:    sum
+ * Signature: (II)I
+ */</span>
+JNIEXPORT jint JNICALL <span class="token function">Java_com_hunter_demo_Main_sum</span>
+  <span class="token punctuation">(</span>JNIEnv <span class="token operator">*</span><span class="token punctuation">,</span> jclass<span class="token punctuation">,</span> jint<span class="token punctuation">,</span> jint<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifdef</span> <span class="token expression">__cplusplus</span></span>
+<span class="token punctuation">&#125;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>CLion中新建一个C++项目。</p>
+<p> <img src="https://s2.loli.net/2024/07/22/qbTVeG7hM2ZjrQn.png" alt="image-20240722114253403"></p>
+</li>
+<li><p>放入刚刚生成的头文件<code>com_hunter_demo_Main.h</code>，并添加到<code>CMake Project</code>：</p>
+<p> <img src="https://s2.loli.net/2024/07/22/Bb8ueD1YSoGXVv5.png" alt="image-20240722114657893"></p>
+</li>
+<li><p>导入JDK文件夹中jni相关头文件，将C++项目中自动生成的<code>main.cpp</code>文件改名为与<code>.h</code>头文件同名：<code>com_hunter_demo_Main.cpp</code></p>
+ <pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">cmake_minimum_required</span><span class="token punctuation">(</span><span class="token property">VERSION</span> <span class="token number">3.28</span><span class="token punctuation">)</span>
+<span class="token keyword">project</span><span class="token punctuation">(</span>jniTest<span class="token punctuation">)</span>
+
+<span class="token comment"># 导入JDK文件夹中jni相关头文件</span>
+<span class="token keyword">include_directories</span><span class="token punctuation">(</span><span class="token string">"C:\\Program Files\\jdk-11.0.0.1\\include"</span><span class="token punctuation">)</span>
+<span class="token keyword">include_directories</span><span class="token punctuation">(</span><span class="token string">"C:\\Program Files\\jdk-11.0.0.1\\include\\win32"</span><span class="token punctuation">)</span>
+<span class="token keyword">set</span><span class="token punctuation">(</span><span class="token variable">CMAKE_CXX_STANDARD</span> <span class="token number">17</span><span class="token punctuation">)</span>
+
+<span class="token keyword">add_executable</span><span class="token punctuation">(</span>jniTest com_hunter_demo_Main.cpp
+        com_hunter_demo_Main.h<span class="token punctuation">)</span>    <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>编写<code>com_hunter_demo_Main.cpp</code>文件</p>
+ <pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &quot;com_hunter_demo_Main.h&quot;
+
+&#x2F;&#x2F; 方法头 从上述生成的.h头文件中复制，补充方法体
+JNIEXPORT jint JNICALL Java_com_hunter_demo_Main_sum(JNIEnv * env, jclass clazz, jint a, jint b) &#123;
+    return a + b;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>将cpp编译为动态链接库（MacOS下生成<code>.dylib</code>文件，Windows下生成<code>.dll</code>文件，Linux下生成<code>.so</code>文件）</p>
+ <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">gcc .<span class="token punctuation">\</span>com_hunter_demo_Main.cpp <span class="token parameter variable">-I</span> <span class="token string">"C:\Program Files\jdk-11.0.0.1\include"</span> <span class="token parameter variable">-I</span> <span class="token string">"C:\Program Files\jdk-11.0.0.1\include\win32"</span> <span class="token parameter variable">-shared</span> <span class="token parameter variable">-o</span> test.dll -lstdc++<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>在一开始的Java类中，通过绝对路径加载动态链接库，就能顺利执行main方法。</p>
+ <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">static</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token string">"C:\\Users\\Hunter\\CLionProjects\\jniTest\\test.dll"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">native</span> <span class="token keyword">int</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token keyword">int</span> i1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p> <img src="https://s2.loli.net/2024/07/22/d5xIyiRFW8TPXa3.png" alt="image-20240722132216024"></p>
+</li>
+</ol>
+<hr>
+<h2 id="JVM内存管理"><a href="#JVM内存管理" class="headerlink" title="JVM内存管理"></a>JVM内存管理</h2><h3 id="内存区域划分"><a href="#内存区域划分" class="headerlink" title="内存区域划分"></a>内存区域划分</h3><p>JVM在运行时，内存区域如下划分：</p>
+<p><img src="https://s2.loli.net/2024/07/22/FpizjealgWUMHJT.png" alt="image-20240722145024765"></p>
+<hr>
+<h4 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h4><p>程序计数器可以看作当前线程<strong>所执行字节码的行号指示器</strong>。</p>
+<ol>
+<li>字节码解释器通过改变程序计数器来依次读取指令，从而实现<strong>代码的流程控制</strong>。</li>
+<li>在多线程情况下，每条线程都需要一个程序计数器来记录当前线程执行的位置，从而线程被切换回来时，能够恢复到正确的执行位置。</li>
+</ol>
+<p>程序计数器是<strong>唯一一个不会出现内存溢出</strong>的内存区域，它的生命周期随着线程的创建而创建，随着线程的结束而结束，是<strong>线程私有</strong>的。</p>
+<hr>
+<h4 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h4><p><strong>每个方法被执行</strong>的时候，JVM都会同步创建一个<strong>栈帧</strong>，栈帧中包括局部变量表、操作数栈、动态连接、方法出口。</p>
+<p><img src="https://s2.loli.net/2024/07/22/dpvZyJ1Fa5boBPS.png" alt="image-20240722151727890"></p>
+<ol>
+<li><p>局部变量表。</p>
+<p> 局部变量表就是<strong>方法中的局部变量</strong>。实际上局部变量表在class文件中就已经定义好了。</p>
+</li>
+<li><p>操作数栈。</p>
+</li>
+<li><p>动态链接。</p>
+<p> 当方法中需要调用其他方法时，<strong>从运行时常量池中找到指向对应方法的符号引用，再将符号引用转换为直接引用，进而调用对应的方法</strong>，这个过程就是动态链接。</p>
+</li>
+<li><p>方法出口。</p>
+<p> 抛出异常或正常返回。</p>
+</li>
+</ol>
+<hr>
+<h4 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h4><p>本地方法栈和虚拟机栈的作用相似，为执行本地方法服务。</p>
+<hr>
+<h4 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h4><p>堆是整个Java应用程序共享的区域，也是整个虚拟机最大的一块内存空间。它用来<strong>存放和管理对象和数组</strong>。</p>
+<hr>
+<h4 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h4><p>方法区也是整个Java应用程序共享的区域，它用于存储已被虚拟机加载的<strong>类型信息、常量、静态变量、即时编译器编译后的代码缓存</strong>等数据。可以大致分为两个部分：</p>
+<ol>
+<li><p><strong>类信息表</strong>。</p>
+<p> 存放<strong>类的版本、字段、方法、接口</strong></p>
+</li>
+<li><p><strong>运行时常量池</strong>。</p>
+<p> 存放<strong>编译时生成的常量池表数据（各种字面量和符号引用）</strong>。</p>
+</li>
+</ol>
+<hr>
+<h3 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h3><p>直接内存不受JVM管控，本质上是JVM通过JNI的方式在本地内存上进行分配的内存。直接内存不受到Java堆大小的限制，但是依然受到本机最大内存的限制。</p>
+<p>JDK 1.4加入的NIO，引入了基于通道和缓存区的IO方式，可以直接使用Native函数库分配堆外内存，然后通过一个<strong>存储在Java堆中的DirectByteBuffer对象作为这块内存的引用</strong>进行操作。这样能在一些场景中提高性能，避免了Java堆和Native堆之间来回复制数据。</p>
+<hr>
+<h2 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h2><h3 id="对象存活判定算法"><a href="#对象存活判定算法" class="headerlink" title="对象存活判定算法"></a>对象存活判定算法</h3><h4 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h4><p>每个对象都包含一个引用计数器，每当有一个地方引用此对象，引用计数+1，当引用失效，引用计数-1（离开了局部变量的作用域、引用被设定为<code>null</code>）。<strong>当引用计数为0，表示此对象不可能再被使用</strong>。</p>
+<p>但是，如果<strong>对象之间循环引用</strong>：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">ublic <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IllegalAccessException</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Test</span> testA <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Test</span> testB <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        testA<span class="token punctuation">.</span>another <span class="token operator">=</span> testB<span class="token punctuation">;</span>
+        testB<span class="token punctuation">.</span>another <span class="token operator">=</span> testA<span class="token punctuation">;</span>
+
+        testA <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        testB <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Test</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Test</span> another<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在testA和testB被赋值为null后，实际对应的对象不可能再被得到，但<strong>由于两个对象存在循环引用的情况，各自的引用计数器的值永远会是1</strong>。所以引用计数法不是最好的解决方案。</p>
+<hr>
+<h4 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h4><p>可达性分析算法采用了<strong>类似树结构的搜索机制</strong>。</p>
+<p>每个对象的引用都有机会成为树的根节点（<strong>GC Roots</strong>）：</p>
+<ol>
+<li>虚拟机栈的栈帧中的<strong>局部变量表中引用的对象</strong></li>
+<li>本地方法栈中<strong>JNI引用的对象</strong></li>
+<li>方法区中类的静态成员变量引用的对象</li>
+<li>方法区中常量池中引用的对象</li>
+<li>被同步锁（synchronized关键字）持有的对象</li>
+<li>虚拟机内部需要用到的对象</li>
+</ol>
+<p>可达性分析算法从这些节点开始，根据引用关系向下搜索，<strong>搜索的路径称为引用链（Reference Chain）</strong>。**如果某个对象到GC Roots间没有任何引用链相连，那么这个对象就不可能再被使用。**这样的对象就可以被回收。</p>
+<hr>
+<h3 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h3><h4 id="分代收集机制"><a href="#分代收集机制" class="headerlink" title="分代收集机制"></a>分代收集机制</h4><p>Java虚拟机将<strong>堆内存</strong>划分为：</p>
+<ol>
+<li><p>新生代 Young Generation</p>
+<p> Eden区、Survivor区 （From和To）</p>
+</li>
+<li><p>老年代 Old Generation</p>
+</li>
+<li><p>永久代 Permanent Generation</p>
+<p> MetaSpace</p>
+</li>
+</ol>
+<p>在HotSpot虚拟机中，新生代被划分为3块，一块较大的Eden区和两块较小的Survivor空间，<strong>默认比例是<code>8:1:1</code></strong>。老年代的GC频率相对较低，永久代一般存放类信息等（方法区）。</p>
+<ol>
+<li><p>所有新创建的对象，优先在Eden区分配。<strong>在1次GC后，没有被回收的对象会进入到Survivor区中的From区，并且对象有了初始年龄<code>1</code></strong>，最后From和To发生一次交换，存放对象的From区变成To区。</p>
+<p> <img src="https://s2.loli.net/2023/03/06/lENKm3CMuxk1JFI.png" alt="image-20230306165326642"></p>
+<p> <img src="https://s2.loli.net/2023/03/06/xU6LY3nDukNg2rv.png" alt="image-20230306165336145"></p>
+</li>
+<li><p>再进行1次GC，操作与上述相同。此时由于To区中已经存在对象，需要对其中的对象进行年龄判定。<strong>如果当前年龄增加到一定阈值</strong>（<strong>默认15</strong>，对象头用4位来保存年龄，最大就是15），<strong>会晋升到老年代</strong>，否则<strong>移动到From区，并且年龄+1</strong>。最后，交换From和To区。</p>
+</li>
+<li><p>大对象（需要大量连续内存空间的对象，如字符串、数组）直接进入<strong>老年代</strong>，减少新生代的垃圾回收频率和成本。</p>
+</li>
+</ol>
+<p>垃圾收集分为Partial GC和Full GC：</p>
+<ol>
+<li><p>Minor GC&#x2F;Young GC：</p>
+<p> 在<strong>Eden区容量已满</strong>时，对<strong>新生代</strong>进行垃圾回收。</p>
+</li>
+<li><p>Major GC&#x2F;Old GC：</p>
+<p> 对老年代进行垃圾回收。</p>
+</li>
+<li><p>Mixed GC：</p>
+<p> 对<strong>整个</strong>新生代和<strong>部分</strong>老年代进行垃圾回收。目前只有<strong>G1收集器</strong>有这种行为。</p>
+</li>
+<li><p>Full GC：</p>
+<p> 回收<strong>整个Java堆和方法区</strong>。触发条件：</p>
+<ol>
+<li>有新的晋升到老年代的对象，老年代剩余空间不足以存放这些对象。</li>
+<li>新生代GC之后，存活的对象超过了老年代剩余空间。</li>
+<li>手动调用<code>System.gc()</code>方法。</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h4 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h4><p>确保在Minor GC之前，老年代本身还有容纳新生代<strong>所有对象</strong>的剩余空间。</p>
+<hr>
+<h4 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h4><p>标记出所有不需要回收的对象，再依次回收掉没被标记的对象。</p>
+<p>优点：操作简单。</p>
+<p>缺点：</p>
+<ol>
+<li>如果内存中存在大量对象，就可能需要大量标记，<strong>标记和清除的效率都不高</strong>。</li>
+<li>容易产生大量不连续的内存碎片。</li>
+</ol>
+<hr>
+<h4 id="标记-复制算法"><a href="#标记-复制算法" class="headerlink" title="标记-复制算法"></a>标记-复制算法</h4><p>该算法将内存分为大小相同的2块区域，<strong>每次只使用其中1块</strong>。当1块用完后，将还存活的对象复制到另一块，一次性清空当前区域。使得<strong>每次的内存回收都是一半</strong>。</p>
+<p>优点：解决了内存空间碎片的问题。适用于<strong>新生代</strong>内存。</p>
+<p>缺点：<strong>可用内存变少</strong>，不适合老年代。</p>
+<hr>
+<h4 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h4><p>标记过程和标记-清除算法一样，但后续是<strong>让所有存活的对象向一端移动，然后直接清理掉端边界以外的内存</strong>。由于多出了整理这一步，效率不高，甚至由于需要修改对象在内存中的位置，程序必须要暂停，<strong>适合老年代</strong>这种回收频率不高的场景。</p>
+<hr>
+<h3 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h3><h4 id="Serial-收集器"><a href="#Serial-收集器" class="headerlink" title="Serial 收集器"></a>Serial 收集器</h4><p>Serial（串行）收集器是历史最悠久的垃圾收集器。它的<strong>单线程</strong>不仅意味着只会使用一条垃圾收集线程去完成垃圾收集工作，而且<strong>在进行垃圾收集工作时，必须暂停其他所有的工作线程</strong>（<strong>Stop The World</strong>)，直到收集结束。</p>
+<p><strong>新生代</strong>采用<strong>标记-复制</strong>算法，<strong>老年代</strong>采用<strong>标记-整理</strong>算法。</p>
+<ul>
+<li>与其他收集器相比，它简单而高效。</li>
+<li>对于运行在<strong>Client模式</strong>下的虚拟机（一些桌面级图形化界面应用程序）来说不错。</li>
+</ul>
+<hr>
+<h4 id="ParNew-收集器"><a href="#ParNew-收集器" class="headerlink" title="ParNew 收集器"></a>ParNew 收集器</h4><p>ParNew其实就是Serial收集器的多线程版本，除了使用多线程进行垃圾收集之外，其余行为（控制参数、收集算法、回收策略）和Serial收集器完全一样。</p>
+<p>它是许多运行在<strong>Server模式</strong>下的虚拟机<strong>新生代收集器的首要选择</strong>，除了Serial收集器外，只有它能与CMS收集器（真正意义上的并发收集器）配合工作。</p>
+<hr>
+<h4 id="Parallel-Scavenge-Parallel-Old-收集器"><a href="#Parallel-Scavenge-Parallel-Old-收集器" class="headerlink" title="Parallel Scavenge &#x2F; Parallel Old 收集器"></a>Parallel Scavenge &#x2F; Parallel Old 收集器</h4><p>Parallel Scavenge收集器是使用标记-复制算法的<strong>新生代</strong>多线程收集器，<strong>关注点是吞吐量</strong>。</p>
+<p>$吞吐量&#x3D;\frac{运行用户代码时间}{运行用户代码时间+运行垃圾收集时间}&#x3D;\frac{运行用户代码时间}{CPU总消耗时间}$</p>
+<p>Parallel Scavenge收集器有一个参数<code>-XX:+UseAdaptiveSizePolicy</code>，当使用这个参数之后，虚拟机会根据当前系统的运行情况收集性能监控信息，<strong>动态调整相应参数以提供最合适的停顿时间或最大吞吐量</strong>。</p>
+<p>Parralel Old收集器是Parallel Scavenge收集器的<strong>老年代</strong>版本，基于标记-整理算法实现。</p>
+<p><strong>JDK8</strong>采用的就是 <strong>Parallel Scavenge + Parallel Old</strong> 的垃圾回收方案。</p>
+<hr>
+<h4 id="CMS-收集器"><a href="#CMS-收集器" class="headerlink" title="CMS 收集器"></a>CMS 收集器</h4><p>CMS（<strong>Concurrent</strong> Mark Sweep)收集器是一种以<strong>获得最短回收停顿</strong>为目标的收集器。它采用了<strong>标记-清除算法</strong>，非常符合在注重用户体验的应用上使用。</p>
+<p>CMS实现了<strong>让垃圾收集线程与用户线程基本上同时工作</strong>。<br>整个运行过程分为四个步骤：</p>
+<ol>
+<li><strong>初始</strong>标记（<strong>暂停所有其他线程</strong>，记录直接与GC Roots相连的对象，速度很快）</li>
+<li><strong>并发</strong>标记（同时开启GC和用户线程，用一个闭包结构去记录可达对象）</li>
+<li><strong>重新</strong>标记（<strong>暂停所有其他线程</strong>，<strong>修正并发标记期间因为用户程序继续运行而导致标记变动的记录</strong>）</li>
+<li><strong>并发清除</strong> （开启用户线程，同时GC线程开始对未标记的区域做清扫）</li>
+</ol>
+<p>优点：并发收集、低停顿。<br>缺点：对CPU资源敏感；无法处理浮动垃圾，触发Full GC的概率更高；使用标记-清除算法导致产生大量空间碎片，触发Full GC的概率更高。</p>
+<blockquote>
+<p>浮动垃圾：在CMS的并发标记和并发清除阶段，<strong>用户线程在运行，自然会伴随有新的垃圾对象不断产生，但这一部分垃圾对象是出现在标记过程结束以后，CMS无法在当次收集中处理掉它们，只好留待下一次垃圾收集时再清理掉</strong>。这一部分垃圾就称为“浮动垃圾”。</p>
+</blockquote>
+<p><strong>不过自从G1收集器问世之后，CMS收集器不再推荐使用了</strong>。</p>
+<hr>
+<h4 id="Garbage-First-（G1）收集器"><a href="#Garbage-First-（G1）收集器" class="headerlink" title="Garbage First （G1）收集器"></a>Garbage First （G1）收集器</h4><p>G1是面向服务器的垃圾收集器，主要针对配有<strong>多颗处理器以及大内存</strong>的机器，<strong>以极高概率满足GC停顿时间要求</strong>的同时，还具备<strong>高吞吐量</strong>性能特征。在<strong>JDK9</strong>时，取代了JDK8默认的 Parallel Scavenge(新生代) + Parallel Old (老年代） 的回收方案。</p>
+<p><strong>G1不再坚持固定大小以及固定数量的分代区域划分</strong>，而是把Java堆划分为<strong>2048个大小相等</strong>的独立区域，每一个区域称之为<strong>Region</strong>。每个Region的大小可以通过参数<code>-XX：G1HeapRegionSize</code>设定，取值范围为<strong>1MB～32MB</strong>，且应为2的N次幂。</p>
+<p>每一个<code>Region</code>都可以根据需要，自由决定扮演哪个角色（Eden、Survivor和老年代），收集器会根据对应的角色采用不同的回收策略。此外，G1收集器还存在一个<strong>Humongous区域，它专门用于存放大对象</strong>（一般认为<strong>大小超过了Region容量一半</strong>的对象为大对象）<strong>新生代、老年代在物理上，不再是一个连续的内存区域，而是到处分布的</strong>。</p>
+<p>G1的整个运行过程分为4个步骤：</p>
+<ol>
+<li><p><strong>初始</strong>标记</p>
+<p> <strong>暂停所有其他线程</strong>，记录直接与GC Roots相连的对象，<strong>并修改TAMS指针的值，让下一阶段用户线程并发运行时，能正确地在可用的Region中分配新对象</strong>。</p>
+</li>
+<li><p><strong>并发</strong>标记</p>
+<p> 同时开启GC和用户线程，用一个闭包结构去记录可达对象。</p>
+</li>
+<li><p><strong>最终</strong>标记</p>
+<p> <strong>暂停所有其他线程</strong>，用于处理并发标记阶段漏标的那部分对象。</p>
+</li>
+<li><p><strong>筛选回收</strong></p>
+<p> <strong>暂停所有其他线程</strong>，更新Region的统计数据，<strong>对各个Region的回收价值（耗时+空间大小）进行排</strong>序，根据用户期望的停顿时间来指定回收计划。可以自由选择任意多个Region构成回收集，<strong>把决定回收的Region中的存活对象复制到空Region中，再清理掉整个旧Region</strong>。（G1从<strong>整体</strong>来看，是基于<strong>标记-整理</strong>算法实现的收集器；从<strong>局部</strong>来看，是基于<strong>标记-复制</strong>算法实现的）</p>
+</li>
+</ol>
+<hr>
+<h3 id="元空间"><a href="#元空间" class="headerlink" title="元空间"></a>元空间</h3><p><strong>JDK8之后，Hotspot虚拟机不再使用永久代，而是采用了元空间</strong>。<strong>类的元信息</strong>被存储在元空间中。元空间使用<strong>与堆不相连的本地内存区域</strong>。所以，理论上系统可以使用的内存有多大，元空间就有多大，所以不会出现永久代存在时的内存溢出问题。</p>
+<p><img src="https://s2.loli.net/2023/03/06/2RD3AnPvbh1lQ5N.png" alt="image-20230306165703340"></p>
+<hr>
+<h3 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h3><h4 id="强引用"><a href="#强引用" class="headerlink" title="强引用"></a>强引用</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Object</span> o <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果方法中存在这样的强引用类型，需要回收其所指向的对象，<strong>要么方法结束运行，要么引用连接断开</strong>，否则被引用的对象无法被判定为可回收。<strong>内存空间不足时，JVM宁愿抛出OOM错误</strong>。</p>
+<hr>
+<h4 id="软引用"><a href="#软引用" class="headerlink" title="软引用"></a>软引用</h4><p>如果<strong>内存空间不足</strong>，就会回收这种对象。<strong>可以加速JVM对垃圾内存的回收速度，可以维护系统的运行安全，防止OOM等问题</strong>。可以用来实现内存敏感的高速缓存。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 软引用写法</span>
+<span class="token class-name">SoftReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Object</span><span class="token punctuation">></span></span> reference <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SoftReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 使用get方法就能拿到软引用指向的对象</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>reference<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>软引用还存在一个<strong>带引用队列的构造方法</strong>：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">ReferenceQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Object</span><span class="token punctuation">></span></span> queue <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ReferenceQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 带引用队列的 软引用构造函数</span>
+<span class="token class-name">Reference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Object</span><span class="token punctuation">></span></span> reference <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SoftReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> queue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"======================"</span> <span class="token operator">+</span> reference<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span><span class="token string">"test"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Throwable</span> throwable<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"发生了内存溢出！"</span> <span class="token operator">+</span> throwable<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"软引用对象："</span> <span class="token operator">+</span> reference<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>queue<span class="token punctuation">.</span><span class="token function">poll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>执行上述代码，得到如下结果。可知，<strong>如果软引用所引用的对象被垃圾回收器回收，Java虚拟机就会把这个软引用加入到与之关联的引用队列中</strong>。</p>
+<p><img src="https://s2.loli.net/2024/07/23/lLobEs7haTmiHYB.png" alt="image-20240723164304190"></p>
+<hr>
+<h4 id="弱引用"><a href="#弱引用" class="headerlink" title="弱引用"></a>弱引用</h4><p>与软引用的区别在于，只具有弱引用的对象具有更短的生命周期。<strong>不管内存空间是否足够，都会回收它的内存</strong>。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">Reference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Object</span><span class="token punctuation">></span></span> weakReference <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WeakReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">SoftReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Object</span><span class="token punctuation">></span></span> softReference <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SoftReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"弱引用对象"</span> <span class="token operator">+</span> weakReference<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"软引用对象"</span> <span class="token operator">+</span> softReference<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 手动gc</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">gc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"弱引用对象"</span> <span class="token operator">+</span> weakReference<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"软引用对象"</span> <span class="token operator">+</span> softReference<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<img src="https://s2.loli.net/2024/07/23/HDATGorV2nxNfhC.png" alt="image-20240723165353259" style="zoom:80%;" />
+
+<p>可以看到弱引用对象直接被回收了。</p>
+<hr>
+<h4 id="虚引用-phantom"><a href="#虚引用-phantom" class="headerlink" title="虚引用 phantom"></a>虚引用 phantom</h4><p>虚引用相当于没有引用，<strong>在任何时候都可能被垃圾回收</strong>。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PhantomReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">T</span><span class="token punctuation">></span></span> <span class="token keyword">extends</span> <span class="token class-name">Reference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">T</span><span class="token punctuation">></span></span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token class-name">T</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">PhantomReference</span><span class="token punctuation">(</span><span class="token class-name">T</span> referent<span class="token punctuation">,</span> <span class="token class-name">ReferenceQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span> <span class="token keyword">super</span> <span class="token class-name">T</span><span class="token punctuation">></span></span> q<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>referent<span class="token punctuation">,</span> q<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>虚引用只能使用带引用队列的构造方法，<strong>主要用于对象被回收时接收通知</strong>。</p>
+<hr>
+<h2 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h2><h3 id="类加载过程"><a href="#类加载过程" class="headerlink" title="类加载过程"></a>类加载过程</h3><p><img src="https://s2.loli.net/2023/03/06/UIV6fJknmM4bojP.png" alt="image-20230306170654350"></p>
+<p>类加载过程分为<strong>加载、链接、初始化</strong>。链接又可分为<strong>校验、准备、解析</strong>。</p>
+<hr>
+<h4 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h4><p>加载作为第一步，主要完成下面3件事：</p>
+<ol>
+<li>通过<strong>全类名</strong>获取<strong>定义此类的二进制字节流</strong></li>
+<li><strong>类加载器</strong>将字节流代表的静态存储结构<strong>转换为方法区的运行时数据结构</strong></li>
+<li>在内存中生成一个<strong>代表该类的Class对象</strong>，作为方法区数据的访问入口</li>
+</ol>
+<hr>
+<h4 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h4><ol>
+<li><strong>校验</strong>阶段相当于对加载的类<strong>进行一次规范校验</strong>。</li>
+<li><strong>准备</strong>阶段<strong>为类变量分配内存</strong>，并为一些字段设定<strong>系统规定的初始值</strong>。</li>
+<li><strong>解析</strong>阶段<strong>将常量池表内的符号引用替换为直接引用，放入运行时常量池</strong>。</li>
+</ol>
+<hr>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p>从初始化开始，<strong>类中的Java代码部分</strong>才会开始执行。例如类中存在一个静态成员变量被赋值，或者存在一个静态代码块，就会自动生成一个<code>&lt;clinit&gt;</code>方法进行赋值操作。</p>
+<hr>
+<h3 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h3><p>一个类可以由不同的类加载器加载，并且，不同的类加载器加载的出来的类，即使来自同一个Class文件，也是不同的，只有两个类<strong>来自同一个Class文件并且是由同一个类加载器加载的，才能判断为是同一个</strong>。默认情况下，所有的类都是由JDK自带的类加载器进行加载。</p>
+<p>JVM中内置了<strong>3个类加载器</strong>：</p>
+<ol>
+<li><p>BootstrapClassLoader <strong>启动</strong>类加载器</p>
+</li>
+<li><p>主要用来加载<strong>JDK内部的核心类库</strong>、-Xbootclasspath参数指定路径下的所有类。</p>
+</li>
+<li><p>ExtensionClassLoader <strong>扩展</strong>类加载器 (java 9 被改名为<strong>平台</strong>类加载器（platform class loader）)</p>
+</li>
+<li><p>主要负责加载<code>%JRE_HOME%/lib/ext</code> 目录下的 jar 包和类以及被 <code>java.ext.dirs</code> 系统变量所指定的路径下的所有类。</p>
+</li>
+<li><p>AppClassLoader <strong>应用程序</strong>类加载器</p>
+<p> <strong>面向用户</strong>的加载器，负责加载<strong>当前应用 classpath 下</strong>的所有 jar 包和类。</p>
+</li>
+</ol>
+<hr>
+<h4 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h4><p>双亲委派模型总结起来就是两句话：</p>
+<p><strong>自底向上查找判断类是否被加载，自顶向下尝试加载类</strong>。</p>
+<ol>
+<li>在类加载的时候，系统会首先判断当前类是否被加载过。已经被加载的类会直接返回，否则尝试加载（每个父类加载器都会走一遍这个流程</li>
+<li>类加载器在进行类加载的时候，它<strong>首先会把这个请求委派给父类加载器</strong>去完成。这样的话，所有的请求最终都会传送到顶层的启动类加载器中。</li>
+<li>只有当父加载器反馈自己无法完成这个加载请求（它的搜索范围中没有找到所需的类）时，子类才会尝试自己去加载（<strong>调用自己的findClass()方法</strong>）</li>
+<li>如果子类也无法加载这个类，会抛出找不到类的异常。</li>
+</ol>
+<p><img src="https://s2.loli.net/2023/03/06/RFaE7s5CnmylgkT.png" alt="image-20230306170728531"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JVM/" rel="tag"><i class="fa fa-tag"></i> JVM</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/07/15/HTTP%E8%AF%B7%E6%B1%82%E5%87%BA%E7%8E%B0HttpMediaTypeNotAcceptableException%E6%8A%A5%E9%94%99/" rel="prev" title="HTTP请求出现HttpMediaTypeNotAcceptableException报错">
+                  <i class="fa fa-angle-left"></i> HTTP请求出现HttpMediaTypeNotAcceptableException报错
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/07/28/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E6%9C%BA%E5%88%B6/" rel="next" title="数据库事务机制">
+                  数据库事务机制 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

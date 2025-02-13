@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="NumpyNumpy是Python的一种开源的数值计算扩展。可以用来存储和处理大型矩阵，比Python自身的嵌套列表结构(nested list structure)要高效得多。在实际工作中直接使用情况较少。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python之数据分析">
+<meta property="og:url" content="https://hunter1023.github.io/2020/06/13/Python%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="NumpyNumpy是Python的一种开源的数值计算扩展。可以用来存储和处理大型矩阵，比Python自身的嵌套列表结构(nested list structure)要高效得多。在实际工作中直接使用情况较少。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-13T00:14:22.000Z">
+<meta property="article:modified_time" content="2025-01-23T15:29:13.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2020/06/13/Python%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2020/06/13/Python%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/","path":"2020/06/13/Python之数据分析/","title":"Python之数据分析"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Python之数据分析 | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Numpy"><span class="nav-number">1.</span> <span class="nav-text">Numpy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pandas"><span class="nav-number">2.</span> <span class="nav-text">Pandas</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.</span> <span class="nav-text">两种数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Series-%E4%B8%80%E7%BB%B4"><span class="nav-number">2.1.1.</span> <span class="nav-text">Series  (一维)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DataFrame-%E4%BA%8C%E7%BB%B4"><span class="nav-number">2.1.2.</span> <span class="nav-text">DataFrame (二维)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Series%E9%80%9A%E8%BF%87reset-index-%E5%8F%AF%E4%BB%A5%E8%BD%AC%E6%8D%A2%E4%B8%BADataFrame"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">Series通过reset_index()可以转换为DataFrame</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E8%A1%A8%E5%8F%8D%E8%BD%AC"><span class="nav-number">2.1.3.</span> <span class="nav-text">~代表反转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AD%9B%E9%80%89"><span class="nav-number">2.1.4.</span> <span class="nav-text">筛选</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A2%9E%E5%88%A0"><span class="nav-number">2.1.5.</span> <span class="nav-text">增删</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pandas%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="nav-number">2.2.</span> <span class="nav-text">Pandas基础命令速查表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96-%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6"><span class="nav-number">2.3.</span> <span class="nav-text">读取&#x2F;写入文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96"><span class="nav-number">2.3.1.</span> <span class="nav-text">读取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%99%E5%85%A5"><span class="nav-number">2.3.2.</span> <span class="nav-text">写入</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">2.4.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AD%9B%E9%80%89%E5%87%BD%E6%95%B0"><span class="nav-number">2.4.1.</span> <span class="nav-text">筛选函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0"><span class="nav-number">2.4.2.</span> <span class="nav-text">聚合函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%9A%E8%A1%A8%E5%85%B3%E8%81%94"><span class="nav-number">2.4.2.1.</span> <span class="nav-text">多表关联</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E5%87%BD%E6%95%B0"><span class="nav-number">2.4.3.</span> <span class="nav-text">文本函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E7%9B%B8%E5%85%B3"><span class="nav-number">2.4.4.</span> <span class="nav-text">时间相关</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E9%87%87%E6%A0%B7"><span class="nav-number">2.4.4.1.</span> <span class="nav-text">重新采样</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BA%E5%80%BC%E7%9B%B8%E5%85%B3"><span class="nav-number">2.4.5.</span> <span class="nav-text">空值相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%BB%E9%87%8D"><span class="nav-number">2.4.6.</span> <span class="nav-text">去重</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E6%95%B0%E6%8D%AE%EF%BC%9Ashift"><span class="nav-number">2.4.7.</span> <span class="nav-text">移动数据：shift()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#apply"><span class="nav-number">2.4.8.</span> <span class="nav-text">apply()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pandas%E4%B8%ADmap-apply-%E5%92%8Capplymap-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.4.9.</span> <span class="nav-text">Pandas中map(), apply()和applymap()的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%80%8F%E8%A7%86"><span class="nav-number">2.4.10.</span> <span class="nav-text">数据透视</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">2.5.</span> <span class="nav-text">连接数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Pandas%E5%AF%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="nav-number">2.5.1.</span> <span class="nav-text">使用Pandas对数据库进行操作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Matplotlib"><span class="nav-number">3.</span> <span class="nav-text">Matplotlib</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scikit-learn"><span class="nav-number">4.</span> <span class="nav-text">Scikit-learn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jupyter"><span class="nav-number">5.</span> <span class="nav-text">Jupyter</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Jupyter-Notebook"><span class="nav-number">5.1.</span> <span class="nav-text">Jupyter Notebook</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">6.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A9%E7%94%A8apply-%EF%BC%8C%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0%E6%9B%B4%E6%96%B0DataFrame%E6%AF%8F%E8%A1%8C%E5%8D%95%E5%85%83%E6%A0%BC%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%8C%E4%BD%86%E6%98%AF%E5%BE%97%E5%88%B0%E7%9A%84%E4%B8%8D%E6%98%AFDataFrame%E5%AF%B9%E8%B1%A1"><span class="nav-number">6.1.</span> <span class="nav-text">利用apply()，使用自定义函数更新DataFrame每行单元格的内容，但是得到的不是DataFrame对象</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2020/06/13/Python%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Python之数据分析 | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python之数据分析<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/Python%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-13 08:14:22" itemprop="dateCreated datePublished" datetime="2020-06-13T08:14:22+08:00">2020-06-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-23 23:29:13" itemprop="dateModified" datetime="2025-01-23T23:29:13+08:00">2025-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">数据分析</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="Numpy"><a href="#Numpy" class="headerlink" title="Numpy"></a>Numpy</h2><p>Numpy是Python的一种开源的<strong>数值计算扩展</strong>。可以用来<strong>存储和处理大型矩阵</strong>，比Python自身的<strong>嵌套列表结构(nested list structure)<strong>要</strong>高效得多</strong>。在实际工作中<strong>直接使用情况较少</strong>。</p>
+<span id="more"></span> 
+
+<ul>
+<li><p><strong>数组</strong></p>
+<p>  <code>numpy.array()</code></p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+a <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+
+<span class="token comment"># 输出为：array([1, 2, 3, 4])</span>
+<span class="token comment"># 和 列表 相似，但处理效率要高很多</span>
+
+a<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">5</span>
+<span class="token comment"># 得到数组 array([5, 2, 3, 4])</span>
+
+a <span class="token operator">+</span> <span class="token number">1</span>
+<span class="token comment"># 数组中每个元素都+1，得到数组 array([6, 3, 4, 5])</span>
+<span class="token comment"># 减法、乘除法同理</span>
+
+b <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment"># 可以生成多维数组</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><p>查看数组中<strong>存储的数据类型</strong>：<code>dtype</code></p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">print</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span>dtype<span class="token punctuation">)</span>
+<span class="token comment"># 输出为：int32</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Pandas"><a href="#Pandas" class="headerlink" title="Pandas"></a>Pandas</h2><p>Pandas是<strong>基于Numpy</strong>的一种工具，是为了<strong>解决数据分析任务</strong>而创建的。Pandas<strong>提供了大量</strong>能使我们<strong>快速便捷地处理数据</strong>的<strong>函数和方法</strong>。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="两种数据结构"><a href="#两种数据结构" class="headerlink" title="两种数据结构"></a>两种数据结构</h3><h4 id="Series-一维"><a href="#Series-一维" class="headerlink" title="Series  (一维)"></a>Series  (一维)</h4><pre class="line-numbers language-python" data-language="python"><code class="language-python">s1 <span class="token operator">=</span> pd<span class="token punctuation">.</span>Series<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span>
+<span class="token comment"># 输出为：</span>
+<span class="token comment"># 0    1</span>
+<span class="token comment"># 1    2</span>
+<span class="token comment"># 2    3</span>
+<span class="token comment"># 3    4</span>
+<span class="token comment"># dtype: int64</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span>index<span class="token punctuation">)</span>
+<span class="token comment"># 输出为：RangeIndex(start=0, stop=4, step=1)</span>
+
+s1<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+
+s2 <span class="token operator">=</span> pd<span class="token punctuation">.</span>Series<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> index <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">,</span> <span class="token string">'c'</span><span class="token punctuation">,</span> <span class="token string">'d'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>s2<span class="token punctuation">)</span>
+<span class="token comment"># 输出为：</span>
+<span class="token comment"># a    1</span>
+<span class="token comment"># b    2</span>
+<span class="token comment"># c    3</span>
+<span class="token comment"># d    4</span>
+<span class="token comment"># dtype: int64</span>
+
+s2<span class="token punctuation">[</span><span class="token string">'b'</span><span class="token punctuation">]</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>s2<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'c'</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment"># 索引多个值 需要用 列表 来表示</span>
+<span class="token comment"># 输出为：</span>
+<span class="token comment"># a    1</span>
+<span class="token comment"># c    3</span>
+<span class="token comment"># dtype: int64</span>
+
+d <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">'hunter'</span><span class="token punctuation">:</span><span class="token string">'smart'</span><span class="token punctuation">,</span> <span class="token string">'peter'</span><span class="token punctuation">:</span><span class="token string">'handsome'</span><span class="token punctuation">&#125;</span>
+s3 <span class="token operator">=</span> pd<span class="token punctuation">.</span>Series<span class="token punctuation">(</span>d<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>s3<span class="token punctuation">)</span>
+<span class="token comment"># 输出为：</span>
+<span class="token comment"># hunter       smart</span>
+<span class="token comment"># peter     handsome</span>
+<span class="token comment"># dtype: object</span>
+
+s3 <span class="token operator">=</span> pd<span class="token punctuation">.</span>Series<span class="token punctuation">(</span>d<span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'hunter'</span><span class="token punctuation">,</span> <span class="token string">'peter'</span><span class="token punctuation">,</span> <span class="token string">'haha'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>s3<span class="token punctuation">)</span>
+<span class="token comment"># 输出为：</span>
+<span class="token comment"># hunter       smart</span>
+<span class="token comment"># peter     handsome</span>
+<span class="token comment"># haha           NaN</span>
+<span class="token comment"># dtype: object</span>
+
+<span class="token comment"># 字符串类型在Series里显示的类型为object</span>
+<span class="token comment"># 可转换类型</span>
+s2 <span class="token operator">=</span> s2<span class="token punctuation">.</span>astype<span class="token punctuation">(</span><span class="token string">'str'</span><span class="token punctuation">)</span> <span class="token comment"># 将 数值类型 转换为 字符串类型</span>
+
+<span class="token comment"># 将浮点数类型转换为int类型</span>
+x_value <span class="token operator">=</span> titanic<span class="token punctuation">[</span><span class="token string">'Fare'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>astype<span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h4 id="DataFrame-二维"><a href="#DataFrame-二维" class="headerlink" title="DataFrame (二维)"></a>DataFrame (二维)</h4><pre class="line-numbers language-python" data-language="python"><code class="language-python">d <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">'name'</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">'qinlu'</span><span class="token punctuation">,</span> <span class="token string">'lulu'</span><span class="token punctuation">,</span> <span class="token string">'qinqin'</span><span class="token punctuation">]</span>
+    <span class="token string">'sex'</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">'male'</span><span class="token punctuation">,</span> <span class="token string">'male'</span><span class="token punctuation">,</span> <span class="token string">'female'</span><span class="token punctuation">]</span>
+    <span class="token string">'age'</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token number">18</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">,</span> <span class="token number">25</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span>
+
+pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>d<span class="token punctuation">)</span>
+
+<span class="token comment"># 创建一个空的数据框</span>
+data <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>得到如下二维表格：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>name</th>
+<th>sex</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>qinlu</td>
+<td>male</td>
+<td>18</td>
+</tr>
+<tr>
+<td>1</td>
+<td>lulu</td>
+<td>male</td>
+<td>18</td>
+</tr>
+<tr>
+<td>2</td>
+<td>qinqin</td>
+<td>female</td>
+<td>25</td>
+</tr>
+</tbody></table>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">df <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment"># 效果类似 Series</span>
+df<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>得到如下二维表格：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<hr>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">df <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span> columns<span class="token operator">=</span><span class="token builtin">list</span><span class="token punctuation">(</span><span class="token string">'abcd'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># 提供两行数据和 各列的列名</span>
+
+df<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>得到如下二维表格：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>a</th>
+<th>b</th>
+<th>c</th>
+<th>d</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+</tr>
+</tbody></table>
+<p>DataFrame的<strong>列的顺序默认为提供的顺序</strong>。如下操作可以<strong>调整列的顺序</strong>：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">df <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">'b'</span><span class="token punctuation">,</span> <span class="token string">'d'</span><span class="token punctuation">,</span> <span class="token string">'c'</span><span class="token punctuation">,</span> <span class="token string">'a'</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+df<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>得到如下二维表格：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>b</th>
+<th>d</th>
+<th>c</th>
+<th>a</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>2</td>
+<td>4</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>6</td>
+<td>5</td>
+<td>3</td>
+</tr>
+</tbody></table>
+<hr>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">df <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>d<span class="token punctuation">)</span>
+
+<span class="token comment"># 概览数据</span>
+df<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment"># &lt;class 'pandas.core.frame.DataFrame'></span>
+<span class="token comment"># RangeIndex: 3 entries, 0 to 2</span>
+<span class="token comment"># Data columns (total 3 columns):</span>
+<span class="token comment">#  #   Column  Non-Null Count  Dtype </span>
+<span class="token comment"># ---  ------  --------------  ----- </span>
+<span class="token comment">#  0   name    3 non-null      object</span>
+<span class="token comment">#  1   sex     3 non-null      object</span>
+<span class="token comment">#  2   age     3 non-null      int64 </span>
+<span class="token comment"># dtypes: int64(1), object(2)</span>
+<span class="token comment"># memory usage: 200.0+ bytes</span>
+
+<span class="token comment"># 查看每个列的数据类型</span>
+df<span class="token punctuation">.</span>dtypes
+
+<span class="token comment"># 查看某个列的数据类型</span>
+df<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>dtype
+
+<span class="token comment">#获取某一行</span>
+df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token comment">#根据 索引(不论是否自定义了标签名) 读取某一行 (推荐，数据量大了之后更适用)</span>
+df<span class="token punctuation">.</span>loc<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token comment"># 根据 具体标签名 读取某一行</span>
+<span class="token comment"># 上述两种方式输出相同：</span>
+<span class="token comment"># name    lulu</span>
+<span class="token comment"># sex     male</span>
+<span class="token comment"># age       18</span>
+<span class="token comment"># Name: 1, dtype: object</span>
+
+<span class="token comment"># 获取多行</span>
+df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token comment"># 闭区间</span>
+df<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token comment"># 开区间</span>
+
+<span class="token comment">#获取某一列</span>
+df<span class="token punctuation">[</span><span class="token string">'age'</span><span class="token punctuation">]</span>
+
+<span class="token comment">#获取多个列</span>
+df<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">'age'</span><span class="token punctuation">,</span> <span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">:</span><span class="token number">7</span><span class="token punctuation">]</span> <span class="token comment"># 所有行和前七列</span>
+
+<span class="token comment"># 获取二维表格部分列</span>
+df<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">'age'</span><span class="token punctuation">,</span> <span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token comment"># 开区间</span>
+df<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">'age'</span><span class="token punctuation">,</span> <span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'age'</span><span class="token punctuation">]</span> <span class="token comment"># 获取部分列中的指定列</span>
+
+<span class="token comment"># 读取二维表格部分区域</span>
+df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token comment"># 指出 索引，iloc不支持布尔类型的过滤</span>
+df<span class="token punctuation">.</span>loc<span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">'age'</span><span class="token punctuation">,</span> <span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token comment"># 指出 行和列的 标签名</span>
+df<span class="token punctuation">.</span>loc<span class="token punctuation">[</span>df<span class="token punctuation">.</span>age <span class="token operator">==</span> <span class="token number">19</span><span class="token punctuation">,</span> <span class="token string">'age'</span><span class="token punctuation">]</span> <span class="token comment"># 指出 符合条件的行的列值 和 列标签</span>
+
+<span class="token comment"># 更改具体值</span>
+df<span class="token punctuation">[</span><span class="token string">'age'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">21</span> <span class="token comment"># 统一更改整个列</span>
+df<span class="token punctuation">[</span><span class="token string">'age'</span><span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span> <span class="token comment"># 统一更改整个列</span>
+df<span class="token punctuation">[</span><span class="token string">'age'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">21</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">]</span> <span class="token comment"># 自定义更改列中的值</span>
+df<span class="token punctuation">[</span><span class="token string">'age'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">22</span> <span class="token comment"># 更改某个值</span>
+df<span class="token punctuation">.</span>loc<span class="token punctuation">[</span>df<span class="token punctuation">.</span>age <span class="token operator">==</span> <span class="token number">19</span><span class="token punctuation">,</span> <span class="token string">'age'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">20</span> <span class="token comment"># 更改某个筛选范围的值</span>
+
+<span class="token comment"># 更改标签</span>
+df<span class="token punctuation">.</span>index <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token string">'abc'</span><span class="token punctuation">)</span> <span class="token comment"># 更改行标签，通常处理的数据量很大，不建议修改</span>
+df<span class="token punctuation">.</span>columns <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token string">'abcd'</span><span class="token punctuation">)</span> <span class="token comment"># 更改列标签</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h5 id="Series通过reset-index-可以转换为DataFrame"><a href="#Series通过reset-index-可以转换为DataFrame" class="headerlink" title="Series通过reset_index()可以转换为DataFrame"></a>Series通过<code>reset_index()</code>可以转换为DataFrame</h5><p>Series原有的index也是<strong>变为一个列</strong></p>
+<hr>
+<h4 id="代表反转"><a href="#代表反转" class="headerlink" title="~代表反转"></a><code>~</code>代表反转</h4><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token operator">~</span> <span class="token punctuation">(</span>df<span class="token punctuation">.</span>age <span class="token operator">></span> <span class="token number">19</span><span class="token punctuation">)</span> <span class="token comment">#等价于 df.age &lt;= 19</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h4 id="筛选"><a href="#筛选" class="headerlink" title="筛选"></a>筛选</h4><pre class="line-numbers language-python" data-language="python"><code class="language-python">df<span class="token punctuation">[</span>df<span class="token punctuation">.</span>age <span class="token operator">==</span> <span class="token number">18</span><span class="token punctuation">]</span> <span class="token comment"># 筛选出 年龄=18的 所有行(筛选 结果为True 的行)</span>
+df<span class="token punctuation">.</span>query<span class="token punctuation">(</span><span class="token string">'age == 18'</span><span class="token punctuation">)</span> <span class="token comment"># 和上一条代码等价，条件需要引号标注</span>
+
+df<span class="token punctuation">[</span><span class="token punctuation">(</span>df<span class="token punctuation">.</span>age <span class="token operator">==</span> <span class="token number">18</span><span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span>df<span class="token punctuation">.</span>name <span class="token operator">==</span> <span class="token string">'qinqin'</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token comment"># 通过 括号和&amp;/|运算符 进行多条件筛选</span>
+df<span class="token punctuation">.</span>query<span class="token punctuation">(</span><span class="token string">"(age == 18) | (name == 'qinqin')"</span><span class="token punctuation">)</span> <span class="token comment"># 注意括号不要冲突</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h4 id="增删"><a href="#增删" class="headerlink" title="增删"></a>增删</h4><p>pandas中<strong>增删的运算效率低</strong>，尽量不使用。</p>
+<ul>
+<li><code>del</code>：将指定列从存储空间中删除</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">del</span> df<span class="token punctuation">.</span>loc<span class="token punctuation">[</span>df<span class="token punctuation">.</span>age <span class="token operator">==</span> <span class="token number">19</span><span class="token punctuation">,</span> <span class="token string">'age'</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><p><code>drop()</code>：删除指定项时<strong>返回的是视图</strong>，<strong>数据仍然在存储空间中</strong></p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">df<span class="token punctuation">.</span>drop<span class="token punctuation">(</span><span class="token string">'age'</span><span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token comment"># axis=1表示列，axis=0表示行(默认)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+<hr>
+<h3 id="Pandas基础命令速查表"><a href="#Pandas基础命令速查表" class="headerlink" title="Pandas基础命令速查表"></a><a target="_blank" rel="noopener" href="https://www.kesci.com/home/project/59e389b54663f7655c48f518/code">Pandas基础命令速查表</a></h3><hr>
+<h3 id="读取-写入文件"><a href="#读取-写入文件" class="headerlink" title="读取&#x2F;写入文件"></a>读取&#x2F;写入文件</h3><h4 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h4><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
+
+df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_csv<span class="token punctuation">(</span><span class="token string">'xxxx.csv'</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">'xxx'</span><span class="token punctuation">,</span> sep<span class="token operator">=</span><span class="token string">','</span><span class="token punctuation">,</span> names<span class="token operator">=</span><span class="token string">'abcdefg'</span><span class="token punctuation">)</span>
+
+df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_table<span class="token punctuation">(</span><span class="token string">'xxxx'</span><span class="token punctuation">,</span> sep<span class="token operator">=</span><span class="token string">'\t'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>read_csv()</code>的参数：</p>
+<ul>
+<li><p>文件名</p>
+</li>
+<li><p><code>encoding</code>：指定编码</p>
+<p>  python<strong>默认以utf-8编码</strong>读取文件。如果报错无法正确显示文件内容，可以<strong>将编码改为gbk</strong>等进行读取。</p>
+</li>
+<li><p><code>sep</code>：指定分隔符，<strong>默认为逗号<code>,</code></strong></p>
+<p>有的文件由于不标准等原因，采用其他分隔符如<code>\t</code>，可<strong>通过指定分隔符优化显示</strong>。</p>
+<p><code>sep=&#39;\s+&#39;</code>：将<strong>tab</strong>和<strong>多个空格</strong>都<strong>当成一样的分隔符</strong>。</p>
+</li>
+<li><p><code>parse_dates</code>：将数据<strong>解析为日期</strong></p>
+<p>  <code>parse_dates = True</code>：<strong>尝试解析所有</strong>可能为日期类型的列；</p>
+<p>  <code>parse_dates = [1, 2]</code>：<strong>尝试解析给定列</strong>为日期类型的列。</p>
+<p>  <code>parse_dates = [[1, 2]]</code>：<strong>尝试解析给定列</strong>为日期类型的列，<strong>并将这些列聚合成为1个列</strong></p>
+</li>
+<li><p><code>names</code></p>
+<p>  指定<strong>列名</strong>，<strong>默认为文件中的第一行</strong>。如果自定义列名，文件中的第一行<strong>将作为第一行数据显示</strong>。</p>
+</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">df<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 概览数据</span>
+
+df<span class="token punctuation">.</span>head<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token comment"># 默认读取前5行</span>
+df<span class="token punctuation">.</span>tail<span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token comment"># 默认读取最后5行</span>
+
+<span class="token comment"># 根据当前已有的列生成新列</span>
+df<span class="token punctuation">[</span><span class="token string">'avg'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>df<span class="token punctuation">.</span>bottom <span class="token operator">+</span> df<span class="token punctuation">.</span>top<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h4 id="写入"><a href="#写入" class="headerlink" title="写入"></a>写入</h4><p><code>to_csv()</code></p>
+<hr>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><ul>
+<li><p><code>T</code>：<strong>转置</strong>表格</p>
+<p>  <code>df.T</code></p>
+</li>
+<li><p><code>shape</code>：获取数据框的<strong>行数</strong>和<strong>列数</strong>（<strong>元组</strong>存储）</p>
+<p>  如<code>df.shape</code>：可能得到如<code>(10,5)</code>（10行5列）</p>
+</li>
+<li><p><code>columns</code>：获取所有列</p>
+</li>
+<li><p><code>index</code>：查看索引信息</p>
+</li>
+<li><p><code>set_index()</code>：<strong>设置索引</strong></p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">crime <span class="token operator">=</span> crime<span class="token punctuation">.</span>set_index<span class="token punctuation">(</span><span class="token string">'Year'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ul>
+<h4 id="筛选函数"><a href="#筛选函数" class="headerlink" title="筛选函数"></a>筛选函数</h4><ul>
+<li><p><code>sort_values()</code>：<strong>按值排序</strong>，默认<strong>升序</strong></p>
+<p>参数：</p>
+<ul>
+<li><p><code>by</code>：指出排序依据的字段</p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">df<span class="token punctuation">.</span>sort_values<span class="token punctuation">(</span>by <span class="token operator">=</span> <span class="token string">'avg'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 下述方式效果类似(返回的是avg的有序数组)</span>
+df<span class="token punctuation">.</span>avg<span class="token punctuation">.</span>sort_values<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 根据多个条件排序</span>
+df<span class="token punctuation">.</span>sort_values<span class="token punctuation">(</span>by <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'avg'</span><span class="token punctuation">,</span> <span class="token string">'city'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment"># 排序根据unicode而不是拼音，如果想要按照拼音顺序，需要将中文和英文字母关联(可新建一个城市首字母缩写的列)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><code>ascending</code>：默认为True(升序)</p>
+</li>
+<li><p><code>inplace</code>：是否<strong>用排序后的数据集替换原来的数据</strong>，<strong>默认为False</strong></p>
+</li>
+</ul>
+</li>
+<li><p><code>sort_index()</code>：<strong>按索引排序</strong></p>
+</li>
+<li><p><code>rank()</code>：给出<strong>排名</strong></p>
+<p>  参数：</p>
+<ul>
+<li><p><code>ascending</code>：默认为True(升序)</p>
+</li>
+<li><p><code>method</code></p>
+<ul>
+<li><code>&#39;average&#39;</code> (<strong>默认</strong>，如前5个人分数相同，则排名为**(1+5) &#x2F; 2**  （<strong>最大值和最小值的加权平均数</strong>）)</li>
+<li><code>&#39;min&#39;</code> (取最小值)</li>
+<li><code>&#39;max&#39;</code></li>
+<li><code>&#39;first&#39;</code> (<strong>不考虑并列情况</strong>)</li>
+</ul>
+</li>
+</ul>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">df<span class="token punctuation">[</span><span class="token string">'rank'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">.</span>avg<span class="token punctuation">.</span>rank<span class="token punctuation">(</span>ascending<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span> method<span class="token operator">=</span><span class="token string">'min'</span><span class="token punctuation">)</span> <span class="token comment"># 按照平均工资排名，将排名作为新的列加入表格</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><code>unique()</code>：<strong>去除重复</strong>项</p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">df<span class="token punctuation">.</span>city<span class="token punctuation">.</span>unique<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><code>value_counts()</code>：对Series的<strong>每个值进行计数</strong>并且<strong>排序</strong></p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">df<span class="token punctuation">.</span>education<span class="token punctuation">.</span>value_counts<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><code>describe()</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">df<span class="token punctuation">.</span>avg<span class="token punctuation">.</span>describe<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>得到：</p>
+<pre class="line-numbers language-none"><code class="language-none">count 	5031.000000
+mean 	17.111409
+std 	8.996242
+min 	1.500000
+25% 	11.500000
+50% 	15.000000
+75% 	22.500000
+max 	75.000000
+Name: avg dtype: float64<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><code>count</code>：计数</li>
+<li><code>mean</code>：平均数</li>
+<li><code>std</code>：<strong>标准差</strong></li>
+</ul>
+<p><code>describe()</code>的统计内容会<strong>自动忽略空值</strong></p>
+</li>
+<li><p><code>count()</code></p>
+</li>
+<li><p><code>max()</code></p>
+</li>
+<li><p><code>min()</code></p>
+</li>
+<li><p><code>last()</code></p>
+</li>
+<li><p><code>mean()</code></p>
+<p>  对<strong>整个数据框</strong>求平均值，结果为<strong>按列(默认)分别计算平均值</strong>，得到一个<strong>Series</strong>；</p>
+<p>  对Series求平均值，结果则为一个平均数</p>
+<p>  参数：<code>axis=0</code> （0为按列，1为按行）</p>
+</li>
+<li><p><code>sum()</code></p>
+</li>
+<li><p><code>median()</code>：<strong>中位数</strong></p>
+</li>
+<li><p><code>std()</code>：<strong>标准差</strong></p>
+</li>
+<li><p><code>var()</code>：<strong>方差</strong></p>
+</li>
+<li><p><code>cumsum()</code>：<strong>累加</strong></p>
+</li>
+<li><p><code>pandas.cut()</code>：<strong>分类统计</strong></p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 4等分</span>
+pd<span class="token punctuation">.</span>cut<span class="token punctuation">(</span>df<span class="token punctuation">.</span>avg<span class="token punctuation">,</span> bins<span class="token operator">=</span><span class="token number">4</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token builtin">list</span><span class="token punctuation">(</span><span class="token string">'abcd'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 自定义分隔区间</span>
+<span class="token comment"># 为了能够全部包含需要分类的数据区间，最后的值一般一个取极大的值</span>
+pd<span class="token punctuation">.</span>cut<span class="token punctuation">(</span>df<span class="token punctuation">.</span>avg<span class="token punctuation">,</span> bins<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">]</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'0~5'</span><span class="token punctuation">,</span> <span class="token string">'5~10'</span><span class="token punctuation">,</span> <span class="token string">'10~20'</span><span class="token punctuation">,</span> <span class="token string">'20~30'</span><span class="token punctuation">,</span> <span class="token string">'30~100'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><code>pandas.qcut()</code></p>
+</li>
+<li><p><code>isin()</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 找到英格兰(England)、意大利(Italy)和俄罗斯(Russia)的射正率(Shooting Accuracy)</span>
+euro12<span class="token punctuation">.</span>loc<span class="token punctuation">[</span>euro12<span class="token punctuation">[</span><span class="token string">'Team'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>isin<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'England'</span><span class="token punctuation">,</span> <span class="token string">'Italy'</span><span class="token punctuation">,</span> <span class="token string">'Russia'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">'Team'</span><span class="token punctuation">,</span> <span class="token string">'Shooting Accuracy'</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><strong>可以和<code>~</code>配合使用，达到不存在的函数<code>isnotin()</code>的效果</strong>。</p>
+</li>
+<li><p><code>idxmax()</code>：返回<strong>请求轴</strong>上<strong>第一次</strong>出现<strong>最大值</strong>(不包括&#96;&#96;NA&#x2F;null&#96;)的<strong>索引</strong></p>
+<p>  参数：</p>
+<ul>
+<li><code>axis=0</code>：0对应行，1对应列</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h4><p><strong>MySQL</strong>难以完成<strong>分组排序</strong>。</p>
+<ul>
+<li><p><code>groupby()</code>：分组</p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">df<span class="token punctuation">.</span>groupby<span class="token punctuation">(</span>by <span class="token operator">=</span> <span class="token string">'city'</span><span class="token punctuation">)</span>
+<span class="token comment"># 得到如下已存入内存的提示：</span>
+<span class="token comment"># &lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x0000012CF16A41C8></span>
+
+<span class="token comment"># 当前分组下，对各分组中的各列进行统计</span>
+df<span class="token punctuation">.</span>groupby<span class="token punctuation">(</span>by <span class="token operator">=</span> <span class="token string">'city'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>count<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 当前分组下，各分组中各列的最大值</span>
+df<span class="token punctuation">.</span>groupby<span class="token punctuation">(</span>by <span class="token operator">=</span> <span class="token string">'city'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 当前分组下，对各分组中某列的最大值</span>
+df<span class="token punctuation">.</span>groupby<span class="token punctuation">(</span>by <span class="token operator">=</span> <span class="token string">'city'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token string">'avg'</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 多字段分组</span>
+df<span class="token punctuation">.</span>groupby<span class="token punctuation">(</span>by <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'city'</span><span class="token punctuation">,</span> <span class="token string">'workYear'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>mean<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">for</span> k<span class="token punctuation">,</span> v <span class="token keyword">in</span> df<span class="token punctuation">.</span>groupby<span class="token punctuation">(</span>by<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'city'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 打印每个分组中的元素数量</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>k<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 打印分组的依据元素(具体的city)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 打印分割线</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'**'</span> <span class="token operator">*</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token comment"># 20个星号</span>
+    
+    <span class="token comment"># 打印分组中元素的详细内容</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 打印同个城市中，最高薪资和最低薪资的差值</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">max</span><span class="token punctuation">(</span>v<span class="token punctuation">.</span>avg<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token builtin">min</span><span class="token punctuation">(</span>v<span class="token punctuation">[</span><span class="token string">'avg'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<hr>
+<h5 id="多表关联"><a href="#多表关联" class="headerlink" title="多表关联"></a>多表关联</h5><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
+
+position <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_csv<span class="token punctuation">(</span><span class="token string">'position.csv'</span><span class="token punctuation">)</span>
+company <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_csv<span class="token punctuation">(</span><span class="token string">'company.csv'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><p><code>merge()</code>函数 —— 根据<strong>具体的键值</strong></p>
+<p>相当于<strong>SQL中的JOIN</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">position<span class="token punctuation">.</span>merge<span class="token punctuation">(</span>right <span class="token operator">=</span> company<span class="token punctuation">,</span> how<span class="token operator">=</span><span class="token string">'left'</span><span class="token punctuation">,</span> on<span class="token operator">=</span><span class="token string">'companyId'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 更改列名</span>
+
+<span class="token comment"># 方式一：单独更改一个列名</span>
+col <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span>company<span class="token punctuation">.</span>columns<span class="token punctuation">)</span>
+col<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'id'</span>
+company<span class="token punctuation">.</span>columns <span class="token operator">=</span> col
+
+<span class="token comment"># 方式二：利用rename()更改指定列名</span>
+company<span class="token punctuation">.</span>rename<span class="token punctuation">(</span>columns<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">'0'</span><span class="token punctuation">:</span><span class="token string">'id'</span><span class="token punctuation">,</span> <span class="token string">'1'</span><span class="token punctuation">:</span><span class="token string">'xxx'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> inplace<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+pd<span class="token punctuation">.</span>merge<span class="token punctuation">(</span>left<span class="token operator">=</span>position<span class="token punctuation">,</span> right<span class="token operator">=</span>company<span class="token punctuation">,</span> how<span class="token operator">=</span><span class="token string">'inner'</span><span class="token punctuation">,</span> left_on<span class="token operator">=</span><span class="token string">'companyId'</span><span class="token punctuation">,</span> right_on<span class="token operator">=</span><span class="token string">'id'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>参数：</p>
+<ul>
+<li><p><code>left/right</code>：关联的表</p>
+</li>
+<li><p><code>how</code>：<strong>关联的方式</strong></p>
+<ul>
+<li><code>inner</code>(<strong>默认</strong>)</li>
+<li><code>outer</code></li>
+<li><code>left</code></li>
+</ul>
+</li>
+<li><p><code>right</code></p>
+</li>
+<li><p><code>on</code>：具体的键值(在<strong>两个表中对应列名相同</strong>时使用)</p>
+</li>
+<li><p><code>left_on/right_on</code>：具体的键值(在<strong>两个表中对应列名不同</strong>时使用，关联之后<strong>保留不同名的列</strong>)</p>
+</li>
+</ul>
+<hr>
+</li>
+<li><p><code>join()</code>：根据<strong>索引</strong>(<strong>行号</strong>)</p>
+<p>按照索引关联很有<strong>局限性</strong>。</p>
+<ul>
+<li>只要两个表<strong>列名不同</strong>，不加任何参数就可直接使用</li>
+<li>如果两个表有重复的列名，需要制定<code>lsuffix</code>，<code>rsuffix</code>参数</li>
+<li><strong>默认左外连接</strong>(LEFT JOIN)</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">df1<span class="token punctuation">.</span>join<span class="token punctuation">(</span>df2<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><code>concat()</code>：<strong>堆叠</strong></p>
+<p>  类似于SQL中的<strong>UNION</strong>，多个表<strong>暴力堆叠</strong>，新的表<strong>包含多个表的所有列</strong>，没有对应列值的表项为NaN。</p>
+<p>  参数：</p>
+<ul>
+<li><code>axis</code>:<ul>
+<li><strong>0</strong>：<strong>上下</strong>堆叠(<strong>默认</strong>，<strong>相同列名</strong>会<strong>合并</strong> )</li>
+<li><strong>1</strong>：<strong>左右</strong>堆叠</li>
+</ul>
+</li>
+</ul>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">pd<span class="token punctuation">.</span>concat<span class="token punctuation">(</span><span class="token punctuation">[</span>company<span class="token punctuation">,</span> position<span class="token punctuation">]</span><span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ul>
+<hr>
+<p><strong>区分辨别</strong></p>
+<p><strong>Series</strong>级别可以直接输入<strong>索引标签</strong>进行筛选；<strong>DataFrame</strong>级别，需要通过<code>loc</code>进行筛选。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">position<span class="token punctuation">.</span>groupby<span class="token punctuation">(</span>by<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'city'</span><span class="token punctuation">,</span> <span class="token string">'education'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>mean<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>avg<span class="token punctuation">[</span><span class="token string">'上海'</span><span class="token punctuation">]</span>
+
+position<span class="token punctuation">.</span>groupby<span class="token punctuation">(</span>by<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'city'</span><span class="token punctuation">,</span> <span class="token string">'education'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>mean<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>loc<span class="token punctuation">[</span><span class="token string">'上海'</span><span class="token punctuation">,</span> <span class="token string">'博士'</span><span class="token punctuation">]</span>
+
+<span class="token comment"># reset_index() 重置索引</span>
+position<span class="token punctuation">.</span>groupby<span class="token punctuation">(</span>by<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'city'</span><span class="token punctuation">,</span> <span class="token string">'education'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>mean<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>reset_index<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token string">'上海'</span><span class="token punctuation">,</span> <span class="token string">'博士'</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<p><strong>不借助<code>groupby</code></strong>，如何<strong>设置多重索引</strong>：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># sort_values 用于排序，set_index 将列设置为索引</span>
+position<span class="token punctuation">.</span>sort_values<span class="token punctuation">(</span>by<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'city'</span><span class="token punctuation">,</span> <span class="token string">'education'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>set_index<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'city'</span><span class="token punctuation">,</span> <span class="token string">'education'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<ul>
+<li><p><code>agg()</code><strong>函数</strong></p>
+<p>  <code>agg()</code>是聚合函数，得到DataFrame。参数有：</p>
+<ul>
+<li><code>func</code>：<strong>实现某种统计功能的函数</strong></li>
+<li><code>axis=0</code></li>
+</ul>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># grouped_user 是通过groupby('user_id')得到的 DataFrameGroupBy 对象</span>
+user_life <span class="token operator">=</span> grouped_user<span class="token punctuation">[</span><span class="token string">'order_dt'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>agg<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'first'</span><span class="token punctuation">,</span> <span class="token string">'last'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment"># order_dt列是时间格式，first 和 last 函数能分别得到最早和最迟的时间</span>
+user_life<span class="token punctuation">.</span>head<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<hr>
+<h4 id="文本函数"><a href="#文本函数" class="headerlink" title="文本函数"></a>文本函数</h4><ul>
+<li><p><code>str.count()</code>：统计指定字符出现的次数</p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">position<span class="token punctuation">.</span>positionLabels<span class="token punctuation">.</span><span class="token builtin">str</span><span class="token punctuation">.</span>count<span class="token punctuation">(</span><span class="token string">'分析师'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><code>str.find()</code>：查找指定字符出现的位置</p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">position<span class="token punctuation">.</span>positionLabels<span class="token punctuation">.</span><span class="token builtin">str</span><span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token string">'数据'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><code>str[1:-1]</code>：去除<strong>表示列表的方括号</strong></p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">position<span class="token punctuation">.</span>positionLabels<span class="token punctuation">.</span><span class="token builtin">str</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><code>str.replace(&quot;&#39;&quot;, &quot;&quot;)</code>：<strong>去除列表中元素的单引号</strong></p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">position<span class="token punctuation">.</span>positionLabels<span class="token punctuation">.</span><span class="token builtin">str</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token builtin">str</span><span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">"'"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><code>str.startwith()</code>：筛选<strong>以指定字符开头</strong>的字符串</p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">euro12<span class="token punctuation">[</span><span class="token string">'Team'</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token builtin">str</span><span class="token punctuation">.</span>startwith<span class="token punctuation">(</span><span class="token string">'G'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><code>str.split()</code>：<strong>拆分</strong>单元格内容</p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">df2 <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'某一列'</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token builtin">str</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">'指定分隔符'</span><span class="token punctuation">,</span> expand<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+<span class="token comment"># 默认会删去分隔符</span>
+<span class="token comment"># expand=True 能让拆分后的单元格内容 由 列表类型 变为 DataFrame(默认为False)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><code>str.extract()</code>：<strong>提取</strong>单元格中<strong>所需内容</strong></p>
+<p>  参数：</p>
+<ul>
+<li><code>pat</code>：字符串或<strong>正则表达式</strong><ul>
+<li><strong>只有用<code>()</code>包裹的部分才会被保留</strong></li>
+<li>Python中使用正则表达式<strong>命名捕获组语法</strong>为：<code>(?P&lt;name&gt;Expression)</code>，即<strong>将<code>name</code>作为列名</strong></li>
+</ul>
+</li>
+<li><code>flags</code>：整型</li>
+<li><code>expand</code>：是否将提取的内容由列表类型变为DataFrame</li>
+</ul>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 提取 '建筑年代'列 的数字，剥离 年建</span>
+df3<span class="token punctuation">[</span><span class="token string">'建筑年代'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df3<span class="token punctuation">[</span><span class="token string">'建筑年代'</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token builtin">str</span><span class="token punctuation">.</span>extract<span class="token punctuation">(</span><span class="token string">'(\d+)年建'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><code>str(xxx)</code>：将其他类型的数据(如时间)<strong>转为字符串</strong></p>
+</li>
+</ul>
+<hr>
+<h4 id="时间相关"><a href="#时间相关" class="headerlink" title="时间相关"></a>时间相关</h4><ul>
+<li><p>Python中的 datetime模块</p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> datetime <span class="token keyword">import</span> datetime
+<span class="token keyword">from</span> datetime <span class="token keyword">import</span> timedelta
+
+now <span class="token operator">=</span> datetime<span class="token punctuation">.</span>now<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 获取当前日期和时间</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>now<span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>datetime<span class="token punctuation">.</span>date<span class="token punctuation">.</span>today<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># 获取当前日期</span>
+
+delta <span class="token operator">=</span> now <span class="token operator">-</span> datetime<span class="token punctuation">(</span><span class="token number">2017</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">27</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token comment"># 获取日期相差值</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>delta<span class="token punctuation">)</span> <span class="token comment"># 得到 xxdays, xx:xx:xx.xxx</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>delta<span class="token punctuation">.</span>days<span class="token punctuation">)</span> <span class="token comment"># 72天数</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>delta<span class="token punctuation">.</span>seconds<span class="token punctuation">)</span> <span class="token comment"># 秒数</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>delta<span class="token punctuation">.</span>microseconds<span class="token punctuation">)</span> <span class="token comment"># 微秒数</span>
+
+
+<span class="token comment"># 2061年？我们真的有这一年的数据？创建一个函数并用它去修复这个bug</span>
+<span class="token comment"># x是一个 YYYY-mm-dd格式 的日期</span>
+<span class="token keyword">def</span> <span class="token function">fix_century</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    year <span class="token operator">=</span> x<span class="token punctuation">.</span>year
+    <span class="token keyword">if</span> year <span class="token operator">></span> <span class="token number">2000</span><span class="token punctuation">:</span>
+       year <span class="token operator">-=</span> <span class="token number">100</span>
+    <span class="token keyword">return</span> datetime<span class="token punctuation">.</span>date<span class="token punctuation">(</span>year<span class="token punctuation">,</span> x<span class="token punctuation">.</span>month<span class="token punctuation">,</span> x<span class="token punctuation">.</span>day<span class="token punctuation">)</span>
+
+
+text <span class="token operator">=</span> <span class="token string">'2019-09-07'</span>
+y <span class="token operator">=</span> datetime<span class="token punctuation">.</span>strptime<span class="token punctuation">(</span>text<span class="token punctuation">,</span> <span class="token string">'%Y-%m-%d'</span><span class="token punctuation">)</span> <span class="token comment"># 把字符串转为日期</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+
+<span class="token comment"># 当前日期的前后n日期</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>datetime<span class="token punctuation">.</span>date<span class="token punctuation">.</span>today<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span>timedelta<span class="token punctuation">(</span>days<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 获得某一日期的月初和月末</span>
+text<span class="token operator">=</span><span class="token string">'2019-09-07'</span>
+month_first<span class="token operator">=</span>datetime<span class="token punctuation">.</span>strptime<span class="token punctuation">(</span>text<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">8</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token string">'01'</span><span class="token punctuation">,</span><span class="token string">'%Y-%m-%d'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>month_first<span class="token punctuation">)</span> <span class="token comment">#输出结果为:2019-09-01 00:00:00</span>
+
+month_end<span class="token operator">=</span>datetime<span class="token punctuation">.</span>strptime<span class="token punctuation">(</span>text<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token builtin">str</span><span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">(</span>text<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">:</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'-01'</span><span class="token punctuation">,</span><span class="token string">'%Y-%m-%d'</span><span class="token punctuation">)</span><span class="token operator">+</span>timedelta<span class="token punctuation">(</span>days<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>month_end<span class="token punctuation">)</span> <span class="token comment"># 输出结果为:2019-09-30 00:00:00</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><code>datetime.now()</code>：获取<strong>当前日期和时间</strong>(和MySQL的<code>NOW()</code>相同)</li>
+<li><code>datetime.date.today()</code>：获取<strong>当前日期</strong></li>
+<li><code>datetime(year, month, day[, hour[, minute[, second[, microsecond[,tzinfo]]]]])</code>：生成指定的时间</li>
+<li><code>datetime.date(year, month, day)</code>：构造<strong>日期格式</strong>，但是<strong>数据类型不变</strong></li>
+<li><code>datetime.strptime()</code>：把字符串转为日期(和pandas的to_datetime函数作用相同)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>Pandas中的 to_datetime函数</p>
+<p>  <code>pandas.to_datetime()</code>：<strong>将指定列的 数据类型 转换为 指定格式的 时间类型</strong></p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
+
+crime<span class="token punctuation">[</span><span class="token string">'Year'</span><span class="token punctuation">]</span> <span class="token operator">=</span> pandas<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>crime<span class="token punctuation">[</span><span class="token string">'Year'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">format</span><span class="token operator">=</span><span class="token string">'%Y'</span><span class="token punctuation">)</span>
+
+date<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'2017-6-26'</span><span class="token punctuation">,</span> <span class="token string">'2017-6-27'</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>date<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment">#输出结果为:DatetimeIndex(['2017-06-26', '2017-06-27'], dtype='datetime64[ns]', freq=None)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>  <strong>format参数</strong>和<a href="https://hunter1023.github.io/2020/06/28/Python%E9%A1%B9%E7%9B%AE%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">数据可视化-模块 datetime </a>中<strong>含义一致</strong></p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p><code>astype()</code></p>
+<p>  可以<strong>将时间类型的数据更改精度</strong>。<code>pandas.to_datetime()</code><strong>默认转换的时间类型</strong>为<code>datetime64[ns]</code>，<strong>精度为ns(纳秒)级</strong>。</p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">df<span class="token punctuation">[</span><span class="token string">'datetime'</span><span class="token punctuation">]</span> <span class="token operator">=</span> pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>df<span class="token punctuation">[</span><span class="token string">'datetime'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">format</span><span class="token operator">=</span><span class="token string">'%Y%m%d'</span><span class="token punctuation">)</span>
+df<span class="token punctuation">[</span><span class="token string">'month'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">'datetime'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>values<span class="token punctuation">.</span>astype<span class="token punctuation">(</span><span class="token string">'datetime64[M]'</span><span class="token punctuation">)</span> <span class="token comment"># 将精度转换为M(月份)级别，日子一律会更改为1日</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>  上述代码，使用<code>values</code>将Series内的数值以<code>ndarray</code>或<code>ndarray-like</code>的形式返回，因为<code>datetime64[ns]</code>无法直接转换为<code>datetime64[M]</code>类型</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p><code>pandas.date_range()</code>：<strong>创建时间序列</strong></p>
+<p>  <strong>参数：</strong></p>
+<ul>
+<li><code>start</code>：起始时间</li>
+<li><code>end</code>：结束时间</li>
+<li><code>periods</code>：当<strong>只声明了</strong>起始时间<strong>或</strong>结束时间时，需要告知<strong>时间范围</strong></li>
+<li><code>freq</code>：<strong>时间频率</strong>（默认为<code>&#39;D&#39;</code>(<strong>Calendar</strong> day frequency)）</li>
+</ul>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
+<span class="token keyword">from</span> datetime <span class="token keyword">import</span> datetime
+
+pd<span class="token punctuation">.</span>date_range<span class="token punctuation">(</span>start<span class="token operator">=</span>datetime<span class="token punctuation">.</span>now<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> periods<span class="token operator">=</span><span class="token number">6</span><span class="token punctuation">,</span> freq<span class="token operator">=</span><span class="token string">'B'</span><span class="token punctuation">)</span> <span class="token comment"># 'B'的含义为 营业日频率(business day frequency)</span>
+<span class="token comment"># 得到：</span>
+<span class="token comment"># DatetimeIndex(['2020-07-13 20:34:18.990072', '2020-07-14 20:34:18.990072',</span>
+<span class="token comment">#               '2020-07-15 20:34:18.990072', '2020-07-16 20:34:18.990072',</span>
+<span class="token comment">#               '2020-07-17 20:34:18.990072', '2020-07-20 20:34:18.990072'],</span>
+<span class="token comment">#              dtype='datetime64[ns]', freq='B')</span>
+
+
+pd<span class="token punctuation">.</span>date_range<span class="token punctuation">(</span>start<span class="token operator">=</span><span class="token string">'20130809'</span><span class="token punctuation">,</span>periods<span class="token operator">=</span><span class="token number">8</span><span class="token punctuation">,</span>freq<span class="token operator">=</span><span class="token string">'SM'</span><span class="token punctuation">)</span> <span class="token comment"># 'SM'的含义为 月中和月末(semi-month end frequency)</span>
+<span class="token comment"># 得到：</span>
+<span class="token comment"># DatetimeIndex(['2020-07-15', '2020-07-31', '2020-08-15', '2020-08-31',</span>
+<span class="token comment">#               '2020-09-15', '2020-09-30', '2020-10-15', '2020-10-31'],</span>
+<span class="token comment">#              dtype='datetime64[ns]', freq='SM-15')</span>
+
+
+pd<span class="token punctuation">.</span>date_range<span class="token punctuation">(</span>start<span class="token operator">=</span>datetime<span class="token punctuation">.</span>now<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>periods<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span>freq<span class="token operator">=</span><span class="token string">'2H20min'</span><span class="token punctuation">)</span> <span class="token comment"># 时间间隔140min</span>
+
+pd<span class="token punctuation">.</span>date_range<span class="token punctuation">(</span>start<span class="token operator">=</span><span class="token string">'20190623'</span><span class="token punctuation">,</span> periods<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">,</span> freq<span class="token operator">=</span><span class="token string">'1D10U'</span><span class="token punctuation">)</span> <span class="token comment"># 时间间隔1天10微秒</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<hr>
+<ul>
+<li><p><code>numpy.timedelta64()</code></p>
+<p>Numpy允许两个Datetime值相减，这个操作产生一个<strong>带有时间单位</strong>的数字。由于NumPy的核心<strong>没有物理量(物理单位)系统</strong>，因此<strong>创建了<code>timedelta64</code>数据类型以补充<code>datetime64</code></strong>。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">x <span class="token operator">=</span> np<span class="token punctuation">.</span>datetime64<span class="token punctuation">(</span><span class="token string">'2017-08-03'</span><span class="token punctuation">)</span> <span class="token operator">-</span> np<span class="token punctuation">.</span>datetime64<span class="token punctuation">(</span><span class="token string">'2017-07-15'</span><span class="token punctuation">)</span>
+<span class="token comment"># 得到的结果是 x = numpy.timedelta64(19,'D') # 第一个参数为数字，第二个参数为单位</span>
+
+<span class="token comment"># 利用timedelta64() 消除单位</span>
+x <span class="token operator">/</span> np<span class="token punctuation">.</span>timedelta64<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'D'</span><span class="token punctuation">)</span> <span class="token comment"># 得到的结果是19.0</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<hr>
+<ul>
+<li><p><strong>以日期时间序列为索引</strong>的最多日期<strong>相差天数</strong></p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">(</span>df<span class="token punctuation">.</span>index<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> df<span class="token punctuation">.</span>index<span class="token punctuation">.</span><span class="token builtin">min</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>days<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><strong>以日期时间序列为索引</strong>的数据框中一共<strong>有多少个月</strong></p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">d <span class="token operator">=</span> df<span class="token punctuation">.</span>resample<span class="token punctuation">(</span><span class="token string">'BM'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>last<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token builtin">len</span><span class="token punctuation">(</span>d<span class="token punctuation">.</span>index<span class="token punctuation">)</span> <span class="token comment"># 'DatetimeIndex' object has no attribute 'count'，因此不能使用count函数计数</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>把字符串转成日期</p>
+</li>
+</ul>
+<hr>
+<h5 id="重新采样"><a href="#重新采样" class="headerlink" title="重新采样"></a>重新采样</h5><p>重新采样指<strong>将时间序列从一个频率转换为另一个频率</strong>的过程。</p>
+<ul>
+<li><p><strong>降</strong>采样（向下采样）</p>
+<p>  高频时间序列变为低频，<strong>时间粒度变大</strong>。如：原有100个时间点，变为10个时间点</p>
+</li>
+<li><p>升采样（向上采样）</p>
+<p>  低频时间序列变为高频，<strong>时间粒度变小</strong>。，</p>
+</li>
+<li><p>同频之间的切换</p>
+<p>  比如W-WED(weekly on Wednesday 每周三)转换到W-FRI(每周五）</p>
+</li>
+</ul>
+<p><strong>函数<code>resample()</code></strong>：</p>
+<p>不同于<strong>groupby关注特征值</strong>的分组操作，它在<strong>以时间序列为索引</strong>的数据框中使用，对时间索引分组操作来聚合运算。</p>
+<p>参数：</p>
+<ul>
+<li><p><code>rule</code>：所需采样频率的字符串</p>
+<table>
+<thead>
+<tr>
+<th>字符串</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B</td>
+<td>营业日频率<br />(business day frequency)</td>
+</tr>
+<tr>
+<td>C</td>
+<td>自定义营业日频率<br />(custom business day frequency)</td>
+</tr>
+<tr>
+<td>D</td>
+<td>日历日频率<br />(calendar day frequency)</td>
+</tr>
+<tr>
+<td>W</td>
+<td>每周一次频率<br />(weekly frequency)</td>
+</tr>
+<tr>
+<td>M</td>
+<td>月末频率<br />(month <strong>end</strong> frequency)</td>
+</tr>
+<tr>
+<td>SM</td>
+<td>月中和月末频率<br />(semi-month end frequency (<strong>15th</strong> and <strong>end</strong> of month))</td>
+</tr>
+<tr>
+<td>BM</td>
+<td>营业月末频率<br />(business month end frequency)</td>
+</tr>
+<tr>
+<td>CBM</td>
+<td>自定义月末频率<br />(custom business month end frequency)</td>
+</tr>
+<tr>
+<td>MS</td>
+<td>月初频率<br />(month <strong>start</strong> frequency)</td>
+</tr>
+<tr>
+<td>SMS</td>
+<td>月初和月中频率<br />(semi-month start frequency (<strong>1st</strong> and <strong>15th</strong>))</td>
+</tr>
+<tr>
+<td>BMS</td>
+<td>营业月初频率<br />(business month start frequency)</td>
+</tr>
+<tr>
+<td>CBMS</td>
+<td>自定义营业月初频率<br />(custom business month start frequency)</td>
+</tr>
+<tr>
+<td>Q</td>
+<td>季度末频率<br />(quater <strong>end</strong> frequency)</td>
+</tr>
+<tr>
+<td>BQ</td>
+<td>营业季度末频率<br />(business quater end frequency)</td>
+</tr>
+<tr>
+<td>QS</td>
+<td>季度初频率<br />(quater start frequency)</td>
+</tr>
+<tr>
+<td>BQS</td>
+<td>营业季度初频率<br />(business quater start frequency)</td>
+</tr>
+<tr>
+<td>A &#x2F; Y</td>
+<td>年末频率<br />(year end frequency)</td>
+</tr>
+<tr>
+<td>BA &#x2F; BY</td>
+<td>营业年末频率<br />(business year end frequency)</td>
+</tr>
+<tr>
+<td>AS &#x2F; YS</td>
+<td>年初频率<br />(year start frequency)</td>
+</tr>
+<tr>
+<td>BAS &#x2F; BYS</td>
+<td>营业年初频率<br />(business year start frequency)</td>
+</tr>
+<tr>
+<td>BH</td>
+<td>营业小时频率<br />(business hour frequency)</td>
+</tr>
+<tr>
+<td>H</td>
+<td>小时频率<br />(hourly frequency)</td>
+</tr>
+<tr>
+<td>T &#x2F; min</td>
+<td>分钟频率<br />(minutely frequency)</td>
+</tr>
+<tr>
+<td>S</td>
+<td>秒频率<br />(secendly frequency)</td>
+</tr>
+<tr>
+<td>L &#x2F; ms</td>
+<td>毫秒频率<br />(milliseconds)</td>
+</tr>
+<tr>
+<td>U &#x2F; us</td>
+<td>微秒频率<br />(microseconds)</td>
+</tr>
+<tr>
+<td>N</td>
+<td>纳秒频率<br />(nanoseconds)</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><code>axis=0</code>：需要采样的轴向(0为行方向)</p>
+</li>
+<li><p><code>closed</code>：在<strong>降</strong>采样时，各时间段<strong>哪一侧(left&#x2F;right)是</strong>闭合的。</p>
+</li>
+<li><p><code>label</code>：在降采样时，index<strong>用区间的左界值还是右界值</strong>。</p>
+</li>
+</ul>
+<hr>
+<h4 id="空值相关"><a href="#空值相关" class="headerlink" title="空值相关"></a>空值相关</h4><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
+<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+
+<span class="token operator">-</span><span class="token operator">-</span>snip<span class="token operator">-</span><span class="token operator">-</span>
+<span class="token comment"># 赋空值</span>
+<span class="token comment"># NaN是C语言类型的空值，比直接赋值None更合适</span>
+position<span class="token punctuation">.</span>loc<span class="token punctuation">[</span>position<span class="token punctuation">.</span>city<span class="token operator">==</span><span class="token string">'深圳'</span><span class="token punctuation">,</span> <span class="token string">'city'</span><span class="token punctuation">]</span> <span class="token operator">=</span> np<span class="token punctuation">.</span>NaN
+
+<span class="token comment"># 统计数据框中每列缺失值的数量（每列缺失的行数）</span>
+position<span class="token punctuation">.</span>isnull<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 统计数据框中每列有多少非空值(非空行)</span>
+<span class="token comment"># 方式一：</span>
+position<span class="token punctuation">.</span>notnull<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">sum</span>
+<span class="token comment"># 方式二：</span>
+position<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">-</span> position<span class="token punctuation">.</span>isnull<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+<span class="token comment"># 对空值进行填充</span>
+position<span class="token punctuation">.</span>fillna<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> inplace<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span> <span class="token comment"># 统一填充</span>
+
+<span class="token comment"># 删除空值所在的行(默认)或列</span>
+position<span class="token punctuation">.</span>dropna<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h4 id="去重"><a href="#去重" class="headerlink" title="去重"></a>去重</h4><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 查找重复值(默认：第一次遇到不会当作重复值，将第二次开始遇到的值作为重复值看待)</span>
+position<span class="token punctuation">[</span>position<span class="token punctuation">.</span>duplicated<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+
+s <span class="token operator">=</span> pd<span class="token punctuation">.</span>Series<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment"># 判断是否有重复</span>
+s<span class="token punctuation">.</span>is_unique
+
+s<span class="token punctuation">[</span>s<span class="token punctuation">.</span>duplicated<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token comment"># 会筛选出索引为1处对应的值1，索引为0处的1不会被筛选出来</span>
+s<span class="token punctuation">[</span>s<span class="token punctuation">.</span>duplicated<span class="token punctuation">(</span>keep<span class="token operator">=</span><span class="token string">'last'</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token comment"># 保留最后一个重复的值，即索引为0处的1会被筛选出来</span>
+
+<span class="token comment"># 去重</span>
+s<span class="token punctuation">.</span>drop_duplicates<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 默认保留第一个重复值(keep=’first')</span>
+<span class="token comment"># 获取每月的消费人数 (需要根据user_id去重)</span>
+<span class="token comment"># 方式一</span>
+plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>df<span class="token punctuation">[</span><span class="token string">'user_id'</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token builtin">apply</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span><span class="token builtin">len</span><span class="token punctuation">(</span>x<span class="token punctuation">.</span>drop_duplicates<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># 方式二</span>
+d <span class="token operator">=</span> df<span class="token punctuation">.</span>groupby<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'month'</span><span class="token punctuation">,</span> <span class="token string">'user_id'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>count<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>reset_index<span class="token punctuation">(</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>d<span class="token punctuation">.</span>groupby<span class="token punctuation">(</span><span class="token string">'month'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token string">'user_id'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>count<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+
+<span class="token comment"># 返回去重后的列</span>
+s<span class="token punctuation">.</span>unique<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 返回去重后的元素个数</span>
+s<span class="token punctuation">.</span>nunique<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h4 id="移动数据：shift"><a href="#移动数据：shift" class="headerlink" title="移动数据：shift()"></a>移动数据：<code>shift()</code></h4><p>参数：</p>
+<ul>
+<li><p><code>periods</code>：移动的<strong>幅度</strong>(可正可负)，<strong>默认为1</strong>。</p>
+<p>  只移动数据，<strong>不移动索引，移动之后没有对应值的，赋值为&#96;&#96;NaN&#96;</strong></p>
+</li>
+<li><p><code>freq</code>：用于<strong>时间序列索引</strong>，<strong>默认为<code>None</code></strong></p>
+<ul>
+<li><code>DateOffset</code></li>
+<li><code>timedelta</code></li>
+<li><code>time rule string</code></li>
+</ul>
+<p>  按照参数值<strong>移动时间索引</strong>，<strong>不移动数据值</strong>。</p>
+</li>
+<li><p><code>axis</code>：指定<strong>移动方向</strong></p>
+<ul>
+<li><code>0</code>：上下移动(<strong>默认</strong>)</li>
+<li><code>1</code>：左右移动</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="apply"><a href="#apply" class="headerlink" title="apply()"></a>apply()</h4><p><code>apply()</code>可以<strong>将函数应用到所有的行&#x2F;列上进行处理</strong>。</p>
+<ul>
+<li><p><code>apply()</code>中的匿名函数&#96;&#96;lambda<code>中的</code>x&#96;<strong>到底指代什么</strong>：</p>
+<ol>
+<li><p>对<strong>某一列</strong>操作时：</p>
+<p> 每一个x<strong>依次对应各行</strong>的具体值</p>
+</li>
+<li><p>对<strong>多个列</strong>(axis**&#x3D;0**，默认)操作时：</p>
+<p> 每一个x<strong>依次对应每一列</strong></p>
+</li>
+<li><p>对<strong>多个列</strong>(axis**&#x3D;1**)操作时：</p>
+<p> 每一个x<strong>依次对应每一行</strong>(依次对每个单元格进行操作)</p>
+</li>
+</ol>
+</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Series级别</span>
+
+<span class="token comment"># 使用匿名函数，向 position表格中的avg列的每一行 都在末尾添加一个字符k</span>
+position<span class="token punctuation">.</span>avg<span class="token punctuation">.</span><span class="token builtin">apply</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span><span class="token builtin">str</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'k'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 显式创建函数</span>
+<span class="token keyword">def</span> <span class="token function">func</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> x <span class="token operator">></span> <span class="token number">20</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token string">'20+k'</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token builtin">str</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'k'</span>
+
+position<span class="token punctuation">.</span>avg<span class="token punctuation">.</span><span class="token builtin">apply</span><span class="token punctuation">(</span>func<span class="token punctuation">)</span>
+<span class="token comment"># -----------------------------------------------</span>
+<span class="token comment"># DataFrame级别</span>
+
+<span class="token comment"># 方式一</span>
+<span class="token keyword">def</span> <span class="token function">func</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> x<span class="token punctuation">.</span>avg <span class="token operator">></span> <span class="token number">20</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token string">'20+k'</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token string">'0~20k'</span>
+
+ position<span class="token punctuation">.</span><span class="token builtin">apply</span><span class="token punctuation">(</span>func<span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment"># axis=1应用于每行；axis=0应用于每列</span>
+
+<span class="token comment"># 方式二</span>
+<span class="token keyword">def</span> <span class="token function">func</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> x <span class="token operator">></span> <span class="token number">20</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token string">'20+k'</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token string">'0~20k'</span>
+
+ position<span class="token punctuation">.</span><span class="token builtin">apply</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span>func<span class="token punctuation">(</span>x<span class="token punctuation">.</span>avg<span class="token punctuation">)</span><span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment"># axis=1应用于每行；axis=0应用于每列</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<ul>
+<li><p>匿名函数lambda中<strong>条件语句</strong>的使用</p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 条件语句为 A if 条件 else B</span>
+<span class="token comment"># 即 满足条件则输出A，否则输出B</span>
+x<span class="token punctuation">.</span><span class="token builtin">apply</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span><span class="token string">'1'</span> <span class="token keyword">if</span> x<span class="token operator">>=</span> <span class="token number">0</span> <span class="token keyword">else</span> <span class="token string">'0'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<hr>
+<p>将<code>apply()</code><strong>应用到聚合函数上</strong></p>
+<p>获取<strong>不同城市</strong>中工资水平<strong>前五</strong>的信息：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">func</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    r <span class="token operator">=</span> x<span class="token punctuation">.</span>sort_values<span class="token punctuation">(</span><span class="token string">'avg'</span><span class="token punctuation">,</span> ascending<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span> <span class="token comment"># 按工资降序排序</span>
+    <span class="token keyword">return</span> r<span class="token punctuation">[</span><span class="token punctuation">:</span>n<span class="token punctuation">]</span> <span class="token comment"># 返回前n</span>
+
+position<span class="token punctuation">.</span>groupby<span class="token punctuation">(</span><span class="token string">'city'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">apply</span><span class="token punctuation">(</span>func<span class="token punctuation">,</span> n<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h4 id="Pandas中map-apply-和applymap-的区别"><a href="#Pandas中map-apply-和applymap-的区别" class="headerlink" title="Pandas中map(), apply()和applymap()的区别"></a>Pandas中<code>map()</code>, <code>apply()</code>和<code>applymap()</code>的区别</h4><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/maymay_/article/details/80229053">Pandas中的map(), apply()和applymap()的应用</a></p>
+<p><strong>它们的区别在于应用的对象不同</strong>：</p>
+<ul>
+<li><p><code>map()</code></p>
+<p>  是一个Series的函数，将一个自定义的函数<strong>应用于Series结构中的每个元素</strong></p>
+</li>
+<li><p><code>apply()</code></p>
+<p>  将函数作用于<strong>DataFrame</strong>中的<strong>每个行</strong>或者<strong>列</strong></p>
+</li>
+<li><p><code>applymap()</code></p>
+<p>  将函数作用于<strong>DataFrame</strong>中的<strong>每个元素</strong></p>
+</li>
+</ul>
+<hr>
+<h4 id="数据透视"><a href="#数据透视" class="headerlink" title="数据透视"></a>数据透视</h4><p><code>pivot_table()</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">position<span class="token punctuation">.</span>pivot_table<span class="token punctuation">(</span>index<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'city'</span><span class="token punctuation">,</span> <span class="token string">'education'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 
+                     columns<span class="token operator">=</span><span class="token string">'workYear'</span><span class="token punctuation">,</span>
+                     values<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'avg'</span><span class="token punctuation">,</span> <span class="token string">'top'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 
+                     margins<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+<span class="token comment"># index 指定索引（可多重）</span>
+<span class="token comment"># columns 可选，用于细分数据(相当于Excel透视表里的列标签)</span>
+<span class="token comment"># values 筛选列(相当于Excel透视表里的数值)</span>
+<span class="token comment"># margins=True 对各列进行汇总计算，默认为False</span>
+<span class="token comment"># aggfunc 应用于参数values</span>
+
+position<span class="token punctuation">.</span>pivot_table<span class="token punctuation">(</span>index<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'city'</span><span class="token punctuation">,</span> <span class="token string">'education'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 
+                     columns<span class="token operator">=</span><span class="token string">'workYear'</span><span class="token punctuation">,</span>
+                     values<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'avg'</span><span class="token punctuation">,</span> <span class="token string">'top'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 
+                     aggfunc<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">'avg'</span><span class="token punctuation">:</span><span class="token string">'mean'</span><span class="token punctuation">,</span> <span class="token string">'top'</span><span class="token punctuation">:</span>np<span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>reset_index<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>to_csv<span class="token punctuation">(</span><span class="token string">'test.csv'</span><span class="token punctuation">)</span> <span class="token comment"># avg求平均值，对top求和</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>注：数据透视<strong>不适合用来去重</strong></p>
+<hr>
+<h3 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h3><ul>
+<li>安装相关工具包</li>
+</ul>
+<p><code>pip install pymysql</code></p>
+<p><strong>注意：<strong>如果是安装了Anaconda，<strong>要在Jupyter Notebook中载入pymysql包</strong>，则</strong>必须在Jupyter Notebook中打开Python3或Ternimal的页面输入上述代码</strong>。另外单独安装的Python是独立于Anaconda的，两者下载的工具包可能无法通用。</p>
+<ul>
+<li><p>连接</p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">conn <span class="token operator">=</span> pymysql<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>
+	host <span class="token operator">=</span> <span class="token string">'localhost'</span><span class="token punctuation">,</span> <span class="token comment"># 本地数据库，也可输入 '127.0.0.1'</span>
+    user <span class="token operator">=</span> <span class="token string">'root'</span><span class="token punctuation">,</span>
+    password <span class="token operator">=</span> <span class="token string">'123456'</span><span class="token punctuation">,</span>
+    db <span class="token operator">=</span> <span class="token string">'test'</span><span class="token punctuation">,</span>
+    port <span class="token operator">=</span> <span class="token number">3306</span><span class="token punctuation">,</span>
+    charset <span class="token operator">=</span> <span class="token string">'utf8'</span>
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>查询数据库</p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">cur <span class="token operator">=</span> conn<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 获取游标</span>
+cur<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">'SELECT * FROM courses'</span><span class="token punctuation">)</span> <span class="token comment"># 执行SQL语句</span>
+data <span class="token operator">=</span> cur<span class="token punctuation">.</span>fetchall<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 调取SQL语句执行后的结果(元组的形式)</span>
+
+<span class="token keyword">for</span> d <span class="token keyword">in</span> data<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>d<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> d<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> d<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>提交对数据库的修改</p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">conn<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>关闭数据库的连接</p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python">cur<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+conn<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+<hr>
+<h4 id="使用Pandas对数据库进行操作"><a href="#使用Pandas对数据库进行操作" class="headerlink" title="使用Pandas对数据库进行操作"></a>使用Pandas对数据库进行操作</h4><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pymysql
+<span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
+<span class="token keyword">from</span> sqlalchemy <span class="token keyword">import</span> create_engine
+
+<span class="token comment"># 读取</span>
+<span class="token keyword">def</span> <span class="token function">reader</span><span class="token punctuation">(</span>query<span class="token punctuation">,</span> db<span class="token operator">=</span><span class="token string">'data'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    sql <span class="token operator">=</span> query
+	engine <span class="token operator">=</span> create_engine<span class="token punctuation">(</span><span class="token string">'mysql+pymysql://root:123456@localhost:3306/&#123;0&#125;?charset=utf8'</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>db<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># 允许使用pymysql方法连接mysql数据库</span>
+	df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_sql<span class="token punctuation">(</span>sql<span class="token punctuation">,</span> engine<span class="token punctuation">)</span> <span class="token comment"># 将数据库中数据作为DataFrame读取</span>
+    <span class="token keyword">return</span> df
+
+reader<span class="token punctuation">(</span><span class="token string">"SHOW TABLES"</span><span class="token punctuation">)</span>
+
+df_company <span class="token operator">=</span> reader<span class="token punctuation">(</span><span class="token string">"SELECT * FROM company"</span><span class="token punctuation">)</span>
+df_dataanalyst <span class="token operator">=</span> reader<span class="token punctuation">(</span><span class="token string">"SELECT * FROM dataanalyst"</span><span class="token punctuation">)</span>
+merged <span class="token operator">=</span> pd<span class="token punctuation">.</span>merge<span class="token punctuation">(</span>df_dataanalyst<span class="token punctuation">,</span> df_company<span class="token punctuation">,</span> on<span class="token operator">=</span><span class="token string">'companyId'</span><span class="token punctuation">)</span>
+
+result <span class="token operator">=</span> merged<span class="token punctuation">.</span>groupby<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'city'</span><span class="token punctuation">,</span> <span class="token string">'companyFullName'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>count<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token string">'positionId'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>reset_index<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 写入</span>
+result<span class="token punctuation">.</span>to_sql<span class="token punctuation">(</span>name<span class="token operator">=</span><span class="token string">'newtable'</span><span class="token punctuation">,</span> 
+             con<span class="token operator">=</span><span class="token string">'mysql+pymysql://root:123456@localhost:3306/data?charset=utf8'</span><span class="token punctuation">,</span>
+             if_exists<span class="token operator">=</span><span class="token string">'append'</span>，<span class="token comment">#  表不存在时，创建新表(if_exists默认为fail，表不存在时无法写入)，但为了符合数据库中的数据格式要求，最好按默认的fail</span>
+             index <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">)</span> <span class="token comment"># 不将索引作为字段写入数据库</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<hr>
+<h2 id="Matplotlib"><a href="#Matplotlib" class="headerlink" title="Matplotlib"></a>Matplotlib</h2><p>Matplotlib是一个Python的<strong>2D绘图库</strong>。它以各种<strong>硬拷贝格式</strong>和<strong>跨平台的交互式环境</strong>生成<strong>出版质量级别的图形</strong>。我们通常<strong>使用该库将数据可视化</strong>，更形象直观地暴露问题所在。</p>
+<hr>
+<h2 id="Scikit-learn"><a href="#Scikit-learn" class="headerlink" title="Scikit-learn"></a>Scikit-learn</h2><p>Scikit-learn(Sklearn)是<strong>机器学习中常用的第三方模块</strong>，<strong>对常用的机器学习方法进行了封装</strong>，是建立在Numpy、Scipy、Matplotlib之上，简单高效的<strong>数据挖掘</strong>和<strong>数据分析工具</strong>。</p>
+<hr>
+<h2 id="Jupyter"><a href="#Jupyter" class="headerlink" title="Jupyter"></a>Jupyter</h2><p>Jupyter是一个<strong>Web应用程序</strong>，可以用来<strong>编写Python代码</strong>、<strong>图表展示</strong>、<strong>数值处理和转换</strong>、<strong>数值模拟</strong>和<strong>统计建模</strong>等各种任务。</p>
+<h3 id="Jupyter-Notebook"><a href="#Jupyter-Notebook" class="headerlink" title="Jupyter Notebook"></a>Jupyter Notebook</h3><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Tab</td>
+<td>自动补全</td>
+</tr>
+<tr>
+<td>Shift + Tab</td>
+<td>显示函数示例</td>
+</tr>
+<tr>
+<td>Shift + Enter</td>
+<td>执行当前，并跳转至下一Cell</td>
+</tr>
+<tr>
+<td>Ctrl + Enter</td>
+<td>执行当前，并留在当前Cell</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="利用apply-，使用自定义函数更新DataFrame每行单元格的内容，但是得到的不是DataFrame对象"><a href="#利用apply-，使用自定义函数更新DataFrame每行单元格的内容，但是得到的不是DataFrame对象" class="headerlink" title="利用apply()，使用自定义函数更新DataFrame每行单元格的内容，但是得到的不是DataFrame对象"></a>利用apply()，使用自定义函数更新DataFrame每行单元格的内容，但是得到的不是DataFrame对象</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># # 定性 用户18个月的消费</span>
+<span class="token keyword">def</span> <span class="token function">active_status</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    status <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># 一共18个月的记录</span>
+        <span class="token comment"># 如果本月没有消费</span>
+        <span class="token keyword">if</span> data<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">:</span> <span class="token comment"># 记录过状态</span>
+                <span class="token keyword">if</span> status<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">'unreg'</span><span class="token punctuation">:</span> <span class="token comment"># 上个月是未注册</span>
+                    status<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'unreg'</span><span class="token punctuation">)</span> <span class="token comment"># 仍然是未注册</span>
+                <span class="token keyword">else</span><span class="token punctuation">:</span>                     <span class="token comment"># 之前已注册(有过消费)</span>
+                    status<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'unactive'</span><span class="token punctuation">)</span> <span class="token comment"># 为不活跃</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>                         <span class="token comment"># 没记录过状态</span>
+                status<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'unreg'</span><span class="token punctuation">)</span> <span class="token comment"># 为未注册</span>
+                
+        <span class="token comment"># 本月有消费</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span> <span class="token comment"># 没记录过状态</span>
+                status<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'new'</span><span class="token punctuation">)</span> <span class="token comment"># 新用户(第一次消费)</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>               <span class="token comment"># 之前记录过</span>
+                <span class="token keyword">if</span> status<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">'unactive'</span><span class="token punctuation">:</span> <span class="token comment"># 上个月为不活跃</span>
+                    status<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'return'</span><span class="token punctuation">)</span>   <span class="token comment"># 更新为 回流</span>
+                <span class="token keyword">elif</span> status<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">'unreg'</span><span class="token punctuation">:</span> <span class="token comment"># 上个月为未注册</span>
+                    status<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'new'</span><span class="token punctuation">)</span>     <span class="token comment"># 新用户(第一次消费)</span>
+                <span class="token keyword">else</span><span class="token punctuation">:</span>                      
+                    status<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'active'</span><span class="token punctuation">)</span> <span class="token comment"># 更新为活跃</span>
+    <span class="token keyword">return</span> status
+
+cdnow_purchase<span class="token punctuation">.</span><span class="token builtin">apply</span><span class="token punctuation">(</span>active_status<span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment"># 对每一行进行操作</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><p>原因：</p>
+<p>  <strong>自定义函数的返回值</strong>是<strong>列表</strong>，而<strong>不是Series</strong>，导致apply()之后的结果不是一个DataFrame对象。</p>
+</li>
+<li><p>解决方法：</p>
+<p>  将自定义函数的<strong>返回值转换为Series对象</strong></p>
+  <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token operator">-</span><span class="token operator">-</span>snip<span class="token operator">-</span><span class="token operator">-</span>
+<span class="token keyword">return</span> pd<span class="token punctuation">.</span>Series<span class="token punctuation">(</span>status<span class="token punctuation">,</span> index<span class="token operator">=</span>cdnow_purchase<span class="token punctuation">.</span>columns<span class="token punctuation">)</span> <span class="token comment"># index参数是原DataFrame对象的各列列名</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/06/01/Excel%E6%8A%80%E5%B7%A7/" rel="prev" title="Excel技巧">
+                  <i class="fa fa-angle-left"></i> Excel技巧
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/06/13/Python%E5%85%A5%E9%97%A8%E5%88%B0%E5%AE%9E%E8%B7%B5/" rel="next" title="Python入门到实践">
+                  Python入门到实践 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

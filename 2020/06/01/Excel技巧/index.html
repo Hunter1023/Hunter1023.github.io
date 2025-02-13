@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="快捷键   功能 快捷键    编辑单元格内容 【F2】   单元格内换行 【Alt】+【Enter】   设置单元格格式 【Ctrl】+【1】   Ctrl+E的众多效用（拼接单元格内容、拆分提取单元格内容、替换字符、去除空格和符号、自动换行…） 【Ctrl】+【 E】   筛选 【Ctrl】+【Shift】+【L】   输入当前日期 【Ctrl】+【;】   输入当前时间（不含日期） 【Ctr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Excel技巧">
+<meta property="og:url" content="https://hunter1023.github.io/2020/06/01/Excel%E6%8A%80%E5%B7%A7/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="快捷键   功能 快捷键    编辑单元格内容 【F2】   单元格内换行 【Alt】+【Enter】   设置单元格格式 【Ctrl】+【1】   Ctrl+E的众多效用（拼接单元格内容、拆分提取单元格内容、替换字符、去除空格和符号、自动换行…） 【Ctrl】+【 E】   筛选 【Ctrl】+【Shift】+【L】   输入当前日期 【Ctrl】+【;】   输入当前时间（不含日期） 【Ctr">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-01T11:45:47.000Z">
+<meta property="article:modified_time" content="2025-01-23T15:29:13.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="Excel">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2020/06/01/Excel%E6%8A%80%E5%B7%A7/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2020/06/01/Excel%E6%8A%80%E5%B7%A7/","path":"2020/06/01/Excel技巧/","title":"Excel技巧"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Excel技巧 | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="nav-number">1.</span> <span class="nav-text">快捷键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9D%E5%AF%B9%E5%BC%95%E7%94%A8%E8%A1%8C-%E5%88%97"><span class="nav-number">2.</span> <span class="nav-text">绝对引用行&#x2F;列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4%E5%8D%95%E5%85%83%E6%A0%BC"><span class="nav-number">3.</span> <span class="nav-text">复制粘贴单元格</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%9B%E9%80%89%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">筛选的情况下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">隐藏的情况下</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AA%E5%8D%95%E5%85%83%E6%A0%BC%E4%B8%AD%E8%BE%93%E5%85%A5%E7%9B%B8%E5%90%8C%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="nav-number">4.</span> <span class="nav-text">多个单元格中输入相同的数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AA%E5%8D%95%E5%85%83%E6%A0%BC%E4%B8%AD%E6%9C%89%E9%83%A8%E5%88%86%E5%86%85%E5%AE%B9%E9%9C%80%E8%A6%81%E9%87%8D%E5%A4%8D%E8%BE%93%E5%85%A5"><span class="nav-number">5.</span> <span class="nav-text">多个单元格中有部分内容需要重复输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E6%A0%BC%E5%BC%8F%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="nav-number">6.</span> <span class="nav-text">条件格式的设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E4%BB%8E%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%8F%B7%E4%B8%AD%E6%8F%90%E5%8F%96%E7%94%9F%E6%97%A5"><span class="nav-number">7.</span> <span class="nav-text">批量从身份证号中提取生日</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AD%9B%E9%80%89%E5%87%BA%E9%87%8D%E5%A4%8D%E5%80%BC-%E5%94%AF%E4%B8%80%E5%80%BC"><span class="nav-number">8.</span> <span class="nav-text">筛选出重复值(唯一值)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E5%80%BC"><span class="nav-number">9.</span> <span class="nav-text">去除重复值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%95%BF%E6%95%B0%E5%AD%97%E8%BE%93%E5%85%A5"><span class="nav-number">10.</span> <span class="nav-text">长数字输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%BB%E7%BB%93%E7%AA%97%E5%8F%A3"><span class="nav-number">11.</span> <span class="nav-text">冻结窗口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B2%98%E8%B4%B4"><span class="nav-number">12.</span> <span class="nav-text">粘贴</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B2%98%E8%B4%B4%E5%80%BC"><span class="nav-number">12.1.</span> <span class="nav-text">粘贴值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E4%B8%AD%E6%95%B4%E8%A1%8C-%E6%95%B4%E5%88%97-%E6%95%B0%E6%8D%AE"><span class="nav-number">13.</span> <span class="nav-text">选中整行&#x2F;整列 数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%80%8F%E8%A7%86%E8%A1%A8"><span class="nav-number">14.</span> <span class="nav-text">数据透视表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">15.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#VLOOKUP%E5%87%BD%E6%95%B0"><span class="nav-number">15.1.</span> <span class="nav-text">VLOOKUP函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#INDEX-MATCH-%E5%87%BD%E6%95%B0"><span class="nav-number">15.2.</span> <span class="nav-text">INDEX + MATCH 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AND-%E5%87%BD%E6%95%B0-OR-%E5%87%BD%E6%95%B0"><span class="nav-number">15.3.</span> <span class="nav-text">AND 函数 &#x2F; OR 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IF-%E5%87%BD%E6%95%B0"><span class="nav-number">15.4.</span> <span class="nav-text">IF 函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IF-%E5%87%BD%E6%95%B0%E5%B5%8C%E5%A5%97-%E7%A4%BA%E4%BE%8B"><span class="nav-number">15.4.1.</span> <span class="nav-text">IF 函数嵌套 示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#COUNTIFS-%E5%87%BD%E6%95%B0"><span class="nav-number">15.5.</span> <span class="nav-text">COUNTIFS 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SUMIFS-%E5%87%BD%E6%95%B0"><span class="nav-number">15.6.</span> <span class="nav-text">SUMIFS 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LEFT%E3%80%81MID%E3%80%81RIGHT-%E5%87%BD%E6%95%B0"><span class="nav-number">15.7.</span> <span class="nav-text">LEFT、MID、RIGHT 函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">16.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2020/06/01/Excel%E6%8A%80%E5%B7%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Excel技巧 | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Excel技巧<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/Excel%E6%8A%80%E5%B7%A7.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-01 19:45:47" itemprop="dateCreated datePublished" datetime="2020-06-01T19:45:47+08:00">2020-06-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-23 23:29:13" itemprop="dateModified" datetime="2025-01-23T23:29:13+08:00">2025-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">数据分析</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>快捷键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>编辑单元格内容</td>
+<td>【F2】</td>
+</tr>
+<tr>
+<td>单元格内换行</td>
+<td>【<strong>Alt</strong>】+【Enter】</td>
+</tr>
+<tr>
+<td>设置单元格格式</td>
+<td>【Ctrl】+【<strong>1</strong>】</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/33511879">Ctrl+E的众多效用</a><br />（拼接单元格内容、拆分提取单元格内容、<br />替换字符、去除空格和符号、自动换行…）</td>
+<td>【Ctrl】+【 E】</td>
+</tr>
+<tr>
+<td>筛选</td>
+<td>【Ctrl】+【Shift】+【L】</td>
+</tr>
+<tr>
+<td>输入当前日期</td>
+<td>【Ctrl】+【;】</td>
+</tr>
+<tr>
+<td>输入当前时间（不含日期）</td>
+<td>【Ctrl】+【Shift】+【;】</td>
+</tr>
+<tr>
+<td>切换sheet表</td>
+<td>【Ctrl】+【PgUp&#x2F;PgDn】</td>
+</tr>
+<tr>
+<td>快速求和</td>
+<td>【Alt】+【&#x3D;】</td>
+</tr>
+<tr>
+<td>数据透视表向导</td>
+<td>【Alt+D】+【P】</td>
+</tr>
+<tr>
+<td><strong>隐藏</strong>行<br /><strong>取消隐藏</strong>行</td>
+<td>选定目标区域<br />【Ctrl】 + 【9】<br />【Ctrl】 + 【Shift】 + 【<strong>(</strong>】</td>
+</tr>
+<tr>
+<td><strong>隐藏</strong>列<br /><strong>取消隐藏</strong>列</td>
+<td>选定目标区域，<br />【Ctrl】 + 【0】<br />【Ctrl】 + 【Shift】 +【<strong>)</strong>】</td>
+</tr>
+<tr>
+<td>展开或折叠<strong>单元格编辑栏</strong></td>
+<td>【Ctrl】+【Shift】+【U】</td>
+</tr>
+<tr>
+<td><strong>插入</strong>行<br /><strong>删除</strong>行</td>
+<td>【Ctrl】+【Shift】+【<strong>+</strong>】<br />【Ctrl】+【-】</td>
+</tr>
+<tr>
+<td><strong>设置千位分隔符，并四舍五入为整数</strong></td>
+<td>【Ctrl】+【Shift】+【!】</td>
+</tr>
+<tr>
+<td>设置<strong>百分数</strong>形式</td>
+<td>【Ctrl】+【Shift】+【%】</td>
+</tr>
+<tr>
+<td>设置<strong>外边框</strong></td>
+<td>【Ctrl】+【Shift】+【&amp;】</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="绝对引用行-列"><a href="#绝对引用行-列" class="headerlink" title="绝对引用行&#x2F;列"></a>绝对引用行&#x2F;列</h2><p>使用<code>$</code>符号即可<strong>绝对引用</strong>行<strong>或</strong>列</p>
+<hr>
+<h2 id="复制粘贴单元格"><a href="#复制粘贴单元格" class="headerlink" title="复制粘贴单元格"></a>复制粘贴单元格</h2><h3 id="筛选的情况下"><a href="#筛选的情况下" class="headerlink" title="筛选的情况下"></a>筛选的情况下</h3><p>未被筛选的行不会被复制</p>
+<h3 id="隐藏的情况下"><a href="#隐藏的情况下" class="headerlink" title="隐藏的情况下"></a>隐藏的情况下</h3><p><strong>隐藏的行&#x2F;列依然会被复制</strong>，想要不复制被隐藏的行&#x2F;列，需要在选中指定区域后，使用【Alt】+【;】快捷键，再进行复制，即可顺利粘贴。</p>
+<hr>
+<h2 id="多个单元格中输入相同的数据"><a href="#多个单元格中输入相同的数据" class="headerlink" title="多个单元格中输入相同的数据"></a>多个单元格中输入相同的数据</h2><ol>
+<li>选中所有目标单元格</li>
+<li>输入所需数据，按下【Ctrl】+【Enter】组合键即可。</li>
+</ol>
+<hr>
+<h2 id="多个单元格中有部分内容需要重复输入"><a href="#多个单元格中有部分内容需要重复输入" class="headerlink" title="多个单元格中有部分内容需要重复输入"></a>多个单元格中有部分内容需要重复输入</h2><p>如：邮箱后缀、电话区号、订单号前缀</p>
+<p>希望达到效果：只需向单元格中输入不一样的内容部分，<strong>重复部分自动填充</strong></p>
+<p>操作：</p>
+<ol>
+<li><p>选定需要设置的单元格范围，<strong>设置单元格格式</strong>(Ctrl + 1)</p>
+</li>
+<li><p><strong>数字</strong> - 分类 - 自定义 - 类型</p>
+</li>
+<li><p>输入框中填写需要的格式</p>
+<ol>
+<li><p><strong>添加邮箱共同后缀</strong></p>
+<p>输入<code>@&quot;@163.com&quot;</code></p>
+</li>
+<li><p><strong>添加电话区号</strong>：</p>
+<p>输入<code>&quot;0755-&quot;@</code></p>
+</li>
+</ol>
+<p><code>@</code>用于<strong>在数字格式中包含文本</strong>，否则文本将不会显示出来</p>
+</li>
+</ol>
+<hr>
+<h2 id="条件格式的设置"><a href="#条件格式的设置" class="headerlink" title="条件格式的设置"></a>条件格式的设置</h2><hr>
+<h2 id="批量从身份证号中提取生日"><a href="#批量从身份证号中提取生日" class="headerlink" title="批量从身份证号中提取生日"></a>批量从身份证号中提取生日</h2><p>编辑单元格：<code>=TEXT(MID(身份证号所在单元格, 起始位数, 提取长度), &quot;生日格式&quot;(如0000-00-00))</code></p>
+<hr>
+<h2 id="筛选出重复值-唯一值"><a href="#筛选出重复值-唯一值" class="headerlink" title="筛选出重复值(唯一值)"></a>筛选出重复值(唯一值)</h2><ol>
+<li>选中<strong>需要筛选出重复值(唯一值)的范围</strong></li>
+<li>开始 - 样式 - 条件格式 - <strong>突出显示单元格规则</strong> - <strong>重复值</strong></li>
+</ol>
+<hr>
+<h2 id="去除重复值"><a href="#去除重复值" class="headerlink" title="去除重复值"></a>去除重复值</h2><ol>
+<li>选择需要去重的单元格区域</li>
+<li><strong>数据 - 数据工具 - 删除重复值</strong></li>
+</ol>
+<hr>
+<h2 id="长数字输入"><a href="#长数字输入" class="headerlink" title="长数字输入"></a>长数字输入</h2><ul>
+<li>Excel单元格<strong>常规型数字</strong>的特殊机制<ol>
+<li>输入的数字**＞11位<strong>时，<strong>自动</strong>采用</strong>科学计数法**</li>
+<li>数字的<strong>精度</strong>是<strong>15</strong>位</li>
+</ol>
+</li>
+</ul>
+<p>最佳解决方式：</p>
+<p>设置单元格格式(<strong>Ctrl + 1</strong>) - 数字 - 分类 - <strong>文本</strong></p>
+<hr>
+<h2 id="冻结窗口"><a href="#冻结窗口" class="headerlink" title="冻结窗口"></a>冻结窗口</h2><ul>
+<li>冻结<strong>指定的某行&#x2F;列</strong>：选中需要冻结的行或列，选择<strong>视图 - 窗口 - 冻结窗格</strong>即可</li>
+<li>冻结<strong>指定的多行以及多列</strong>：<ol>
+<li><strong>视图 - 窗口 - 拆分</strong>，会显示一个<strong>十字型的拆分参考线</strong>。</li>
+<li>移动拆分参考线至所需的行、列</li>
+<li>视图 - 窗口 - <strong>冻结窗口</strong></li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="粘贴"><a href="#粘贴" class="headerlink" title="粘贴"></a>粘贴</h2><h3 id="粘贴值"><a href="#粘贴值" class="headerlink" title="粘贴值"></a>粘贴值</h3><p>文件 - 选项 - 快速访问工具栏 - 从下列位置选择命令 - 所有命令 - 粘贴值 - 添加至右侧，之后就可通过【Alt】+ 【提示的另一个键】即可实现快捷键操作。</p>
+<hr>
+<h2 id="选中整行-整列-数据"><a href="#选中整行-整列-数据" class="headerlink" title="选中整行&#x2F;整列 数据"></a>选中整行&#x2F;整列 数据</h2><ul>
+<li>选中整行<strong>数据</strong>：选定<strong>起始单元格</strong>，<code>Ctrl + Shift + →</code></li>
+<li>选中整列<strong>数据</strong>：选定<strong>起始单元格</strong>，<code>Ctrl + Shift + ↓</code></li>
+</ul>
+<hr>
+<h2 id="数据透视表"><a href="#数据透视表" class="headerlink" title="数据透视表"></a>数据透视表</h2><p>数据透视表(Pivot Table) 是一种交互式的表，可以进行某些计算，如求和与计数等，所进行的计算与数据跟数据透视表中的排列有关。</p>
+<p>之所以称为数据透视表，是因为<strong>可以动态地改变它们的版面布置</strong>，<strong>以便按照不同方式分析数据</strong>，也可以重新安排行号、列标和页字段。每一次改变版面布置时，数据透视表会立即按照新的布置重新计算数据。另外，<strong>如果原始数据发生更改，则可以更新数据透视表</strong>。</p>
+<ol>
+<li>选择需要透视的表格区域</li>
+<li>插入 - 表格 - 数据透视表</li>
+</ol>
+<hr>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="VLOOKUP函数"><a href="#VLOOKUP函数" class="headerlink" title="VLOOKUP函数"></a>VLOOKUP函数</h3><p>按<strong>列</strong>查找，最终返回查询序列中所对应的值。</p>
+<p>与之对应的HLOOKUP是按行查找的。</p>
+<ul>
+<li>使用场景：<ol>
+<li>两张表格</li>
+<li>两张表格中<strong>存在相同列</strong></li>
+<li>表2中存在表1不具备的字段，想把表2中的字段关联到表1中</li>
+</ol>
+</li>
+<li>单元格中输入：<code>=VLOOKUP(lookup_value，table_array，col_index_num，range_lookup)</code><ol>
+<li>lookup_value：查找的值</li>
+<li>table_array：要查找的区域</li>
+<li>col_index_num：需要返回的元素在区域中的第几<strong>列</strong></li>
+<li>range_lookup：<strong>精确</strong>匹配&#x2F;<strong>近似</strong>匹配<ul>
+<li><strong>1</strong>&#x2F;<strong>TRUE</strong>：<strong>近似</strong>匹配</li>
+<li><strong>0</strong>&#x2F;<strong>FALSE</strong>：<strong>精确</strong>匹配</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="INDEX-MATCH-函数"><a href="#INDEX-MATCH-函数" class="headerlink" title="INDEX + MATCH 函数"></a>INDEX + MATCH 函数</h3><ul>
+<li><p>使用场景：</p>
+<p>  功能与VLOOKUP函数基本相同，但是<strong>能弥补VLOOKUP函数的局限性</strong>(想要关联的列<strong>在相同列的左侧</strong>时，<strong>无法匹配</strong>)。</p>
+</li>
+<li><p><code>MATCH(lookup_value, lookup_array, [match_type])</code></p>
+<ol>
+<li>lookup_value：查找的值</li>
+<li>lookup_array：查找<strong>区域(只能1列宽)</strong></li>
+<li>[match_type]：<ul>
+<li>1：<strong>小于</strong></li>
+<li>0：<strong>精确匹配</strong></li>
+<li>-1：<strong>大于</strong></li>
+</ul>
+</li>
+</ol>
+<p>  结果返回<strong>查找区域中的所在行数</strong></p>
+</li>
+<li><p><code>INDEX(array, row_num, [column_num])</code></p>
+<ol>
+<li>array：查找区域</li>
+<li>row_num：所在<strong>行数</strong>(<strong>通过MATCH函数获取</strong>)</li>
+<li>[column_num]：所在列数</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="AND-函数-OR-函数"><a href="#AND-函数-OR-函数" class="headerlink" title="AND 函数 &#x2F; OR 函数"></a>AND 函数 &#x2F; OR 函数</h3><ul>
+<li><code>AND(logical1,[logical2],...)</code></li>
+<li><code>OR(logical1,[logical2],...)</code></li>
+</ul>
+<p>用于<strong>条件判断</strong></p>
+<hr>
+<h3 id="IF-函数"><a href="#IF-函数" class="headerlink" title="IF 函数"></a>IF 函数</h3><p><code>IF(logical_test, [value_if_true], [value_if_false])</code>：</p>
+<ol>
+<li>logical_test：<strong>逻辑判断</strong></li>
+<li>[value_if_true]：结果为true时的值(<strong>字符串</strong>使用<strong>双引号标注</strong>)</li>
+<li>[value_if_false]：结果为false时的值</li>
+</ol>
+<p>例子：使用IF函数，判断业绩完成情况</p>
+<p>单元格中输入：<code>=IF(N4-M4&gt;=0,&quot;已完成&quot;, M4-N4)</code></p>
+<h4 id="IF-函数嵌套-示例"><a href="#IF-函数嵌套-示例" class="headerlink" title="IF 函数嵌套 示例"></a>IF 函数嵌套 示例</h4><p><code>=IF(AND(O4=&quot;已完成&quot;,R4=&quot;已完成&quot;),&quot;已完成&quot;,IF(AND(O4=&quot;已完成&quot;,R4&lt;&gt;&quot;已完成&quot;),&quot;仅业绩完成&quot;,IF(AND(O4&lt;&gt;&quot;已完成&quot;,R4=&quot;已完成&quot;),&quot;仅入会完成&quot;,&quot;均未完成&quot;)))</code></p>
+<hr>
+<h3 id="COUNTIFS-函数"><a href="#COUNTIFS-函数" class="headerlink" title="COUNTIFS 函数"></a>COUNTIFS 函数</h3><p><code>COUNTIFS(criteria_range1, criteria1,...)</code></p>
+<ul>
+<li><p>使用场景：</p>
+<p>  对区域中<strong>符合条件的单元格</strong>进行筛选<strong>计数</strong>。</p>
+</li>
+<li><p>参数：</p>
+<ul>
+<li><p>criteria_range1: 筛选<strong>区域</strong></p>
+</li>
+<li><p>criteria1：<strong>筛选</strong>条件</p>
+</li>
+<li><p>criteria_range2</p>
+<p>  …</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="SUMIFS-函数"><a href="#SUMIFS-函数" class="headerlink" title="SUMIFS 函数"></a>SUMIFS 函数</h3><p><code>SUMIFS(sum_range, criteria_range1, criteria1,...)</code></p>
+<ul>
+<li><p>使用场景：</p>
+<p>  对区域中<strong>符合条件的单元格</strong>进行筛选<strong>求和</strong>。</p>
+</li>
+<li><p>参数：</p>
+<ul>
+<li><p>sum_range：<strong>求和区域</strong></p>
+</li>
+<li><p>criteria_range1：筛选<strong>区域</strong></p>
+</li>
+<li><p>criteria1：<strong>筛选</strong>条件</p>
+</li>
+<li><p>criteria_range2</p>
+<p>  …</p>
+</li>
+</ul>
+<p>  <strong>求和区域和筛选区域，类似VLOOKUP函数中两张表的感觉</strong>。</p>
+</li>
+</ul>
+<hr>
+<h3 id="LEFT、MID、RIGHT-函数"><a href="#LEFT、MID、RIGHT-函数" class="headerlink" title="LEFT、MID、RIGHT 函数"></a>LEFT、MID、RIGHT 函数</h3><ul>
+<li><code>LEFT(text, [num_chars])</code></li>
+<li><code>MID(text, start_num, num_chars)</code></li>
+<li><code>RIGHT(text, [num_chars])</code><ul>
+<li>text：文本所在单元格</li>
+<li>start_num：起始位置是第几个字符</li>
+<li>num_chars：截取的字符长度</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/68af835de06a">数据分析中常用的9个Excel函数 - 简书</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Excel/" rel="tag"><i class="fa fa-tag"></i> Excel</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/02/16/%E7%AE%97%E6%B3%95%E9%A2%98%E7%9B%AE%E5%88%86%E7%B1%BB/" rel="prev" title="算法题目分类">
+                  <i class="fa fa-angle-left"></i> 算法题目分类
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/06/13/Python%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="next" title="Python之数据分析">
+                  Python之数据分析 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

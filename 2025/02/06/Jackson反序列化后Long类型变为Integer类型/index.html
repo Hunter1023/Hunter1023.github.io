@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="现象&lt;dependency&gt;     &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;     &lt;artifactId&gt;spring-boot-starter-data-redis&lt;&#x2F;artifactId&gt;     &lt;version&gt;3.4.0&lt;&#x2F;version&gt; &lt;&#x2F;dependency&gt;  &lt;depen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jackson反序列化后Long类型变为Integer类型">
+<meta property="og:url" content="https://hunter1023.github.io/2025/02/06/Jackson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%90%8ELong%E7%B1%BB%E5%9E%8B%E5%8F%98%E4%B8%BAInteger%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="现象&lt;dependency&gt;     &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;     &lt;artifactId&gt;spring-boot-starter-data-redis&lt;&#x2F;artifactId&gt;     &lt;version&gt;3.4.0&lt;&#x2F;version&gt; &lt;&#x2F;dependency&gt;  &lt;depen">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2025/02/07/yQ8cJ2zivhFogSx.png">
+<meta property="article:published_time" content="2025-02-06T15:22:27.000Z">
+<meta property="article:modified_time" content="2025-02-13T06:09:45.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="json">
+<meta property="article:tag" content="Jackson">
+<meta property="article:tag" content="序列化">
+<meta property="article:tag" content="Redis">
+<meta property="article:tag" content="hash">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2025/02/07/yQ8cJ2zivhFogSx.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2025/02/06/Jackson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%90%8ELong%E7%B1%BB%E5%9E%8B%E5%8F%98%E4%B8%BAInteger%E7%B1%BB%E5%9E%8B/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2025/02/06/Jackson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%90%8ELong%E7%B1%BB%E5%9E%8B%E5%8F%98%E4%B8%BAInteger%E7%B1%BB%E5%9E%8B/","path":"2025/02/06/Jackson反序列化后Long类型变为Integer类型/","title":"Jackson反序列化后Long类型变为Integer类型"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Jackson反序列化后Long类型变为Integer类型 | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">现象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">解决方式</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2025/02/06/Jackson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%90%8ELong%E7%B1%BB%E5%9E%8B%E5%8F%98%E4%B8%BAInteger%E7%B1%BB%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Jackson反序列化后Long类型变为Integer类型 | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Jackson反序列化后Long类型变为Integer类型<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/Jackson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%90%8ELong%E7%B1%BB%E5%9E%8B%E5%8F%98%E4%B8%BAInteger%E7%B1%BB%E5%9E%8B.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-02-06 23:22:27" itemprop="dateCreated datePublished" datetime="2025-02-06T23:22:27+08:00">2025-02-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-02-13 14:09:45" itemprop="dateModified" datetime="2025-02-13T14:09:45+08:00">2025-02-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/" itemprop="url" rel="index"><span itemprop="name">JavaWeb</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/%E7%96%91%E9%9A%BE-%E6%9D%82%E7%97%87/" itemprop="url" rel="index"><span itemprop="name">疑难&杂症</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaWeb/%E7%96%91%E9%9A%BE-%E6%9D%82%E7%97%87/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-data-redis<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>3.4.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>com.fasterxml.jackson.core<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jackson-core<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.18.1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Redis缓存数据，使用<code>GenericJackson2JsonRedisSerializer</code>作为value和hash value的<strong>序列化器</strong>。</p>
+<p>使用如下方式存储哈希对象：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 不使用任何查询条件，从数据库中获取所有博文信息</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Article</span><span class="token punctuation">></span></span> articles <span class="token operator">=</span> articleMapper<span class="token punctuation">.</span><span class="token function">selectList</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Long</span><span class="token punctuation">></span></span> viewCountMap <span class="token operator">=</span> articles<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">toMap</span><span class="token punctuation">(</span>article <span class="token operator">-></span> article<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token class-name">Article</span><span class="token operator">::</span><span class="token function">getViewCount</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 将id、浏览量存入redis</span>
+redisTemplate<span class="token punctuation">.</span><span class="token function">opsForHash</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">putAll</span><span class="token punctuation">(</span><span class="token string">"article:viewCount"</span><span class="token punctuation">,</span> viewCountMap<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>当需要从中取出数据时，<strong>如果viewCountMap的<code>Long</code>类型的value数值大小可以被<code>Integer</code>所存储，反序列化的数据会变成<code>Integer</code>类型</strong>：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 从redis读出浏览量，需要先指定泛型，如果直接调用到entries只能得到Object类型</span>
+<span class="token class-name">BoundHashOperations</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Long</span><span class="token punctuation">></span></span> boundHashOps <span class="token operator">=</span> redisTemplate<span class="token punctuation">.</span><span class="token function">boundHashOps</span><span class="token punctuation">(</span><span class="token string">"article:viewCount"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Long</span><span class="token punctuation">></span></span> viewCountMap <span class="token operator">=</span> boundHashOps<span class="token punctuation">.</span><span class="token function">entries</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">assert</span> viewCountMap <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Article</span><span class="token punctuation">></span></span> articleList <span class="token operator">=</span> viewCountMap<span class="token punctuation">.</span><span class="token function">entrySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>entry <span class="token operator">-></span> <span class="token keyword">new</span> <span class="token class-name">Article</span><span class="token punctuation">(</span><span class="token class-name">Long</span><span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>entry<span class="token punctuation">.</span><span class="token function">getKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                              entry<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>呈现出来的现象就是：<strong>对Map进行 JSON 序列化，其中值中包含<code>Long</code>类型的数据，反序列化后强转<code>Long</code>时报了类型转换异常</strong>。</p>
+<blockquote>
+<p>java.lang.ClassCastException: class java.lang.Integer cannot be cast to class java.lang.Long (java.lang.Integer and java.lang.Long are in module java.base of loader ‘bootstrap’)</p>
+</blockquote>
+<span id="more"></span>
+
+<hr>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>这是由<strong>反序列化机制</strong>引起的，因此需要<strong>聚焦于序列化器</strong>，此处使用的是Jackson作为序列化器，通过分析源码，可知反序列化的处理流程：</p>
+<p><img src="https://s2.loli.net/2025/02/07/yQ8cJ2zivhFogSx.png" alt="image-20250207120318822"></p>
+<p><code>ParserBase</code>中的<code>_parseNumericValue()</code>方法就是用于<strong>解析数值字符串</strong>，并转换为Java支持的数值类型，<strong>优先选择最合适的数值类型，以提高效率和准确性</strong>：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">_parseNumericValue</span><span class="token punctuation">(</span><span class="token keyword">int</span> expType<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token comment">// 整数解析</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>_currToken <span class="token operator">==</span> <span class="token class-name">JsonToken</span><span class="token punctuation">.</span><span class="token constant">VALUE_NUMBER_INT</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">final</span> <span class="token keyword">int</span> len <span class="token operator">=</span> _intLength<span class="token punctuation">;</span>
+        <span class="token comment">// 整数长度 &lt;= 9，可以安全地转为int类型</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>len <span class="token operator">&lt;=</span> <span class="token number">9</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            _numberInt <span class="token operator">=</span> _textBuffer<span class="token punctuation">.</span><span class="token function">contentsAsInt</span><span class="token punctuation">(</span>_numberNegative<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            _numTypesValid <span class="token operator">=</span> <span class="token constant">NR_INT</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">// 长度 &lt;= 18，需要细分</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>len <span class="token operator">&lt;=</span> <span class="token number">18</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">long</span> l <span class="token operator">=</span> _textBuffer<span class="token punctuation">.</span><span class="token function">contentsAsLong</span><span class="token punctuation">(</span>_numberNegative<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 长度为10的情况，在int类型范围内转换为int类型</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>len <span class="token operator">==</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>_numberNegative<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>l <span class="token operator">>=</span> <span class="token constant">MIN_INT_L</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        _numberInt <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> l<span class="token punctuation">;</span>
+                        _numTypesValid <span class="token operator">=</span> <span class="token constant">NR_INT</span><span class="token punctuation">;</span>
+                        <span class="token keyword">return</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>l <span class="token operator">&lt;=</span> <span class="token constant">MAX_INT_L</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        _numberInt <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> l<span class="token punctuation">;</span>
+                        _numTypesValid <span class="token operator">=</span> <span class="token constant">NR_INT</span><span class="token punctuation">;</span>
+                        <span class="token keyword">return</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token comment">// 使用long类型</span>
+            _numberLong <span class="token operator">=</span> l<span class="token punctuation">;</span>
+            _numTypesValid <span class="token operator">=</span> <span class="token constant">NR_LONG</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">// 更复杂的整数解析</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>len <span class="token operator">==</span> <span class="token number">19</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> buf <span class="token operator">=</span> _textBuffer<span class="token punctuation">.</span><span class="token function">getTextBuffer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> offset <span class="token operator">=</span> _textBuffer<span class="token punctuation">.</span><span class="token function">getTextOffset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>_numberNegative<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token operator">++</span>offset<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">NumberInput</span><span class="token punctuation">.</span><span class="token function">inLongRange</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> offset<span class="token punctuation">,</span> len<span class="token punctuation">,</span> _numberNegative<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                _numberLong <span class="token operator">=</span> <span class="token class-name">NumberInput</span><span class="token punctuation">.</span><span class="token function">parseLong19</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> offset<span class="token punctuation">,</span> _numberNegative<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                _numTypesValid <span class="token operator">=</span> <span class="token constant">NR_LONG</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token function">_parseSlowInt</span><span class="token punctuation">(</span>expType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 浮点数解析</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>_currToken <span class="token operator">==</span> <span class="token class-name">JsonToken</span><span class="token punctuation">.</span><span class="token constant">VALUE_NUMBER_FLOAT</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">_parseSlowFloat</span><span class="token punctuation">(</span>expType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">_reportError</span><span class="token punctuation">(</span><span class="token string">"Current token (%s) not numeric, can not use numeric value accessors"</span><span class="token punctuation">,</span> _currToken<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="解决方式"><a href="#解决方式" class="headerlink" title="解决方式"></a>解决方式</h2><p>从redis中<strong>取出hash对象时，将数值的类型限定为公共父类<code>Number</code></strong>，并在转换时转换为<code>Long</code>类型。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 从redis读出浏览量，需要先指定泛型，如果直接调用到entries只能得到Object类型</span>
+<span class="token class-name">BoundHashOperations</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Number</span><span class="token punctuation">></span></span> boundHashOps <span class="token operator">=</span> redisTemplate<span class="token punctuation">.</span><span class="token function">boundHashOps</span><span class="token punctuation">(</span><span class="token string">"article:viewCount"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Number</span><span class="token punctuation">></span></span> viewCountMap <span class="token operator">=</span> boundHashOps<span class="token punctuation">.</span><span class="token function">entries</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">assert</span> viewCountMap <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Article</span><span class="token punctuation">></span></span> articleList <span class="token operator">=</span> viewCountMap<span class="token punctuation">.</span><span class="token function">entrySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>entry <span class="token operator">-></span> <span class="token keyword">new</span> <span class="token class-name">Article</span><span class="token punctuation">(</span><span class="token class-name">Long</span><span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>entry<span class="token punctuation">.</span><span class="token function">getKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                              entry<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">longValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/json/" rel="tag"><i class="fa fa-tag"></i> json</a>
+              <a href="/tags/Jackson/" rel="tag"><i class="fa fa-tag"></i> Jackson</a>
+              <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag"><i class="fa fa-tag"></i> 序列化</a>
+              <a href="/tags/Redis/" rel="tag"><i class="fa fa-tag"></i> Redis</a>
+              <a href="/tags/hash/" rel="tag"><i class="fa fa-tag"></i> hash</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/02/05/System%E7%B1%BB/" rel="prev" title="System类">
+                  <i class="fa fa-angle-left"></i> System类
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/02/08/Redis%E9%87%87%E7%94%A8Jackson%E4%BD%9C%E4%B8%BAvalue%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E5%99%A8%EF%BC%8C%E4%BD%86%E6%98%AF%E5%AF%B9%E4%BA%8E%E5%A4%8D%E6%9D%82%E7%9A%84%E6%B3%9B%E5%9E%8B%E5%AE%9E%E4%BD%93%E7%B1%BB%E5%A6%82User%EF%BC%8C%E4%B8%8D%E8%83%BD%E6%AD%A3%E5%B8%B8%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%8C%E8%80%8C%E6%98%AF%E4%BC%9A%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%88%90LinkedHashMap%E7%B1%BB%E5%9E%8B/" rel="next" title="Redis采用Jackson作为value的序列化器，但是对于复杂的泛型实体类如User，不能正常反序列化，而是会反序列化成LinkedHashMap类型">
+                  Redis采用Jackson作为value的序列化器，但是对于复杂的泛型实体类如User，不能正常反序列化，而是会反序列化成LinkedHashMap类型 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

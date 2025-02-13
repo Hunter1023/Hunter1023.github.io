@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述ZooKeeper是一个开源的分布式协调服务框架，它的设计目标是将那些复杂且容易出错的分布式一致性服务封装起来，构成一个高效可靠的原语集，并以一系列简单易用的接口提供给用户使用。  ZooKeeper通常被用于实现诸如数据发布&#x2F;订阅、负载均衡、命名服务、分布式协调&#x2F;通知、集群管理、Master选举、分布式锁和分布式队列等功能。这些功能的实现主要依赖于ZooKeeper提供的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ZooKeeper">
+<meta property="og:url" content="https://hunter1023.github.io/2023/09/18/Zookeeper/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="概述ZooKeeper是一个开源的分布式协调服务框架，它的设计目标是将那些复杂且容易出错的分布式一致性服务封装起来，构成一个高效可靠的原语集，并以一系列简单易用的接口提供给用户使用。  ZooKeeper通常被用于实现诸如数据发布&#x2F;订阅、负载均衡、命名服务、分布式协调&#x2F;通知、集群管理、Master选举、分布式锁和分布式队列等功能。这些功能的实现主要依赖于ZooKeeper提供的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2023/09/19/QzmecGN7Mv4ULWs.png">
+<meta property="article:published_time" content="2023-09-18T13:17:07.000Z">
+<meta property="article:modified_time" content="2024-08-08T13:01:50.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="ZooKeeper">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2023/09/19/QzmecGN7Mv4ULWs.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2023/09/18/Zookeeper/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2023/09/18/Zookeeper/","path":"2023/09/18/Zookeeper/","title":"ZooKeeper"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ZooKeeper | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">重要概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B-Data-model"><span class="nav-number">2.1.</span> <span class="nav-text">数据模型 Data model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%8A%82%E7%82%B9-znode"><span class="nav-number">2.2.</span> <span class="nav-text">数据节点 znode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%88%E6%9C%AC-version"><span class="nav-number">2.3.</span> <span class="nav-text">版本 version</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6-ACL"><span class="nav-number">2.4.</span> <span class="nav-text">权限控制 ACL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E5%99%A8-Watcher"><span class="nav-number">2.5.</span> <span class="nav-text">事件监听器 Watcher</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%9A%E8%AF%9D-Session"><span class="nav-number">2.6.</span> <span class="nav-text">会话 Session</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ZooKeeper%E9%9B%86%E7%BE%A4"><span class="nav-number">3.</span> <span class="nav-text">ZooKeeper集群</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E8%A7%92%E8%89%B2"><span class="nav-number">3.1.</span> <span class="nav-text">集群角色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Leader%E9%80%89%E4%B8%BE"><span class="nav-number">3.2.</span> <span class="nav-text">Leader选举</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ZK%E9%9B%86%E7%BE%A4%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%80%E5%A5%BD%E5%A5%87%E6%95%B0%E5%8F%B0%EF%BC%9F"><span class="nav-number">3.2.1.</span> <span class="nav-text">ZK集群为什么最好奇数台？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E4%B8%BE%E7%9A%84%E8%BF%87%E5%8D%8A%E6%9C%BA%E5%88%B6-%E9%98%B2%E6%AD%A2%E8%84%91%E8%A3%82"><span class="nav-number">3.2.2.</span> <span class="nav-text">选举的过半机制 防止脑裂</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ZAB-%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.</span> <span class="nav-text">ZAB 协议</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">一致性问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">6.</span> <span class="nav-text">典型应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E4%B8%BB"><span class="nav-number">6.1.</span> <span class="nav-text">选主</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">6.2.</span> <span class="nav-text">分布式锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E9%94%81"><span class="nav-number">6.2.1.</span> <span class="nav-text">互斥锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%97%B6%E5%AE%9E%E7%8E%B0%E5%85%B1%E4%BA%AB%E9%94%81%E5%92%8C%E4%BA%92%E6%96%A5%E9%94%81"><span class="nav-number">6.2.2.</span> <span class="nav-text">同时实现共享锁和互斥锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E6%9C%8D%E5%8A%A1"><span class="nav-number">6.3.</span> <span class="nav-text">命名服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86%E5%92%8C%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="nav-number">6.4.</span> <span class="nav-text">集群管理和注册中心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85"><span class="nav-number">6.5.</span> <span class="nav-text">数据发布&#x2F;订阅</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker%E5%AE%89%E8%A3%85ZooKeeper"><span class="nav-number">7.</span> <span class="nav-text">Docker安装ZooKeeper</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5ZooKeeper%E6%9C%8D%E5%8A%A1"><span class="nav-number">8.</span> <span class="nav-text">连接ZooKeeper服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">9.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ZooKeeper%E7%9A%84Java%E5%AE%A2%E6%88%B7%E7%AB%AFCurator"><span class="nav-number">10.</span> <span class="nav-text">ZooKeeper的Java客户端Curator</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">10.1.</span> <span class="nav-text">创建客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%8A%82%E7%82%B9"><span class="nav-number">10.2.</span> <span class="nav-text">创建节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%88%9D%E5%A7%8B%E5%86%85%E5%AE%B9%E4%B8%BA%E7%A9%BA%E7%9A%84%E8%8A%82%E7%82%B9"><span class="nav-number">10.2.1.</span> <span class="nav-text">创建一个初始内容为空的节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%8C%85%E5%90%AB%E5%86%85%E5%AE%B9%E7%9A%84%E8%8A%82%E7%82%B9"><span class="nav-number">10.2.2.</span> <span class="nav-text">创建一个包含内容的节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%B4%E6%97%B6%E8%8A%82%E7%82%B9%EF%BC%8C%E5%B9%B6%E9%80%92%E5%BD%92%E5%88%9B%E5%BB%BA%E7%88%B6%E8%8A%82%E7%82%B9"><span class="nav-number">10.2.3.</span> <span class="nav-text">创建临时节点，并递归创建父节点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E8%8A%82%E7%82%B9"><span class="nav-number">10.3.</span> <span class="nav-text">删除节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E4%B8%80%E4%B8%AA%E5%AD%90%E8%8A%82%E7%82%B9"><span class="nav-number">10.3.1.</span> <span class="nav-text">删除一个子节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E8%8A%82%E7%82%B9%E5%B9%B6%E9%80%92%E5%BD%92%E5%88%A0%E9%99%A4%E5%85%B6%E5%AD%90%E8%8A%82%E7%82%B9"><span class="nav-number">10.3.2.</span> <span class="nav-text">删除节点并递归删除其子节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E7%89%88%E6%9C%AC%E8%BF%9B%E8%A1%8C%E5%88%A0%E9%99%A4"><span class="nav-number">10.3.3.</span> <span class="nav-text">指定版本进行删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%BA%E5%88%B6%E4%BF%9D%E8%AF%81%E5%88%A0%E9%99%A4%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">10.3.4.</span> <span class="nav-text">强制保证删除一个节点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="nav-number">10.4.</span> <span class="nav-text">读取数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E6%95%B0%E6%8D%AE"><span class="nav-number">10.5.</span> <span class="nav-text">更新数据</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/09/18/Zookeeper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="ZooKeeper | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ZooKeeper<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/Zookeeper.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-09-18 21:17:07" itemprop="dateCreated datePublished" datetime="2023-09-18T21:17:07+08:00">2023-09-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-08-08 21:01:50" itemprop="dateModified" datetime="2024-08-08T21:01:50+08:00">2024-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/ZooKeeper/" itemprop="url" rel="index"><span itemprop="name">ZooKeeper</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>ZooKeeper是一个开源的<strong>分布式协调服务框架</strong>，它的设计目标是将那些复杂且容易出错的<strong>分布式一致性服务封装起来</strong>，构成一个高效可靠的<strong>原语集</strong>，并以一系列简单易用的接口提供给用户使用。 </p>
+<p>ZooKeeper通常被用于实现诸如数据发布&#x2F;订阅、负载均衡、命名服务、分布式协调&#x2F;通知、集群管理、Master选举、分布式锁和分布式队列等功能。这些功能的实现主要依赖于ZooKeeper提供的<strong>数据存储 + 事件监听</strong>功能。</p>
+<p>ZooKeeper将数据保存在内存中，性能不错。<strong>协调服务</strong>的典型场景是读多于写，更能凸显ZooKeeper的优势。</p>
+<hr>
+<h1 id="重要概念"><a href="#重要概念" class="headerlink" title="重要概念"></a>重要概念</h1><h2 id="数据模型-Data-model"><a href="#数据模型-Data-model" class="headerlink" title="数据模型 Data model"></a>数据模型 Data model</h2><p>ZK的数据模型采用层次化的多叉树型结构，每个节点上都可以存储数据，这些数据可以是<strong>数字、字符串或者是二级制序列。</strong></p>
+<p>每个节点可以拥有N个子节点，最上层是根节点，以<code>/</code>来代表。每个数据节点在ZK中被称为znode，它是ZK中<strong>数据的最小单元</strong>。并且，每个<code>znode</code>都有一个唯一的路径标识。</p>
+<p>ZK主要是用来<strong>协调服务</strong>的，而不是用来存储业务数据的，所以不要放比较大的数据在znode上，ZK给出的<strong>上限是每个节点的数据大小为1M</strong>。</p>
+<hr>
+<h2 id="数据节点-znode"><a href="#数据节点-znode" class="headerlink" title="数据节点 znode"></a>数据节点 znode</h2><p>通常将znode分为<strong>4</strong>大类：</p>
+<ul>
+<li><p><strong>持久节点 PERSISTENT</strong></p>
+<p>  一旦创建就一直存在，即使ZK集群宕机也是如此，直到将其删除。</p>
+</li>
+<li><p><strong>临时节点 EPHEMERAL</strong></p>
+<p>  临时节点的生命周期<strong>与客户端会话（Session）绑定</strong>，Session消失则节点消失。并且，<strong>临时节点只能做叶子节点</strong>，不能创建子节点。</p>
+</li>
+<li><p><strong>持久顺序节点 PERSISTENT_SEQUENTIAL</strong></p>
+<p>  除了具有持久节点的特性之外，<strong>子节点的名称还具有顺序性</strong>，比如<code>/node1/app0000001</code>、<code>/node/app0000002</code>。</p>
+</li>
+<li><p><strong>临时顺序节点 EPHEMERAL_SEQUENTIAL</strong></p>
+<p>  除了具有临时节点的特性之外，<strong>子节点的名称还具有顺序性</strong>。</p>
+</li>
+</ul>
+<p>每个znode由两部分组成：</p>
+<ol>
+<li>stat 状态信息</li>
+<li>data 节点存放的数据的具体内容</li>
+</ol>
+<hr>
+<h2 id="版本-version"><a href="#版本-version" class="headerlink" title="版本 version"></a>版本 version</h2><p>stat中记录了znode的三个相关版本：</p>
+<ol>
+<li><p><strong>dataVersion</strong> </p>
+<p> 当前znode节点的版本号</p>
+</li>
+<li><p><strong>cversion</strong></p>
+<p> 当前znode<strong>子节点</strong>的版本</p>
+</li>
+<li><p><strong>aclVersion</strong></p>
+<p> 当前znode的ACL版本</p>
+</li>
+</ol>
+<hr>
+<h2 id="权限控制-ACL"><a href="#权限控制-ACL" class="headerlink" title="权限控制 ACL"></a>权限控制 ACL</h2><p>ZK采用ACL(AccessControlLists)策略来进行权限控制，类似于UNIX文件系统的权限控制。</p>
+<p>ZK提供了<strong>5种znode的操作权限</strong>：</p>
+<ol>
+<li><strong>CREATE</strong>	能创建<strong>子节点</strong></li>
+<li><strong>READ</strong>        能获取节点数据和<strong>列出其子节点</strong></li>
+<li><strong>WRITE</strong>      能设置&#x2F;更新节点数据</li>
+<li><strong>DELETE</strong>    能删除<strong>子节点</strong></li>
+<li><strong>ADMIN</strong>     能设置节点ACL的权限</li>
+</ol>
+<p>ZK还提供了<strong>4种身份认证</strong>的方式：</p>
+<ol>
+<li><strong>world</strong> <strong>默认</strong>，所有用户都可以访问</li>
+<li><strong>auth</strong> 不使用任何id，表示<strong>任何已认证的用户</strong></li>
+<li><strong>digest</strong> <code>用户名:密码</code>认证方式</li>
+<li><strong>ip</strong>  对指定ip进行限制</li>
+</ol>
+<hr>
+<h2 id="事件监听器-Watcher"><a href="#事件监听器-Watcher" class="headerlink" title="事件监听器 Watcher"></a>事件监听器 Watcher</h2><p>ZK允许用户在指定节点上注册一些Watcher，并且在一些特定事件触发的时候，ZK服务端将事件通知到感兴趣的客户端上。该机制<strong>是ZK实现分布式协调服务的重要特性</strong>。</p>
+<hr>
+<h2 id="会话-Session"><a href="#会话-Session" class="headerlink" title="会话 Session"></a>会话 Session</h2><p>Session可以看作是ZK服务器与客户端之间的<strong>一个TCP长连接</strong>，通过这个连接，<strong>客户端能够通过心跳检测与服务器保持有效的会话，也能向ZK服务器发送请求并接收响应，同时还能够通过该连接接收来自服务器的Watcher事件通知</strong>。</p>
+<p>在为客户端创建会话之前，服务端首先会为每个客户端都分配一个<code>sessionID</code>。<code>sessionID</code>是ZK会话的一个重要标识，许多与会话相关的运行机制都基于这个<code>sessionID</code>，因此，<strong><code>sessionID</code>的分配务必保证全局唯一</strong>。</p>
+<hr>
+<h1 id="ZooKeeper集群"><a href="#ZooKeeper集群" class="headerlink" title="ZooKeeper集群"></a>ZooKeeper集群</h1><p>通常3台服务器就可以构成一个ZK集群，每台服务器都会在内存中维护当前的服务器状态，并且服务器之间都保持着通信。集群之间通过ZAB协议（ZooKeeper Atomic Broadcast）来保持数据的一致性。</p>
+<hr>
+<h2 id="集群角色"><a href="#集群角色" class="headerlink" title="集群角色"></a>集群角色</h2><p><strong>最典型的集群模式：Master&#x2F;Slave 模式（主备模式）</strong>。这种模式中，通常Master服务器作为主服务器提供<strong>写服务</strong>，其他Slave服务器作为从服务器<strong>通过异步复制的方式获取Master服务器最新的数据提供读服务</strong>。但是ZK中没有选择传统的Master&#x2F;Slave概念，而是引入了Leader、Follower、Observer三种角色。</p>
+<img src="https://s2.loli.net/2023/09/19/QzmecGN7Mv4ULWs.png" alt="image-20230919104014780" style="zoom:80%;" />
+
+<p>ZK集群中的所有机器通过一个<strong>Leader选举过程</strong>来选定一台称为Leader的机器。</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Leader</td>
+<td>为客户端提供读、写服务。<strong>负责选举过程的投票发起和决议，更新系统状态</strong>。</td>
+</tr>
+<tr>
+<td>Follower</td>
+<td>为客户端提供读服务，如果是<strong>写服务则转发给Leader</strong>。<strong>参与选举过程中的投票</strong>。</td>
+</tr>
+<tr>
+<td>Observer</td>
+<td>为客户端提供读服务，如果是<strong>写服务则转发给Leader</strong>。<strong>不参与选举过程中的投票，也不参与写操作的“过半写成功”策略</strong>，因此Observer<strong>可以在不影响写性能的情况下提升集群的读性能</strong>。ZK 3.3新增的角色。</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h2><p>当Leader服务器出现<strong>网络中断、崩溃退出、重启</strong>等异常情况时，就会进入Leader选举过程，产生新的Leader服务器。Leader选举过程如下：</p>
+<ol>
+<li><p><strong>Leader election (选举阶段)</strong></p>
+<p> 节点在一开始都处于选举阶段，只要有一个节点得到<strong>超半数节点的票数</strong>，就可以<strong>当选准Leader</strong>。</p>
+</li>
+<li><p><strong>Discovery (发现阶段)</strong></p>
+<p> follower跟准Leader进行通信，<strong>同步follower最近接收的事务提议</strong>。</p>
+</li>
+<li><p><strong>Synchronization (同步阶段)</strong></p>
+<p> 利用Leader前一阶段获得的最新提议历史，同步集群中所有的副本。<strong>同步完成后，准Leader称为真正的Leader</strong>。</p>
+</li>
+<li><p><strong>Broadcast (广播阶段)</strong></p>
+<p>  ZK<strong>正式对外提供事务服务</strong>，并且Leader可以进行<strong>消息广播</strong>。如果有新节点加入，对新节点进行同步。</p>
+</li>
+</ol>
+<p>ZK集群中的服务器状态有<strong>4种</strong>：</p>
+<ol>
+<li><strong>LOOKING</strong> 寻找Leader</li>
+<li><strong>LEADING</strong> leader状态</li>
+<li><strong>FOLLOWING</strong> Follower状态</li>
+<li><strong>OBSERVING</strong> Observer状态</li>
+</ol>
+<hr>
+<h3 id="ZK集群为什么最好奇数台？"><a href="#ZK集群为什么最好奇数台？" class="headerlink" title="ZK集群为什么最好奇数台？"></a>ZK集群为什么最好奇数台？</h3><p>ZK集群在宕机了几个ZK服务器后，如果<strong>剩下的ZK服务器个数＞宕机的服务器个数，ZK才依然可用</strong>。奇数台能更高效地保持ZK集群的稳定性（3服务器，允许宕机1台，4服务器也只能允许宕机1台，偶数台对ZK集群的稳定性没有提升）。</p>
+<hr>
+<h3 id="选举的过半机制-防止脑裂"><a href="#选举的过半机制-防止脑裂" class="headerlink" title="选举的过半机制 防止脑裂"></a>选举的过半机制 防止脑裂</h3><p>对于一个集群，通常会将多台机器部署在不同机房，来提高这个集群的可用性。如果发生一种机房间网络线路故障，导致机房之间的网络不不通，<strong>集群被割裂成几个小集群</strong>，这时候<strong>子集群各自选主，当网络恢复的时候，会有多个主节点，仿佛是大脑分裂，故称脑裂现象</strong>。脑裂期间，<strong>各个主节点都可能对外提供了服务，会带来数据一致性等问题</strong>。</p>
+<p>ZK的过半机制导致不可能产生2个leader。</p>
+<hr>
+<h1 id="ZAB-协议"><a href="#ZAB-协议" class="headerlink" title="ZAB 协议"></a>ZAB 协议</h1><p>ZAB (ZooKeeper Atomic Broadcast 原子广播)协议是为分布式协调服务ZK专门设计的一种<strong>支持崩溃恢复</strong>的原子广播协议。ZK主要<strong>依赖ZAB协议来实现分布式数据一致性</strong>。基于该协议，ZK实现了一种<strong>主备模式的系统架构</strong>来保持集群中各个副本之间的数据一致性。</p>
+<p>ZAB协议包括两种基本的模式：</p>
+<ol>
+<li><p><strong>崩溃恢复</strong></p>
+<p> 当整个服务框架在启动过程中，或是Leader服务器出现网络中断、崩溃退出、重启等异常情况，ZAB协议就会进入恢复模式并选举产生新的Leader服务器。</p>
+<p> <strong>当选举产生了新的Leader服务器，同时集群中已经有过半的机器完成了状态同步（数据同步）</strong>，ZAB协议就退出恢复模式。</p>
+</li>
+<li><p><strong>消息广播</strong></p>
+<p> 当集群中已经有过半的Follower服务器完成了和Leader服务器的状态同步，整个服务框架就可以进入消息广播模式。</p>
+</li>
+</ol>
+<hr>
+<h1 id="一致性问题"><a href="#一致性问题" class="headerlink" title="一致性问题"></a>一致性问题</h1><p>设计一个分布式系统一定会遇到一个问题：因为**分区容忍性（partition tolerance）<strong>的存在，就必定要求我们需要在</strong>系统可用性（availability）<strong>和</strong>数据一致性（consistency）**中做出权衡。</p>
+<hr>
+<h1 id="典型应用场景"><a href="#典型应用场景" class="headerlink" title="典型应用场景"></a>典型应用场景</h1><h2 id="选主"><a href="#选主" class="headerlink" title="选主"></a>选主</h2><p>由于ZK的强一致性，能够很好地保证<strong>在高并发的情况下，保证节点创建的全局唯一性（即无法重复创建一样的节点）</strong>。</p>
+<ol>
+<li>利用这个特性，可以<strong>让多个客户端创建一个指定的临时节点</strong>，创建成功的就是Master。</li>
+<li>让不是master的节点<strong>监听master节点的状态</strong>（比如监听这个临时节点的父节点，如果子节点数变了，就表示master挂了，触发回调函数重新进行选举；或者直接监听节点的状态，通过节点是否已经失去连接来爬暖master是否挂了）</li>
+</ol>
+<hr>
+<h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><h3 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h3><ol>
+<li>由于创建节点的唯一性，可以让多个客户端同时创建一个临时节点，<strong>创建成功的说明获取到了锁</strong>。</li>
+<li>没有获取到锁的客户端创建一个watcher进行节点状态的监听，如果这个互斥锁被释放了（客户端宕机了，或者客户端主动释放了锁），可以调用回调函数重新获得锁。</li>
+</ol>
+<hr>
+<h3 id="同时实现共享锁和互斥锁"><a href="#同时实现共享锁和互斥锁" class="headerlink" title="同时实现共享锁和互斥锁"></a>同时实现共享锁和互斥锁</h3><ol>
+<li>创建有序节点。</li>
+<li>读请求时（需要获取共享锁），如果<strong>没有比自己更小的节点，或者比自己小的节点都是读请求</strong>，就可以获取到共享锁。如果比自己小的节点中有写请求，则当前客户端无法获取到共享锁，只能等待写请求完成。</li>
+<li>写请求时（需要获取互斥锁），如果没有比自己更小的节点，就可以获取到互斥锁，对数据进行修改。如果发现有比自己更小的节点，无论读写操作，都不能获取到互斥的写锁，等待所有前面的操作完成。</li>
+</ol>
+<p>这样就很好地同时实现了共享锁和互斥锁。但是当一个锁得到释放，它会通知所有等待地客户端，从而造成<strong>羊群效应</strong>，可以<strong>让等待的节点只监听他们前面的节点</strong>。</p>
+<hr>
+<h2 id="命名服务"><a href="#命名服务" class="headerlink" title="命名服务"></a><strong>命名服务</strong></h2><p>如何给一个对象设置ID，大家可能都会想到UUID，但是UUID太长了。<strong>可以使用节点的全路径作为命名方式</strong>，由于路径是可以自定义的，对于有些语义的对象的ID设置可以提高可读性。</p>
+<hr>
+<h2 id="集群管理和注册中心"><a href="#集群管理和注册中心" class="headerlink" title="集群管理和注册中心"></a>集群管理和注册中心</h2><ul>
+<li><p>集群管理</p>
+<p>  可能我们会有这样的需求，需要了解整个集群中有多少机器在工作，我们想对集群中的每台机器的运行时状态进行数据采集，对集群中的机器进行上下线等操作。</p>
+<p>  ZK天然支持的watcher和临时节点能很好地实现这些需求。我们可以为每台机器创建临时节点，并监控其父节点，如果子节点列表有变动，可以使用在其父节点绑定的watcher进行状态监控和回调。</p>
+</li>
+<li><p>注册中心</p>
+<p>  让<strong>服务提供者</strong>在ZK中创建一个<strong>临时节点</strong>，并将自己的<strong>ip、port、调用方式</strong>写入节点，当<strong>服务消费者</strong>需要调用的时候，<strong>通过注册中心找到相应的服务的地址列表 ，并缓存到本地（方便以后调用）</strong>，当消费者调用服务时，不再去请求注册中心，直接通过负载均衡算法从地址列表中取一个服务提供者的服务器调用服务。</p>
+<p>  当服务提供者的某台服务器宕机或者下线时，相应的地址会从服务提供者地址列表中移除。同时，<strong>注册中心会将新的服务地址列表发送给服务消费者的机器并缓存在消费者本机</strong>（也可以让消费者进行节点监听）</p>
+</li>
+</ul>
+<hr>
+<h2 id="数据发布-订阅"><a href="#数据发布-订阅" class="headerlink" title="数据发布&#x2F;订阅"></a>数据发布&#x2F;订阅</h2><p>通过<strong>Watcher机制</strong>，可以方便地实现数据发布&#x2F;订阅。将数据发布到ZK被监听的节点上，其他机器可以通过监听节点上的变化来实现配置的动态更新。</p>
+<hr>
+<h1 id="Docker安装ZooKeeper"><a href="#Docker安装ZooKeeper" class="headerlink" title="Docker安装ZooKeeper"></a>Docker安装ZooKeeper</h1><ol>
+<li><code>docker pull zookeeper</code></li>
+<li><code>docker run -d -name=zookeeper -p 2181:2181 zookeeper</code></li>
+</ol>
+<hr>
+<h1 id="连接ZooKeeper服务"><a href="#连接ZooKeeper服务" class="headerlink" title="连接ZooKeeper服务"></a>连接ZooKeeper服务</h1><ol>
+<li><code>docker ps</code>查看ZooKeeper容器的ID</li>
+<li><code>docker exec -it ContainerId bash</code>启动并进入容器</li>
+<li><code>./bin/zkCli.sh -server 127.0.0.1:2181</code>命令连接至ZooKeeper服务</li>
+</ol>
+<hr>
+<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><ol>
+<li><p><code>ls</code> 查看节点结构</p>
+</li>
+<li><p><code>create</code> 创建节点</p>
+<ul>
+<li><p>在根目录创建了node1节点，与之关联的字符串是”node1”</p>
+<p>  <code>create /node1 &quot;node1&quot;</code></p>
+</li>
+<li><p>在node1节点下创建node1.1节点，与之关联的内容是数字123</p>
+<p>  <code>create /node1/node1.1 123</code></p>
+</li>
+</ul>
+</li>
+<li><p><code>set</code> 更新节点数据内容</p>
+<p> <code>set /node1 &quot;set node1&quot;</code></p>
+</li>
+<li><p><code>get</code> 获取节点的数据</p>
+<p> <code>get -s /node1</code></p>
+<p> -s 额外显示节点状态信息</p>
+</li>
+<li><p><code>stat</code> 查看节点状态</p>
+</li>
+<li><p><code>delete</code> 删除节点</p>
+<p> 需要被删除的节点没有子节点</p>
+<p> <code>delete /node1</code></p>
+</li>
+</ol>
+<hr>
+<h1 id="ZooKeeper的Java客户端Curator"><a href="#ZooKeeper的Java客户端Curator" class="headerlink" title="ZooKeeper的Java客户端Curator"></a>ZooKeeper的Java客户端Curator</h1><p>相比于ZooKeeper自带的客户端zookeeper来说，Curator的封装更加完善，各种API都能比较方便地使用。</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token comment">&lt;!-- zookeeper的java客户端 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.curator<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>curator-framework<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>5.5.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.curator<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>curator-recipes<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>5.5.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="创建客户端"><a href="#创建客户端" class="headerlink" title="创建客户端"></a>创建客户端</h2><p>Curator的创建会话方式与原生的API和ZkClient的创建方式区别很大。Curator创建客户端是通过<code>CuratorFrameworkFactory</code>工厂类来实现的。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 提供重试策略的接口，初始sleep时间1000ms，最大重试次数3次，并在之后的每次重试的等待时间大概率会增加（随机）</span>
+<span class="token comment">// long sleepMs = baseSleepTimeMs * Math.max(1, random.nextInt(1 &lt;&lt; (retryCount + 1)));</span>
+<span class="token class-name">RetryPolicy</span> retryPolicy  <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ExponentialBackoffRetry</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">CuratorFramework</span> <span class="token class-name">Client</span> <span class="token operator">=</span> <span class="token class-name">CuratorFrameworkFactory</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">connectString</span><span class="token punctuation">(</span><span class="token string">"hadoop1:2181,hadoop2:2181,hadoop3:2181"</span><span class="token punctuation">)</span> <span class="token comment">// zk的server地址，多个server之间使用英文逗号分隔开</span>
+            <span class="token punctuation">.</span><span class="token function">connectionTimeoutMs</span><span class="token punctuation">(</span><span class="token number">5000</span><span class="token punctuation">)</span> <span class="token comment">// 连接超时时间</span>
+            <span class="token punctuation">.</span><span class="token function">sessionTimeoutMs</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">)</span> <span class="token comment">// 会话超时时间</span>
+            <span class="token punctuation">.</span><span class="token function">retryPolicy</span><span class="token punctuation">(</span>retryPolicy<span class="token punctuation">)</span> <span class="token comment">// 失败重试策略</span>
+            <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 阻塞到创建会话成功为止</span>
+client<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="创建节点"><a href="#创建节点" class="headerlink" title="创建节点"></a>创建节点</h2><h3 id="创建一个初始内容为空的节点"><a href="#创建一个初始内容为空的节点" class="headerlink" title="创建一个初始内容为空的节点"></a>创建一个初始内容为空的节点</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">client<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forPath</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>Curator默认创建的是<strong>持久节点</strong>，内容为空。 </p>
+<hr>
+<h3 id="创建一个包含内容的节点"><a href="#创建一个包含内容的节点" class="headerlink" title="创建一个包含内容的节点"></a>创建一个包含内容的节点</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">client<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forPath</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> <span class="token string">"我是内容"</span><span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>Curator和ZkClient不同的是依旧采用Zookeeper原生API的风格，内容使用byte[]作为方法参数。 </p>
+<hr>
+<h3 id="创建临时节点，并递归创建父节点"><a href="#创建临时节点，并递归创建父节点" class="headerlink" title="创建临时节点，并递归创建父节点"></a>创建临时节点，并递归创建父节点</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">client<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">creatingParentsIfNeeded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withMode</span><span class="token punctuation">(</span><span class="token class-name">CreateMode</span><span class="token punctuation">.</span><span class="token constant">EPHEMERAL</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forPath</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>此处Curator和ZkClient一样封装了递归创建父节点的方法。在递归创建父节点时，<strong>父节点为持久节点</strong>。</p>
+<hr>
+<h2 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h2><h3 id="删除一个子节点"><a href="#删除一个子节点" class="headerlink" title="删除一个子节点"></a>删除一个子节点</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">client<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forPath</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h3 id="删除节点并递归删除其子节点"><a href="#删除节点并递归删除其子节点" class="headerlink" title="删除节点并递归删除其子节点"></a>删除节点并递归删除其子节点</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">client<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">deletingChildrenIfNeeded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forPath</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h3 id="指定版本进行删除"><a href="#指定版本进行删除" class="headerlink" title="指定版本进行删除"></a>指定版本进行删除</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">client<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withVersion</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forPath</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果此版本已经不存在，则删除异常，异常信息如下：<code>org.apache.zookeeper.KeeperException$BadVersionException: KeeperErrorCode = BadVersion for</code></p>
+<hr>
+<h3 id="强制保证删除一个节点"><a href="#强制保证删除一个节点" class="headerlink" title="强制保证删除一个节点"></a>强制保证删除一个节点</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">client<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">guaranteed</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forPath</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>只要客户端会话有效，那么Curator会在后台<strong>持续进行删除操作，直到节点删除成功</strong>。比如遇到一些网络异常的情况，此guaranteed的强制删除就会很有效果。</p>
+<hr>
+<h2 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h2><p>Curator提供了传入一个Stat，使用节点当前的Stat替换到传入的Stat的方法，查询方法执行完成之后，Stat引用已经执行当前最新的节点Stat。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 普通查询</span>
+client<span class="token punctuation">.</span><span class="token function">getData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forPath</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 包含状态查询</span>
+<span class="token class-name">Stat</span> stat <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+client<span class="token punctuation">.</span><span class="token function">getData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">storingStatIn</span><span class="token punctuation">(</span><span class="token function">stat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forPath</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="更新数据"><a href="#更新数据" class="headerlink" title="更新数据"></a>更新数据</h2><p>更新数据，<strong>如果未传入version参数，那么更新当前最新版本</strong>，如果传入version则更新指定version，如果version已经变更，则抛出异常。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 普通更新</span>
+client<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forPath</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span><span class="token string">"新内容"</span><span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 指定版本更新</span>
+client<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withVersion</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forPath</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>版本不一直异常信息：<code>org.apache.zookeeper.KeeperException$BadVersionException: KeeperErrorCode = BadVersion for</code></p>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/8666288.html">Zookeeper框架Curator使用 - 扎心了，老铁 - 博客园 (cnblogs.com)</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ZooKeeper/" rel="tag"><i class="fa fa-tag"></i> ZooKeeper</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/09/18/JDK%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%9C%BA%E5%88%B6/" rel="prev" title="JDK动态代理机制">
+                  <i class="fa fa-angle-left"></i> JDK动态代理机制
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/09/20/Java%E6%9E%9A%E4%B8%BE%E7%B1%BB/" rel="next" title="Java枚举类">
+                  Java枚举类 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="数据类型选择 整型int取值范围：$-2^{31} \sim +(2^{31}-1)$，题目要求绝对值在$10^9$以内 或 32位整数，则用int型表示  长整型long long取值范围：$-2^{63} \sim +(2^{63}-1)$，题目要求绝对值在$10^{18}$以内 或 64位整数，则用long long型表示 注：如果 long long 型赋 $&gt; 2^{31}-1$的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C&#x2F;C++解题干货">
+<meta property="og:url" content="https://hunter1023.github.io/2020/02/01/C_C++%E8%A7%A3%E9%A2%98%E5%B9%B2%E8%B4%A7/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="数据类型选择 整型int取值范围：$-2^{31} \sim +(2^{31}-1)$，题目要求绝对值在$10^9$以内 或 32位整数，则用int型表示  长整型long long取值范围：$-2^{63} \sim +(2^{63}-1)$，题目要求绝对值在$10^{18}$以内 或 64位整数，则用long long型表示 注：如果 long long 型赋 $&gt; 2^{31}-1$的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-01T15:24:32.000Z">
+<meta property="article:modified_time" content="2025-01-23T15:29:13.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="PAT">
+<meta property="article:tag" content="C语言">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2020/02/01/C_C++%E8%A7%A3%E9%A2%98%E5%B9%B2%E8%B4%A7/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2020/02/01/C_C++%E8%A7%A3%E9%A2%98%E5%B9%B2%E8%B4%A7/","path":"2020/02/01/C_C++解题干货/","title":"C/C++解题干货"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>C/C++解题干货 | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E9%80%89%E6%8B%A9"><span class="nav-number">1.</span> <span class="nav-text">数据类型选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="nav-number">2.</span> <span class="nav-text">输入输出</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">输入和输出格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%94%A8%E7%9A%84%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">实用的输出格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E6%A0%87%E5%87%86%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">C++标准库头文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.1.</span> <span class="nav-text">&lt;cmath&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-1"><span class="nav-number">3.2.</span> <span class="nav-text">&lt;ctime&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-2"><span class="nav-number">3.3.</span> <span class="nav-text">&lt;cstdlib&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-3"><span class="nav-number">3.4.</span> <span class="nav-text">&lt;cctype&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-4"><span class="nav-number">3.5.</span> <span class="nav-text">&lt;algorithm&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%AE%B9%E5%99%A8"><span class="nav-number">3.6.</span> <span class="nav-text">常用容器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#-5"><span class="nav-number">3.6.1.</span> <span class="nav-text">&lt;vector&gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#-6"><span class="nav-number">3.6.2.</span> <span class="nav-text">&lt;set&gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#-7"><span class="nav-number">3.6.3.</span> <span class="nav-text">&lt;string&gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#-8"><span class="nav-number">3.6.4.</span> <span class="nav-text">&lt;map&gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#-9"><span class="nav-number">3.6.5.</span> <span class="nav-text">&lt;queue&gt;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#priority-queue"><span class="nav-number">3.6.5.1.</span> <span class="nav-text">priority_queue</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#-10"><span class="nav-number">3.6.6.</span> <span class="nav-text">&lt;stack&gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#-11"><span class="nav-number">3.6.7.</span> <span class="nav-text">&lt;utility&gt;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#pair"><span class="nav-number">3.6.7.1.</span> <span class="nav-text">pair</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E7%BB%84"><span class="nav-number">4.</span> <span class="nav-text">数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">5.</span> <span class="nav-text">字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84"><span class="nav-number">5.1.</span> <span class="nav-text">字符数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-%E7%9A%84%E6%A0%87%E5%87%86%E5%BA%93%E7%B1%BB-string"><span class="nav-number">5.2.</span> <span class="nav-text">C++ 的标准库类 string</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-12"><span class="nav-number">5.3.</span> <span class="nav-text">&lt;cstring&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%8E%E6%95%B0%E5%AD%97%E7%9A%84%E7%9B%B8%E4%BA%92%E8%BD%AC%E6%8D%A2"><span class="nav-number">5.4.</span> <span class="nav-text">字符串与数字的相互转换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80"><span class="nav-number">5.4.1.</span> <span class="nav-text">C语言</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A"><span class="nav-number">5.4.1.1.</span> <span class="nav-text">方法一：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A-sscanf-%E4%B8%8E-sprintf"><span class="nav-number">5.4.1.2.</span> <span class="nav-text">方法二： sscanf 与 sprintf</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-%EF%BC%9A"><span class="nav-number">5.4.2.</span> <span class="nav-text">C++：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E4%BD%9C%E4%B8%BA%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0"><span class="nav-number">6.</span> <span class="nav-text">数组作为函数参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E9%92%88"><span class="nav-number">7.</span> <span class="nav-text">指针</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E5%8F%98%E9%87%8F%E4%BD%9C%E4%B8%BA%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0"><span class="nav-number">7.1.</span> <span class="nav-text">指针变量作为函数参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">7.2.</span> <span class="nav-text">引用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E7%9A%84%E5%90%AB%E4%B9%89"><span class="nav-number">7.2.1.</span> <span class="nav-text">引用的含义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E7%9A%84%E5%BC%95%E7%94%A8"><span class="nav-number">7.2.2.</span> <span class="nav-text">指针的引用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%88struct%EF%BC%89%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">8.</span> <span class="nav-text">结构体（struct）的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E7%BB%93%E6%9E%84%E4%BD%93%E5%86%85%E7%9A%84%E5%85%83%E7%B4%A0"><span class="nav-number">8.1.</span> <span class="nav-text">访问结构体内的元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B3%E8%AF%B7%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4"><span class="nav-number">9.</span> <span class="nav-text">申请动态内存空间</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2020/02/01/C_C++%E8%A7%A3%E9%A2%98%E5%B9%B2%E8%B4%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="C/C++解题干货 | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C/C++解题干货<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/C_C++%E8%A7%A3%E9%A2%98%E5%B9%B2%E8%B4%A7.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-01 23:24:32" itemprop="dateCreated datePublished" datetime="2020-02-01T23:24:32+08:00">2020-02-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-23 23:29:13" itemprop="dateModified" datetime="2025-01-23T23:29:13+08:00">2025-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="数据类型选择"><a href="#数据类型选择" class="headerlink" title="数据类型选择"></a>数据类型选择</h2><ol>
+<li><p><strong>整型int</strong>取值范围：$-2^{31} \sim +(2^{31}-1)$，题目要求<strong>绝对值在$10^9$以内 或 32位整数</strong>，则<strong>用int型表示</strong></p>
+</li>
+<li><p><strong>长整型long long</strong>取值范围：$-2^{63} \sim +(2^{63}-1)$，题目要求<strong>绝对值在$10^{18}$以内 或 64位整数</strong>，则<strong>用long long型表示</strong></p>
+<p>注：如果 long long 型赋 $&gt; 2^{31}-1$的初值，需要在初值后加上LL，否则编译错误。如<code>long long num = 123456789012345LL;</code></p>
+</li>
+<li><p>浮点型数据<strong>一律用double存储</strong>，而不用float(精度低，6~7位)</p>
+</li>
+<li><p>字符常量使用**ASCII码(范围0~127)**统一编码。</p>
+<ul>
+<li>0~9 的ASCII码值：48~57</li>
+<li>A<del>Z 的ASCII码值：65</del>90</li>
+<li>a<del>z 的ASCII码值：97</del>122 (<strong>比大写字母的ASCII码值大32</strong>)</li>
+</ul>
+</li>
+<li><p>强制类型转换</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;cstdio&gt;
+
+int main() &#123;
+    double r &#x3D; 12.56;
+    int a &#x3D; 3, b &#x3D; 5;
+    printf(&quot;%d\n&quot;, (int)r); &#x2F;&#x2F;输出12
+    printf(&quot;%.1f&quot;, (double)a &#x2F; (double)b);&#x2F;&#x2F;输出0.6
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<hr>
+<h2 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h2><table>
+<thead>
+<tr>
+<th>C语言</th>
+<th>C++</th>
+<th>比较</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>#include &lt;cstdio&gt;<br /><strong>scanf函数<br />printf函数</strong></td>
+<td>#include &lt;iostream&gt; <br />using std::cin;<br />using std::cout;<br />cin<br />cout</td>
+<td>cin 和 cout <strong>无需指定输入输出格式</strong>，<br />但<strong>消耗的时间</strong>比 scanf 和 printf <strong>多得多</strong>。<br />故<strong>推荐使用C语言的 scanf 和 printf</strong>，<br />只有在十分必要的时候使用 cin 和 cout</td>
+</tr>
+</tbody></table>
+<h3 id="输入和输出格式"><a href="#输入和输出格式" class="headerlink" title="输入和输出格式"></a>输入和输出格式</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>输入</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>long long</td>
+<td><code>scanf(&quot;%lld&quot;, &amp;n);</code></td>
+<td><code>printf(&quot;%lld&quot;, n);</code></td>
+</tr>
+<tr>
+<td>double</td>
+<td><code>scanf(&quot;%lf&quot;, &amp;db);</code></td>
+<td><code>printf(&quot;%f&quot;, db);</code></td>
+</tr>
+<tr>
+<td>字符串</td>
+<td><code>scanf(&quot;%s&quot;, str);</code><br />(<strong>无需 取地址符&amp;</strong>)<br /></td>
+<td><code>printf(&quot;%s&quot;, str);</code></td>
+</tr>
+<tr>
+<td>char</td>
+<td><code>c1 = getchar();</code><br /><strong>能读入换行符<code>\n</code></strong></td>
+<td><code>putchar(c1);</code></td>
+</tr>
+</tbody></table>
+<h3 id="实用的输出格式"><a href="#实用的输出格式" class="headerlink" title="实用的输出格式"></a>实用的输出格式</h3><ol>
+<li><p><code>%md</code></p>
+<p>使不足m位的int型变量以m位进行<strong>右对齐</strong>输出，高位<strong>用空格补齐</strong>；若变量本身超过m位，则保持原样。</p>
+</li>
+<li><p><code>%0md</code></p>
+<p>使不足m位的int型变量以m位进行<strong>右对齐</strong>输出，高位<strong>用0补齐</strong>；若变量本身超过m位，则保持原样。</p>
+</li>
+<li><p><code>%.mf</code></p>
+<p>让浮点数保留m位小数(<strong>四舍六入五成双</strong>)输出。如果要<strong>四舍五入</strong>，需要用到<strong>round函数</strong>。</p>
+<blockquote>
+<p>四舍六入五成双：</p>
+<ul>
+<li>5后有数时：舍5入1</li>
+<li>5后无数时：<ul>
+<li>5前为奇数，舍5入1</li>
+<li>5前为偶数，舍5不进（0是偶数）</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h2 id="C-标准库头文件"><a href="#C-标准库头文件" class="headerlink" title="C++标准库头文件"></a>C++标准库头文件</h2><table>
+<thead>
+<tr>
+<th>C++标准库</th>
+<th>包含内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&lt;iostream&gt;</td>
+<td>C++标准输入和输出函数 的函数原型</td>
+</tr>
+<tr>
+<td>&lt;cstdio&gt;</td>
+<td>C风格标准输入和输出函数 的函数原型</td>
+</tr>
+<tr>
+<td>&lt;iomanip&gt;</td>
+<td><strong>格式化数据流</strong>的流操纵符 的函数原型</td>
+</tr>
+<tr>
+<td>&lt;cmath&gt;</td>
+<td><strong>数学库</strong>函数 的函数原型</td>
+</tr>
+<tr>
+<td>&lt;ctime&gt;</td>
+<td>处理时间和日期的函数 的函数原型</td>
+</tr>
+<tr>
+<td>&lt;cstdlib&gt;</td>
+<td><strong>数与文本的转换、内存分配、随机数</strong>及其他各种<strong>工具函数</strong> 的函数原型</td>
+</tr>
+<tr>
+<td>&lt;random&gt;</td>
+<td>产生<strong>非确定性的随机数</strong> 的功能库</td>
+</tr>
+<tr>
+<td>&lt;cctype&gt;</td>
+<td><strong>测试 字符</strong>特定属性(如是否为数字、标点符号等)函数 的函数原型<br /><strong>转换 大小写字母</strong>的函数 的函数原型</td>
+</tr>
+<tr>
+<td>&lt;iterator&gt;</td>
+<td><strong>访问 C++标准库容器中数据</strong> 的类</td>
+</tr>
+<tr>
+<td>&lt;algorithm&gt;</td>
+<td><strong>操作 C++标准库容器中数据</strong> 的函数</td>
+</tr>
+<tr>
+<td>&lt;string&gt;</td>
+<td>C++标准库的 <code>string</code>类 的定义</td>
+</tr>
+<tr>
+<td>&lt;cstring&gt;</td>
+<td>C风格<strong>字符串处理</strong>函数 的函数原型</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id=""><a href="#" class="headerlink" title="&lt;cmath&gt;"></a>&lt;cmath&gt;</h3><ol>
+<li><p><strong><code>double fabs(double x)</code></strong></p>
+<p><strong>浮点型取绝对值</strong></p>
+</li>
+<li><p><strong><code>double floor(double x)</code>和<code>ceil(double x)</code></strong></p>
+<p><strong>向下取整</strong>和<strong>向上取整</strong></p>
+</li>
+<li><p><strong><code>double round(double x)</code></strong><br><strong>针对小数点后一位四舍五入</strong></p>
+<p>另，<strong>不使用函数进行四舍五入的方法</strong>：</p>
+<p><code>num = num + 0.5</code> </p>
+</li>
+<li><p><strong><code>double pow(double r, double p)</code></strong></p>
+<p>求 r 的 p次方</p>
+<p><strong>$10^n$还有另外的表示方法，如</strong></p>
+<ul>
+<li>$10^3$ 可写成 <code>1e3</code></li>
+<li>$2\times10^6$可写成<code>2e6</code></li>
+<li>$3\times10^{-6}$可写成<code>3e-6</code></li>
+</ul>
+</li>
+<li><p><strong><code>double sqrt(double x)</code></strong></p>
+<p>求 x 的算术平方根</p>
+</li>
+<li><p><strong><code>double log(double x)</code><strong>和</strong><code>double log10(double x)</code></strong></p>
+<p>求 x <strong>以 $e$ 为底</strong>的对数 和 <strong>以10为底</strong>的对数</p>
+<p>针对<strong>任意底数求对数的函数</strong>，必须用<strong>换底公式</strong>，即$\log_ab &#x3D; \ln b&#x2F;\ln a$</p>
+</li>
+<li><p><strong><code>double exp(double x)</code></strong></p>
+<p>指数函数$e^x$</p>
+</li>
+<li><p>三角函数</p>
+<p><strong>x为弧度</strong></p>
+<ul>
+<li><code>sin(double x)</code></li>
+<li><code>cos(double x)</code></li>
+<li><code>tan(double x)</code></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="-1"><a href="#-1" class="headerlink" title="&lt;ctime&gt;"></a>&lt;ctime&gt;</h3><ol>
+<li><p><code>time_t time(time_t *seconds)</code></p>
+<p>返回<strong>自 格林尼治标准时间的1970年1月1日0时 起 到现在</strong>的<strong>秒数</strong>。如果<code>seconds</code>不为空，<strong>返回值也存储在<code>seconds</code>中</strong>。</p>
+</li>
+</ol>
+<hr>
+<h3 id="-2"><a href="#-2" class="headerlink" title="&lt;cstdlib&gt;"></a>&lt;cstdlib&gt;</h3><ol>
+<li><p><code>int rand()</code></p>
+<p><code>rand</code>函数生成 [0, RAND_MAX] 之间的一个<strong>整数</strong></p>
+<p>直接由<code>rand</code>函数生成的数的范围<strong>常常不能满足具体需要</strong>，可以通过<strong>比例缩放(scaling)<strong>方法得到所需的随机数。例如</strong>模拟投掷六面骰子，结果可以用<code>rand() % 6 + 1</code>表示</strong>。其中数字6称为<strong>比例缩放因子</strong>。</p>
+</li>
+<li><p><code>void srand(unsigned int seed)</code></p>
+<p><code>rand</code>函数<strong>实际上生成的是 伪随机数</strong>。程序每次执行时产生的序列都是重复的，将其调整为每次执行时都产生不同的随机数序列的过程称为<strong>随机化</strong>，可以<strong>通过<code>srand</code>函数实现</strong>。<code>srand</code>函数接收一个<code>unsigned int</code>值，<strong>为</strong> <code>rand</code>函数使用的<strong>随机数发生器 “播种”</strong>，从而产生不同的随机数序列。为了<strong>在随机化时不用每次都输入“种子”</strong>，可以使用如下语句：</p>
+<p><code>srand(static_cast&lt;unsigned int&gt;(time(NULL) ) );</code></p>
+</li>
+</ol>
+<hr>
+<h3 id="-3"><a href="#-3" class="headerlink" title="&lt;cctype&gt;"></a>&lt;cctype&gt;</h3><ol>
+<li><p><code>int isalnum(int c)</code></p>
+<p>字符是否为<strong>数字或字母</strong></p>
+</li>
+<li><p><code>int isalpha(int c)</code></p>
+<p>字符是否是<strong>字母</strong></p>
+</li>
+<li><p><code>int isdigit(int c)</code></p>
+<p>字符是否是十进制<strong>数字</strong></p>
+</li>
+<li><p><code>int islower(int c)</code></p>
+<p>是否是<strong>小写字母</strong></p>
+</li>
+<li><p><code>int isupper(int c)</code></p>
+<p>是否是<strong>大写字母</strong></p>
+</li>
+<li><p><code>int tolower(int c)</code></p>
+<p>把大写字母 <strong>转换为 小写字母</strong></p>
+<p><strong>不会改变非字母字符的值</strong></p>
+</li>
+<li><p><code>int toupper(int c)</code></p>
+<p>把小写字母 <strong>转换为 大写字母</strong></p>
+<p><strong>不会改变非字母字符的值</strong></p>
+</li>
+</ol>
+<hr>
+<h3 id="-4"><a href="#-4" class="headerlink" title="&lt;algorithm&gt;"></a>&lt;algorithm&gt;</h3><ol>
+<li><p><code>max(x, y)</code>和<code>min(x, y)</code></p>
+</li>
+<li><p><code>abs(x)</code>：<code>x</code>必须是<strong>整数</strong>，因此更推荐使用<code>&lt;cmath&gt;</code>下的<code>fabs(x)</code></p>
+</li>
+<li><p><code>swap(x, y)</code></p>
+</li>
+<li><p><code>reverse(it1, it2)</code></p>
+<p><strong>可以将 数组指针在[it1, it2)之间的元素 或 容器的迭代器在[it1, it2)之间的元素 进行反转</strong>。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int a[10] &#x3D; &#123;10, 11, 12, 13, 14, 15&#125;;
+reverse(a, a + 4); &#x2F;&#x2F;将 a[0] ~ a[3]反转
+for(int i &#x3D; 0; i &lt; 6; i++)
+    cout &lt;&lt; a[i] &lt;&lt; &quot; &quot;;
+&#x2F;&#x2F;输出结果：13 12 11 10 14 15
+
+string str &#x3D; &quot;abcdefghi&quot;;
+reverse(str.begin() + 2, str.begin() + 6); &#x2F;&#x2F;对str[2] ~ str[5]反转
+for(int i &#x3D; 0; i &lt; str.size(); i++) &#123;
+    cout &lt;&lt; str[i];
+&#125;
+&#x2F;&#x2F;输出结果：abfedcghi<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><code>next_permutation</code>函数</p>
+<p>给出一个序列在<strong>全排列中的下一个序列</strong>。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int a[10] &#x3D; &#123;1, 2, 3&#125;;
+do&#123;
+    cout &lt;&lt; a[0] &lt;&lt; a[1] &lt;&lt; a[2] &lt;&lt; endl;
+&#125; while(next_permutation(a, a + 3)); &#x2F;&#x2F;a[0]~a[2]之间的序列求解下一个序列<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><code>fill</code>函数</p>
+<p>对数组或容器中某一段区间元素<strong>赋相同的值</strong>。和<code>&lt;cstring&gt;</code>的<code>memset</code>不同(基本只用于赋<strong>0或-1</strong>)，可以赋<strong>数组类型对应范围中的任意值</strong>。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int a[5] &#x3D; &#123;1, 2, 3, 4, 5&#125;
+fill(a, a + 5, 233); &#x2F;&#x2F;a[0] ~ a[4] 均赋值为 233
+for(int i &#x3D; 0; i &lt; 5; i++)
+    cout &lt;&lt; a[i] &lt;&lt; &quot; &quot;;
+&#x2F;&#x2F;输出结果：233 233 233 233 233<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+</li>
+<li><p><code>sort</code>函数</p>
+<p>C语言的<code>qsort</code>函数的使用需要运用指针，且写法上没有C++的<code>sort</code>函数简洁。<code>sort</code>函数<strong>根据具体情形使用不同的排序方法</strong>，效率较高，在实现中<strong>规避了经典快速排序中可能出现的会导致实际复杂度退化到$O(n^2)$的极端情况</strong>。</p>
+<p>因此<strong>更推荐使用C++的<code>sort</code>函数</strong>进行代码编写。</p>
+<p><code>sort(首元素地址, 尾元素地址的下一个地址, 比较函数cmp(非必填))</code></p>
+<p>如果<strong>不写比较函数cmp</strong>，则<strong>默认升序</strong>排序。如果想要<strong>降序</strong>排序，需要编写比较函数cmp：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">bool cmp(int a, int b) &#123; &#x2F;&#x2F;返回值为true时，a被排在b之前
+    return a &gt; b; &#x2F;&#x2F;降序
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>在STL标准容器中，<strong>只有<code>vector</code>、<code>string</code>、<code>deque</code>可以使用<code>sort</code>，因为像<code>set</code>、<code>map</code>这种容器是用红黑树实现的，元素本身有序，故不允许使用<code>sort</code>排序</strong>。</p>
+</li>
+<li><p><code>lower_bound</code>和<code>upper_bound</code></p>
+<p><code>lower_bound(first, last, val)</code>用来寻找在数组或容器中的[first, last)范围内<strong>第一个值$\geq$<code>val</code>的元素的位置</strong>。</p>
+<p><code>upper_bound(first, last, val)</code>用来寻找在数组或容器中的[first, last)范围内<strong>第一个值&gt;<code>val</code>的元素的位置</strong>。</p>
+<p><strong>如果是数组，则返回该位置的指针；如果是容器，则返回该位置的迭代器。如果没有找到相应元素，则返回可以插入该元素的位置的指针或迭代器</strong>。</p>
+</li>
+<li><p><code>max_element</code>和<code>min_element</code></p>
+<p><code>max_element(first, last)</code>用来寻找在数组或容器中的[first, last)范围内<strong>最大元素的位置</strong>。</p>
+<p><code>min_element(first, last, val)</code>用来寻找在数组或容器中的[first, last)范围内<strong>最小元素的位置</strong>。</p>
+<p><strong>如果是数组，则返回该位置的指针；如果是容器，则返回该位置的迭代器</strong>。</p>
+</li>
+</ol>
+<hr>
+<h3 id="常用容器"><a href="#常用容器" class="headerlink" title="常用容器"></a>常用容器</h3><h4 id="-5"><a href="#-5" class="headerlink" title="&lt;vector&gt;"></a>&lt;vector&gt;</h4><p><strong>向量</strong>(“<strong>变长数组</strong>”的叫法更容易理解)，<strong>长度可以根据需要进行变化，比较节省空间</strong>。试题中，有时会碰到<strong>只用普通数组会超内存的情况，使用<code>vector</code>会让问题的解决便捷许多</strong>；另外，<code>vector</code>还可以用来<strong>以邻接表的方式存储图</strong>。</p>
+<ol>
+<li><p><code>vector</code>的定义</p>
+<p><code>vector&lt;typename&gt; name</code></p>
+<p>如果<code>typename</code>也是一个STL(Standard Template Library)容器，<strong>在C++11之前，定义的时候，在符号<code>&gt;&gt;</code>之间要加上空格</strong>。如：<code>vector&lt;vector&lt;int&gt; &gt; name;</code>，可以理解为<strong>两个维都可变长的二维数组</strong>。</p>
+<p>而vector数组的定义，如：<code>vector&lt;typename&gt; Arrayname[arraySize];</code>，<strong>一维长度已固定，注意两者的区别</strong>。</p>
+</li>
+<li><p><code>vector</code>常用函数</p>
+<ol>
+<li><p><code>push_back(typename x)</code>：在 vector <strong>末尾添加</strong>一个元素 x</p>
+</li>
+<li><p><code>pop_back()</code>：<strong>删除</strong> vector 的<strong>末尾元素</strong></p>
+</li>
+<li><p><code>begin()</code>：取 vector 的<strong>首元素地址</strong></p>
+</li>
+<li><p><code>end()</code>：取 vector 的 <strong>尾后(尾元素地址的下一个)地址</strong>（美国人思维比较习惯<strong>左闭右开</strong>）</p>
+</li>
+<li><p><code>size()</code>：获取 vector 中的<strong>元素个数</strong></p>
+</li>
+<li><p><code>clear()</code>：<strong>清空</strong> vector 中所有元素</p>
+</li>
+<li><p><code>insert(vector&lt;typename&gt;::iterator it, typename x)</code>：向vector的 <strong>任意迭代器 it 处</strong> 插入一个元素 x</p>
+<p>如<code>vi.insert(vi.begin() + 2, -1); //将 -1 插入vi[2]</code></p>
+</li>
+<li><p><code>erase()</code></p>
+<ul>
+<li>删除迭代器为 it 处的元素：<code>erase(it);</code></li>
+<li>删除 [firstIt, lastIt) 内所有元素：<code>erase(firstIt, lastIt);</code></li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><code>vector</code>容器内元素的访问</p>
+<ol>
+<li><p>通过<strong>下标</strong>访问</p>
+</li>
+<li><p>通过<strong>迭代器iterator</strong>访问</p>
+<p><code>vector&lt;typename&gt;::iterator it;</code>，这样就得到了迭代器<code>it</code>，可以通过**<code>*it</code>来访问<code>vector</code>里的元素**。</p>
+<p>例如：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+int main() &#123;
+	vector&lt;int&gt; vi;
+    for(int i &#x3D; 1; i &lt;&#x3D; 5; i++)
+        vi.push_back(i); &#x2F;&#x2F;在 vi 的 末尾 添加元素 i
+    vector&lt;int&gt;::iterator it &#x3D; vi.begin(); &#x2F;&#x2F;vi.begin() 为取 vi 的首元素地址
+    for(int i &#x3D; 0; i &lt; 5; i++)
+        cout &lt;&lt; *(it + i);
+	return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>可以看出<code>vi[i]</code>和<code>vi.begin() + i</code><strong>等价</strong>。在常用的STL容器中，<strong>只有<code>vector</code>和<code>string</code>中，才允许使用<code>vi.begin() + 1</code>这种 迭代器加上整数 的写法</strong>。</p>
+<p>迭代器还实现了自增和自减的操作，于是还有一种遍历<code>vector</code>中元素的写法：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;vector 的迭代器不支持 it &lt; vi.end() 写法
+for(vector&lt;int&gt;::iterator it &#x3D; vi.begin(); it !&#x3D; vi.end(); it++)
+    cout &lt;&lt; *it;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+</li>
+</ol>
+<hr>
+<h4 id="-6"><a href="#-6" class="headerlink" title="&lt;set&gt;"></a>&lt;set&gt;</h4><p><strong>集合</strong>，是一个<strong>内部自动递增排序 且 不含重复元素</strong>的容器。试题中，可能出现需要<strong>去掉重复元素</strong>的情况，而且<strong>有可能因为这些元素 比较大 或者 类型不是<code>int</code>型 而不能直接开散列表</strong>，这种情况下就可以用<code>set</code>来保留元素本身而不考虑个数。虽然上述情况<strong>也可以通过再开一个数组进行下标和元素对应来解决</strong>，但<code>set</code>提供了<strong>更为直观</strong>的接口，并且可以实现<strong>自动排序</strong>，可以在做某些题时<strong>减少思维量</strong>。</p>
+<ol>
+<li><p><code>set</code>的定义</p>
+<p><code>set&lt;typename&gt; name;</code></p>
+<p>和<code>vector</code>相同，如果<code>typename</code>也是一个STL容器，<strong>在C++11之前，定义的时候，在符号<code>&gt;&gt;</code>之间要加上空格</strong>。如：<code>set&lt;vector&lt;int&gt; &gt; name;</code>，可以理解为<strong>两个维都可变长的二维数组</strong>。</p>
+</li>
+<li><p><code>set</code>常用函数</p>
+<ol>
+<li><p><code>begin()</code>：取 set 的<strong>首元素地址</strong></p>
+</li>
+<li><p><code>end()</code>：取 set 的 <strong>尾后(尾元素地址的下一个)地址</strong>（美国人思维比较习惯<strong>左闭右开</strong>）</p>
+</li>
+<li><p><code>size()</code>：获取 set 中的<strong>元素个数</strong></p>
+</li>
+<li><p><code>clear()</code>：<strong>清空</strong> set 中所有元素</p>
+</li>
+<li><p><code>insert(typename x)</code>：将 x 插入 set 容器中，并自动递增排序和去重，时间复杂度为$O(logN)$</p>
+</li>
+<li><p><code>find(typename value)</code>：返回 set 中<strong>对应值为 value 的迭代器</strong></p>
+<p>如：<code>set&lt;int&gt;::iterator it = st.find(2);</code> &#x2F;&#x2F;在 set 中查找2，返回其迭代器</p>
+</li>
+<li><p><code>erase()</code></p>
+<ul>
+<li><p>删除单个元素</p>
+<ul>
+<li><p>删除迭代器为 it 处的元素：<code>erase(it);</code></p>
+<p>可以结合<code>find</code>函数使用，如：<code>st.erase(st.find(100))</code></p>
+</li>
+<li><p>删除值为 value 的元素：<code>erase(value);</code></p>
+</li>
+</ul>
+</li>
+<li><p>删除 [firstIt, lastIt) 内所有元素：<code>erase(firstIt, lastIt)</code></p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><code>set</code>容器内元素的访问</p>
+<p><code>set</code><strong>只能通过 迭代器iterator 访问</strong>，因为<strong>只有<code>vector</code>和<code>string</code>中，才允许使用<code>vi.begin() + 1</code>这种 迭代器加上整数 的写法</strong>，因此只能按如下方式枚举：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;set&gt;
+using namespace std;
+
+int main() &#123;
+	set&lt;int&gt; st;
+	st.insert(3);
+    st.insert(5);
+    st.insert(2);
+    st.insert(3);
+    &#x2F;&#x2F;set 的迭代器不支持 it &lt; vi.end() 写法
+	for(set&lt;int&gt;::iterator it &#x3D; st.begin(); it !&#x3D; st.end(); it++)
+		cout &lt;&lt; *it;
+	return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>输出为：<code>2 3 5</code>，可以发现，<code>set</code>内的元素自动<strong>递增</strong>排序，且自动去除了重复元素。</p>
+</li>
+<li><p>延伸</p>
+<p><code>set</code>中元素是唯一的，如果<strong>处理元素不唯一的情况，需要使用<code>multiset</code></strong>。C++11 标准中还增加了<code>unordered_set</code>，<strong>以散列代替<code>set</code>内部的红黑树(一种自平衡二叉查找树)实现</strong>，使其可以用来<strong>去重但不排序</strong>的需求，速度比set快得多。</p>
+</li>
+</ol>
+<hr>
+<h4 id="-7"><a href="#-7" class="headerlink" title="&lt;string&gt;"></a>&lt;string&gt;</h4><ol>
+<li><p><code>string</code>中内容的访问</p>
+<ol>
+<li><p>通过下标访问</p>
+<p>一般来说，<strong>可以直接像字符数组那样去 访问</strong><code>string</code>，如果要读入和输出<strong>整个字符串</strong>，则<strong>只能用<code>cin</code>和<code>cout</code></strong>。那么有办法用<code>printf</code>输出<code>string</code>吗？</p>
+<p>用<code>string</code>的函数<code>c_str()</code>可以将<code>string</code>类型<strong>转换为字符数组</strong>进行输出。示例：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">string str &#x3D; &quot;abcd&quot;;
+printf(&quot;%s\n&quot;, str.c_str());<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>通过迭代器访问</p>
+<p>有些函数比如<code>insert()</code>与<code>erase()</code>要求以迭代器为参数进行访问。由于<code>string</code>不像其他STL容器那样需要参数，因此可以直接如下定义：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">string::iterator it;
+for(it &#x3D; str.begin(); it !&#x3D; str.end(); i++)
+    cout &lt;&lt; *it;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><strong><code>string</code>和<code>vector</code>一样，允许使用<code>vi.begin() + 1</code>这种 迭代器加上整数 的写法</strong></p>
+</li>
+</ol>
+</li>
+<li><p><code>string</code>常用函数</p>
+<ol>
+<li><p><code>operator+=</code></p>
+<p><code>string</code>的加法，可以将两个<code>string</code><strong>直接拼接</strong>。</p>
+</li>
+<li><p><code>compare operator</code></p>
+<p>两个<code>string</code>类型可以<strong>直接使用 比较符 比较大小</strong>，比较规则是<strong>按字典序</strong>。</p>
+</li>
+<li><p><code>begin()</code>：取 string 的<strong>首元素地址</strong></p>
+</li>
+<li><p><code>end()</code>：取 string 的 <strong>尾后(尾元素地址的下一个)地址</strong>（美国人思维比较习惯<strong>左闭右开</strong>）</p>
+</li>
+<li><p><code>size()/length()</code>：返回 string 的长度</p>
+</li>
+<li><p><code>clear()</code>：清空 string 中的数据</p>
+</li>
+<li><p><code>insert</code></p>
+<ul>
+<li><p>在 pos 位置插入字符串：<code>insert(int pos, string str)</code>，<strong>原来位置的字符串顺延</strong>。</p>
+</li>
+<li><p>在 迭代器it 位置插入字符串：</p>
+<p><code>insert(it, firstIt, lastIt)</code>，<code>firstIt</code>和<code>lastIt</code>为<strong>待插字符串的首尾迭代器</strong>，用来表示串 [firstIt, lastIt) 将被插在 it 位置上</p>
+</li>
+</ul>
+</li>
+<li><p><code>string::npos</code>：是一个<strong>常数</strong>，本身值为**-1**，但由于是<code>unsigned_int</code>类型，因此实际上<strong>可以认为是最大值</strong>。用于作为<code>find</code>函数失配时的返回值。</p>
+</li>
+<li><p><code>find()</code></p>
+<ul>
+<li><code>str.find(string str1)</code>：当 str1 是子串时，返回在 str 中<strong>第一次出现的位置</strong>；如果不是字串，则返回<code>string::npos</code></li>
+<li><code>str.find(string str1, int pos)</code>：从 pos 位置开始匹配 str1</li>
+</ul>
+</li>
+<li><p><code>erase()</code></p>
+<ul>
+<li>删除单个元素：<code>erase(it)</code>，目标字符<strong>之后的字符字串 前移</strong>。</li>
+<li>删除一个区间内的所有元素，目标区间<strong>之后的字符字串 前移</strong>。<ul>
+<li><code>erase(firstIt, lastIt)</code>，删除 [firstIt, lastIt) 间的所有字符</li>
+<li><code>erase(int pos, int length)</code>，pos 是删除的起始位置</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>substr(int pos, int length)</code>：<strong>返回</strong>从 pos 位置开始，长度为 length 的<strong>字串</strong>。</p>
+</li>
+<li><p><code>replace()</code></p>
+<ul>
+<li><code>str.replace(int pos, int lenth, str1)</code>：把 str 从 pos 位置开始，长度为 length 的字串替换为 str1，<strong>替换位置之后的字符串不变</strong>。</li>
+<li><code>str.replace(it1, it2, str1)</code>：把 str 的迭代器 [it1, it2) 范围的字串替换为 str1，<strong>替换位置之后的字符串不变</strong>。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h4 id="-8"><a href="#-8" class="headerlink" title="&lt;map&gt;"></a>&lt;map&gt;</h4><p><strong>映射</strong>，<code>map</code><strong>可以将 任何基本类型(包括STL容器) 映射到 任何基本类型(包括STL容器)</strong>。</p>
+<p>来看一个情况：判定给的一些数字在某个文件中是否出现过。如果数字很大，那么就不便建立散列的数组。这时，<strong>可以通过<code>map</code>，将这些数字当成字符串，建立<code>string</code>至<code>int</code>的映射</strong>。</p>
+<ol>
+<li><p><code>map</code>的定义</p>
+<p><code>map&lt;typename1, typename2&gt; mp;</code>：<code>&lt; &gt;</code>内第一个是 键(key) 的类型，第二个是 值(value) 的类型。<strong>map 会以 键 从小到大的顺序自动排序(因为 map 内部是使用红黑树实现的，set也是如此)</strong>。<strong>map 的一个键只能对应一个值</strong>。如果是 int 型映射到 int 型，就相当于普通的 int 型数组。</p>
+<p>如果是<strong>字符串到整型的映射，必须使用 string 而不能使用 char数组</strong>：<code>map&lt;string, int&gt; mp;</code>，因为<strong>数组不能作为键值</strong>。</p>
+</li>
+<li><p><code>map</code>常用函数</p>
+<ol>
+<li><p><code>begin()</code>：取 map 的<strong>首元素地址</strong></p>
+</li>
+<li><p><code>end()</code>：取 map 的 <strong>尾后(尾元素地址的下一个)地址</strong>（美国人思维比较习惯<strong>左闭右开</strong>）</p>
+</li>
+<li><p><code>find(key)</code>：返回 键key的对应映射值 的迭代器</p>
+<p><code>map&lt;char int&gt;::iterator it = mp.find(&#39;b&#39;);</code></p>
+</li>
+<li><p><code>erase()</code></p>
+<ul>
+<li>删除单个元素：<ul>
+<li><code>erase(it)</code>：it 为待删除映射的迭代器</li>
+<li><code>erase(key)</code>：key 为待删除映射的键</li>
+</ul>
+</li>
+<li>删除一个区间内的所有映射：<code>erase(firstIt, lastIt)</code></li>
+</ul>
+</li>
+<li><p><code>size()</code>：获取映射的对数</p>
+</li>
+<li><p><code>clear()</code>：清空 map 中的所有映射</p>
+</li>
+</ol>
+</li>
+<li><p><code>map</code>容器内元素的访问</p>
+<ol>
+<li><p>通过下标访问</p>
+<p>例如定义为<code>map&lt;char, int&gt; mp</code>的map来说，可以直接使用<code>mp[&#39;c&#39;]</code>的方式来访问对应的整数。</p>
+</li>
+<li><p>通过迭代器访问</p>
+<p><code>map&lt;typename1, typename2&gt;::iterator it;</code>，因为 map 的每一对映射都有两个 typename，这决定了必须<strong>能通过一个 it 来同时访问键和值</strong>。事实上，<code>map</code>可以使用<code>it-&gt;first</code>来访问键，<code>it-&gt;second</code>来访问值。</p>
+</li>
+</ol>
+</li>
+<li><p>延伸</p>
+<p>map 的 键和值是唯一的(一对一)，而<strong>如果需要一个键对应多个值(一对多)，就只能用<code>multimap</code></strong>。C++11 标准中还增加了<code>unordered_map</code>，以散列代替 map 内部的红黑树实现，使其可以只处理映射而不按key值排序，速度比 map 快得多。</p>
+</li>
+</ol>
+<hr>
+<h4 id="-9"><a href="#-9" class="headerlink" title="&lt;queue&gt;"></a>&lt;queue&gt;</h4><p>队列，先进先出。</p>
+<ol>
+<li><p><code>queue</code>的定义</p>
+<p><code>queue&lt;typename&gt; name;</code></p>
+</li>
+<li><p><code>queue</code>常用函数</p>
+<ol>
+<li><code>push(x)</code>：将 x 进<strong>行入 队尾</strong></li>
+<li><code>front()</code>、<code>back()</code>：分别获得队首和队尾元素</li>
+<li><code>pop()</code>：令<strong>队首</strong>元素<strong>出队</strong></li>
+<li><code>empty()</code>：<strong>检测 queue 是否为空</strong></li>
+<li><code>size()</code>：返回队列内元素个数</li>
+</ol>
+</li>
+<li><p><code>queue</code>容器内元素的访问</p>
+<p>由于队列是一种先进先出的限制性数据结构，因此<strong>只能通过<code>front()</code>来访问队首元素，<code>back()</code>访问队尾元素</strong>。</p>
+</li>
+<li><p><code>queue</code>的常见用途</p>
+<p>当需要实现**广度优先搜索(BFS)**时，可以不用手动实现一个队列，以提高程序的准确性。需要注意的时是，<strong>使用<code>front()</code>和<code>pop()</code>函数之前，必须用<code>empty()</code>判断队列是否为空</strong>，否则可能因为队空而出现错误。</p>
+<p>延伸：STL的容器中还有两种跟队列有关：</p>
+<ul>
+<li><p><strong>双端队列<code>deque</code></strong>：<strong>首尾皆可插入和删除</strong>的队列。</p>
+</li>
+<li><p><strong>优先队列<code>priority_queue</code></strong>：使用<strong>堆</strong>实现的<strong>默认当前队列 最大元素置于队首</strong>的容器。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h5 id="priority-queue"><a href="#priority-queue" class="headerlink" title="priority_queue"></a><code>priority_queue</code></h5><ol>
+<li><p><code>priority_queue</code>的定义</p>
+<p><code>priority_queue&lt;typename&gt; name;</code></p>
+</li>
+<li><p><code>priority_queue</code>常用函数</p>
+<ol>
+<li><code>push(x)</code>：将 x入队，时间复杂度为O(<strong>logN</strong>)</li>
+<li><code>top()</code>：获得队首(即堆顶)元素</li>
+<li><code>pop()</code>：令队首元素(即堆顶)元素出队，时间复杂度为O(<strong>logN</strong>)</li>
+<li><code>empty()</code>：检测优先队列是否为空</li>
+<li><code>size()</code>：返回优先队列内元素个数</li>
+</ol>
+</li>
+<li><p><code>priority_queue</code>容器内元素的访问</p>
+<p><strong>只能通过<code>top()</code>函数访问队首元素(优先级最高的元素)</strong>。</p>
+</li>
+<li><p><code>priority_queue</code>内<strong>元素优先级的设置</strong></p>
+<ol>
+<li><p>基本数据类型的优先级设置</p>
+<p>下列两种优先队列的定义是等价的(以<code>int</code>型为例)</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">priority_queue&lt;int&gt; q;
+priority_queue&lt;int, vector&lt;int&gt;, less&lt;int&gt; &gt; q;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<ul>
+<li><code>vector&lt;int&gt;</code>：用来<strong>承载底层数据结构—堆</strong>的容器</li>
+<li><code>less&lt;int&gt;</code>：表示<strong>数字大的优先级越大</strong>(<strong>默认优先级</strong>)；<code>greater&lt;int&gt;</code>即为<strong>数字小的优先级越大</strong>。</li>
+</ul>
+<p>因此，如果想让最小的元素放在队首，需要如下定义：</p>
+<p><code>priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt; &gt; q;</code></p>
+</li>
+<li><p>结构体的优先级设置</p>
+<p>比如定义水果的结构体：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct fruit &#123;
+	string name;
+    int price;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>现在希望<strong>按水果价格高的为优先级高</strong>，就需要<strong>重载小于号<code>&lt;</code></strong>：</p>
+<ul>
+<li><p>方式一：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct fruit &#123;
+    string name;
+    int price;
+    friend bool operator &lt; (fruit f1, fruit f2) &#123;
+        return f1.price &lt; f2.price; &#x2F;&#x2F;水果价格高的为优先级高
+        &#x2F;&#x2F; return f1.price &gt; f2.price; &#x2F;&#x2F;水果价格低的为优先级高
+    &#125;
+&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>其中，<code>friend</code>为<strong>友元</strong>。<code>bool operator &lt; (fruit f1, fruit f2)</code><strong>对<code>&lt;</code>进行了重载</strong>。此时就可以直接定义<code>fruit</code>类型的优先队列，其内部就是以<strong>水果价格高的为优先级高</strong>：<code>priority_queue&lt;fruit&gt; q;</code></p>
+</li>
+<li><p>方式二：<strong>将重载的函数写在结构体外</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct cmp &#123;
+    bool operator () (fruit f1, fruit f2) &#123;
+        return f1.price &gt; f2.price;
+    &#125;
+&#125;
+
+priority_queue&lt;fruit, vector&lt;fruit&gt;, cmp&gt; q;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<p>即便是<strong>基本数据类型或者其他STL容器(如 set)</strong>，<strong>也可以通过同样的方式来定义优先级</strong>。如果结构体内的数据较为庞大，<strong>建议使用引用来提高效率</strong>：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">friend bool operate &lt; (const fruit &amp;f1, const fruit &amp;f2) &#123;
+    reutrn f1.price &gt; f2.price;
+&#125;
+&#x2F;&#x2F;或如下
+bool operator () (const fruit &amp;f1, const fruit &amp;f2) &#123;
+    return f1.price &gt; f2.price;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+</li>
+<li><p><code>priority_queue</code>的常见用途</p>
+<p>可以解决一些<strong>贪心问题</strong>，也可以<strong>对 Dijkstra 算法进行优化</strong>(因为优先队列的本质是堆)。需要注意的时是，<strong>使用<code>top()</code>函数之前，必须用<code>empty()</code>判断队列是否为空</strong>，否则可能因为队空而出现错误。</p>
+</li>
+</ol>
+<hr>
+<h4 id="-10"><a href="#-10" class="headerlink" title="&lt;stack&gt;"></a>&lt;stack&gt;</h4><p>栈</p>
+<ol>
+<li><p><code>stack</code>的定义</p>
+<p><code>stack&lt;typename&gt; name;</code></p>
+</li>
+<li><p><code>stack</code>常用函数</p>
+<ol>
+<li><code>push(x)</code>：将 x 压入栈</li>
+<li><code>top()</code>：获得栈顶元素</li>
+<li><code>pop()</code>：弹出栈顶元素</li>
+<li><code>empty()</code>：检测 stack 是否为空</li>
+<li><code>size()</code>：返回 stack 内元素的个数</li>
+</ol>
+</li>
+<li><p><code>stack</code>容器内元素的访问</p>
+<p><strong>只能通过<code>top()</code>函数访问栈顶元素</strong>。</p>
+</li>
+<li><p><code>stack</code>的常见用途</p>
+<p>stack 用来<strong>模拟实现一些 递归</strong>，防止程序<strong>对栈内存的限制</strong>而导致程序运行出错。对有些题目来说，<strong>如果用普通的函数进行递归，一旦递归层数过深，则会导致程序运行崩溃。如果用栈来模拟递归算法的实现，则可以避免这一方面的问题</strong>。</p>
+</li>
+</ol>
+<hr>
+<h4 id="-11"><a href="#-11" class="headerlink" title="&lt;utility&gt;"></a>&lt;utility&gt;</h4><h5 id="pair"><a href="#pair" class="headerlink" title="pair"></a><code>pair</code></h5><p>当想要<strong>将两个元素绑在一起作为一个合成元素</strong>，又<strong>不想因此定义结构体</strong>时，使用<code>pair</code>可以很方便地作为一个替代品，即 pair 可以<strong>看作 内部有两个元素 的结构体</strong>。</p>
+<ol>
+<li><p><code>pair</code>的定义</p>
+<p>注意：因为 映射map 的内部实现中涉及 pair，因此<strong>添加 map头文件 时会自动添加 utility头文件</strong>，因此，<strong>记不住 utility头文件，则可以用 map头文件 来代替</strong>。</p>
+<p>pair 有两个参数：<code>pair&lt;typeName1, typeName2&gt; name;</code></p>
+<ul>
+<li><p>如果想<strong>在定义 pair 时进行初始化</strong>，只需要跟上一个小括号，填写两个初始化元素即可：</p>
+<p><code>pair &lt;string, int&gt; p(&quot;haha&quot;, 5);</code></p>
+</li>
+<li><p>如果想<strong>临时构建一个 pair</strong>：</p>
+<ul>
+<li><code>pair&lt;string, int&gt;(&quot;haha&quot;, 5)</code></li>
+<li>使用自带的<code>make_pair</code>函数：<code>make_pair(&quot;haha&quot;, 5)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>pair</code>中元素的访问</p>
+<p>pair 中<strong>只有两个元素，分别是<code>first</code>和<code>second</code></strong>，只需要<strong>按 正常结构体的方式 访问</strong>即可。</p>
+</li>
+<li><p><code>pair</code>常用函数</p>
+<p><strong>比较操作数</strong>：</p>
+<p>两个 pair 类型数据可以<strong>直接使用比较符比较大小</strong>，比较规则是<strong>先以<code>first</code>的大小作为标准，<code>first</code>相等时去比较<code>second</code>的大小</strong>。</p>
+</li>
+<li><p><code>pair</code>的常见用途</p>
+<ul>
+<li><p>代替二元结构体及其构造函数，节省编码时间</p>
+</li>
+<li><p>作为<code>map</code>的<strong>键值对</strong>来进行插入：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">map&lt;string, int&gt; mp;
+mp.insert(make_pair(&quot;heihei&quot;, 5));
+mp.insert(pair&lt;string, int&gt;(&quot;haha&quot;, 10));<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><ol>
+<li><p><strong>一维数组初始化</strong></p>
+<p><strong>如果数组没有初始化，数组中每个元素为随机数</strong>。一维数组的初始化，<strong>未被赋初始值</strong>的元素将<strong>默认初始化为0</strong>，因此，如果想要给整个数组初始化为0，只需第一个元素初始化为0即可。<code>int a[10] = &#123;0&#125;;</code>(<strong>不适用C语言</strong>)</p>
+</li>
+<li><p><strong>二维数组初始化</strong></p>
+<p>二维数组初始化需要<strong>按第一维的顺序</strong>，依次<strong>用大括号</strong>给出<strong>第二维初始化</strong>的情况，<strong>未被赋初始值</strong>的元素将<strong>默认初始化为0</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int a[4][2] &#x3D; &#123;&#123;3&#125;, &#123;&#125;, &#123;8, 4&#125;&#125;; &#x2F;&#x2F;第二行使用大括号跳过
+&#x2F;**
+数组初始化为：
+3 0
+0 0
+8 4
+0 0
+*&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>如果数组大小较大(大概$10^6$级别)，需要定义在主函数外(即全局变量)</strong></p>
+<p>否则程序会异常退出（局部变量来自系统栈，允许申请空间较小；全局变量来自静态存储区，允许申请的空间较大）</p>
+</li>
+<li><p><strong>对数组中每一个元素赋相同的值</strong></p>
+<p><strong>需要<code>#include &lt;cstring&gt;</code></strong></p>
+<p><code>void* memset(数组名, 值, sizeof(数组名));</code></p>
+<p>memset <strong>按字节赋值</strong>，即对每个字节赋同样的值，<strong>组成int型的4个字节就会被赋成相同的值</strong>。故建议<strong>只用于赋 0或 -1</strong>(0的二进制补码为全0，-1的二进制补码为全1)，不易出错。</p>
+<p><strong>如果要对数组赋其他数字(如 1)，则使用 fill函数（执行速度比 memset 慢）</strong>。</p>
+</li>
+</ol>
+<hr>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><h3 id="字符数组"><a href="#字符数组" class="headerlink" title="字符数组"></a>字符数组</h3><ul>
+<li><p>输入</p>
+<ul>
+<li><pre><code class="language-c++">#include &lt;cstdio&gt;
+<pre class="line-numbers language-none"><code class="language-none">
+  - &#96;scanf(&quot;%s&quot;, str);&#96; 识别**空格或换行**作为输入结束，且**空格或回车符会留在缓冲区**
+
+  - &#96;char c &#x3D; getchar();&#96; 能够读入**空格和换行符**
+
+  - &#96;gets(char* str);&#96; 识别**换行**作为输入结束，且**回车符会被舍弃，不在缓冲区**
+
+    因此，**scanf一个输入后，如果要使用gets，需要先用 getchar 接收scanf后的空格或换行符**。
+  
+    另外，**PAT使用C++提交时**，使用&#96;gets()&#96;函数会出现**编译错误**，建议使用C++函数。
+  
+- &#96;&#96;&#96;c++
+  #include &lt;iostream&gt;
+  using std::cin;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+- `cin &gt;&gt;`
+
+- `cin.getline(数组名称, 数组大小)`
+
+  <pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">char str[100];
+&#x2F;*
+指定最多读入 9 个字符，超出即报错
+（实际数组最多能存放99个字符，空字符\0 占用一个字符位）
+*&#x2F;
+cin.getline(str, 10);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>输出</p>
+<ul>
+<li><pre><code class="language-c++">#include &lt;cstdio&gt;
+<pre class="line-numbers language-none"><code class="language-none">
+  - &#96;printf(str);&#96; 
+  - &#96;putchar(char c);&#96;
+  - &#96;puts(char* str);&#96; 输出数组内容后，**紧跟一个换行**
+
+- &#96;&#96;&#96;c++
+  #include &lt;iostream&gt;
+  using std::cout;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+- `cout &lt;&lt;`
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>字符数组的存放方式</p>
+<p>字符数组的<strong>末尾都有一个 空字符<code>\0</code>(即NULL)，表示存放的字符串的结尾</strong>。空字符<code>\0</code> 在<strong>gets</strong>和<strong>scanf</strong>输入字符串时，会<strong>自动添加在输入的字符串后面</strong>，并<strong>占用一个字符位</strong>。<strong>puts</strong>和<strong>printf</strong>就是<strong>通过识别<code>\0</code>作为字符串的结尾进行输出</strong>。</p>
+<ul>
+<li>空字符<code>\0</code><strong>占用一个字符位</strong>，因此<strong>字符数组的长度一定要比实际存储字符串的长度 至少多1</strong>。</li>
+<li>如果<strong>使用<code>getchar()</code>输入字符串</strong>，一定要在<strong>每个字符串后加入<code>\0</code>，否则printf和puts输出字符串会因无法识别字符串末尾而输出一大堆乱码</strong>。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="C-的标准库类-string"><a href="#C-的标准库类-string" class="headerlink" title="C++ 的标准库类 string"></a>C++ 的标准库类 string</h3><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;string&gt;
+using std::string;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>若引用了<code>&lt;iostream&gt;</code>头文件，创建string对象时，无须引用<code>&lt;string&gt;</code>，因为<code>&lt;iostream&gt;</code>有对<code>std::string</code>的间接引用。但时要对string对象运用相关的函数操作，仍须引用<code>&lt;string&gt;</code>。</p>
+<ul>
+<li><p>输入一整行</p>
+<p><code>getline(cin, str)</code></p>
+</li>
+<li><p>比较字符串大小</p>
+<ul>
+<li><p><code>str1.compare(str2)</code></p>
+<p><strong>按字典顺序(顺序越靠后，越大)</strong>，返回两个字符串大小的比较</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="-12"><a href="#-12" class="headerlink" title="&lt;cstring&gt;"></a>&lt;cstring&gt;</h3><ol>
+<li><p><code>strlen(str)</code></p>
+<p>得到字符数组中<strong>第一个<code>\0</code>前 的字符个数</strong></p>
+</li>
+<li><p><code>strcmp(str1, str2)</code></p>
+<p><strong>按字典顺序(顺序越靠后，越大)</strong>，返回两个字符串大小的比较结果：</p>
+<ul>
+<li><code>str1 &lt; str2</code>，返回一个<strong>负整数</strong>(不同编译器处理不同，<strong>不一定是 -1</strong>)</li>
+<li><code>str1 == str2</code>，返回一个0</li>
+<li><code>str1 &gt; str2</code>，返回一个<strong>正整数</strong>(不同编译器处理不同，<strong>不一定是 +1</strong>)</li>
+</ul>
+</li>
+<li><p><code>strcpy(str1, str2)</code></p>
+<p>把 str2 复制给 str1，<strong>包括结束符<code>\0</code></strong></p>
+</li>
+<li><p><code>strcat(str1, str2)</code></p>
+<p>把 str2 <strong>拼接</strong>到 str1 后面</p>
+</li>
+</ol>
+<hr>
+<h3 id="字符串与数字的相互转换"><a href="#字符串与数字的相互转换" class="headerlink" title="字符串与数字的相互转换"></a>字符串与数字的相互转换</h3><h4 id="C语言"><a href="#C语言" class="headerlink" title="C语言"></a>C语言</h4><h5 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h5><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;cstdlib&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>字符串 <strong>转为 数字</strong></p>
+<ul>
+<li><code>atoi(str)</code>：将字符串转为 int型</li>
+<li><code>atol(str)</code>：将字符串转为 long long型</li>
+<li><code>atof(str)</code>：将字符串转为 double型</li>
+</ul>
+<hr>
+<h5 id="方法二：-sscanf-与-sprintf"><a href="#方法二：-sscanf-与-sprintf" class="headerlink" title="方法二： sscanf 与 sprintf"></a>方法二： sscanf 与 sprintf</h5><p>如果想从屏幕输入 int型变量n 并将 n 输出到屏幕：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">scanf(&quot;%d&quot;, &amp;n);
+printf(&quot;%d&quot;, n);
+&#x2F;&#x2F;其实可以表示成如下
+scanf(screen, &quot;%d&quot;, &amp;n);
+printf(screen, &quot;%d&quot;, n);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>sscanf</code>与<code>sprintf</code>的格式如出一辙，只是把screen换成了字符数组</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">sscanf(str, &quot;%d&quot;, &amp;n); &#x2F;&#x2F;将字符数组str中的内容以&quot;%d&quot;格式写到n中
+sprintf(str, &quot;%d&quot;, n); &#x2F;&#x2F;把n以&quot;%d&quot;的格式写到str数组中<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>例：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;cstdio&gt;
+
+int main() &#123;
+    int n;
+    double db;
+    char str[100] &#x3D; &quot;2048:3.14,hello&quot;, str2[100];
+    &#x2F;*
+    从字符串读取格式化输入
+    使得 n &#x3D; 2048, db &#x3D; 3.14, str2 &#x3D; hello
+    *&#x2F;
+    sscanf(str, &quot;%d:%lf,%s&quot;, &amp;n, &amp;db, str2);
+    n &#x3D; 12;
+    db &#x3D; 3.1415;
+    str2[100] &#x3D; &quot;good&quot;;
+    &#x2F;*
+    发送格式化输出到字符串
+    使得 str &#x3D; &quot;12:3.14,good&quot;
+    *&#x2F;
+    sprintf(str, &quot;%d:%.2f,%s&quot;, n, db, str2);
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h4 id="C-："><a href="#C-：" class="headerlink" title="C++："></a>C++：</h4><p>数字 <strong>转为 字符串</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;string&gt;
+using namespace std;
+
+string str &#x3D; to_string(num);
+len &#x3D; str.length();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="数组作为函数参数"><a href="#数组作为函数参数" class="headerlink" title="数组作为函数参数"></a>数组作为函数参数</h2><ul>
+<li>参数中数组的<strong>第一维不需要填写长度</strong>(如果是二维数组，<strong>第二维需要填写长度</strong>)</li>
+<li><strong>在函数中对数组元素的修改 等同于 对原数组元素的修改</strong>(与普通局部变量不同)</li>
+</ul>
+<p>例：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;cstdio&gt;
+
+void change(int a[], int b[][5]) &#123;&#x2F;&#x2F;参数数组 第一维不需要填写长度，第二维需要填写长度
+    a[0] &#x3D; 1;
+    a[1] &#x3D; 3;
+    a[2] &#x3D; 5;
+    b[0][0] &#x3D; 1;
+&#125;
+
+int main() &#123;
+    int a[3] &#x3D; &#123;0&#125;; &#x2F;&#x2F;不适用C语言
+    int b[5][5] &#x3D; &#123;0&#125;; &#x2F;&#x2F;不适用C语言
+    change(a, b);
+    for (int i &#x3D; 0; i &lt; 3; i++) &#123;
+        printf(&quot;%d\n&quot;, a[i]);
+    &#125;
+    &#x2F;*
+    输出结果为：
+    1
+    3
+    5
+    *&#x2F;
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>数组不允许作为返回类型出现，<strong>想要返回数组，只能通过参数返回</strong></li>
+</ul>
+<hr>
+<h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><ul>
+<li><p>C语言习惯于把<code>*</code>放在变量名之前：<code>int *p;</code>(声明多个指针时，<strong>易统一</strong>)</p>
+</li>
+<li><p>C++习惯把<code>*</code>放在数据类型之后：<code>int* p;</code></p>
+</li>
+<li><p><strong>地址赋给<code>p</code>而不是<code>*p</code></strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int a;
+int* p;
+p &#x3D; &a; &#x2F;&#x2F;等价于 int* p &#x3D; &a;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>指针的加减法</p>
+<ul>
+<li>两个指针相减，得到两个地址的距离</li>
+<li><code>p + 1</code>指 p所指的int型变量 的<strong>下一个int型变量地址</strong></li>
+<li>指针<strong>支持自增和自减操作</strong></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="指针变量作为函数参数"><a href="#指针变量作为函数参数" class="headerlink" title="指针变量作为函数参数"></a>指针变量作为函数参数</h3><p>例子：<strong>交换两个数</strong></p>
+<p><strong>只有在获取地址的情况下对元素进行操作，才能真正修改变量</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;cstdio&gt;
+
+void swap(int* a, int* b) &#123;
+    int tmp &#x3D; *a;
+    *a &#x3D; *b;
+    *b &#x3D; tmp;
+&#125;
+
+int main() &#123;
+    int a &#x3D; 1, b &#x3D; 2;
+    int *p1 &#x3D; &amp;a, *p2 &#x3D; &b;
+    swap(p1, p2);
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>错误写法：</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void swap1(int* a, int* b) &#123;
+    int* tmp;
+    *tmp &#x3D; *a;
+    *a &#x3D; *b;
+    *b &#x3D; *tmp;   
+&#125;
+&#x2F;*
+tmp未初始化，存放的地址很大概率指向系统工作区间，不能修改，故后续报错
+初始化tmp即可
+*&#x2F;
+void swap2(int* a, int* b) &#123;
+    int x;
+    int* tmp &#x3D; &x;
+    *a &#x3D; *b;
+    *b &#x3D; *tmp;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><h4 id="引用的含义"><a href="#引用的含义" class="headerlink" title="引用的含义"></a>引用的含义</h4><p>引用是C++的语法，在编程时极为实用。如果要<strong>修改传入函数的参数，且不使用指针</strong>，可以通过<strong>C++的引用</strong>。引用<strong>不产生副本</strong>，只是<strong>给原变量起个别名</strong>。</p>
+<p>引用的方法：在函数的<strong>参数变量名前加个<code>&amp;</code>即可</strong>。要将**引用<code>&amp;</code><strong>与</strong>取地址运算符<code>&amp;</code>**区分开来，<strong>引用并不是取地址的意思</strong>。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;cstdio&gt;
+
+void change(int &amp;x) &#123;
+    x &#x3D; 1;
+&#125;
+
+int main() &#123;
+    int x &#x3D; 10;
+    change(x);
+    printf(&quot;%d\n&quot;, x); &#x2F;&#x2F;输出1
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="指针的引用"><a href="#指针的引用" class="headerlink" title="指针的引用"></a>指针的引用</h4><p>例子：<strong>交换两个数</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;错误写法
+void swap(int* a, int* b) &#123;
+    int* tmp &#x3D; a;
+    a &#x3D; b; &#x2F;&#x2F;交换的地址 是 值传递，不会修改原指针的地址
+    b &#x3D; tmp;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>通过引用实现交换</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;cstdio&gt;
+
+void  swap(int* &amp;a, int* &amp;b) &#123; &#x2F;&#x2F;通过引用实现交换
+    int* tmp &#x3D; a;
+    a &#x3D; b;
+    b &#x3D; tmp;
+&#125;
+
+int main() &#123;
+    int a &#x3D; 1, b &#x3D; 2;
+    int *p1 &#x3D; &amp;a, *p2 &#x3D; &b;
+    swap(p1, p2); &#x2F;&#x2F;不能写成 swap(&amp;a, &amp;b);
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>引用是产生<strong>变量的别名，常量不可使用引用</strong>。故上述</p>
+<blockquote>
+<p><code>swap(p1, p2); //不能写成 swap(&amp;a, &amp;b);</code></p>
+</blockquote>
+<hr>
+<h2 id="结构体（struct）的使用"><a href="#结构体（struct）的使用" class="headerlink" title="结构体（struct）的使用"></a>结构体（struct）的使用</h2><h3 id="访问结构体内的元素"><a href="#访问结构体内的元素" class="headerlink" title="访问结构体内的元素"></a>访问结构体内的元素</h3><p>假设<code>p</code>是一个指向结构的指针，可以用**<code>p-&gt;结构成员</code>的形式（等价于<code>(*p).结构成员</code>）**，引用相应的结构成员。</p>
+<hr>
+<h2 id="申请动态内存空间"><a href="#申请动态内存空间" class="headerlink" title="申请动态内存空间"></a>申请动态内存空间</h2><p>如需要定义链表的结点时。</p>
+<p>C语言有<code>malloc</code>和<code>free</code>函数用于内存的申请和释放，C++有<code>new</code>和<code>delete</code>运算符用于内存的申请和释放。<strong>推荐使用C++进行内存的申请和释放(用法更简洁)</strong>。</p>
+<ul>
+<li><p>申请内存空间 — <code>new</code>运算符：</p>
+<p>使用<strong>new + 类型名</strong>即可分配一块该类型的内存空间，<strong>返回申请的同变量类型的指针</strong>：<code>typename* p = new typename;</code></p>
+<p>示例：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int* p &#x3D; new int;
+node* p &#x3D; new node;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>通常情况下，内存空间的申请不会失败。失败一般发生在使用<code>new</code><strong>申请了较大的动态数组</strong>，如：<code>int* p = new int[1000000];</code>。<strong>申请失败会发生异常</strong>。</p>
+</li>
+<li><p>释放内存 — <code>delete</code>运算符：</p>
+<p>以<strong>需要释放的内存空间的指针变量</strong>为参数：<code>delete(p);</code>，执行之后，<strong>指针变量<code>p</code>没有消失，只是指向了空地址<code>NULL</code></strong>。</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/PAT/" rel="tag"><i class="fa fa-tag"></i> PAT</a>
+              <a href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag"><i class="fa fa-tag"></i> C语言</a>
+              <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/02/01/C%E8%AF%AD%E8%A8%80%E5%92%8CC++%E7%9A%84%E6%AF%94%E8%BE%83/" rel="prev" title="C语言和C++的比较">
+                  <i class="fa fa-angle-left"></i> C语言和C++的比较
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/02/03/%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95/" rel="next" title="黑盒测试">
+                  黑盒测试 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

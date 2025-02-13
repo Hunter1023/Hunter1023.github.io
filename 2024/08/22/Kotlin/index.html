@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="简介Kotlin是一种现代但已经成熟的编程语言，它简洁、安全、可与Java和其他语言互操作，并提供了许多在多个平台之间重用代码的方法。它由JetBrains公司于2011年设计和开发，并在2016年正式发布。Kotlin旨在解决Java语言在编码效率和代码质量方面存在的问题，并且与Java语言完全兼容。Kotlin通过简化语法、提供更强大的功能以及减少样板代码的编写，使得开发者能够更高效地编写清晰">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kotlin">
+<meta property="og:url" content="https://hunter1023.github.io/2024/08/22/Kotlin/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="简介Kotlin是一种现代但已经成熟的编程语言，它简洁、安全、可与Java和其他语言互操作，并提供了许多在多个平台之间重用代码的方法。它由JetBrains公司于2011年设计和开发，并在2016年正式发布。Kotlin旨在解决Java语言在编码效率和代码质量方面存在的问题，并且与Java语言完全兼容。Kotlin通过简化语法、提供更强大的功能以及减少样板代码的编写，使得开发者能够更高效地编写清晰">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2024/08/22/k3oHcWngCUMRKY1.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/22/MgF2ASi9TCdJUVh.png">
+<meta property="article:published_time" content="2024-08-22T06:54:33.000Z">
+<meta property="article:modified_time" content="2025-02-13T13:11:45.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="Kotlin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/08/22/k3oHcWngCUMRKY1.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2024/08/22/Kotlin/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2024/08/22/Kotlin/","path":"2024/08/22/Kotlin/","title":"Kotlin"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Kotlin | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-Studio%E4%B8%AD%E5%88%9B%E5%BB%BA-Kotlin-File%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">Android Studio中创建 Kotlin File文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E5%87%BD%E6%95%B0%E5%92%8C%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">标准函数和静态方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E5%87%BD%E6%95%B0with%E3%80%81run%E5%92%8Capply"><span class="nav-number">3.1.</span> <span class="nav-text">标准函数with、run和apply</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">定义静态方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E5%87%BD%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">扩展函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD"><span class="nav-number">5.</span> <span class="nav-text">运算符重载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0"><span class="nav-number">6.</span> <span class="nav-text">高阶函数</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2024/08/22/Kotlin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Kotlin | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kotlin<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/Kotlin.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-08-22 14:54:33" itemprop="dateCreated datePublished" datetime="2024-08-22T14:54:33+08:00">2024-08-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-02-13 21:11:45" itemprop="dateModified" datetime="2025-02-13T21:11:45+08:00">2025-02-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Kotlin/" itemprop="url" rel="index"><span itemprop="name">Kotlin</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Kotlin是一种现代但已经成熟的编程语言，它简洁、安全、可与Java和其他语言互操作，并提供了许多在多个平台之间重用代码的方法。它由JetBrains公司于2011年设计和开发，并在2016年正式发布。<strong>Kotlin旨在解决Java语言在编码效率和代码质量方面存在的问题，并且与Java语言完全兼容</strong>。Kotlin通过简化语法、提供更强大的功能以及减少样板代码的编写，使得开发者能够更高效地编写清晰、简洁而又安全的代码。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="Android-Studio中创建-Kotlin-File文件"><a href="#Android-Studio中创建-Kotlin-File文件" class="headerlink" title="Android Studio中创建 Kotlin File文件"></a>Android Studio中创建 Kotlin File文件</h2><blockquote>
+<ul>
+<li><strong>Kotlin Class</strong> 文件：用于定义一个类，适合面向对象编程的场景，如定义 <code>Activity</code>、<code>Fragment</code> 等。</li>
+<li><strong>Kotlin File</strong> 文件：用于定义顶级函数、变量等，适合函数式编程的场景，如 Jetpack Compose 的 UI 组件定义。</li>
+</ul>
+<p>这两者的选择主要取决于你要定义的内容和你所使用的编程范式。在 Jetpack Compose 中，由于其函数式编程的特点，使用 <code>Kotlin File</code> 是更自然的选择。而在传统的 Android 开发中，定义 <code>Activity</code> 类时，<code>Kotlin Class</code> 是更合适的。</p>
+</blockquote>
+<p>在目标目录下，右键<code>New</code> - <code>Kotlin Class/File</code>，<strong>选择Class或者File都可以，Android Studio会根据文件内容自动变更</strong>。</p>
+<img src="https://s2.loli.net/2024/08/22/k3oHcWngCUMRKY1.png" alt="image-20240822150142616" style="zoom:80%;" />
+
+<img src="https://s2.loli.net/2024/08/22/MgF2ASi9TCdJUVh.png" alt="image-20240822150300407" style="zoom:80%;" />
+
+<p>Kotlin文件的运行入口是<code>main()</code>方法：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">fun</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">println</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"Hello Kotlin!"</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="标准函数和静态方法"><a href="#标准函数和静态方法" class="headerlink" title="标准函数和静态方法"></a>标准函数和静态方法</h2><h3 id="标准函数with、run和apply"><a href="#标准函数with、run和apply" class="headerlink" title="标准函数with、run和apply"></a>标准函数with、run和apply</h3><p>Kotlin的标准函数指的是Standard.kt文件中定义的函数，任何Kotlin代码都可以自由地调用。</p>
+<p><strong>with函数接收两个参数：任意类型的对象，lambda表达式。<strong>在lambda表达式中</strong>提供第一个参数对象的上下文</strong>，并使用lambda表达式中的<strong>最后一行代码作为返回值返回</strong>。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">val</span> result <span class="token operator">=</span> <span class="token function">with</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// obj的上下文</span>
+    <span class="token string-literal singleline"><span class="token string">"value"</span></span> <span class="token comment">// 返回值</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>with函数可以在连续调用同一个对象的多个方法时，让代码更精简。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">val</span> list <span class="token operator">=</span> <span class="token function">listOf</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"Apple"</span></span><span class="token punctuation">,</span> <span class="token string-literal singleline"><span class="token string">"Banana"</span></span><span class="token punctuation">,</span> <span class="token string-literal singleline"><span class="token string">"Orange"</span></span><span class="token punctuation">,</span> <span class="token string-literal singleline"><span class="token string">"Pear"</span></span><span class="token punctuation">,</span> <span class="token string-literal singleline"><span class="token string">"Grape"</span></span><span class="token punctuation">)</span>
+<span class="token keyword">val</span> result <span class="token operator">=</span> <span class="token function">with</span><span class="token punctuation">(</span><span class="token function">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">append</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"Start eating fruits.\n"</span></span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>fruit <span class="token keyword">in</span> list<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">append</span><span class="token punctuation">(</span>fruit<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"\n"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">append</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"Ate all fruits."</span></span><span class="token punctuation">)</span>
+    <span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
+<span class="token function">println</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<p>run函数的用法和使用场景其实和with函数是非常类似的，只是稍微做了一些语法改动而已。首先run函数通常不会直接调用，而是要在某个对象的基础上调用；其次run函数只接收一个Lambda参数，并且会在Lambda表达式中提供调用对象的上下文。 </p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">val</span> result <span class="token operator">=</span> obj<span class="token punctuation">.</span><span class="token function">run</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// obj的上下文</span>
+    <span class="token string-literal singleline"><span class="token string">"value"</span></span> <span class="token comment">// 返回值</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<p>apply函数和run函数也是极其类似的，都要在某个对象上调用，并且只接收一个Lambda参数，也会在Lambda表达式中提供调用对象的上下文，但是apply函数无法指定返回值，而是会自动返回调用对象本身。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token comment">// result == obj</span>
+<span class="token keyword">val</span> result <span class="token operator">=</span> obj<span class="token punctuation">.</span><span class="token function">apply</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 这里是obj的上下文</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="定义静态方法"><a href="#定义静态方法" class="headerlink" title="定义静态方法"></a>定义静态方法</h3><p>和绝大多数主流编程语言不同的是，Kotlin却极度弱化了静态方法这个概念，想要在Kotlin中定义一个静态方法反倒不是一件容易的事。<br>那么Kotlin为什么要这样设计呢？因为<strong>Kotlin提供了比静态方法更好用的语法特性，单例类</strong>。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">object</span> Util <span class="token punctuation">&#123;</span>
+    <span class="token keyword">fun</span> <span class="token function">doAction</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">println</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"do action"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>虽然这里的<code>doAction()</code>方法并不是静态方法，但是我们仍然可以使用<code>Util.doAction()</code>的方式来调用，这就是单例类所带来的便利性。</p>
+<p>不过，使用单例类的写法会<strong>将整个类中的所有方法全部变成类似于静态方法的调用方式</strong>，而如果只是希望<strong>让类中的某一个方法变成静态方法的调用方式，可以使用companion object</strong>。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">class</span> Util <span class="token punctuation">&#123;</span>
+    <span class="token keyword">fun</span> <span class="token function">doAction1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">println</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"do action1"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">companion</span> <span class="token keyword">object</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">fun</span> <span class="token function">doAction2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">println</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"do action2"</span></span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>companion object这个关键字</strong>实际上会在Util类的<strong>内部创建一个伴生类</strong>，而<code>doAction2()</code>方法就是定义在这个伴生类里面的实例方法。只是Kotlin会保证Util类始终只会存在一个伴生类对象，因此调用<code>Util.doAction2()</code>方法实际上就是调用了Util类中伴生对象的<code>doAction2()</code>方法。</p>
+<hr>
+<p>Kotlin确实没有直接定义静态方法的关键字，但是提供了一些语法特性来支持类似于静态方法调用的写法，这些语法特性基本可以满足我们平时的开发需求了。然而<strong>如果需要定义真正的静态方法， Kotlin仍然提供了两种实现方式：注解和顶层方法</strong>。</p>
+<p>如果我们给单例类或companion object中的方法加上<code>@JvmStatic</code>注解，那么Kotlin编译器就会将这些方法编译成真正的静态方法，如下所示：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">class</span> Util <span class="token punctuation">&#123;</span>
+    <span class="token keyword">fun</span> <span class="token function">doAction1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">println</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"do action1"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token keyword">companion</span> <span class="token keyword">object</span> <span class="token punctuation">&#123;</span>
+        <span class="token annotation builtin">@JvmStatic</span>
+        <span class="token keyword">fun</span> <span class="token function">doAction2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">println</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"do action2"</span></span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong><code>@JvmStatic</code>注解只能加在单例类或companion object中的方法上</strong>。由于<code>doAction2()</code>方法已经成为了真正的静态方法，那么现在不管是在Kotlin中还是在Java中，都可以使用<code>Util.doAction2()</code>的写法来调用了。</p>
+<hr>
+<p><strong>顶层方法</strong>指的是<strong>没有定义在任何类中的方法</strong>，Kotlin编译器会将所有的顶层方法全部编译成静态方法。想要定义一个顶层方法，首先需要创建一个Kotlin文件。对着任意包名右击 → New → Kotlin File&#x2F;Class，在弹出的对话框中输入文件名即可，<strong>创建类型要选择File</strong>。</p>
+<p>例如创建一个<code>Helper.kt</code>文件：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">fun</span> <span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">println</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"do something"</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>在Kotlin代码中，<strong>所有的顶层方法都可以在任何位置被直接调用，不用管包名路径，也不用创建实例，直接输入方法名即可</strong>。</p>
+<p>但如果是在Java代码中调用，因为Java中没有顶层方法这个概念，所有的方法必须定义在类中。Kotlin编译器会自动创建对应的的Java类，<code>doSomething()</code>方法以静态方法的形式定义在<code>HelperKt</code>类里。</p>
+<hr>
+<h2 id="扩展函数"><a href="#扩展函数" class="headerlink" title="扩展函数"></a>扩展函数</h2><p>扩展函数表示，即使不修改某个类的源码，仍然可以打开这个类，向该类添加新的函数。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">fun</span> ClassName<span class="token punctuation">.</span><span class="token function">methodName</span><span class="token punctuation">(</span>param1<span class="token operator">:</span> Int<span class="token punctuation">,</span> param2<span class="token operator">:</span> Int<span class="token punctuation">)</span><span class="token operator">:</span> Int <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>定义扩展函数只需要在函数名的前面加上一个<code>ClassName.</code>的语法结构，就表示将该函数添加到指定类当中。</p>
+<p>文件名虽然并没有固定的要求，但是建议向哪个类中添加扩展函数，就<strong>定义一个同名的Kotlin文件</strong>，这样便于以后查找。当然，扩展函数也是可以定义在任何一个现有类当中的，并不一定非要创建新文件。不过通常来说，<strong>最好将它定义成顶层方法，这样可以让扩展函数拥有全局的访问域</strong>。</p>
+<p>例如定义一个函数，用于统计字符串中字母的数量。可以创建一个<code>String.kt</code>文件：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">fun</span> String<span class="token punctuation">.</span><span class="token function">lettersCnt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> Int <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> cnt <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token comment">// 自动拥有String实例的上下文，可以直接遍历this，this代表字符串本身</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>char <span class="token keyword">in</span> <span class="token keyword">this</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>char<span class="token punctuation">.</span><span class="token function">isLetter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            cnt<span class="token operator">++</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> cnt
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="运算符重载"><a href="#运算符重载" class="headerlink" title="运算符重载"></a>运算符重载</h2><p>Kotlin允许我们将所有的运算符甚至其他的关键字进行重载，从而拓展这些运算符和关键字的用法。运算符重载使用的是<strong>operator关键字</strong>。</p>
+<p>例如让两个Money对象相加，<code>Money.kt</code>文件：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">class</span> <span class="token function">Money</span><span class="token punctuation">(</span><span class="token keyword">val</span> value<span class="token operator">:</span> Int<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    
+    <span class="token keyword">operator</span> <span class="token keyword">fun</span> <span class="token function">plus</span><span class="token punctuation">(</span>money<span class="token operator">:</span> Money<span class="token punctuation">)</span><span class="token operator">:</span> Money <span class="token punctuation">&#123;</span>
+        <span class="token keyword">val</span> sum <span class="token operator">=</span> value <span class="token operator">+</span> money<span class="token punctuation">.</span>value
+        <span class="token keyword">return</span> <span class="token function">Money</span><span class="token punctuation">(</span>sum<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token keyword">operator</span> <span class="token keyword">fun</span> <span class="token function">plus</span><span class="token punctuation">(</span>newValue<span class="token operator">:</span> Int<span class="token punctuation">)</span><span class="token operator">:</span> Money <span class="token punctuation">&#123;</span>
+        <span class="token keyword">val</span> sum <span class="token operator">=</span> value <span class="token operator">+</span> newValue
+        <span class="token keyword">return</span> <span class="token function">Money</span><span class="token punctuation">(</span>sum<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这样，就可以将两个Money对象相加，也能直接和数字相加。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">val</span> money1 <span class="token operator">=</span> <span class="token function">Money</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+<span class="token keyword">val</span> money2 <span class="token operator">=</span> <span class="token function">Money</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
+<span class="token keyword">val</span> money3 <span class="token operator">=</span> money1 <span class="token operator">+</span> money2
+<span class="token keyword">val</span> money4 <span class="token operator">=</span> money3 <span class="token operator">+</span> <span class="token number">20</span>
+<span class="token function">println</span><span class="token punctuation">(</span>money3<span class="token punctuation">.</span>value<span class="token punctuation">)</span>
+<span class="token function">println</span><span class="token punctuation">(</span>money4<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h2><p>如果一个函数<strong>接收另一个函数作为参数</strong>，或者<strong>返回值类型是另一个函数</strong>，该函数就称为高阶函数。</p>
+<p>函数类型的基本规则：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token punctuation">(</span>String<span class="token punctuation">,</span> Int<span class="token punctuation">)</span> <span class="token operator">-></span> Unit<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><code>-&gt;</code>的左边用来声明函数接收的参数，多个参数之间逗号分隔，<strong>如果不接收任何参数，写一对空括号</strong></li>
+<li><code>-&gt;</code>的右边用于声明函数的返回值类型，如果<strong>没有返回值就使用Unit</strong>。</li>
+</ul>
+<p>将上述函数类型添加到某个函数的参数声明或者返回值声明上，这个函数就是一个高阶函数：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">fun</span> <span class="token function">example</span><span class="token punctuation">(</span>func<span class="token operator">:</span> <span class="token punctuation">(</span>String<span class="token punctuation">,</span> Int<span class="token punctuation">)</span> <span class="token operator">-></span> Unit<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">func</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"hello"</span></span><span class="token punctuation">,</span> <span class="token number">123</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>高阶函数<strong>允许让函数类型的参数来决定函数的执行逻辑</strong>。Lambda表达式是最常见也是最普遍的高阶函数调用方式。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">fun</span> <span class="token function">num1AndNum2</span><span class="token punctuation">(</span>num1<span class="token operator">:</span> Int<span class="token punctuation">,</span> num2<span class="token operator">:</span> Int<span class="token punctuation">,</span> operation<span class="token operator">:</span> <span class="token punctuation">(</span>Int<span class="token punctuation">,</span> Int<span class="token punctuation">)</span> <span class="token operator">-></span> Int<span class="token punctuation">)</span><span class="token operator">:</span> Int <span class="token punctuation">&#123;</span>
+    <span class="token keyword">val</span> result <span class="token operator">=</span> <span class="token function">operation</span><span class="token punctuation">(</span>num1<span class="token punctuation">,</span> num2<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> result
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">fun</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">val</span> num1 <span class="token operator">=</span> <span class="token number">100</span>
+    <span class="token keyword">val</span> num2 <span class="token operator">=</span> <span class="token number">80</span>
+    <span class="token keyword">val</span> result1 <span class="token operator">=</span> <span class="token function">num1AndNum2</span><span class="token punctuation">(</span>num1<span class="token punctuation">,</span> num2<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        n1<span class="token punctuation">,</span> n2 <span class="token operator">-></span> n1 <span class="token operator">+</span> n2
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">val</span> result2 <span class="token operator">=</span> <span class="token function">num1AndNum2</span><span class="token punctuation">(</span>num1<span class="token punctuation">,</span> num2<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        n1<span class="token punctuation">,</span> n2 <span class="token operator">-></span> n1 <span class="token operator">-</span> n2
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">println</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"result1 is </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">result1</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    <span class="token function">println</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"result2 is </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$</span><span class="token expression">result2</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>apply函数可以用于给Lambda表达式提供一个指定的上下文，当需要连续调用一个对象的多个方法时，apply函数可以让代码更精简。</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">fun</span> StringBuilder<span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span>block<span class="token operator">:</span> StringBuilder<span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> Unit<span class="token punctuation">)</span><span class="token operator">:</span> StringBuilder <span class="token punctuation">&#123;</span>
+    <span class="token function">block</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这里给StringBuilder类定义了一个build扩展函数，这个扩展函数接收一个函数类型参数，并且返回值类型也是StringBuilder。</p>
+<p><code>StringBuilder.</code>：在函数类型的前面加上<code>ClassName.</code>，表示这个函数类型是定义在哪个类当中。</p>
+<p>现在我们就可以使用自己创建的build函数来简化StringBuilder构建字符串的方式了。这里仍然用吃水果这个功能来举例：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">fun</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">val</span> list <span class="token operator">=</span> <span class="token function">listOf</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"Apple"</span></span><span class="token punctuation">,</span> <span class="token string-literal singleline"><span class="token string">"Banana"</span></span><span class="token punctuation">,</span> <span class="token string-literal singleline"><span class="token string">"Orange"</span></span><span class="token punctuation">,</span> <span class="token string-literal singleline"><span class="token string">"Pear"</span></span><span class="token punctuation">,</span> <span class="token string-literal singleline"><span class="token string">"Grape"</span></span><span class="token punctuation">)</span>
+    <span class="token keyword">val</span> result <span class="token operator">=</span> <span class="token function">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">append</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"Start eating fruits.\n"</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>fruit <span class="token keyword">in</span> list<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">append</span><span class="token punctuation">(</span>fruit<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"\n"</span></span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token function">append</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"Ate all fruits."</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">println</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>可以看到，build函数的用法和apply函数基本上是一模一样的，只不过<strong>我们编写的build函数目前只能作用在StringBuilder类上面，而apply函数是可以作用在所有类上面的。如果想实现apply函数的这个功能，需要借助于Kotlin的泛型才行</strong>。</p>
+<p>Kotlin提供了<strong>内联函数</strong>的功能，它<strong>可以将使用Lambda表达式带来的运行开销完全消除</strong>。内联函数的用法非常简单，只需要<strong>在定义高阶函数时加上<code>inline</code>关键字声明即可</strong>。</p>
+<p>为什么Kotlin要提供一个<code>noinline</code>关键字来排除内联功能呢？<strong>内联的函数类型参数只允许传递给另一个内联函数，这是它最大的局限性</strong>。而<strong>非内联的函数类型参数可以自由地传递给其他任何函数</strong>。另外，内联函数和非内联函数有一个重要的区别，<strong>内联函数引用的lambda表达式可以使用return关键字进行函数返回</strong>，<strong>非内联函数只能进行局部返回</strong>。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Kotlin/" rel="tag"><i class="fa fa-tag"></i> Kotlin</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/08/21/Andriod%E5%BC%80%E5%8F%91/" rel="prev" title="Andriod开发">
+                  <i class="fa fa-angle-left"></i> Andriod开发
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/01/22/%E5%B7%A5%E5%85%B7%E7%B1%BB/" rel="next" title="工具类">
+                  工具类 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="基础理论CAP理论和BASE理论一致性的三种级别 强一致性   系统写入了什么，读出来就是什么。  弱一致性   不一定可以读取到最新写入的值，也不保证多少时间之后能读取到最新的，只尽量保证某个时刻达到数据一致的状态。  最终一致性     弱一致性的升级版。不一定可以读取到最新写入的值，但保证在一定时间内达到数据一致的状态。   业界比较推崇最终一致性，但是某些对数据一致要求非常严格的场景，比如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式事务">
+<meta property="og:url" content="https://hunter1023.github.io/2024/06/07/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="基础理论CAP理论和BASE理论一致性的三种级别 强一致性   系统写入了什么，读出来就是什么。  弱一致性   不一定可以读取到最新写入的值，也不保证多少时间之后能读取到最新的，只尽量保证某个时刻达到数据一致的状态。  最终一致性     弱一致性的升级版。不一定可以读取到最新写入的值，但保证在一定时间内达到数据一致的状态。   业界比较推崇最终一致性，但是某些对数据一致要求非常严格的场景，比如">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2024/06/12/mikLDSENYPfHh7M.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/16/QhoO1TWuvLUmstq.png">
+<meta property="og:image" content="https://s2.loli.net/2024/06/14/vTALYtpiNEe5kR4.png">
+<meta property="og:image" content="https://s2.loli.net/2024/06/14/I89MnKSa7ZJQlr2.png">
+<meta property="og:image" content="https://s2.loli.net/2024/06/14/u85VpAebmTiJjhY.png">
+<meta property="article:published_time" content="2024-06-07T14:59:19.000Z">
+<meta property="article:modified_time" content="2024-08-08T13:01:50.000Z">
+<meta property="article:author" content="Hunter">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/06/12/mikLDSENYPfHh7M.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2024/06/07/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2024/06/07/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/","path":"2024/06/07/分布式事务/","title":"分布式事务"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>分布式事务 | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">基础理论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CAP%E7%90%86%E8%AE%BA%E5%92%8CBASE%E7%90%86%E8%AE%BA"><span class="nav-number">1.1.</span> <span class="nav-text">CAP理论和BASE理论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E7%9A%84%E4%B8%89%E7%A7%8D%E7%BA%A7%E5%88%AB"><span class="nav-number">1.2.</span> <span class="nav-text">一致性的三种级别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">分布式事务解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XA%E8%A7%84%E8%8C%83%E7%9A%84%E8%A7%92%E8%89%B2"><span class="nav-number">2.1.</span> <span class="nav-text">XA规范的角色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2PC-%EF%BC%882-Phase-Commit-2%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4%E5%8D%8F%E8%AE%AE%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">2PC （2-Phase Commit 2阶段提交协议）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E9%98%B6%E6%AE%B5-Prepare"><span class="nav-number">2.2.1.</span> <span class="nav-text">准备阶段 Prepare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4%E9%98%B6%E6%AE%B5-Commit"><span class="nav-number">2.2.2.</span> <span class="nav-text">提交阶段 Commit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.2.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3PC%EF%BC%883%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4%E5%8D%8F%E8%AE%AE%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">3PC（3阶段提交协议）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E9%98%B6%E6%AE%B5-CanCommit"><span class="nav-number">2.3.1.</span> <span class="nav-text">准备阶段 CanCommit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E6%8F%90%E4%BA%A4%E9%98%B6%E6%AE%B5-PreCommit"><span class="nav-number">2.3.2.</span> <span class="nav-text">预提交阶段 PreCommit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E4%BA%8B%E5%8A%A1%E6%8F%90%E4%BA%A4%E9%98%B6%E6%AE%B5-DoCommit"><span class="nav-number">2.3.3.</span> <span class="nav-text">执行事务提交阶段 DoCommit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-number">2.3.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCC-%E8%A1%A5%E5%81%BF%E4%BA%8B%E5%8A%A1"><span class="nav-number">2.4.</span> <span class="nav-text">TCC 补偿事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCC%E5%92%8C2PC-3PC%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">2.4.1.</span> <span class="nav-text">TCC和2PC&#x2F;3PC的区别？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MQ%E4%BA%8B%E5%8A%A1"><span class="nav-number">2.5.</span> <span class="nav-text">MQ事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MQ%E5%8F%91%E9%80%81%E6%96%B9%E6%8F%90%E4%BA%A4%E6%88%96%E8%80%85%E5%9B%9E%E6%BB%9A%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF%E6%97%B6%E5%A4%B1%E8%B4%A5%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">2.5.1.</span> <span class="nav-text">MQ发送方提交或者回滚事务消息时失败怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E6%AD%A3%E5%B8%B8%E6%B6%88%E6%81%AF%E6%B2%A1%E6%9C%89%E8%A2%AB%E6%AD%A3%E7%A1%AE%E6%B6%88%E8%B4%B9%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">2.5.2.</span> <span class="nav-text">如果正常消息没有被正确消费怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QMQ"><span class="nav-number">2.5.3.</span> <span class="nav-text">QMQ</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2024/06/07/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="分布式事务 | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          分布式事务<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-06-07 22:59:19" itemprop="dateCreated datePublished" datetime="2024-06-07T22:59:19+08:00">2024-06-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-08-08 21:01:50" itemprop="dateModified" datetime="2024-08-08T21:01:50+08:00">2024-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="基础理论"><a href="#基础理论" class="headerlink" title="基础理论"></a>基础理论</h1><h2 id="CAP理论和BASE理论"><a href="#CAP理论和BASE理论" class="headerlink" title="CAP理论和BASE理论"></a>CAP理论和BASE理论</h2><h2 id="一致性的三种级别"><a href="#一致性的三种级别" class="headerlink" title="一致性的三种级别"></a>一致性的三种级别</h2><ul>
+<li><p>强一致性</p>
+<p>  系统写入了什么，读出来就是什么。</p>
+</li>
+<li><p>弱一致性</p>
+<p>  不一定可以读取到最新写入的值，也不保证多少时间之后能读取到最新的，只尽量保证某个时刻达到数据一致的状态。</p>
+</li>
+<li><p>最终一致性  </p>
+<p>  弱一致性的升级版。不一定可以读取到最新写入的值，但保证<strong>在一定时间内</strong>达到数据一致的状态。</p>
+</li>
+</ul>
+<p>业界<strong>比较推崇最终一致性</strong>，但是某些对数据一致要求非常严格的场景，比如银行转账，还是要保证强一致性。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="分布式事务解决方案"><a href="#分布式事务解决方案" class="headerlink" title="分布式事务解决方案"></a>分布式事务解决方案</h1><h2 id="XA规范的角色"><a href="#XA规范的角色" class="headerlink" title="XA规范的角色"></a>XA规范的角色</h2><p>XA规范是X&#x2F;Open组织定义的分布式事务处理标准。</p>
+<ol>
+<li><strong>AP</strong> （Application Program）：应用程序本身</li>
+<li><strong>RM</strong>（Resource Manager）：<strong>资源管理器</strong>，事务的参与者，<strong>绝大部分情况下指数据库</strong>。</li>
+<li><strong>TM</strong>（Transaction Manager）：<strong>事务管理器</strong>，负责管理全局事务，<strong>分配事务唯一标识，监控事务的执行进度，并负责事务的提交、回滚、失败恢复等</strong>。</li>
+</ol>
+<hr>
+<h2 id="2PC-（2-Phase-Commit-2阶段提交协议）"><a href="#2PC-（2-Phase-Commit-2阶段提交协议）" class="headerlink" title="2PC （2-Phase Commit 2阶段提交协议）"></a>2PC （2-Phase Commit 2阶段提交协议）</h2><hr>
+<h3 id="准备阶段-Prepare"><a href="#准备阶段-Prepare" class="headerlink" title="准备阶段 Prepare"></a>准备阶段 Prepare</h3><p>准备阶段的核心是<strong>询问</strong>事务参与者<strong>执行本地</strong>数据库事务操作是否成功。工作流程为：</p>
+<ol>
+<li>TM向所有涉及到的RM发送消息，<strong>询问是否能执行事务操作</strong>。</li>
+<li>RM接收到消息之后，执行本地数据库<strong>事务预操作</strong>，比如写redo log&#x2F;undo log日志。</li>
+<li>RM如果<strong>执行本地数据库事务操作成功</strong>，就回复TM “Yes” 表示<strong>已就绪</strong>，否则回复”No”表示未就绪。</li>
+</ol>
+<hr>
+<h3 id="提交阶段-Commit"><a href="#提交阶段-Commit" class="headerlink" title="提交阶段 Commit"></a>提交阶段 Commit</h3><p>提交阶段的核心是<strong>询问</strong>事务参与者<strong>提交本地</strong>事务是否成功。当所有事务参与者都是就绪状态时：</p>
+<ol>
+<li>TM向所有事务参与者<strong>发送Commit消息</strong>，让其提交事务。</li>
+<li>RM接收到Commit消息后，执行<strong>提交本地数据库事务</strong>操作，执行完成后<strong>释放整个事务期间锁占用的资源</strong>。</li>
+<li>RM发送<strong>ACK消息</strong>，表示事务已经提交。</li>
+<li>TM收到<strong>所有事务参与者的ACK消息</strong>之后，整个分布式事务过程正式结束。</li>
+</ol>
+<img src="https://s2.loli.net/2024/06/12/mikLDSENYPfHh7M.png" alt="image-20240612175623117" style="zoom:80%;" />
+
+<p>当任一事务参与者是<strong>未就绪</strong>状态：</p>
+<ol>
+<li>TM向所有参与者发送<strong>Rollback消息</strong>，通知执行回滚操作。</li>
+<li>RM接收到Rollback消息后，<strong>执行本地数据库事务回滚</strong>，执行完成之后，<strong>释放整个事务期间所占用的资源</strong>。</li>
+<li>RM发送ACK消息，表示事务已经回滚。</li>
+<li>TM收到<strong>所有RM的ACK消息</strong>后，<strong>中断事务</strong>。</li>
+</ol>
+<img src="https://s2.loli.net/2024/07/16/QhoO1TWuvLUmstq.png" alt="image-20240612180036000" style="zoom:80%;" />
+
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>准备阶段的主要目的是测试RM能否执行<strong>本地</strong>数据库事务操作。</li>
+<li>提交阶段中，TM会根据准备阶段中RM返回的消息，来决定执行事务提交还是回滚操作。</li>
+<li>提交阶段之后，一定会结束当前的分布式事务。</li>
+</ol>
+<p><strong>2PC的优点</strong>：</p>
+<ul>
+<li><strong>实现简单</strong>，各大主流数据库MySQL、Oracle等都有自己的实现。</li>
+<li>针对的是数据<strong>强一致性</strong>。</li>
+</ul>
+<p><strong>2PC的缺点：</strong></p>
+<ul>
+<li><strong>同步阻塞</strong>：事务参与者在正式提交事务之前，会<strong>一直占用相关资源</strong>。比如用户小明转账给小红，其他事务想要操作小明或小红时，就会阻塞。</li>
+<li><strong>数据不一致</strong>：由于网络问题或者TM宕机，都有可能造成数据不一致。例如<strong>提交阶段</strong>，部分网络出现问题，导致<strong>部分参与者收不到Commit&#x2F;Rollback消息，导致数据不一致</strong>。</li>
+<li><strong>单点问题</strong>：如果<strong>TM在准备阶段完成之后挂掉</strong>，事务参与者们就会一直卡在提交阶段。</li>
+</ul>
+<hr>
+<h2 id="3PC（3阶段提交协议）"><a href="#3PC（3阶段提交协议）" class="headerlink" title="3PC（3阶段提交协议）"></a>3PC（3阶段提交协议）</h2><p>3PC在2PC的基础上做了一些优化得到，它把<strong>准备阶段做了进一步的细化</strong>，分为<strong>准备阶段</strong>（<strong>CanCommit</strong>）和<strong>预提交</strong>阶段（<strong>PreCommit</strong>）。</p>
+<hr>
+<h3 id="准备阶段-CanCommit"><a href="#准备阶段-CanCommit" class="headerlink" title="准备阶段 CanCommit"></a>准备阶段 CanCommit</h3><p>TM向RM发送<strong>准备请求</strong>（CanCommit），顺便<strong>询问一些信息</strong>，比如事务参与者能否执行本地数据库事务操作。RM回复”Yes”、”No”或者直接超时未回复。</p>
+<hr>
+<h3 id="预提交阶段-PreCommit"><a href="#预提交阶段-PreCommit" class="headerlink" title="预提交阶段 PreCommit"></a>预提交阶段 PreCommit</h3><p>如果准备阶段有任一RM回复”No”或直接超时未回复，TM就给所有RM发送<strong>Abort消息（中断请求）</strong>，RM收到消息后直接中断事务。</p>
+<p>如果准备阶段所有的RM<strong>都回复”Yes”</strong>，TM就向所有RM发送<strong>PreCommit消息（预提交请求）</strong>，RM收到消息之后执行本地数据库事务<strong>预操作</strong>，比如写 redo log&#x2F;undo log 日志。如果RM成功执行了事务预操作，就返回”Yes”，否则返回”No”。</p>
+<p>预提交阶段，TM和RM都<strong>引入了超时机制</strong>，如果<strong>参与者没有收到TM的PreCommit消息，或者TM没有收到参与者返回的预执行结果状态</strong>，在超过等待时间之后，事务就会中断，从而避免事务阻塞。</p>
+<hr>
+<h3 id="执行事务提交阶段-DoCommit"><a href="#执行事务提交阶段-DoCommit" class="headerlink" title="执行事务提交阶段 DoCommit"></a>执行事务提交阶段 DoCommit</h3><p>如果预提交阶段有任一RM回复”No”或者直接超时未回复的话，TM就会给所有RM发送<strong>Abort消息（请求中断）</strong>，RM收到消息后进行<strong>事务回滚</strong>，释放资源，中断本次事务。</p>
+<p>TM向所有的RM发送<strong>DoCommit消息（执行事务提交请求）</strong>，RM收到消息之后执行本地数据库事务提交，并在完成后释放占用的资源。 当事务提交成功后，RM返回”Yes”。</p>
+<p>如果RM<strong>在等待时间内没有收到TM的DoCommit消息</strong>，RM会认为TM可能发生故障，但是选择<strong>直接进行事务提交，如果没有收到的TM消息是Abort消息，就会引起数据不一致</strong>。只要预提交阶段所有参与者都返回了Yes，那么只要进入第三阶段，事务基本上都能执行成功。</p>
+<hr>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>3PC除了将2PC的准备阶段进行了进一步细化，还同时<strong>在TM和RM中引入了超时机制</strong>。如果<strong>在一定时间内没有收到事务参与者的消息，就默认失败</strong>，进而避免事务参与者一直阻塞，占用资源。</p>
+<p>2PC中<strong>只有TM才拥有超时机制</strong>，当RM长时间无法与TM通讯的情况下（比如TM挂掉了），就会无法释放资源，产生阻塞问题。</p>
+<p>但是3PC并没有完全解决2PC的阻塞问题，也引入了一些新的问题，比如性能糟糕，且<strong>仍然存在数据不一致的问题</strong>，因此3PC的实际应用并不广泛。多数应用会选择通过<strong>复制状态机</strong>（在多个独立的节点上运行相同的应用或服务，并确保所有节点以相同顺序执行相同操作，从而使每个节点都维护相同的状态，通常依赖于<strong>一致性协议Raft、Paxos等</strong>来同步各节点之间的状态）解决2PC的阻塞问题。</p>
+<hr>
+<h2 id="TCC-补偿事务"><a href="#TCC-补偿事务" class="headerlink" title="TCC 补偿事务"></a>TCC 补偿事务</h2><p>TCC是<strong>T</strong>ry、<strong>C</strong>onfirm、<strong>C</strong>ancel的缩写，分为三个阶段：</p>
+<ol>
+<li><p>Try阶段</p>
+<p> 尝试执行。完成业务<strong>检查</strong>，并<strong>预留</strong>好必需的资源。</p>
+</li>
+<li><p>Confirm阶段</p>
+<p> 确认执行。当所有的RM的Try阶段执行成功之后，就会执行Confirm，<strong>处理预留好的业务资源</strong>。否则，执行Cancel。</p>
+</li>
+<li><p>Cancel阶段</p>
+<p> 取消执行。<strong>释放</strong>Try阶段预留的业务资源。</p>
+</li>
+</ol>
+<hr>
+<p>以转账场景为例：</p>
+<ol>
+<li>Try阶段检查账户余额是否充足，预留好转账资金。</li>
+<li>Confirm阶段真正执行扣钱操作。</li>
+<li>释放Try阶段预留的转账资金。</li>
+</ol>
+<hr>
+<p>Try阶段出现问题可以执行Cancel，如果<strong>Confirm或者Cancel阶段失败，怎么办？</strong></p>
+<p>TCC会<strong>记录事务日志</strong>，并<strong>持久化事务日志</strong>到某种存储介质上（本地文件、关系型数据库、Zookeeper）。事务日志包含了<strong>事务的执行状态</strong>，可 以此判断出事务提交成功还是失败，以及具体失败在哪一步。</p>
+<ul>
+<li>如果发现是Confirm或者Cancel阶段失败的话，会<strong>进行重试</strong>，重试次数通常为6此，超过的话就人工介入处理。如果美誉偶特殊Bug，Confirm或者Cancel阶段出现问题的概率比较小。</li>
+<li>如果事务提交成功，就可以删除对应的事务日志，节省资源。</li>
+</ul>
+<p><strong>TCC模式不需要依赖底层数据资源的事务支持，但需要手动实现更多的代码</strong>，属于<strong>侵入业务代码</strong>的分布式解决方案。  </p>
+<img src="https://s2.loli.net/2024/06/14/vTALYtpiNEe5kR4.png" alt="TCC和2PC的对比" style="zoom:80%;" />
+
+<hr>
+<h3 id="TCC和2PC-3PC的区别？"><a href="#TCC和2PC-3PC的区别？" class="headerlink" title="TCC和2PC&#x2F;3PC的区别？"></a>TCC和2PC&#x2F;3PC的区别？</h3><ol>
+<li>2PC&#x2F;3PC依赖数据库层面的事务，TCC主要通过修改业务代码实现，侵入业务代码。</li>
+<li>2PC&#x2F;3PC追求<strong>强一致性</strong>，<strong>在两阶段提交的整个过程中，一直会持有数据库的锁</strong>。TCC追求<strong>最终一致性，不会一直持有各个业务资源的锁</strong>。</li>
+</ol>
+<hr>
+<h2 id="MQ事务"><a href="#MQ事务" class="headerlink" title="MQ事务"></a>MQ事务</h2><p>RocketMQ、Kafka都提供了事务相关的功能。事务允许事件流应用<strong>将消费、处理、生产消息整个过程定义为一个原子操作</strong>。</p>
+<p>以RocketMQ为例：</p>
+<p><img src="https://s2.loli.net/2024/06/14/I89MnKSa7ZJQlr2.png" alt="image-20240614163030432"></p>
+<ol>
+<li>MQ发送方（如物流服务）在消息队列上开启一个事务，然后发送一个<strong>半事务消息</strong>给MQ Server。<strong>事务提交之前，半事务消息对MQ消费者不可见</strong>。</li>
+<li>半事务消息发送成功，MQ发送方就开始执行本地事务。</li>
+<li>MQ发送方的<strong>本地事务执行成功的话，半事务消息就变成正常消息，可以被正常消费；本地事务执行失败的话，直接回滚</strong>。</li>
+</ol>
+<hr>
+<h3 id="MQ发送方提交或者回滚事务消息时失败怎么办？"><a href="#MQ发送方提交或者回滚事务消息时失败怎么办？" class="headerlink" title="MQ发送方提交或者回滚事务消息时失败怎么办？"></a>MQ发送方提交或者回滚事务消息时失败怎么办？</h3><p>RocketMQ中的<strong>Broker会定期去MQ发送方上反查这个事务的本地事务执行情况</strong>，并根据反查结果决定提交或者回滚这个事务。</p>
+<p><strong>事务反查机制的实现依赖于 业务代码实现的对应的接口</strong>。比如要查看创建物流信息的本地事务是否执行成功，<strong>直接在数据库中查询对应的物流信息是否存在即可</strong>。</p>
+<hr>
+<h3 id="如果正常消息没有被正确消费怎么办？"><a href="#如果正常消息没有被正确消费怎么办？" class="headerlink" title="如果正常消息没有被正确消费怎么办？"></a>如果正常消息没有被正确消费怎么办？</h3><p>消息消费失败的话，RocketMQ会自动进行消费重试。如果<strong>超过最大重试次数</strong>，就会认为这个消息有问题，<strong>将其放入死信队列</strong>。进入死信队列的消费一般需要人工处理，手动排查问题。</p>
+<hr>
+<h3 id="QMQ"><a href="#QMQ" class="headerlink" title="QMQ"></a>QMQ</h3><blockquote>
+<p>QMQ是去哪儿网内部广泛使用的消息中间件，包括跟交易相关的订单场景、报价搜索等高吞吐量场景。21年数据显示，公司内部日常消息qps在60w左右，生产上承载将近4W+的消息topic，消息的端到端延迟可以控制在10ms以内。</p>
+</blockquote>
+<p><strong>本地消息</strong>利用了关系型数据库的事务能力，<strong>会在数据库中存放一张 本地事务消息表</strong>，即<strong>将业务的执行 和 将消息放入消息表中的操作，放在同一个事务中提交</strong>。</p>
+<ul>
+<li>这样，本地事务执行成功的话，消息肯定也插入成功，然后再调用其他服务，如果其他服务调用成功，就修改这条本地消息的状态为成功，或者直接删除。</li>
+<li>有一个<strong>后台线程定时轮询消息表，发现没有处理的消息，会一直调用相应的服务</strong>，一般会设置重试次数，超过重试次数就特殊记录，等待人工处理。</li>
+</ul>
+<img src="https://s2.loli.net/2024/06/14/u85VpAebmTiJjhY.png" alt="image-20240614195843877" style="zoom:80%;" />
+
+
+
+<p>RocketMQ的事务消息方案中，<strong>如果消息队列挂掉，数据库事务就无法执行，整个应用也就挂掉了</strong>。QMQ的事务消息方案，<strong>即使消息队列挂了，也不会影响数据库事务的执行</strong>，因此QMQ实现的方案更适应于大多数业务。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/04/17/PriorityQueue%E4%B8%8EComparator/" rel="prev" title="PriorityQueue与Comparator">
+                  <i class="fa fa-angle-left"></i> PriorityQueue与Comparator
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/06/20/Optional%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="next" title="Optional的使用">
+                  Optional的使用 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

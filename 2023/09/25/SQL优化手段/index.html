@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="优化慢 SQL慢查询日志记录了执行时间超过 long_query_time(默认 10s，通常设置为 1s)的所有查询语句，在解决 SQL 慢查询问题时经常会用到。  查询慢查询日志是否开启 (默认关闭)   show variables like &quot;slow_query_log;    开启慢查询日志   SET GLOBAL slow_query_log&#x3D;ON;  查看慢查询的 超时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL优化手段">
+<meta property="og:url" content="https://hunter1023.github.io/2023/09/25/SQL%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="优化慢 SQL慢查询日志记录了执行时间超过 long_query_time(默认 10s，通常设置为 1s)的所有查询语句，在解决 SQL 慢查询问题时经常会用到。  查询慢查询日志是否开启 (默认关闭)   show variables like &quot;slow_query_log;    开启慢查询日志   SET GLOBAL slow_query_log&#x3D;ON;  查看慢查询的 超时">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2023/09/25/21bVZFhgkiscotW.png">
+<meta property="article:published_time" content="2023-09-25T16:06:32.000Z">
+<meta property="article:modified_time" content="2024-08-08T13:01:50.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2023/09/25/21bVZFhgkiscotW.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2023/09/25/SQL%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2023/09/25/SQL%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/","path":"2023/09/25/SQL优化手段/","title":"SQL优化手段"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SQL优化手段 | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%85%A2-SQL"><span class="nav-number">1.</span> <span class="nav-text">优化慢 SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%85%E6%84%8F%E6%89%A7%E8%A1%8C%E4%B8%80%E6%9D%A1%E6%85%A2%E6%9F%A5%E8%AF%A2%E5%B9%B6%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="nav-number">1.1.</span> <span class="nav-text">故意执行一条慢查询并查看日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8-SELECT"><span class="nav-number">1.2.</span> <span class="nav-text">避免使用 SELECT *</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96"><span class="nav-number">1.3.</span> <span class="nav-text">分页优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%BD%E9%87%8F%E9%81%BF%E5%85%8D%E5%A4%9A%E8%A1%A8%E5%81%9A-join"><span class="nav-number">1.4.</span> <span class="nav-text">尽量避免多表做 join</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E8%AE%AE%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E5%A4%96%E9%94%AE%E4%B8%8E%E7%BA%A7%E8%81%94"><span class="nav-number">1.5.</span> <span class="nav-text">建议不要使用外键与级联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.6.</span> <span class="nav-text">选择合适的字段类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%BD%E9%87%8F%E7%94%A8-UNION-ALL-%E4%BB%A3%E6%9B%BF-UNION"><span class="nav-number">1.7.</span> <span class="nav-text">尽量用 UNION ALL 代替 UNION</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C"><span class="nav-number">1.8.</span> <span class="nav-text">批量操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Show-PROFILE-%E5%88%86%E6%9E%90-SQL-%E6%89%A7%E8%A1%8C%E6%80%A7%E8%83%BD"><span class="nav-number">1.9.</span> <span class="nav-text">Show PROFILE 分析 SQL 执行性能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95"><span class="nav-number">2.</span> <span class="nav-text">正确使用索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E5%AD%97%E6%AE%B5%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-number">2.1.</span> <span class="nav-text">选择合适的字段创建索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A2%AB%E9%A2%91%E7%B9%81%E6%9B%B4%E6%96%B0%E7%9A%84%E5%AD%97%E6%AE%B5%E5%BA%94%E8%AF%A5%E6%85%8E%E9%87%8D%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95"><span class="nav-number">2.2.</span> <span class="nav-text">被频繁更新的字段应该慎重建立索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%BD%E5%8F%AF%E8%83%BD%E8%80%83%E8%99%91%E5%BB%BA%E7%AB%8B-%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95-%E8%80%8C%E4%B8%8D%E6%98%AF%E5%8D%95%E5%88%97%E7%B4%A2%E5%BC%95"><span class="nav-number">2.3.</span> <span class="nav-text">尽可能考虑建立 联合索引 而不是单列索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E5%86%97%E4%BD%99%E7%B4%A2%E5%BC%95"><span class="nav-number">2.4.</span> <span class="nav-text">避免冗余索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%80%83%E8%99%91%E5%9C%A8-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B-%E7%9A%84%E5%AD%97%E6%AE%B5%E4%B8%8A%E4%BD%BF%E7%94%A8-%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95-%E4%BB%A3%E6%9B%BF%E6%99%AE%E9%80%9A%E7%B4%A2%E5%BC%95"><span class="nav-number">2.5.</span> <span class="nav-text">考虑在 字符串类型 的字段上使用 前缀索引 代替普通索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88"><span class="nav-number">2.6.</span> <span class="nav-text">避免索引失效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E9%95%BF%E6%9C%9F%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-number">2.7.</span> <span class="nav-text">删除长期未使用的索引</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2023/09/25/SQL%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SQL优化手段 | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SQL优化手段<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/SQL%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-09-26 00:06:32" itemprop="dateCreated datePublished" datetime="2023-09-26T00:06:32+08:00">2023-09-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-08-08 21:01:50" itemprop="dateModified" datetime="2024-08-08T21:01:50+08:00">2024-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="优化慢-SQL"><a href="#优化慢-SQL" class="headerlink" title="优化慢 SQL"></a>优化慢 SQL</h2><p>慢查询日志记录了执行时间超过 <code>long_query_time</code>(<strong>默认 10s</strong>，<strong>通常设置为 1s</strong>)的所有查询语句，在解决 SQL 慢查询问题时经常会用到。</p>
+<ul>
+<li><p><strong>查询慢查询日志是否开启 (默认关闭)</strong></p>
+  <pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">show</span> variables <span class="token operator">like</span> "slow_query_log<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>  <strong>开启慢查询日志</strong></p>
+  <pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">SET GLOBAL slow_query_log&#x3D;ON;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>查看慢查询的 <strong>超时时间</strong></p>
+  <pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">show variables like &quot;%long_query_time%&quot;;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>  修改 <code>long_query_time</code> 参数：</p>
+  <pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">SET GLOBAL long_query_time&#x3D;1;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>查询当前 <strong>慢查询语句的个数</strong></p>
+  <pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">show global status like &quot;%Slow_queries%&quot;;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>查询慢查询日志存放位置</p>
+  <pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">SHOW VARIABLES LIKE &quot;slow_query_log_file&quot;;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>无论是否超时，<strong>未被索引的记录也被记录</strong></p>
+  <pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">SET GLOBAL log_queries_not_using_indexes &#x3D; &quot;ON&quot;;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>慢查询仅记录扫描 <strong>行数 &gt; 此参数</strong> 的 SQL</p>
+  <pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">SET SESSION min_examined_row_limit &#x3D; 100;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ul>
+<p><strong>设置完成后，可以用 <code>SHOW VARIABLES LIKE &quot;slow%&quot;;</code> 命令查看。</strong></p>
+<span id="more"></span>
+
+<hr>
+<h3 id="故意执行一条慢查询并查看日志"><a href="#故意执行一条慢查询并查看日志" class="headerlink" title="故意执行一条慢查询并查看日志"></a>故意执行一条慢查询并查看日志</h3><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql"># 故意在百万数据量的表中执行一条 未使用索引的排序语句
+SELECT score, name
+FROM cus_order
+ORDER BY score DESC;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>查看日志路径，并去实际查看日志记录</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">SHOW VARIABLES LIKE &quot;slow_query_log_file&quot;;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql"># Time: 2023-09-25T15:30:40.620921Z
+# User@Host: root[root] @  [172.17.0.1]  Id:    18
+# Query_time: 0.637583  Lock_time: 0.000002 Rows_sent: 1002000  Rows_examined: 2004000
+SET timestamp&#x3D;1695655839;
+# 故意在百万数据量的表中执行一条 未使用索引的排序语句
+SELECT score, name
+FROM cus_order
+ORDER BY score DESC;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><code>Query_time</code> 这段代码的运行时长。</li>
+<li><code>Lock_time</code> 执行这段代码时，锁定了多久。</li>
+<li><code>Rows_sent</code> 慢查询返回的记录数量。</li>
+<li><code>Rows_examined</code> 慢查询扫描过的行数。</li>
+</ul>
+<p>实际项目中，慢查询日志通常会比较复杂，需要借助一些工具对其进行分析。比如 MySQL 内置的 <strong><code>mysqldumpslow</code> 工具</strong>，可以将相同的 SQL 归为一类，并统计出归类项的执行次数和每次执行的耗时等一系列对应的情况。</p>
+<blockquote>
+<p><strong>执行计划</strong>：一条语句在经过 <strong>MySQL 查询优化器</strong> 的优化后，具体的执行方式。执行计划通常用于 <strong>SQL 性能分析、优化</strong> 等场景。</p>
+</blockquote>
+<p>通过 <code>EXPAIN</code> 命令，可以获取执行计划的相关信息。可以了解到如数据表的查询顺序、数据查询操作的操作类型、哪些索引可以被命中、哪些索引实际会命中、每个数据表有多少行记录被查询等信息。</p>
+<p>找到了慢 SQL 后，可以通过 <code>EXPLAIN</code> 命令分析对应的语句。</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">EXPLAIN SELECT score, name
+FROM cus_order
+ORDER BY score DESC;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="https://s2.loli.net/2023/09/25/21bVZFhgkiscotW.png" alt="EXPLAIN 命令分析对应的语句的结果"></p>
+<ul>
+<li><code>select_type</code> 查询的类型<ul>
+<li><code>SIMPLE</code>: 普通查询（即没有联合查询、子查询）</li>
+<li><code>PRIMARY</code>：主查询</li>
+<li><code>UNION</code> （UNION 中后面的查询）</li>
+<li><code>SUBQUERY</code></li>
+</ul>
+</li>
+<li><code>table</code> 查询涉及的表或衍生表</li>
+<li><code>type</code> <strong>执行方式，判断查询是否高效的重要参考指标，结果值从差到好：</strong><ol>
+<li>ALL</li>
+<li>index</li>
+<li>range~index_range</li>
+<li>ref</li>
+<li>eq_ref</li>
+<li>const</li>
+<li>system</li>
+</ol>
+</li>
+<li><code>rows</code> SQL <strong>要查找到结果集需要扫描读取的数据行数</strong>，原则上 rows 越少越好。</li>
+</ul>
+<hr>
+<h3 id="避免使用-SELECT"><a href="#避免使用-SELECT" class="headerlink" title="避免使用 SELECT *"></a>避免使用 SELECT *</h3><ul>
+<li>需要解析更多的对象、字段、权限、属性等相关内容，会消耗更多的 CPU</li>
+<li>无用字段增加网络带宽资源消耗、增加数据传输时间，尤其是大字段（varchar、blob、text）</li>
+<li><strong>无法使用 MySQL 优化器 覆盖索引的优化</strong></li>
+</ul>
+<hr>
+<h3 id="分页优化"><a href="#分页优化" class="headerlink" title="分页优化"></a>分页优化</h3><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">SELECT</span> score<span class="token punctuation">,</span> <span class="token identifier"><span class="token punctuation">`</span>name<span class="token punctuation">`</span></span>
+<span class="token keyword">FROM</span> cus_order
+<span class="token keyword">ORDER</span> <span class="token keyword">BY</span> score <span class="token keyword">DESC</span>
+<span class="token keyword">LIMIT</span> <span class="token number">1000000</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>使用 <strong>延迟关联</strong> 来优化这个分页查询语句：</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">SELECT score, name
+FROM cus_order AS a, (SELECT id 
+                      FROM cus_order
+                      ORDER BY score DESC
+                      LIMIT 1000000, 10) AS b
+WHERE a.id &#x3D; b.id;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol>
+<li><strong>先提取主键</strong></li>
+<li>再将这个主键表与原数据表关联</li>
+</ol>
+<hr>
+<h3 id="尽量避免多表做-join"><a href="#尽量避免多表做-join" class="headerlink" title="尽量避免多表做 join"></a>尽量避免多表做 join</h3><p>join 的效率比较低，主要是因为使用 <strong>嵌套循环（Nested Loop）</strong> 来实现关联查询，效率都不是很高。实际业务场景避免多表 join 常见的作法有 <strong>2 种</strong>：</p>
+<ol>
+<li><p><strong>单表查询后，在内存中自己做关联</strong>。</p>
+<p> 对数据库做单表查询，再根据查询结进行二次查询。以此类推，最后再进行关联。</p>
+<ul>
+<li><strong>拆分后的单表查询代码可复用性更高</strong>。</li>
+<li><strong>单表查询更利于后续的维护</strong>。</li>
+</ul>
+</li>
+<li><p><strong>数据冗余</strong></p>
+<p> 把一些重要的数据在表中做冗余，尽可能避免关联查询。<strong>很笨的一种做法</strong>，表结构比较稳定的情况下才会考虑。</p>
+</li>
+</ol>
+<hr>
+<h3 id="建议不要使用外键与级联"><a href="#建议不要使用外键与级联" class="headerlink" title="建议不要使用外键与级联"></a>建议不要使用外键与级联</h3><p>不建议使用外键的主要原因是 <strong>对分库分表不友好</strong>，性能方面影响较小。</p>
+<hr>
+<h3 id="选择合适的字段类型"><a href="#选择合适的字段类型" class="headerlink" title="选择合适的字段类型"></a>选择合适的字段类型</h3><ol>
+<li><p>某些 <strong>字符串</strong> 可以 <strong>转换成数字类型存储</strong>，比如 <strong>IP 地址</strong>。</p>
+<p> 数字是连续的，性能更好，占用空间叶更小。</p>
+<p> MySQL 提供了两个方法来处理 IP 地址：</p>
+<ol>
+<li><code>INET_ATON()</code>：<strong>把 ip 转为无符号整型（4-8 位）</strong></li>
+<li><code>INET_NTOA()</code>：<strong>把整型的 ip 转为地址</strong></li>
+</ol>
+</li>
+<li><p>对于非负的数据（自增 ID、整型 IP、年龄）来说，要 <strong>优先使用无符号整型</strong> 来存储</p>
+<p> <strong>无符号（SIGNED INT）</strong> 相对于 <strong>有符号（UNSIGNED INT）</strong> 多出了一倍的存储空间 </p>
+</li>
+<li><p><strong>小数值</strong> 类型（年龄、状态表示如 0&#x2F;1）<strong>优先使用 <code>TINYINT</code> 类型</strong></p>
+</li>
+<li><p><strong>日期类型</strong> 一定不要用字符串存储，可以考虑 <code>DATETIME</code>、<code>TIMESTAMP</code> 和数值型 <strong>时间戳</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>存储空间</th>
+<th>日期格式</th>
+<th>日期范围</th>
+<th>是否携带时区</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DATETIME</td>
+<td>5-8 字节</td>
+<td>YYYY-MM-DD hh: mm: ss [.fraction]</td>
+<td>1000-01-01 00:00:00 [.000000] ~ 9999-12-31 23:59:59 [.999999]</td>
+<td>否</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td>4-7 字节</td>
+<td>YYYY-MM-DD hh: mm: ss [.fraction]</td>
+<td>1970-01-01 00:00:01 [.000000] ~2038-01-19 03:14:07 [.999999]</td>
+<td>是</td>
+</tr>
+<tr>
+<td>数值型时间戳</td>
+<td>4 字节</td>
+<td>全数字</td>
+<td>1970-01-01 00:00:01 之后的时间</td>
+<td>否</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>金额字段用 <strong>decimal</strong>，避免精度丢失</p>
+<p> Java 中，对应 <code>BigDecimal</code></p>
+</li>
+<li><p><strong>尽量使用自增 id 作为主键（分布式场景不建议）</strong></p>
+<p> 主键如果是 <strong>自增 id</strong>，每次都会将数据加在 <strong>B+树尾部</strong>（本质是双向链表），时间复杂度为 <code>O(1)</code>。在写满一个数据页的时候，直接申请另一个新数据页接着写就可以了。</p>
+<p> 如果主键是 <strong>非自增 id，为了让新加入数据后，B+树的叶子节点还能保持有序，需要往叶子节点的中间找，查找过程的时间复杂度是 O($ \log n$)</strong>。如果数据页被写满，<strong>需要进行页分裂</strong>。<strong>页分裂操作需要加悲观锁</strong>，性能非常低。</p>
+<p> 但是 <strong>像分库分表这类场景就不建议使用自增 id 作为主键，应该使用分布式 id，比如 uuid</strong>。</p>
+</li>
+<li><p>不建议使用 NULL 作为列默认值</p>
+<ul>
+<li><p><strong>NULL 需要占用空间</strong>，空字符串 <code>&#39;&#39;</code> 反而不用占用空间。</p>
+</li>
+<li><p>NULL 会影响聚合函数的结果。</p>
+<p>  <code>SUM</code>、<code>AVG</code> 等函数会忽略 NULL 值，<code>COUNT(列名)</code> 也会忽略 NULL，但 <code>COUNT(*)</code> 会统计所有的记录数。</p>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="尽量用-UNION-ALL-代替-UNION"><a href="#尽量用-UNION-ALL-代替-UNION" class="headerlink" title="尽量用 UNION ALL 代替 UNION"></a>尽量用 UNION ALL 代替 UNION</h3><p>UNION 会把两个结果集放在一个临时表中再进行去重操作，更耗时、消耗 CPU 资源。</p>
+<hr>
+<h3 id="批量操作"><a href="#批量操作" class="headerlink" title="批量操作"></a>批量操作</h3><p>批量操作能减少请求数据库的次数，提高性能。</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">INSERT INTO cus_order(id, score, name)
+VALUES (1, 3512, &quot;user1&quot;), (2, 34335, &quot;user2&quot;), (3, 320985, &quot;user3&quot;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="Show-PROFILE-分析-SQL-执行性能"><a href="#Show-PROFILE-分析-SQL-执行性能" class="headerlink" title="Show PROFILE 分析 SQL 执行性能"></a>Show PROFILE 分析 SQL 执行性能</h3><blockquote>
+<p><code>SHOW PROFILE</code> 和 <code>SHOW PROFILES</code> 已经被弃用，未来的 MySQL 版本中可能会删除，取代它的是 Performance Schema。</p>
+</blockquote>
+<p><code>SHOW PROFILE</code> 和 <code>SHOW PROFILES</code> 展示 <strong>SQL 语句的资源使用情况</strong>，展示的消息包括 CPU 的使用、CPU 上下文切换、IO 等待、内存使用等。</p>
+<ul>
+<li><p>查看是否支持 <code>profiling</code></p>
+  <pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">SELECT @@have_profiling;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>查看 profiling 是否开启</p>
+  <pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql"># 0是关闭，1是开启
+SELECT @@profiling;
+
+SET @@profiling &#x3D; 1;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><code>SHOW PROFILES</code> 展示 <strong>当前 Session 下所有</strong> SQL 语句的简要信息（Query_ID、Duration）</p>
+</li>
+<li><p><code>SHOW PROFILE</code> 展示一个 SQL 语句的执行耗时细节</p>
+  <pre class="line-numbers language-MYSQL" data-language="MYSQL"><code class="language-MYSQL">SHOW PROFILE [type [, type] ...]
+	[FOR QUERY n] # 展示Query_ID为n的执行情况，默认展示最新的一次SQL执行情况
+	[LIMIT row_count [OFFSET offset]]
+
+type: &#123; # 具体某类资源的消耗情况
+	ALL
+	BLOCK IO
+	CONTEXT SWITCHES
+	CPU
+	IPC
+	MEMORY
+	PAGE FAULTS
+	SOURCE
+	SWAPS
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<hr>
+<h2 id="正确使用索引"><a href="#正确使用索引" class="headerlink" title="正确使用索引"></a>正确使用索引</h2><p>正确的索引可以大大加快数据的检索速度。</p>
+<h3 id="选择合适的字段创建索引"><a href="#选择合适的字段创建索引" class="headerlink" title="选择合适的字段创建索引"></a>选择合适的字段创建索引</h3><ol>
+<li><p>不为 NULL 的字段</p>
+</li>
+<li><p><strong>被频繁查询</strong> 的字段</p>
+</li>
+<li><p><strong>被作为条件</strong> 查询的字段</p>
+</li>
+<li><p><strong>频繁需要排序</strong> 的字段（<strong>索引已经排序</strong>）</p>
+</li>
+<li><p><strong>被频繁用于连接</strong> 的字段</p>
+<p> 提高多表连接查询的效率。</p>
+</li>
+</ol>
+<hr>
+<h3 id="被频繁更新的字段应该慎重建立索引"><a href="#被频繁更新的字段应该慎重建立索引" class="headerlink" title="被频繁更新的字段应该慎重建立索引"></a>被频繁更新的字段应该慎重建立索引</h3><p>维护索引的成本不小。</p>
+<hr>
+<h3 id="尽可能考虑建立-联合索引-而不是单列索引"><a href="#尽可能考虑建立-联合索引-而不是单列索引" class="headerlink" title="尽可能考虑建立 联合索引 而不是单列索引"></a>尽可能考虑建立 联合索引 而不是单列索引</h3><p>可以简单理解为 <strong>每个索引都对着一棵 B+树</strong>。如果一个表的字段过多，索引过多，当表数据达到一个体量之后，<strong>索引占用的空间也会很多，且修改索引的耗时也会很多</strong>。如果是联合索引，会节约很大的磁盘空间，且修改数据的效率也会提升。</p>
+<hr>
+<h3 id="避免冗余索引"><a href="#避免冗余索引" class="headerlink" title="避免冗余索引"></a>避免冗余索引</h3><p>冗余索引指的是索引功能相同，<strong>能够命中索引(a, b)就肯定能命中索引(a)</strong>。在大多数情况下，都应该尽量扩展已有的索引，而不是创建新索引。</p>
+<hr>
+<h3 id="考虑在-字符串类型-的字段上使用-前缀索引-代替普通索引"><a href="#考虑在-字符串类型-的字段上使用-前缀索引-代替普通索引" class="headerlink" title="考虑在 字符串类型 的字段上使用 前缀索引 代替普通索引"></a>考虑在 字符串类型 的字段上使用 前缀索引 代替普通索引</h3><hr>
+<h3 id="避免索引失效"><a href="#避免索引失效" class="headerlink" title="避免索引失效"></a>避免索引失效</h3><p>索引失效也是慢查询的主要原因之一。常见的导致索引失效的情况：</p>
+<ol>
+<li><code>SELECT *</code></li>
+<li>创建了组合索引，但 <strong>查询条件未遵守最左匹配原则</strong> （查询中 <strong>未使用了该索引的第一列</strong>）</li>
+<li>在索引列上进行计算、函数、类型转换等操作</li>
+<li>以 <code>%</code> 开头的 LIKE 查询</li>
+<li>查询条件中使用 OR，<strong>且 OR 的前后条件中有一个列没有索引</strong>，涉及的索引都不会被使用到</li>
+<li>发生隐式转换 （操作符左右两边的数据类型不一致时，<strong>左边为字符类型时发生转换</strong>，<strong>会导致索引失效，效率极低</strong>）</li>
+</ol>
+<hr>
+<h3 id="删除长期未使用的索引"><a href="#删除长期未使用的索引" class="headerlink" title="删除长期未使用的索引"></a>删除长期未使用的索引</h3><p>可以通过查询 <code>sys</code> 库的 <code>schema_unused_indexes</code> 视图来查询哪些索引从未被使用。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MySQL/" rel="tag"><i class="fa fa-tag"></i> MySQL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/09/25/MySQL%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" rel="prev" title="MySQL存储引擎">
+                  <i class="fa fa-angle-left"></i> MySQL存储引擎
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/10/10/Spring-Boot%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/" rel="next" title="Spring Boot全局异常统一处理">
+                  Spring Boot全局异常统一处理 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="简介Dev-C++是一个SourceForge的项目，早已停止更新。 缺点：  分辨率低，脱节于屏幕素质的提升，使用感官不佳 中文注释容易乱码，且没有明显的选项用来修改编码格式   下载安装安装过程中的语言没有中文选项，选择English即可，按照默认选项安装。首次运行时，选择使用软件时的语言为简体中文即可，按照默认选项完成初运行配置。  主题 菜单栏 - 工具 - 编辑器选项 - 语法 - 预设">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dev-C++">
+<meta property="og:url" content="https://hunter1023.github.io/2019/04/16/Dev-Cpp/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="简介Dev-C++是一个SourceForge的项目，早已停止更新。 缺点：  分辨率低，脱节于屏幕素质的提升，使用感官不佳 中文注释容易乱码，且没有明显的选项用来修改编码格式   下载安装安装过程中的语言没有中文选项，选择English即可，按照默认选项安装。首次运行时，选择使用软件时的语言为简体中文即可，按照默认选项完成初运行配置。  主题 菜单栏 - 工具 - 编辑器选项 - 语法 - 预设">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2019/04/16/5cb598b4cba28.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/16/5cb599bfef712.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/16/5cb59bb680afc.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/16/5cb59e4d63a98.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb6d8b4f11b0.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/17/5cb6dc99352a7.png">
+<meta property="article:published_time" content="2019-04-16T08:37:07.000Z">
+<meta property="article:modified_time" content="2025-01-23T15:29:13.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="Dev-C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/04/16/5cb598b4cba28.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2019/04/16/Dev-Cpp/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2019/04/16/Dev-Cpp/","path":"2019/04/16/Dev-Cpp/","title":"Dev-C++"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Dev-C++ | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">下载安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E4%BD%93"><span class="nav-number">4.</span> <span class="nav-text">字体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="nav-number">5.</span> <span class="nav-text">快捷键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0-C99-C-11-%E6%A0%87%E5%87%86"><span class="nav-number">6.</span> <span class="nav-text">添加 C99&#x2F;C++11 标准</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E8%AF%95"><span class="nav-number">7.</span> <span class="nav-text">调试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E6%AC%A1%E5%90%AF%E7%94%A8%E8%B0%83%E8%AF%95%EF%BC%8C%E5%87%BA%E7%8E%B0%E2%80%9C%E9%A1%B9%E7%9B%AE%E6%B2%A1%E6%9C%89%E8%B0%83%E8%AF%95%E4%BF%A1%E6%81%AF%EF%BC%8C%E6%82%A8%E6%83%B3%E6%89%93%E5%BC%80%E9%A1%B9%E7%9B%AE%E8%B0%83%E8%AF%95%E9%80%89%E9%A1%B9%E5%B9%B6%E9%87%8D%E6%96%B0%E7%94%9F%E6%88%90%E5%90%97%E2%80%9D"><span class="nav-number">7.1.</span> <span class="nav-text">初次启用调试，出现“项目没有调试信息，您想打开项目调试选项并重新生成吗”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E7%AA%97%E5%8F%A3%E6%9F%A5%E7%9C%8B%E5%8F%98%E9%87%8F%E7%9A%84%E5%AE%9E%E6%97%B6%E6%95%B0%E6%8D%AE"><span class="nav-number">7.2.</span> <span class="nav-text">调试窗口查看变量的实时数据</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2019/04/16/Dev-Cpp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Dev-C++ | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Dev-C++<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/Dev-Cpp.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-16 16:37:07" itemprop="dateCreated datePublished" datetime="2019-04-16T16:37:07+08:00">2019-04-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-23 23:29:13" itemprop="dateModified" datetime="2025-01-23T23:29:13+08:00">2025-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8E%E8%BD%AF%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">操作系统与软件</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Dev-C++是一个SourceForge的项目，<strong>早已停止更新</strong>。</p>
+<p>缺点：</p>
+<ul>
+<li>分辨率低，脱节于屏幕素质的提升，使用感官不佳</li>
+<li>中文注释容易乱码，且没有明显的选项用来修改编码格式</li>
+</ul>
+<hr>
+<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><p>安装过程中的语言没有中文选项，选择English即可，按照默认选项安装。首次运行时，选择<strong>使用软件时的语言</strong>为简体中文即可，按照默认选项完成初运行配置。</p>
+<hr>
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><ul>
+<li>菜单栏 - 工具 - 编辑器选项 - 语法 - 预设 - Obsidian 黑曜石主题</li>
+</ul>
+<p><img src="https://i.loli.net/2019/04/16/5cb598b4cba28.png" alt="工具 - 编辑器选项"></p>
+<p><img src="https://i.loli.net/2019/04/16/5cb599bfef712.png" alt="语法 - 预设 - Obsidian 黑曜石主题"></p>
+<ul>
+<li><p>菜单栏 - 工具 - 编辑器选项 - 基本</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 显示编辑器提示</li>
+<li><input checked="" disabled="" type="checkbox"> 显示函数提示</li>
+<li>高亮显示当前行 - 色彩 - Black</li>
+</ul>
+<p><img src="https://i.loli.net/2019/04/16/5cb59bb680afc.png"></p>
+</li>
+</ul>
+<hr>
+<h2 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h2><p>菜单栏 - 工具 - 编辑器选项 - 显示 - 字体 - YaHei Consolas Hybrid</p>
+<p>字体下载： <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1kldCHl7A5SIZaCLJniLzwQ"><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1kldCHl7A5SIZaCLJniLzwQ">Consolas和微软雅黑混合字体</a></a></p>
+<hr>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>快捷键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>自动整理代码</td>
+<td>Ctrl + Shift + A</td>
+</tr>
+<tr>
+<td>代码补全</td>
+<td>Ctrl + Space(<strong>和输入法切换快捷键冲突</strong>)</td>
+</tr>
+</tbody></table>
+<p>自定义快捷键：工具 - 快捷键选项 - 菜单项的底部 - Show Code Completion(代码补全)，自定义即可。</p>
+<hr>
+<h2 id="添加-C99-C-11-标准"><a href="#添加-C99-C-11-标准" class="headerlink" title="添加 C99&#x2F;C++11 标准"></a>添加 C99&#x2F;C++11 标准</h2><p>工具 - 编译选项 - 编译时加入以下命令 - <code>-std=c99</code>或<code>-std=C++11</code></p>
+<p><img src="https://i.loli.net/2019/04/16/5cb59e4d63a98.png"></p>
+<hr>
+<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><h3 id="初次启用调试，出现“项目没有调试信息，您想打开项目调试选项并重新生成吗”"><a href="#初次启用调试，出现“项目没有调试信息，您想打开项目调试选项并重新生成吗”" class="headerlink" title="初次启用调试，出现“项目没有调试信息，您想打开项目调试选项并重新生成吗”"></a>初次启用调试，出现“项目没有调试信息，您想打开项目调试选项并重新生成吗”</h3><p>菜单栏 - 工具 - 编译选项 - 代码生成&#x2F;优化 - 连接器 - 产生调试信息 - Yes</p>
+<p><img src="https://i.loli.net/2019/04/17/5cb6d8b4f11b0.png"></p>
+<h3 id="调试窗口查看变量的实时数据"><a href="#调试窗口查看变量的实时数据" class="headerlink" title="调试窗口查看变量的实时数据"></a>调试窗口查看变量的实时数据</h3><p>开启调试后，有三种方式可以查看变量的实时数据：</p>
+<ol>
+<li>左侧调试窗口 - 空白处鼠标右键 - 添加查看</li>
+<li>下侧调试窗口 - 添加查看</li>
+<li>代码界面鼠标在变量名处停留，会显示当前变量值</li>
+</ol>
+<p><img src="https://i.loli.net/2019/04/17/5cb6dc99352a7.png"></p>
+<hr>
+<p>参考：</p>
+<ul>
+<li><del><a target="_blank" rel="noopener" href="https://ice1000.org/2016/10/28/DevCpp/">如何正确使用 DEV C++</a></del></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/MonkeyWang98/article/details/80202024">DEV-C++调试时出现“项目没有调试信息，你想打开调试选项并重新生成吗”</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Dev-C/" rel="tag"><i class="fa fa-tag"></i> Dev-C++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/03/25/%E9%A6%99%E6%B8%AF%E6%B8%B8%E8%AE%B0/" rel="prev" title="香港两日半 | 不妨长作岭南人">
+                  <i class="fa fa-angle-left"></i> 香港两日半 | 不妨长作岭南人
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/04/16/Cmder/" rel="next" title="Cmder">
+                  Cmder <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="版本控制工具版本控制是一种记录一个或若干文件内容变化，以便将来查阅特定版本修订情况的系统。版本控制能方便查看更改历史，备份以及恢复以前的版本，保证多人协作不出问题。 Git对待数据的方式，更像是把数据看作是对小型文件系统的一组快照。每次提交更新或者在Git中保存项目状态时，它主要对当时的全部文件制作一个快照并保存这个快照的索引。为了高效，如果文件没有修改，Git不再重新存储该文件，而只是保留一个链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git">
+<meta property="og:url" content="https://hunter1023.github.io/2021/12/06/Git/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="版本控制工具版本控制是一种记录一个或若干文件内容变化，以便将来查阅特定版本修订情况的系统。版本控制能方便查看更改历史，备份以及恢复以前的版本，保证多人协作不出问题。 Git对待数据的方式，更像是把数据看作是对小型文件系统的一组快照。每次提交更新或者在Git中保存项目状态时，它主要对当时的全部文件制作一个快照并保存这个快照的索引。为了高效，如果文件没有修改，Git不再重新存储该文件，而只是保留一个链">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2024/07/17/zAWxrqS8R9FwGDg.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/16/q6Va3yzDevJUBCZ.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/16/cZSxjl9ozKeWhiq.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/17/VbBh31MvtGfUXwa.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/17/WobnHFNPKechO3a.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/16/gwCIleRs3XOH5kB.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/16/1oLlk3WOxcMArIN.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/16/dshVpPXuHQcJEx6.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/16/ba4vPIfpU7lkOqH.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/16/2dvxBLp4P3XuoMw.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/17/apKxF86wq4UdDYW.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/17/X1JK4gItBumbpWT.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/17/ar6KwhZJEf2dWOB.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/17/KgbG7RPILC2Aytw.png">
+<meta property="article:published_time" content="2021-12-06T14:44:03.000Z">
+<meta property="article:modified_time" content="2025-01-23T15:29:13.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/07/17/zAWxrqS8R9FwGDg.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2021/12/06/Git/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2021/12/06/Git/","path":"2021/12/06/Git/","title":"Git"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Git | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7"><span class="nav-number">1.</span> <span class="nav-text">版本控制工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Git%E5%92%8CTortoiseGit"><span class="nav-number">2.</span> <span class="nav-text">安装Git和TortoiseGit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TortoiseGit"><span class="nav-number">2.1.</span> <span class="nav-text">TortoiseGit</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">Git基本配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E7%A7%8D%E9%85%8D%E7%BD%AE%E7%AD%89%E7%BA%A7"><span class="nav-number">3.1.</span> <span class="nav-text">3种配置等级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E8%BA%AB%E4%BB%BD"><span class="nav-number">3.2.</span> <span class="nav-text">配置个人身份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E6%8D%A2%E8%A1%8C%E7%AC%A6%E9%85%8D%E7%BD%AE"><span class="nav-number">3.3.</span> <span class="nav-text">文本换行符配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E9%85%8D%E7%BD%AE"><span class="nav-number">3.4.</span> <span class="nav-text">编码配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E8%AE%A4%E8%AF%81%E9%85%8D%E7%BD%AE"><span class="nav-number">3.5.</span> <span class="nav-text">与服务器的认证配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#http-https%E5%8D%8F%E8%AE%AE%E8%AE%A4%E8%AF%81"><span class="nav-number">3.5.1.</span> <span class="nav-text">http&#x2F;https协议认证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSH%E5%8D%8F%E8%AE%AE%E8%AE%A4%E8%AF%81"><span class="nav-number">3.5.2.</span> <span class="nav-text">SSH协议认证</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%BF%87%E7%A8%8B"><span class="nav-number">3.5.2.1.</span> <span class="nav-text">配置过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%B0%E5%A2%9E%E5%85%AC%E9%92%A5"><span class="nav-number">3.5.2.2.</span> <span class="nav-text">新增公钥</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text">Git基本命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Git%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E4%B8%8B%E7%9A%84%E5%B7%A5%E7%A8%8B%E5%8C%BA%E5%9F%9F"><span class="nav-number">4.1.</span> <span class="nav-text">Git版本控制下的工程区域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E4%B8%8B%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%87%E4%BB%B6%E7%8A%B6%E6%80%81"><span class="nav-number">4.2.</span> <span class="nav-text">Git版本控制下的三种文件状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">4.3.</span> <span class="nav-text">常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E7%A8%8B%E5%87%86%E5%A4%87"><span class="nav-number">4.3.1.</span> <span class="nav-text">工程准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E4%BF%AE%E6%94%B9"><span class="nav-number">4.3.2.</span> <span class="nav-text">查看修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%BF%AE%E6%94%B9%E5%90%8E%E6%8F%90%E4%BA%A4%E6%8E%A8%E9%80%81"><span class="nav-number">4.3.3.</span> <span class="nav-text">文件修改后提交推送</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="nav-number">4.4.</span> <span class="nav-text">查看日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86"><span class="nav-number">4.5.</span> <span class="nav-text">分支管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%94%AF%E5%90%88%E5%B9%B6"><span class="nav-number">4.6.</span> <span class="nav-text">分支合并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%92%A4%E9%94%80%E6%93%8D%E4%BD%9C"><span class="nav-number">4.7.</span> <span class="nav-text">撤销操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">5.</span> <span class="nav-text">进阶操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Patch"><span class="nav-number">5.1.</span> <span class="nav-text">Patch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-cherry-pick"><span class="nav-number">5.2.</span> <span class="nav-text">git cherry-pick</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-stash"><span class="nav-number">5.3.</span> <span class="nav-text">git stash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#revert"><span class="nav-number">5.4.</span> <span class="nav-text">revert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6%E5%86%B2%E7%AA%81"><span class="nav-number">5.5.</span> <span class="nav-text">解决代码合并冲突</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2021/12/06/Git/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Git | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/Git.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-12-06 22:44:03" itemprop="dateCreated datePublished" datetime="2021-12-06T22:44:03+08:00">2021-12-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-23 23:29:13" itemprop="dateModified" datetime="2025-01-23T23:29:13+08:00">2025-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" itemprop="url" rel="index"><span itemprop="name">版本控制</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="版本控制工具"><a href="#版本控制工具" class="headerlink" title="版本控制工具"></a>版本控制工具</h2><p>版本控制是一种<strong>记录一个或若干文件内容变化</strong>，以便<strong>将来查阅特定版本修订情况</strong>的系统。版本控制能方便<strong>查看更改历史，备份以及恢复以前的版本</strong>，保证<strong>多人协作</strong>不出问题。</p>
+<p>Git对待数据的方式，更像是<strong>把数据看作是对小型文件系统的一组快照</strong>。每次提交更新或者在Git中保存项目状态时，它主要对当时的<strong>全部文件制作一个快照</strong>并<strong>保存这个快照的索引</strong>。为了高效，<strong>如果文件没有修改，Git不再重新存储该文件，而只是保留一个链接指向之前存储的文件</strong>，Git对待数据更像是一个<strong>快照流</strong>。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="安装Git和TortoiseGit"><a href="#安装Git和TortoiseGit" class="headerlink" title="安装Git和TortoiseGit"></a>安装Git和TortoiseGit</h2><h3 id="TortoiseGit"><a href="#TortoiseGit" class="headerlink" title="TortoiseGit"></a>TortoiseGit</h3><p>TortoiseGit提供了Git的图形化操作界面，Git<strong>工作区的目录和文件的图标符加了标识版本控制状态的图像，可以非常直观地看到哪些文件被更改了需要提交</strong>。通过对右键菜单的扩展，可以非常方便操作Git版本库。</p>
+<p>通过设置，选择Git提供的ssh客户端，这样<strong>在下载ssh协议的代码仓库时，命令行与图形界面都可以使用同一套公钥和密钥</strong>。</p>
+<hr>
+<h2 id="Git基本配置"><a href="#Git基本配置" class="headerlink" title="Git基本配置"></a>Git基本配置</h2><h3 id="3种配置等级"><a href="#3种配置等级" class="headerlink" title="3种配置等级"></a>3种配置等级</h3><ol>
+<li><strong>系统</strong>配置：<code>git config --system</code></li>
+</ol>
+<p>  对<strong>所有用户</strong>都有效，存放在<strong>git的安装目录</strong>下：<code>%Git%/etc/gitconfig</code></p>
+<ol start="2">
+<li><strong>用户</strong>配置：<code>git config --global</code></li>
+</ol>
+<p>  只对<strong>当前用户</strong>有效，存放在<strong>用户目录</strong>下：<code>~/.gitconfig</code></p>
+<ol start="3">
+<li><p><strong>仓库</strong>配置：<code>git config --local</code></p>
+<p> 只对<strong>当前项目</strong>有效，存放在<strong>项目目录</strong>下：<code>.git/config</code></p>
+</li>
+</ol>
+<hr>
+<h3 id="配置个人身份"><a href="#配置个人身份" class="headerlink" title="配置个人身份"></a>配置个人身份</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> config <span class="token parameter variable">--global</span> user.name <span class="token string">"Hunter"</span>
+<span class="token function">git</span> config <span class="token parameter variable">--global</span> user.email hspecial@163.com<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>这个配置信息会<strong>在Git仓库提交的修改信息中体现</strong>，<strong>和Git服务器认证使用的密码或者公钥密码无关</strong>。</p>
+<hr>
+<h3 id="文本换行符配置"><a href="#文本换行符配置" class="headerlink" title="文本换行符配置"></a>文本换行符配置</h3><p>这一节的内容仍然是给我造成困惑的部分，感觉从参考资料来看，<strong>跨平台的项目开发应该要自动转换换行符</strong>。但是在我目前有限的开发经验来看，似乎并没有对项目造成影响，怀疑可能是IDE完成了相应的工作。</p>
+<p><strong>默认</strong>的配置状态为：<code>core.autocrlf=true</code>，暂且不去作修改，待日后有了深刻的理解再来完善本节内容。</p>
+<hr>
+<h3 id="编码配置"><a href="#编码配置" class="headerlink" title="编码配置"></a>编码配置</h3><ul>
+<li><p>中文编码支持</p>
+<ul>
+<li><p><code>git config --global gui.encoding utf-8</code></p>
+<p>  图形化界面采用的编码</p>
+</li>
+<li><p><code>git config --global i18n.commitencoding utf-8</code></p>
+<p>  git commit log存储时，采用的编码</p>
+</li>
+<li><p><code>git config --global i18n.logoutputencoding utf-8</code></p>
+<p>  查看git log时，显示所采用的编码</p>
+</li>
+</ul>
+</li>
+<li><p>显示路径中的中文</p>
+<p>  <code>git config --global core.quotepath false</code></p>
+</li>
+</ul>
+<hr>
+<h3 id="与服务器的认证配置"><a href="#与服务器的认证配置" class="headerlink" title="与服务器的认证配置"></a>与服务器的认证配置</h3><h4 id="http-https协议认证"><a href="#http-https协议认证" class="headerlink" title="http&#x2F;https协议认证"></a>http&#x2F;https协议认证</h4><p>禁用SSL证书验证：<code>git config http.sslverify false</code></p>
+<ol>
+<li>当你连接到一个不受信任的远程仓库时，可能没有有效的 SSL 证书，或者证书已经过期。</li>
+<li>当你在开发或测试环境中使用自签名的 SSL 证书时，可能需要禁用验证以避免错误。</li>
+</ol>
+<hr>
+<h4 id="SSH协议认证"><a href="#SSH协议认证" class="headerlink" title="SSH协议认证"></a>SSH协议认证</h4><p><strong>使用公钥认证，无需输入密码，加密传输</strong>，操作便利又保证安全性。</p>
+<hr>
+<h5 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h5><ol>
+<li><p>生成公钥</p>
+<p> 在bash命令行中输入如下命令：</p>
+ <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ssh-keygen <span class="token parameter variable">-t</span> rsa <span class="token parameter variable">-C</span> <span class="token string">"hspecial@163.com"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p> 一路回车，就能在用户目录下<code>~/.ssh</code>中，生成公钥<code>id_rsa.pub</code></p>
+</li>
+<li><p>添加<strong>公钥</strong><code>id_rsa.pub</code>中的内容到代码平台</p>
+</li>
+</ol>
+<hr>
+<h5 id="新增公钥"><a href="#新增公钥" class="headerlink" title="新增公钥"></a>新增公钥</h5><p>出于某些情况，你可能要在另外的平台或者另外的项目，使用不同的邮箱来生成公钥，以便<strong>和代码平台的账号相匹配</strong>。</p>
+<ol>
+<li><p>生成公钥</p>
+<p> 提示<code>Enter file in which to save the key</code>（输入要保存密钥的<strong>文件</strong>，即<strong>id_rsa文件</strong>）”时，输入密钥文件的保存位置。<strong>为了和用户配置等级的密钥区分</strong>，我选择在默认公钥的目录下<strong>创建对应的平台或项目名的文件夹</strong>。输入保存密钥的<strong>文件绝对路径</strong>即可。</p>
+</li>
+<li><p>添加<strong>公钥</strong><code>id_rsa.pub</code>中的内容到代码平台</p>
+</li>
+</ol>
+<hr>
+<h2 id="Git基本命令"><a href="#Git基本命令" class="headerlink" title="Git基本命令"></a>Git基本命令</h2><h3 id="Git版本控制下的工程区域"><a href="#Git版本控制下的工程区域" class="headerlink" title="Git版本控制下的工程区域"></a>Git版本控制下的工程区域</h3><ol>
+<li>工作区 working directory</li>
+</ol>
+<p>  日常工作的代码文件或者文档所在的文件夹。</p>
+<ol start="2">
+<li>暂存区 stage</li>
+</ol>
+<p>  一般存放在工程根目录<code>.git/index</code>文件中，因此也可以把暂存区叫做索引。</p>
+<ol start="3">
+<li>版本库 Repository</li>
+</ol>
+<p>  <code>.git</code>文件夹就是Git的版本库，也可以叫<strong>本地仓库</strong>。</p>
+<img src="https://s2.loli.net/2024/07/17/zAWxrqS8R9FwGDg.png" alt="image-20240717003436883" style="zoom:80%;" />
+
+<hr>
+<h3 id="Git版本控制下的三种文件状态"><a href="#Git版本控制下的三种文件状态" class="headerlink" title="Git版本控制下的三种文件状态"></a>Git版本控制下的三种文件状态</h3><ol>
+<li>已修改 modified</li>
+</ol>
+<p>  修改了某个文件，但还没有提交保存</p>
+<ol start="2">
+<li>已暂存 staged</li>
+</ol>
+<p>  把已修改的文件放在下次提交时要保存的清单中。被<code>git add</code>的文件就是已暂存的状态。</p>
+<ol start="3">
+<li>已提交 committed</li>
+</ol>
+<p>  文件已经被安全地保存在本地数据库中</p>
+<hr>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><h4 id="工程准备"><a href="#工程准备" class="headerlink" title="工程准备"></a>工程准备</h4><ul>
+<li><p><code>git init</code>：本地目录下新建git项目仓库</p>
+</li>
+<li><p><code>git clone [URL]</code>：<strong>复制远端工程</strong>到本地</p>
+<p>  如果所在的项目Git服务器已支持<code>git-lfs</code>，<strong>对二进制文件进行了区别管理</strong>，那么复制工程的时候<strong>务必使用<code>git lfs clone [URL]</code></strong>，否则克隆操作无法下载到工程中的二进制文件，工程内容不完整。</p>
+</li>
+</ul>
+<hr>
+<h4 id="查看修改"><a href="#查看修改" class="headerlink" title="查看修改"></a>查看修改</h4><ul>
+<li><p><code>git diff</code>：查看工作区的<strong>修改内容</strong>(当前索引与上次提交&#x2F;任意两个节点(分支)之间的差异)</p>
+<ul>
+<li><code>git diff --cached</code>：当前索引与上次提交之间的差异</li>
+</ul>
+<p>  添加<code>--name-status</code>参数，可以只看文件列表</p>
+</li>
+<li><p><code>git status</code>：查看<strong>工作区和暂存区</strong>的文件状态</p>
+<p>  该命令能看到修改的git文件是否已被暂存，新增的文件是否纳入了git版本库的管理。</p>
+<ul>
+<li><code>Untracked files</code>：新建但未被跟踪的文件</li>
+<li><code>Changes not staged for commit</code>：修改但未被暂存的文件</li>
+<li><code>Changes to be committed</code>：已修改并已暂存的文件</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="文件修改后提交推送"><a href="#文件修改后提交推送" class="headerlink" title="文件修改后提交推送"></a>文件修改后提交推送</h4><ul>
+<li><p><code>git add</code>：<strong>新增</strong>文件到<strong>暂存区</strong></p>
+<p>  把文件添加到暂存区，是提交修改文件之前的必要操作。如果文件<strong>已经被git追踪，即曾经提交过</strong>，在Git的<strong>早期版本中</strong>，需要<code>git add</code>再提交；在<strong>较新的版本中，无需<code>git add</code>即可提交</strong>。</p>
+</li>
+<li><p><code>git rm</code>：<strong>删除</strong>文件到<strong>暂存区</strong></p>
+<p>  执行<code>git rm</code>后，通过<code>git status</code>查看时，会有<code>deleted: xxx</code>的提醒。之后进行提交，<strong>对应的文件就不再受git工程的管理</strong>。<strong>直接从硬盘中删除文件</strong>，然后对该文件执行<code>git commit</code>，git会自动将删除的文件从索引中移除，<strong>效果相同</strong>。</p>
+</li>
+<li><p><code>git mv</code>：<strong>移动</strong>文件到<strong>暂存区</strong></p>
+<p>  相当于<strong>在<code>mv</code>操作的基础上</strong>，用git将操作传入了暂存区。</p>
+</li>
+<li><p><code>git commit</code>：<strong>提交</strong>更改的文件</p>
+<p>  将暂存区中的文件改动提交到本地的版本库，一般<strong>需要附带提交描述信息</strong>，所以常见的用法是：</p>
+<p>  <code>git commit file_name -m &quot;commit message&quot;</code></p>
+<p>  如果要一次性提交所有在暂存区改动的文件到版本库，可以执行<code>git commit -am &quot;commit message&quot;</code></p>
+</li>
+<li><p><code>git push</code>：将本地版本库的分支推送到远端对应的分支</p>
+<p>  常见的推送命令格式：<code>git push origin branch_name:new_branch_name</code></p>
+<p>  <code>new_branch_name</code>是推送成功后，<strong>在远端服务器上的分支名</strong>，<code>:new_branch_name</code>可以不写，远端分支名就和本地分支名相同。</p>
+</li>
+</ul>
+<hr>
+<h3 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h3><ul>
+<li><p><code>git log</code>：查看<strong>当前分支上</strong>的提交日志</p>
+<p>  <code>git log</code><strong>默认</strong>按提交时间的<strong>由近到远</strong>列出所有的历史提交日志，每个日志基本包含：</p>
+<ol>
+<li>提交节点</li>
+<li>作者信息</li>
+<li>提交时间</li>
+<li>提交说明</li>
+</ol>
+<ul>
+<li><p><code>--name-status</code></p>
+<p> 能列出涉及改动的具体文件</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h3><ul>
+<li><p><code>git branch</code>：列出<strong>所有本地</strong>分支</p>
+<p>  如果想查看<strong>远端</strong>服务器上的分支，<code>-r</code>即可，返回的<strong>分支名带origin前缀，即表示在远端</strong>。如果想查看远端和本地的所有分支，<code>-a</code>即可。</p>
+</li>
+<li><p><strong>新建</strong>分支</p>
+<p>  默认<strong>基于当前节点</strong>创建分支</p>
+<ul>
+<li><code>git checkout -b new_branch_name</code> 新建后<strong>会自动切换到新分支</strong></li>
+<li><code>git branch new_branch_name</code> 新建后不会切换到新分支</li>
+</ul>
+</li>
+<li><p><strong>删除</strong>分支</p>
+<ul>
+<li><p><code>git branch -d branch_name</code></p>
+</li>
+<li><p><code>git branch -D branch_name</code> <strong>大写的D</strong>表示强制删除</p>
+<p>  当目标分支上<strong>包含未合并的改动</strong>，则需要通过<strong>强制删除</strong>来操作。</p>
+</li>
+<li><p><code>git branch -d -r branch_name</code> <strong>删除服务器上的远程分支</strong></p>
+<p>  删除后<strong>还需要推送到服务器</strong>：<code>git push origin : branch_name</code></p>
+</li>
+</ul>
+</li>
+<li><p><strong>切换</strong>分支</p>
+<ul>
+<li><p><code>git checkout branch_name</code></p>
+</li>
+<li><p><code>git checkout -f branch_name</code></p>
+<p>  如果当前分支<strong>工作区存在修改未提交的文件</strong>，与目的分支上的内容冲突，会导致<strong>切换失败</strong>，则需要使用<code>git checkout -f</code>进行<strong>强制切换</strong>。</p>
+</li>
+</ul>
+<p>  checkout的对象<strong>可以是分支，也可以是某个提交节点或者节点下的某个文件</strong>。</p>
+</li>
+<li><p>从远端<strong>更新</strong>分支</p>
+<ul>
+<li><p><code>git pull origin remote_branch:local_branch</code></p>
+<p>  从远端服务器中获取某个分支的更新，再<strong>与本地指定的分支进行自动合并(merge)</strong>，如果远程指定的分支与本地指定的分支相同，则可以直接执行<code>git pull origin remote_branch</code></p>
+</li>
+<li><p><code>git fetch origin remote_branch:local_branch</code></p>
+<p>  与<code>git pull</code>不同，<code>git fetch</code>在获取到更新后，<strong>不会自动合并</strong>，而是<strong>留给用户一个操作空间，确认<code>git fetch</code>内容符合预期后，再决定是否手动合并节点</strong>。</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="分支合并"><a href="#分支合并" class="headerlink" title="分支合并"></a>分支合并</h3><p><strong>合并目标分支内容到当前分支</strong>，以下两种方式<strong>都可以达到目的</strong></p>
+<ul>
+<li><p><code>git merge branch_name</code></p>
+<p>git会将指定的分支与当前分支进行比较，找出二者<strong>最近的一个共同节点base</strong>，之后将指定分支在base之后分离的节点<strong>合并到当前分支上</strong>，<strong>实际上是分支之间，差异提交的节点的合并</strong>。<strong>会保留每个分支的所有历史</strong>。</p>
+<p><code>git merge</code>可能会遇到冲突，此时使用</p>
+<p>缺点：每次合并会产生新的提交节点，导致分支线混乱；分支关系模糊，无法准确看到哪些是合并产生，哪些来自原始分支。</p>
+<img src="https://s2.loli.net/2024/07/16/q6Va3yzDevJUBCZ.png" alt="image-20240716165732981" style="zoom: 67%;" />
+</li>
+<li><p><code>git rebase branch_name</code></p>
+<p>  rebase可以<strong>避免merge的交织</strong>。</p>
+  <img src="https://s2.loli.net/2024/07/16/cZSxjl9ozKeWhiq.png" alt="image-20240716170407006" style="zoom:67%;" /></li>
+</ul>
+<p>二者的<strong>实现机制和对合并后节点造成的影响有很大差异，有着各自的风险</strong>。</p>
+<p><strong>推荐操作：</strong></p>
+<ol>
+<li><p><strong>次级分支rebase main。</strong> </p>
+<p> 次级分支rebase可以<strong>让自己的提交一直处于最前面</strong>，保证提交时间的有序性。</p>
+</li>
+<li><p><strong>main merge次级分支。</strong></p>
+<p> 可以看到主分支的哪个特性是基于次级分支同步而来。</p>
+</li>
+</ol>
+<p>实际开发中，比如当前自己开发的分支为<code>hunter_test</code>，主分支为<code>main</code>。应当通过<code>Rebase &#39;hunter_test&#39; onto main</code>（onto，把当前分支的<strong>基点移动到master分支</strong>的最新提交），同步最新的master分支代码。再将自己的修改提交并push到远程分支，向main分支发起merge request请求。main分支通过<code>Merge &#39;hunter_test&#39; into &#39;main&#39;</code>，<strong>将特性分支的更改合入到main分支中</strong>。</p>
+<hr>
+<h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><ul>
+<li><p><code>git reset commit_id</code></p>
+<p>可将工作区内容回退到<strong>历史提交节点</strong>。IDEA中选择目标分支的对应提交，右键<code>Reset Current Branch to Here</code>：</p>
+<img src="https://s2.loli.net/2024/07/17/VbBh31MvtGfUXwa.png" alt="image-20240717010957062" style="zoom:80%;" />
+
+<img src="https://s2.loli.net/2024/07/17/WobnHFNPKechO3a.png" alt="image-20240717003727407" style="zoom:80%;" />
+
+<ul>
+<li>Soft模式：不改变工作目录和暂存区(git add后)，<strong>将被回退的提交放入暂存区</strong>。</li>
+<li>Mixed模式：清空暂存区，<strong>将回退的变更和暂存区的内容都放入工作目录</strong>。</li>
+<li>Hard模式：回退至指定提交，<strong>清空暂存区和工作目录的变更</strong>。（<strong>清除最彻底的模式</strong>）</li>
+<li>Keep模式：<strong>保留本地的变更</strong>，清除被回退的提交记录。</li>
+</ul>
+</li>
+<li><p><code>git checkout .</code></p>
+<p>  <strong>回退本地所有未提交的修改</strong>。这是一条<strong>有风险</strong>的命令，<strong>不给用户任何确认机会</strong>。它会<strong>取消本地工作区的修改，用暂存区的所有文件直接覆盖本地文件，达到回退内容的目的</strong>。</p>
+<p>  如果仅仅想回退<strong>某个文件的未提交改动</strong>，可以使用<code>git checkout -filename</code>；如果想将工作区回退到某个提交版本，可以使用<code>git checkout commit_id</code>。</p>
+</li>
+</ul>
+<hr>
+<h2 id="进阶操作"><a href="#进阶操作" class="headerlink" title="进阶操作"></a>进阶操作</h2><h3 id="Patch"><a href="#Patch" class="headerlink" title="Patch"></a>Patch</h3><p>适用于生成和应用补丁文件，可以在不同的代码库之间传递和应用提交的更改内容。</p>
+<p><code>git format-patch -l -o path</code></p>
+<ul>
+<li><p><code>-l</code>：最近一次提交</p>
+<p>  也可<strong>指定数量，搭配提交记录号</strong>指定具体的提交。例如<code>git format-patch -1 提交记录号  -o path</code></p>
+</li>
+<li><p><code>-o</code>：补丁文件路径</p>
+</li>
+</ul>
+<p>IDEA中的操作方式：</p>
+<ol>
+<li><p>选中需要的提交，右键选择<code>Create Patch...</code></p>
+ <img src="https://s2.loli.net/2024/07/16/gwCIleRs3XOH5kB.png" alt="image-20240716230323603" style="zoom:80%;" />
+</li>
+<li><p>可以选择存到文件或剪切板中。</p>
+ <img src="https://s2.loli.net/2024/07/16/1oLlk3WOxcMArIN.png" alt="image-20240716234102223" style="zoom:80%;" />
+</li>
+<li><p>工具栏 - Git - Apply Patch</p>
+ <img src="https://s2.loli.net/2024/07/16/dshVpPXuHQcJEx6.png" alt="image-20240716235446452" style="zoom:80%;" /></li>
+</ol>
+<hr>
+<h3 id="git-cherry-pick"><a href="#git-cherry-pick" class="headerlink" title="git cherry-pick"></a>git cherry-pick</h3><p>适用于<strong>选择性地将单个或多个提交应用到当前分支中</strong>，创建一个新的提交。</p>
+<p>在当前分支，<code>git cherry-pick 需要的提交记录号</code>，就能将指定的提交添加到当前分支中。</p>
+<img src="https://s2.loli.net/2024/07/16/ba4vPIfpU7lkOqH.png" alt="image-20240716175021314" style="zoom:80%;" />
+
+<p>如果合并指定的提交到当前分支遇到冲突，<strong>3种处理方式</strong>如下：</p>
+<ol>
+<li>解决所有冲突之后，通过<code>git add/rm 更改内容</code>进行标记，<code>git cherry-pick --continue</code>。</li>
+<li><code>git cherry-pick --skip</code> 跳过冲突的提交。</li>
+<li><code>git cherry-pick --abort</code>，终止执行，并<strong>回到执行cherry-pick之前的状态</strong>。</li>
+</ol>
+<p>IDEA中的操作方式：</p>
+<p>选中<strong>目标分支中的目标提交</strong>，**右键选择<code>Cherry-Pick</code>**就能将对应的提交应用到当前分支中。</p>
+ <img src="https://s2.loli.net/2024/07/16/2dvxBLp4P3XuoMw.png" alt="image-20240716180532508" style="zoom:80%;" />
+
+<hr>
+<h3 id="git-stash"><a href="#git-stash" class="headerlink" title="git stash"></a>git stash</h3><ul>
+<li><code>git stash</code>命令将当前本地的所有变更<strong>暂存到一个栈中</strong>，然后就可以干净地切换分支。</li>
+<li><code>git stash save &#39;暂存一些修改&#39;</code> 可以添加注释。</li>
+<li><code>git stash list</code> 可以看到stash的所有记录。</li>
+<li><code>git stash pop</code>可以将最新的一次暂存的代码恢复到本地。</li>
+</ul>
+<hr>
+<h3 id="revert"><a href="#revert" class="headerlink" title="revert"></a>revert</h3><p>代码回退。</p>
+<p>IDEA中，选中目标提交，右键点击<code>Revert Commits</code>，就能进行代码回退，<strong>并且会产生新的对应的逆向操作提交</strong>。</p>
+<img src="https://s2.loli.net/2024/07/17/apKxF86wq4UdDYW.png" alt="image-20240717001901137" style="zoom:80%;" />
+
+<p><strong>生成新的逆向操作的提交</strong>的好处是，如果后续leader的想法改变，<strong>需要保留删除的代码，此时对revert的提交再revert一次就可以了</strong>。</p>
+<img src="https://s2.loli.net/2024/07/17/X1JK4gItBumbpWT.png" alt="image-20240717002018794" style="zoom:80%;" />
+
+<hr>
+<h3 id="解决代码合并冲突"><a href="#解决代码合并冲突" class="headerlink" title="解决代码合并冲突"></a>解决代码合并冲突</h3><p>通常在项目中，各种git操作（merge、rebase…）都可能引起代码冲突。在IDEA中中会弹出一个冲突提示框：</p>
+<img src="https://s2.loli.net/2024/07/17/ar6KwhZJEf2dWOB.png" alt="image-20240717010112329" style="zoom:80%;" />
+
+<p>有3种处理情况：</p>
+<ol>
+<li><p>点击<code>Merge...</code>依次查看处理冲突，进行代码合并。</p>
+</li>
+<li><p>合并不顺利，后悔了不想合并代码，点击<code>Close</code>关闭该冲突提示框。此时右下角应该会有一个<code>xxx stopped due to conflicts</code>弹框。</p>
+<p> <strong>点击<code>Abort</code><strong>就能终止执行，并回到</strong>执行引起代码冲突的git操作之前</strong>的状态。</p>
+ <img src="https://s2.loli.net/2024/07/17/KgbG7RPILC2Aytw.png" alt="image-20240717010409227" style="zoom:80%;" />
+</li>
+<li><p>代码已合并完成，<strong>在push之前后悔了</strong>。在当前代码分支，选择<strong>最新的提交记录</strong>，右键<code>Reset Current Branch to Here</code>，Hard模式（回退至指定提交，<strong>清空暂存区和工作目录的变更</strong>。（<strong>清除最彻底的模式</strong>）），就能清除合并记录。</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Git/" rel="tag"><i class="fa fa-tag"></i> Git</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/29/%E6%B0%B4%E6%9D%89%E7%A0%81%E5%9B%AD%E5%85%A5%E5%9D%91%E6%8C%87%E5%8C%97/" rel="prev" title="水杉码园入坑指北">
+                  <i class="fa fa-angle-left"></i> 水杉码园入坑指北
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/09/Tomcat/" rel="next" title="Tomcat">
+                  Tomcat <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

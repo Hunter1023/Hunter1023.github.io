@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="准备由于PE方式只适用于安装windows，因此选择常规的制作启动U盘进行Ubuntu的安装。 操作系统镜像下载（桌面版，文件名后缀 .iso.torrent） 方式一：Ubuntu官网直接下载镜像 方式二：Ubuntu官网下载镜像种子 + 迅雷下载镜像 （速度快，推荐）  3G及以上空间的U盘&#x2F;移动硬盘(用于装载系统镜像)制作启动U盘 方式一：Windows 10 可以直接打开 iso">
+<meta property="og:type" content="article">
+<meta property="og:title" content="启动U盘安装Ubuntu(单系统)">
+<meta property="og:url" content="https://hunter1023.github.io/2020/01/17/%E5%90%AF%E5%8A%A8U%E7%9B%98%E5%AE%89%E8%A3%85Ubuntu/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="准备由于PE方式只适用于安装windows，因此选择常规的制作启动U盘进行Ubuntu的安装。 操作系统镜像下载（桌面版，文件名后缀 .iso.torrent） 方式一：Ubuntu官网直接下载镜像 方式二：Ubuntu官网下载镜像种子 + 迅雷下载镜像 （速度快，推荐）  3G及以上空间的U盘&#x2F;移动硬盘(用于装载系统镜像)制作启动U盘 方式一：Windows 10 可以直接打开 iso">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/01/17/9KOmaTAQcIqdkpo.png">
+<meta property="article:published_time" content="2020-01-17T12:40:24.000Z">
+<meta property="article:modified_time" content="2025-01-23T15:29:13.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="Ubuntu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/01/17/9KOmaTAQcIqdkpo.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2020/01/17/%E5%90%AF%E5%8A%A8U%E7%9B%98%E5%AE%89%E8%A3%85Ubuntu/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2020/01/17/%E5%90%AF%E5%8A%A8U%E7%9B%98%E5%AE%89%E8%A3%85Ubuntu/","path":"2020/01/17/启动U盘安装Ubuntu/","title":"启动U盘安装Ubuntu(单系统)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>启动U盘安装Ubuntu(单系统) | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%95%9C%E5%83%8F%E4%B8%8B%E8%BD%BD%EF%BC%88%E6%A1%8C%E9%9D%A2%E7%89%88%EF%BC%8C%E6%96%87%E4%BB%B6%E5%90%8D%E5%90%8E%E7%BC%80-iso-torrent%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">操作系统镜像下载（桌面版，文件名后缀 .iso.torrent）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3G%E5%8F%8A%E4%BB%A5%E4%B8%8A%E7%A9%BA%E9%97%B4%E7%9A%84U%E7%9B%98-%E7%A7%BB%E5%8A%A8%E7%A1%AC%E7%9B%98-%E7%94%A8%E4%BA%8E%E8%A3%85%E8%BD%BD%E7%B3%BB%E7%BB%9F%E9%95%9C%E5%83%8F"><span class="nav-number">1.2.</span> <span class="nav-text">3G及以上空间的U盘&#x2F;移动硬盘(用于装载系统镜像)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%B6%E4%BD%9C%E5%90%AF%E5%8A%A8U%E7%9B%98"><span class="nav-number">1.3.</span> <span class="nav-text">制作启动U盘</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.</span> <span class="nav-text">安装系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%86-%E4%BB%8E%E4%B8%BB%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8B%E8%BD%BD-%E6%9B%B4%E6%8D%A2%E4%B8%BA-%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E7%AB%99%E7%82%B9%E4%B8%8B%E8%BD%BD"><span class="nav-number">3.</span> <span class="nav-text">将 从主服务器下载 更换为 国内镜像站点下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E7%B3%BB%E7%BB%9F%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">更新系统文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%BE%97%E5%90%84%E7%A7%8D%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="nav-number">5.</span> <span class="nav-text">获得各种开发工具</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2020/01/17/%E5%90%AF%E5%8A%A8U%E7%9B%98%E5%AE%89%E8%A3%85Ubuntu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="启动U盘安装Ubuntu(单系统) | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          启动U盘安装Ubuntu(单系统)<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/%E5%90%AF%E5%8A%A8U%E7%9B%98%E5%AE%89%E8%A3%85Ubuntu.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-17 20:40:24" itemprop="dateCreated datePublished" datetime="2020-01-17T20:40:24+08:00">2020-01-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-23 23:29:13" itemprop="dateModified" datetime="2025-01-23T23:29:13+08:00">2025-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8E%E8%BD%AF%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">操作系统与软件</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>由于<strong>PE方式只适用于安装windows</strong>，因此选择常规的<strong>制作启动U盘</strong>进行Ubuntu的安装。</p>
+<h3 id="操作系统镜像下载（桌面版，文件名后缀-iso-torrent）"><a href="#操作系统镜像下载（桌面版，文件名后缀-iso-torrent）" class="headerlink" title="操作系统镜像下载（桌面版，文件名后缀 .iso.torrent）"></a>操作系统镜像下载（桌面版，文件名后缀 .iso.torrent）</h3><ul>
+<li>方式一：<a target="_blank" rel="noopener" href="https://ubuntu.com/#download">Ubuntu官网直接下载镜像</a></li>
+<li>方式二：<a target="_blank" rel="noopener" href="http://releases.ubuntu.com/18.04/">Ubuntu官网下载镜像种子</a> + 迅雷下载镜像 （速度快，<strong>推荐</strong>）</li>
+</ul>
+<h3 id="3G及以上空间的U盘-移动硬盘-用于装载系统镜像"><a href="#3G及以上空间的U盘-移动硬盘-用于装载系统镜像" class="headerlink" title="3G及以上空间的U盘&#x2F;移动硬盘(用于装载系统镜像)"></a><strong>3G及以上空间</strong>的U盘&#x2F;移动硬盘(用于装载系统镜像)</h3><h3 id="制作启动U盘"><a href="#制作启动U盘" class="headerlink" title="制作启动U盘"></a>制作启动U盘</h3><ul>
+<li><p>方式一：<strong>Windows 10 可以直接打开 iso镜像文件，不用下载任何工具</strong></p>
+<ol>
+<li><p>格式化U盘</p>
+</li>
+<li><p>双击ISO文件，然后选中打开的所有文件，复制到U盘即可</p>
+</li>
+</ol>
+</li>
+<li><p>方式二：<a target="_blank" rel="noopener" href="http://rufus.ie/">下载U盘制作制作工具Rufus</a>(<strong>无需安装，可直接运行</strong>)</p>
+<ol>
+<li><p>选择设备(需要被制作的U盘&#x2F;移动硬盘)</p>
+<ul>
+<li>只有一个外接设备时会自动读取</li>
+<li>如果<strong>外接设备是移动硬盘</strong>，需要<strong>显示高级设备选项 — 显示USB外置硬盘</strong></li>
+</ul>
+</li>
+<li><p>选择操作系统镜像</p>
+</li>
+<li><p><strong>分区类型</strong>（<strong>理论上</strong>（联想Y480不知道为什么无法通过UEFI成功安装））</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av45677113">硬盘格式与引导方式、MBR与GPT、UEFI 与LEGACY bios的区别</a></p>
+<ul>
+<li><p>若选择GPT，之后系统安装时选择<strong>UEFI启动</strong>（<strong>推荐</strong>）</p>
+</li>
+<li><p>若选择MBR，之后系统安装时<strong>选择BIOS启动，否则报错</strong>（该模式一定能够安装成功）</p>
+</li>
+</ul>
+</li>
+<li><p>其余选项默认，点击<strong>开始</strong>，即可制作启动U盘</p>
+</li>
+</ol>
+<img src="https://i.loli.net/2020/01/17/9KOmaTAQcIqdkpo.png" alt="Rufus制作启动U盘" style="zoom:80%;" /></li>
+</ul>
+<hr>
+<h2 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h2><ol>
+<li><p>重启电脑，进入<strong>选择启动方式界面</strong>（联想笔记本：F12；惠普笔记本：F9）</p>
+</li>
+<li><p>选择启动U盘</p>
+<ul>
+<li>想要安装系统的硬盘的格式为<strong>GPT</strong>，选择<strong>UEFI启动，即 EFI USB Device</strong></li>
+<li>启动U盘分区类型为<strong>MBR</strong>，选择<strong>BIOS启动，即 选择对应的U盘</strong></li>
+</ul>
+</li>
+<li><p>欢迎 — 中文 — 安装Ubuntu</p>
+</li>
+<li><p>键盘布局 — 汉语</p>
+</li>
+<li><p>无线 — 不连接</p>
+</li>
+<li><p>更新和其他软件 — <strong>最小安装</strong></p>
+</li>
+<li><p>安装类型 — 其他选项 — 进行分区</p>
+<p>硬盘大小110GB</p>
+<ul>
+<li><p><strong>UEFI</strong>启动：</p>
+<table>
+<thead>
+<tr>
+<th>空间大小</th>
+<th>主分区&#x2F;逻辑分区</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200MB</td>
+<td><strong>逻辑分区</strong></td>
+<td><strong>EFI</strong></td>
+</tr>
+<tr>
+<td>8GB<br />（和内存大小一致）</td>
+<td>主分区</td>
+<td>swap(交换)</td>
+</tr>
+<tr>
+<td>40GB</td>
+<td>逻辑分区</td>
+<td>ext4<br />挂载至 “&#x2F;”</td>
+</tr>
+<tr>
+<td>剩余空间</td>
+<td>逻辑分区</td>
+<td>ext4<br />挂载至 “&#x2F;home”</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>BIOS</strong>启动：</p>
+<table>
+<thead>
+<tr>
+<th>空间大小</th>
+<th>主分区&#x2F;逻辑分区</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200MB</td>
+<td><strong>主分区</strong></td>
+<td><strong>biosxx</strong></td>
+</tr>
+<tr>
+<td>8GB （和内存大小一致）</td>
+<td>主分区</td>
+<td>swap(交换)</td>
+</tr>
+<tr>
+<td>40GB</td>
+<td>逻辑分区</td>
+<td>ext4 挂载至 “&#x2F;”</td>
+</tr>
+<tr>
+<td>剩余空间</td>
+<td>逻辑分区</td>
+<td>ext4 挂载至 “&#x2F;home”</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+<li><p>完成安装，根据提示重启即可(可拔去启动U盘&#x2F;硬盘，避免再次从启动U盘启动)</p>
+</li>
+</ol>
+<hr>
+<h2 id="将-从主服务器下载-更换为-国内镜像站点下载"><a href="#将-从主服务器下载-更换为-国内镜像站点下载" class="headerlink" title="将 从主服务器下载 更换为 国内镜像站点下载"></a>将 从主服务器下载 更换为 国内镜像站点下载</h2><p>​	显示应用程序 - 软件和更新 - Ubuntu软件 - 下载自 - 其他站点 - 选择最佳服务器（自动选择最合适的站点）</p>
+<hr>
+<h2 id="更新系统文件"><a href="#更新系统文件" class="headerlink" title="更新系统文件"></a>更新系统文件</h2><p><strong>打开终端</strong>的快捷键：<code>Ctrl</code>+<code>Alt</code>+<code>T</code></p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">sudo apt update
+sudo apt upgrade<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="获得各种开发工具"><a href="#获得各种开发工具" class="headerlink" title="获得各种开发工具"></a>获得各种开发工具</h2><p><code>sudo apt-get install build-essential</code></p>
+<ul>
+<li><p>安装<strong>文字编辑器vim</strong>和<strong>浏览器chromium</strong></p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">sudo apt-get install vim
+sudo apt-get install chromium-browser<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>树视图</p>
+<p><code>sudo apt-get install tree</code></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Ubuntu/" rel="tag"><i class="fa fa-tag"></i> Ubuntu</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/04/16/Cmder/" rel="prev" title="Cmder">
+                  <i class="fa fa-angle-left"></i> Cmder
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/02/01/C%E8%AF%AD%E8%A8%80%E5%92%8CC++%E7%9A%84%E6%AF%94%E8%BE%83/" rel="next" title="C语言和C++的比较">
+                  C语言和C++的比较 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

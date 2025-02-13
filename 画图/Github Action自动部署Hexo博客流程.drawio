@@ -1,0 +1,123 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.9 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="26.0.9">
+  <diagram name="Page-1" id="c7558073-3199-34d8-9f00-42111426c3f3">
+    <mxGraphModel dx="1962" dy="109" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="826" pageHeight="1169" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-168" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="116" y="824" width="190" height="261" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-135" value="" style="group;fillColor=#b0e3e6;strokeColor=#0e8088;container=0;" vertex="1" connectable="0" parent="NDmGjnWdYNBjPlGGQMog-168">
+          <mxGeometry width="190" height="261" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-142" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="NDmGjnWdYNBjPlGGQMog-168" source="NDmGjnWdYNBjPlGGQMog-137" target="NDmGjnWdYNBjPlGGQMog-140">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-146" value="&lt;b&gt;&lt;font style=&quot;font-size: 12px;&quot; face=&quot;MesloLGS NF&quot;&gt;执行工作流文件&lt;/font&gt;&lt;/b&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#FFFF33;labelBorderColor=none;" vertex="1" connectable="0" parent="NDmGjnWdYNBjPlGGQMog-142">
+          <mxGeometry x="-0.2873" y="1" relative="1" as="geometry">
+            <mxPoint x="-1" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-137" value="&lt;span&gt;&lt;font face=&quot;MesloLGS NF&quot; style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;启用了Github Actions&lt;/font&gt;&lt;/span&gt;" style="whiteSpace=wrap;html=1;rounded=1;fillColor=#ffff88;strokeColor=#36393d;" vertex="1" parent="NDmGjnWdYNBjPlGGQMog-168">
+          <mxGeometry x="35" y="71" width="120" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-138" value="&lt;div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; font-size: 14px;&quot;&gt;&lt;font face=&quot;MesloLGS NF&quot;&gt;&lt;b&gt;Hexo个人博客&lt;/b&gt;&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font face=&quot;MesloLGS NF&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;源代码仓&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="NDmGjnWdYNBjPlGGQMog-168">
+          <mxGeometry x="17.519999999999982" y="2.3500000000000227" width="154.96" height="46.05" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-140" value="" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;size=19;" vertex="1" parent="NDmGjnWdYNBjPlGGQMog-168">
+          <mxGeometry x="75.5" y="162" width="39" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-133" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="-198" y="824" width="258" height="261" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-105" value="" style="group;fillColor=#d5e8d4;strokeColor=#82b366;container=0;" vertex="1" connectable="0" parent="NDmGjnWdYNBjPlGGQMog-133">
+          <mxGeometry width="258" height="261" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-99" value="&lt;font face=&quot;MesloLGS NF&quot; style=&quot;font-size: 14px;&quot;&gt;本地编写博文&lt;/font&gt;" style="whiteSpace=wrap;html=1;rounded=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="NDmGjnWdYNBjPlGGQMog-133">
+          <mxGeometry x="69" y="71" width="120" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-104" value="&lt;b&gt;&lt;font face=&quot;MesloLGS NF&quot; style=&quot;font-size: 14px;&quot;&gt;本地&lt;/font&gt;&lt;/b&gt;&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font face=&quot;MesloLGS NF&quot; style=&quot;font-size: 14px;&quot;&gt;Git管理的&lt;/font&gt;&lt;/b&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;b&gt;&lt;font face=&quot;MesloLGS NF&quot; style=&quot;font-size: 14px;&quot;&gt;Hexo个人博客&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="NDmGjnWdYNBjPlGGQMog-133">
+          <mxGeometry x="51.51999999999998" y="2.3500000000000227" width="154.96" height="46.05" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-126" value="" style="group" vertex="1" connectable="0" parent="NDmGjnWdYNBjPlGGQMog-133">
+          <mxGeometry x="25" y="162" width="208" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-122" value="" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;size=19;" vertex="1" parent="NDmGjnWdYNBjPlGGQMog-126">
+          <mxGeometry x="169" width="39" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-124" value="&lt;div&gt;&lt;b&gt;.github/workflow/&lt;/b&gt;deploy.yml&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;line-height: 0%;&quot;&gt;&lt;b&gt;Github Actions的工作流文件&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="NDmGjnWdYNBjPlGGQMog-126">
+          <mxGeometry width="179" height="47" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-102" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-6" y="917" as="sourcePoint" />
+            <mxPoint x="115" y="917" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="115" y="917" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-109" value="&lt;b&gt;&lt;font face=&quot;MesloLGS NF&quot; style=&quot;font-size: 14px;&quot;&gt;git push&lt;/font&gt;&lt;/b&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;" vertex="1" connectable="0" parent="NDmGjnWdYNBjPlGGQMog-102">
+          <mxGeometry x="0.2478" y="5" relative="1" as="geometry">
+            <mxPoint x="-9" y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-157" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;flowAnimation=0;" edge="1" parent="1" source="NDmGjnWdYNBjPlGGQMog-122" target="NDmGjnWdYNBjPlGGQMog-140">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-161" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;flowAnimation=1;dashed=1;exitX=0.967;exitY=0.546;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="NDmGjnWdYNBjPlGGQMog-140">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="45" y="1022" as="sourcePoint" />
+            <mxPoint x="348" y="1014" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-167" value="" style="group;strokeColor=default;" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="349" y="824" width="182" height="261" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-151" value="" style="group;fillColor=#fff2cc;strokeColor=none;container=0;" vertex="1" connectable="0" parent="NDmGjnWdYNBjPlGGQMog-167">
+          <mxGeometry width="182" height="261" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-155" value="&lt;div&gt;&lt;div&gt;&lt;font face=&quot;MesloLGS NF&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;虚拟机环境&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="NDmGjnWdYNBjPlGGQMog-167">
+          <mxGeometry x="13.519999999999982" y="2.3500000000000227" width="154.96" height="46.05" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-165" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="NDmGjnWdYNBjPlGGQMog-167" source="NDmGjnWdYNBjPlGGQMog-162" target="NDmGjnWdYNBjPlGGQMog-163">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-162" value="&lt;font face=&quot;MesloLGS NF&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;配置环境&lt;/span&gt;&lt;/font&gt;" style="whiteSpace=wrap;html=1;rounded=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="NDmGjnWdYNBjPlGGQMog-167">
+          <mxGeometry x="31" y="57" width="120" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-166" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="NDmGjnWdYNBjPlGGQMog-167" source="NDmGjnWdYNBjPlGGQMog-163" target="NDmGjnWdYNBjPlGGQMog-164">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-163" value="&lt;font face=&quot;MesloLGS NF&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;生成静态网页文件&lt;/span&gt;&lt;/font&gt;" style="whiteSpace=wrap;html=1;rounded=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="NDmGjnWdYNBjPlGGQMog-167">
+          <mxGeometry x="31" y="121" width="120" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-178" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="NDmGjnWdYNBjPlGGQMog-167" source="NDmGjnWdYNBjPlGGQMog-164">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="242.5999755859375" y="207" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-179" value="&lt;font style=&quot;font-size: 12px;&quot; face=&quot;MesloLGS NF&quot;&gt;hexo deploy&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontStyle=1" vertex="1" connectable="0" parent="NDmGjnWdYNBjPlGGQMog-178">
+          <mxGeometry x="-0.1314" y="3" relative="1" as="geometry">
+            <mxPoint x="2" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-164" value="&lt;font face=&quot;MesloLGS NF&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;部署到&lt;/span&gt;&lt;/font&gt;&lt;div&gt;&lt;font face=&quot;MesloLGS NF&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Github Pages&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="NDmGjnWdYNBjPlGGQMog-167">
+          <mxGeometry x="31" y="185" width="120" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-169" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="592" y="824" width="190" height="261" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-170" value="" style="group;fillColor=#b0e3e6;strokeColor=#0e8088;container=0;" vertex="1" connectable="0" parent="NDmGjnWdYNBjPlGGQMog-169">
+          <mxGeometry width="190" height="261" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-174" value="&lt;div&gt;&lt;div&gt;&lt;font face=&quot;MesloLGS NF&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;Github Pages仓&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="NDmGjnWdYNBjPlGGQMog-169">
+          <mxGeometry x="17.519999999999982" y="2.3500000000000227" width="154.96" height="46.05" as="geometry" />
+        </mxCell>
+        <mxCell id="NDmGjnWdYNBjPlGGQMog-182" value="&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;font face=&quot;MesloLGS NF&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;仅包含静态网页&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font face=&quot;MesloLGS NF&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;相关文件&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="NDmGjnWdYNBjPlGGQMog-169">
+          <mxGeometry x="17.519999999999982" y="128" width="154.96" height="46.05" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

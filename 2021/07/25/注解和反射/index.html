@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="反射 Reflection概念静态语言和动态语言动态语言是一类在运行时可以改变其结构的语言。例如新的函数、对象甚至代码都可以在运行时引进，已有的函数可以被删除，或者结构上做一些其他的变化。主要的动态语言有：C#、JavaScript、PHP、Python等。 静态语言是运行时结构不可变的语言。例如Java、C、C++。Java虽然不是动态语言，但可以称之为准动态语言。即Java有一定的动态性，可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="注解和反射">
+<meta property="og:url" content="https://hunter1023.github.io/2021/07/25/%E6%B3%A8%E8%A7%A3%E5%92%8C%E5%8F%8D%E5%B0%84/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="反射 Reflection概念静态语言和动态语言动态语言是一类在运行时可以改变其结构的语言。例如新的函数、对象甚至代码都可以在运行时引进，已有的函数可以被删除，或者结构上做一些其他的变化。主要的动态语言有：C#、JavaScript、PHP、Python等。 静态语言是运行时结构不可变的语言。例如Java、C、C++。Java虽然不是动态语言，但可以称之为准动态语言。即Java有一定的动态性，可以">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-25T17:10:40.000Z">
+<meta property="article:modified_time" content="2025-02-10T14:38:41.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="Reflection, Annovation">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2021/07/25/%E6%B3%A8%E8%A7%A3%E5%92%8C%E5%8F%8D%E5%B0%84/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2021/07/25/%E6%B3%A8%E8%A7%A3%E5%92%8C%E5%8F%8D%E5%B0%84/","path":"2021/07/25/注解和反射/","title":"注解和反射"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>注解和反射 | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84-Reflection"><span class="nav-number">1.</span> <span class="nav-text">反射 Reflection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E8%AF%AD%E8%A8%80%E5%92%8C%E5%8A%A8%E6%80%81%E8%AF%AD%E8%A8%80"><span class="nav-number">1.1.1.</span> <span class="nav-text">静态语言和动态语言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Class%E7%B1%BB"><span class="nav-number">1.1.2.</span> <span class="nav-text">Class类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E4%B8%8EClassLoader%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">类的加载与ClassLoader的理解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">类加载器的作用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.2.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">反射的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%BE%97Class%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.3.1.</span> <span class="nav-text">获得Class对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E4%B8%BA%E6%9F%90%E4%B8%AA%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B"><span class="nav-number">1.3.2.</span> <span class="nav-text">判断是否为某个类的实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%9E%E4%BE%8B"><span class="nav-number">1.3.3.</span> <span class="nav-text">创建实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.4.</span> <span class="nav-text">获取方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%9E%84%E9%80%A0%E5%99%A8%E4%BF%A1%E6%81%AF"><span class="nav-number">1.3.5.</span> <span class="nav-text">获取构造器信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%BF%A1%E6%81%AF"><span class="nav-number">1.3.6.</span> <span class="nav-text">获取类的成员变量信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.7.</span> <span class="nav-text">反射调用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E6%93%8D%E4%BD%9C%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.3.8.</span> <span class="nav-text">反射操作注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setAccessible"><span class="nav-number">1.3.9.</span> <span class="nav-text">setAccessible</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">1.4.</span> <span class="nav-text">反射的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-number">1.5.</span> <span class="nav-text">反射的缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3-Annotation"><span class="nav-number">2.</span> <span class="nav-text">注解 Annotation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E6%B3%A8%E8%A7%A3"><span class="nav-number">2.1.</span> <span class="nav-text">内置注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E6%B3%A8%E8%A7%A3"><span class="nav-number">2.2.</span> <span class="nav-text">元注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3"><span class="nav-number">2.3.</span> <span class="nav-text">自定义注解</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">175</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2021/07/25/%E6%B3%A8%E8%A7%A3%E5%92%8C%E5%8F%8D%E5%B0%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="注解和反射 | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          注解和反射<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/%E6%B3%A8%E8%A7%A3%E5%92%8C%E5%8F%8D%E5%B0%84.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-07-26 01:10:40" itemprop="dateCreated datePublished" datetime="2021-07-26T01:10:40+08:00">2021-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-02-10 22:38:41" itemprop="dateModified" datetime="2025-02-10T22:38:41+08:00">2025-02-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">Java全栈</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E5%85%A8%E6%A0%88/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="反射-Reflection"><a href="#反射-Reflection" class="headerlink" title="反射 Reflection"></a>反射 Reflection</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><h4 id="静态语言和动态语言"><a href="#静态语言和动态语言" class="headerlink" title="静态语言和动态语言"></a>静态语言和动态语言</h4><p><strong>动态语言</strong>是一类<strong>在运行时可以改变其结构</strong>的语言。例如新的函数、对象甚至代码都可以在运行时引进，已有的函数可以被删除，或者结构上做一些其他的变化。主要的动态语言有：C#、JavaScript、PHP、Python等。</p>
+<p><strong>静态语言</strong>是<strong>运行时结构不可变</strong>的语言。例如Java、C、C++。Java虽然不是动态语言，但可以称之为<strong>准动态语言</strong>。即Java有一定的动态性，<strong>可以利用反射机制获得类似动态语言的特性</strong>。</p>
+<hr>
+<h4 id="Class类"><a href="#Class类" class="headerlink" title="Class类"></a>Class类</h4><p>JRE<strong>为每个类都保留了一个不变的Class类型的对象</strong>。</p>
+<ul>
+<li>Class本身也是一个类</li>
+<li>Class对象<strong>只能由系统建立对象</strong></li>
+<li>一个加载的类在JVM中只会有一个Class实例</li>
+<li><strong>一个Class对象对应的是一个加载到JVM中的一个class文件</strong></li>
+<li><strong>通过Class可以完整地得到一个类中的所有被加载的结构</strong></li>
+<li>Class类<strong>是Reflection的根源，针对任何想动态加载、运行的类，只有先获得相应的Class对象</strong></li>
+</ul>
+<p><strong>常用方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>功能说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static ClassforName(String name)</code></td>
+<td>返回指定类名name的Class对象</td>
+</tr>
+<tr>
+<td><code>Object newInstance()</code></td>
+<td>调用<strong>默认构造函数</strong>，返回Class对象的一个实例</td>
+</tr>
+<tr>
+<td><code>getName()</code></td>
+<td>返回此Class对象所表示的实体（类、接口、数组类或void）的名称</td>
+</tr>
+<tr>
+<td><code>Class getSuperClass()</code></td>
+<td>返回当前Class对象的父类的Class对象</td>
+</tr>
+<tr>
+<td><code>Class[] getInterfaces()</code></td>
+<td>获取当前Class对象的接口</td>
+</tr>
+<tr>
+<td><code>ClassLoader getClassLoader()</code></td>
+<td>返回该类的类加载器</td>
+</tr>
+<tr>
+<td><code>Constructor[] getConstructors()</code></td>
+<td>返回一个包含某些Constructor对象的数组</td>
+</tr>
+<tr>
+<td><code>Method getMethod(String name, Class.. T)</code></td>
+<td>返回一个Method对象，此对象的参数类型是paramType</td>
+</tr>
+<tr>
+<td><code>Field[] getDeclaredFields()</code></td>
+<td>返回Field对象的一个数组</td>
+</tr>
+</tbody></table>
+<h5 id="类的加载与ClassLoader的理解"><a href="#类的加载与ClassLoader的理解" class="headerlink" title="类的加载与ClassLoader的理解"></a>类的加载与ClassLoader的理解</h5><ul>
+<li><p><strong>加载</strong></p>
+<p>将class文件字节码内容加载到内存中，并将这些<strong>静态数据转换成方法区的运行时数据结构</strong>，然后<strong>在堆中生成一个代表这个类的java.lang.Class对象</strong>，作为方法区中类数据的访问入口。</p>
+<p>标准的JavaSE类加载器可以按要求查找类，但一旦某个类被加载到类加载器中，它将维持加载（<strong>缓存</strong>）一段时间。不过JVM垃圾回收机制可以回收这些Class对象。</p>
+</li>
+<li><p><strong>链接</strong></p>
+<p>  将Java类的二进制代码<strong>合并到JVM的运行状态之中</strong>的过程。</p>
+<ul>
+<li>验证：确保加载的类信息符合JVM规范，没有安全方面的问题。</li>
+<li>准备：正式<strong>为类变量分配内存并设置变量默认初始值</strong>的阶段，这些内存都将在方法区中进行分配。</li>
+<li>解析：虚拟机常量池内的**符号引用(常量名)替换为直接引用(地址)**的过程。</li>
+</ul>
+</li>
+<li><p><strong>初始化</strong></p>
+<ul>
+<li>执行类构造器<code>&lt;clinit&gt;()</code>方法的过程。该方法是由编译器<strong>自动收集类中所有类变量的赋值动作和静态代码块中的语句合并</strong>产生的（<strong>静态代码合并，按先后顺序执行</strong>）。</li>
+<li>当初始化一个类的时候，如果发现其父类还没有进行初始化，则需要先出发其父类的初始化。</li>
+<li>虚拟机会保证一个类的<code>&lt;clinit&gt;()</code>方法在多线程环境中被正确加锁和同步。</li>
+</ul>
+<p>  以下情况<strong>不会发生类的初始化</strong>：</p>
+<ul>
+<li>访问一个静态域时，<strong>只有真正声明这个域的类才会被初始化</strong>。例如通过子类引用父类的静态变量，不会导致子类初始化。</li>
+<li>通过数组<strong>定义类引用</strong>，不会触发此类的初始化</li>
+<li>引用<strong>常量</strong>不会出发此类的初始化(在<strong>链接阶段就存入调用类的常量池</strong>中了)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="类加载器的作用"><a href="#类加载器的作用" class="headerlink" title="类加载器的作用"></a>类加载器的作用</h5><p>类加载器将class文件字节码内容<strong>加载到内存中</strong>，并将这些<strong>静态数据</strong>转换成<strong>方法区</strong>的运行时结构数据，然后在<strong>堆</strong>中生成一个<strong>代表这个类</strong>的<code>java.lang.Class</code>对象，作为方法区中类数据的<strong>访问入口</strong>。</p>
+<p>标准的JavaSE类加载器可以按要求查找类，但一旦某个类被加载到类加载器中，它将**维持加载（缓存）**一段时间。不过JVM垃圾回收机制可以回收这些Class对象。</p>
+<ul>
+<li><p>引导类加载器 Bootstrap Classloader</p>
+<p>  C++编写，JVM自带的类加载器，<strong>负责Java平台核心库</strong>，用来<strong>装载核心类库</strong>，<strong>无法直接获取</strong>。</p>
+</li>
+<li><p>扩展类加载器 Extension Classloader</p>
+</li>
+<li><p>系统类加载器 System Classloader &#x2F; Application Classloader</p>
+<p>  是<strong>最常用</strong>的类加载器</p>
+</li>
+</ul>
+<hr>
+<p>反射 (Reflection) 是 Java 的特征之一，它<strong>允许运行中的 Java 程序获取自身的信息，并且可以操作类或对象的内部属性</strong>。程序中<strong>一般的对象的类型都是在编译期就确定下来</strong>，而 Java <strong>反射机制可以动态地创建对象并调用其属性，这样的对象的类型在编译期是未知的</strong>。所以我们可以通过反射机制直接创建对象，即使这个对象的类型在编译期是未知的。</p>
+<p><strong>加载完类</strong>之后，在堆内存的方法区中就<strong>产生了一个Class类型的对象</strong>（<strong>一个类只有一个Class对象</strong>），<strong>这个对象包含了完整的类的结构信息</strong>，可以通过这个对象看到类的结构。这个对象就像一面镜子，<strong>透过这个镜子看到类的结构，所以形象地称之为反射</strong>。</p>
+<p>反射的核心是 JVM <strong>在运行时才动态加载类或调用方法&#x2F;访问属性，它不需要事先知道运行对象是谁</strong>。</p>
+<p>Java 反射主要提供以下功能：</p>
+<ul>
+<li>在运行时判断任意一个对象所属的类；</li>
+<li>在运行时构造任意一个类的对象；</li>
+<li>在运行时判断任意一个类所具有的成员变量和方法（通过反射甚至可以调用private方法）；</li>
+<li>在运行时调用任意一个对象的方法</li>
+<li>在运行时<strong>处理注解</strong></li>
+<li>生成<strong>动态代理</strong></li>
+</ul>
+<hr>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>很多人都认为反射在实际的 Java 开发应用中并不广泛，其实不然。当我们在使用 IDE(如 Eclipse，IDEA)时，当我们<strong>输入一个对象或类并想调用它的属性或方法时，一按点号，编译器就会自动列出它的属性或方法，这里就会用到反射</strong>。</p>
+<p><strong>反射最重要的用途就是开发各种通用框架。<strong>很多框架（比如 Spring）都是</strong>配置化</strong>的，为了<strong>保证框架的通用性</strong>，它们可能需要<strong>根据配置文件</strong>加载不同的对象或类，调用不同的方法，这个时候就必须用到反射，<strong>运行时动态加载需要加载的对象</strong>。</p>
+<p>对于框架开发人员来说，反射虽小但作用非常大，它是<strong>各种容器实现的核心</strong>。</p>
+<hr>
+<h3 id="反射的使用"><a href="#反射的使用" class="headerlink" title="反射的使用"></a>反射的使用</h3><p>反射相关的类一般都在<code>java.lang.relfect</code>包里。</p>
+<h4 id="获得Class对象"><a href="#获得Class对象" class="headerlink" title="获得Class对象"></a>获得Class对象</h4><p>可以获得Class对象的类型：</p>
+<ol>
+<li>各种Class（外部类、成员内部类、静态内部类、局部内部类、匿名内部类）</li>
+<li>interface</li>
+<li>数组</li>
+<li>enum</li>
+<li><strong>注解</strong></li>
+<li>基本数据类型</li>
+<li><strong>void</strong></li>
+</ol>
+<p>有4种方法可以获得Class对象：</p>
+<ol>
+<li>若<strong>已知具体的类</strong>，通过类的<strong>class属性</strong>获取，该方法<strong>最安全可靠，程序性能最高</strong>。</li>
+</ol>
+  <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Class</span> c1 <span class="token operator">=</span> <span class="token class-name">Person</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">;</span>
+
+<span class="token class-name">Class</span> c2 <span class="token operator">=</span> <span class="token keyword">int</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<ol start="2">
+<li><p><strong>已知某个类的实例对象</strong>，调用对象的<code>getClass()</code>方法获取Class对象</p>
+ <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Class</span> c1 <span class="token operator">=</span> person<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+</li>
+<li><p>已知一个类的全类名，且在该类的类路径下，可使用Class类的静态方法<code>forName()</code>获取，<strong>可能抛出ClassNotFoundException</strong></p>
+</li>
+</ol>
+  <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Class</span> c1 <span class="token operator">=</span> <span class="token class-name">Class</span><span class="token punctuation">.</span><span class="token function">forName</span><span class="token punctuation">(</span><span class="token string">"com.hunter.reflection.User"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol start="4">
+<li><p>内置基本数据类型可以直接使用类名.Type</p>
+ <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Class</span> c3 <span class="token operator">=</span> <span class="token class-name">Integer</span><span class="token punctuation">.</span><span class="token constant">TYPE</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ol>
+<hr>
+<h4 id="判断是否为某个类的实例"><a href="#判断是否为某个类的实例" class="headerlink" title="判断是否为某个类的实例"></a>判断是否为某个类的实例</h4><p>一般地，我们用 <code>instanceof</code> 关键字来判断是否为某个类的实例。同时我们也可以借助反射中 Class 对象的 <code>isInstance()</code> 方法来判断是否为某个类的实例，它是一个 <strong>native 方法</strong>：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">native</span> <span class="token keyword">boolean</span> <span class="token function">isInstance</span><span class="token punctuation">(</span><span class="token class-name">Object</span> obj<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<blockquote>
+<p>native方法：具体实现<strong>由非java语言实现</strong>的方法</p>
+</blockquote>
+<hr>
+<h4 id="创建实例"><a href="#创建实例" class="headerlink" title="创建实例"></a>创建实例</h4><p>通过反射来生成对象主要有两种方式。</p>
+<ol>
+<li>使用Class对象的<code>newInstance()</code>方法来创建Class对象对应类的实例</li>
+</ol>
+<p>  <strong>类必须要有一个无参构造器</strong></p>
+  <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Class</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">></span></span> c <span class="token operator">=</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">;</span> <span class="token comment">// 当赋值的类型不确定的时候，泛型用通配符？代替</span>
+<span class="token class-name">Object</span> str <span class="token operator">=</span> c<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<ol start="2">
+<li>先通过Class对象获取指定的Constructor对象，再调用Constructor对象的newInstance()方法来创建实例。</li>
+</ol>
+<p>  这种方法<strong>可以用指定的构造器构造类的实例</strong>。</p>
+  <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Class</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">></span></span> c <span class="token operator">=</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">;</span>
+<span class="token class-name">Constructor</span> constructor <span class="token operator">=</span> c<span class="token punctuation">.</span><span class="token function">getConstructor</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 根据构造器创建实例</span>
+<span class="token class-name">Object</span> obj <span class="token operator">=</span> constructor<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token string">"23333"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h4 id="获取方法"><a href="#获取方法" class="headerlink" title="获取方法"></a>获取方法</h4><p>获取某个Class对象的方法集合，主要有以下几个方法：</p>
+<ol>
+<li><p><code>getDeclaredMethods</code></p>
+<p> 返回<strong>类或接口声明的所有方法</strong>，包括公共、保护、默认（包）访问和私有方法，<strong>但不包括继承的方法</strong></p>
+ <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">Method</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">getDeclaredMethods</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">SecurityException</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><code>getMethods</code></p>
+<p> 返回<strong>某个类</strong>的所有<strong>公共</strong>方法，<strong>包括继承的公用方法</strong></p>
+ <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">Method</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">getMethods</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">SecurityException</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><code>getMethod</code></p>
+<p> 返回一个<strong>特定</strong>的方法，其中第一个参数为方法名称，后面的参数为方法的参数对应Class的对象。</p>
+ <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">Method</span> <span class="token function">getMethod</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">,</span> <span class="token class-name">Class</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">></span></span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> parameterTypes<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ol>
+<p>举例如下：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> test1 <span class="token punctuation">&#123;</span>
+	<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IllegalAccessException</span><span class="token punctuation">,</span> <span class="token class-name">InstantiationException</span><span class="token punctuation">,</span> <span class="token class-name">NoSuchMethodException</span><span class="token punctuation">,</span> <span class="token class-name">InvocationTargetException</span> <span class="token punctuation">&#123;</span>
+	        <span class="token class-name">Class</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">></span></span> c <span class="token operator">=</span> methodClass<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">;</span>
+	        <span class="token class-name">Object</span> object <span class="token operator">=</span> c<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	        <span class="token class-name">Method</span><span class="token punctuation">[</span><span class="token punctuation">]</span> methods <span class="token operator">=</span> c<span class="token punctuation">.</span><span class="token function">getMethods</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	        <span class="token class-name">Method</span><span class="token punctuation">[</span><span class="token punctuation">]</span> declaredMethods <span class="token operator">=</span> c<span class="token punctuation">.</span><span class="token function">getDeclaredMethods</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	        <span class="token comment">//获取methodClass类的add方法</span>
+	        <span class="token class-name">Method</span> method <span class="token operator">=</span> c<span class="token punctuation">.</span><span class="token function">getMethod</span><span class="token punctuation">(</span><span class="token string">"add"</span><span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	        <span class="token comment">//getMethods()方法获取的所有方法</span>
+	        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"getMethods获取的方法："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token class-name">Method</span> m<span class="token operator">:</span>methods<span class="token punctuation">)</span>
+	            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	        <span class="token comment">//getDeclaredMethods()方法获取的所有方法</span>
+	        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"getDeclaredMethods获取的方法："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token class-name">Method</span> m<span class="token operator">:</span>declaredMethods<span class="token punctuation">)</span>
+	            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	    <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token keyword">class</span> methodClass <span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">int</span> fuck <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">,</span><span class="token keyword">int</span> b<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> a<span class="token operator">+</span>b<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">sub</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">,</span><span class="token keyword">int</span> b<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> a<span class="token operator">+</span>b<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h4 id="获取构造器信息"><a href="#获取构造器信息" class="headerlink" title="获取构造器信息"></a>获取构造器信息</h4><p>获取类构造器的用法与上述获取方法的用法类似。</p>
+<ul>
+<li><code>getDeclaredConstructors()</code>：所有public的构造方法</li>
+<li><code>getConstructors()</code>：全部构造方法</li>
+<li><code>getDeclaredConstructor</code></li>
+<li><code>getConstructor</code></li>
+</ul>
+<p>主要通过Class类的<code>getConstructor</code>方法得到Constructor类的一个实例，而Constructor类有一个newInstance方法可以<strong>创建一个对象实例</strong>：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">T</span> <span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token class-name">Object</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> initargs<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h4 id="获取类的成员变量信息"><a href="#获取类的成员变量信息" class="headerlink" title="获取类的成员变量信息"></a>获取类的成员变量信息</h4><ul>
+<li><code>getDeclaredFields</code>：所有已声明的成员变量，但<strong>不能得到父类的成员变量</strong></li>
+<li><code>getFields</code>：访问<strong>公有的成员变量</strong></li>
+<li><code>getField</code>：获取指定的公有成员变量</li>
+<li><code>getDeclaredField</code>：获取指定的已声明成员变量</li>
+</ul>
+<hr>
+<h4 id="反射调用方法"><a href="#反射调用方法" class="headerlink" title="反射调用方法"></a>反射调用方法</h4><p>当从类中获取了一个方法后，就可以用<code>invoke()</code>方法来调用这个方法。</p>
+<p>若原方法<strong>声明为private</strong>，则需要在调用此<code>invoke()</code>方法前，<strong>显式调用方法对象的<code>setAccessible(true)</code>方法</strong>。 </p>
+<p>Method、Field和Constructor对象都有<code>setAccessible()</code>方法，作用是启动和禁用<strong>访问安全检查</strong>的开关。</p>
+<ul>
+<li>参数为true则指示反射的对象在使用时应该<strong>取消Java语言的访问检查</strong>。<ul>
+<li><strong>提高了反射效率</strong></li>
+<li><strong>可以访问私有成员</strong></li>
+</ul>
+</li>
+</ul>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">Object</span> <span class="token function">invoke</span><span class="token punctuation">(</span><span class="token class-name">Object</span> obj<span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IllegalAccessException</span><span class="token punctuation">,</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">,</span> <span class="token class-name">InvocationTargetException</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>下面是一个实例：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> test1 <span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IllegalAccessException</span><span class="token punctuation">,</span> <span class="token class-name">InstantiationException</span><span class="token punctuation">,</span> <span class="token class-name">NoSuchMethodException</span><span class="token punctuation">,</span> <span class="token class-name">InvocationTargetException</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Class</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">></span></span> klass <span class="token operator">=</span> methodClass<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">;</span>
+        <span class="token comment">//创建methodClass的实例</span>
+        <span class="token class-name">Object</span> obj <span class="token operator">=</span> klass<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//获取methodClass类的add方法</span>
+        <span class="token class-name">Method</span> method <span class="token operator">=</span> klass<span class="token punctuation">.</span><span class="token function">getMethod</span><span class="token punctuation">(</span><span class="token string">"add"</span><span class="token punctuation">,</span><span class="token keyword">int</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span><span class="token keyword">int</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//调用method对应的方法 => add(1,4)</span>
+        <span class="token class-name">Object</span> result <span class="token operator">=</span> method<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">class</span> methodClass <span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">int</span> fuck <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">,</span><span class="token keyword">int</span> b<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> a<span class="token operator">+</span>b<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">sub</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">,</span><span class="token keyword">int</span> b<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> a<span class="token operator">+</span>b<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h4 id="反射操作注解"><a href="#反射操作注解" class="headerlink" title="反射操作注解"></a>反射操作注解</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Annotation</span><span class="token punctuation">[</span><span class="token punctuation">]</span> annotations <span class="token operator">=</span> c1<span class="token punctuation">.</span><span class="token function">getAnnotations</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 获取注解</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Annotation</span> annotation <span class="token operator">:</span> annotations<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>annotation<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">String</span> value <span class="token operator">=</span> annotaion<span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h4 id="setAccessible"><a href="#setAccessible" class="headerlink" title="setAccessible"></a>setAccessible</h4><p>设置可访问方法、属性、构造器对象<strong>能否访问</strong>的方法。</p>
+<p><code>setAccessible(true)</code>指示反射的对象在使用时<strong>取消Java语言的访问检查</strong>，有两点作用：</p>
+<ol>
+<li>提高反射效率</li>
+<li>可以访问原本无法访问的私有对象</li>
+</ol>
+<hr>
+<h3 id="反射的优点"><a href="#反射的优点" class="headerlink" title="反射的优点"></a>反射的优点</h3><ul>
+<li><p><strong>灵活性</strong>：可以<strong>动态创建对象和编译</strong>。</p>
+</li>
+<li><p><strong>可扩展性</strong> ：应用程序可以利用全限定名创建可扩展对象的实例，来使用来自外部的用户自定义类。</p>
+</li>
+<li><p><strong>类浏览器和可视化开发环境</strong> ：一个类浏览器需要可以枚举类的成员。可视化开发环境（如 IDE）可以从利用反射中可用的类型信息中受益，以帮助程序员编写正确的代码。</p>
+</li>
+<li><p><strong>调试器和测试工具</strong> ： 调试器需要能够检查一个类里的私有成员。测试工具可以利用反射来自动地调用类里定义的可被发现的 API 定义，以确保一组测试中有较高的代码覆盖率。</p>
+</li>
+</ul>
+<hr>
+<h3 id="反射的缺点"><a href="#反射的缺点" class="headerlink" title="反射的缺点"></a>反射的缺点</h3><p>尽管反射非常强大，但也不能滥用。如果<strong>一个功能可以不用反射完成，那么最好就不用</strong>。在我们使用反射技术时，下面几条内容应该牢记于心。</p>
+<ul>
+<li><strong>性能开销</strong> ：反射涉及了动态类型的解析，所以 JVM 无法对这些代码进行优化。因此，反射操作的效率要比那些非反射操作低得多。我们应该避免在经常被执行的代码或对性能要求很高的程序中使用反射。</li>
+<li><strong>安全限制</strong> ：使用反射技术要求程序必须在一个没有安全限制的环境中运行。如果一个程序必须在有安全限制的环境中运行，如 Applet，那么这就是个问题了。</li>
+<li><strong>内部暴露</strong> ：由于反射允许代码执行一些在正常情况下不被允许的操作（比如访问私有的属性和方法），所以使用反射可能会导致意料之外的副作用，这可能导致代码功能失调并破坏可移植性。反射代码破坏了抽象性，因此当平台发生改变的时候，代码的行为就有可能也随着变化。</li>
+</ul>
+<hr>
+<h2 id="注解-Annotation"><a href="#注解-Annotation" class="headerlink" title="注解 Annotation"></a>注解 Annotation</h2><p>Annotation是JDK 1.5引入的技术，是附加在代码中的一些<strong>元信息</strong>，用于一些工具在编译、运行时进行解析和使用，<strong>起到说明、配置的功能</strong>。它以**<code>@注释名</code>的形式**在代码中存在，<strong>还可以添加一些参数值</strong>，例如<code>@SuppressWarnings(value=&quot;unchecked&quot;)</code>。</p>
+<p>Annotation可以附加在package、class、method、filed等上面，<strong>通过反射机制编程实现对这些元数据的访问</strong>。</p>
+<hr>
+<h3 id="内置注解"><a href="#内置注解" class="headerlink" title="内置注解"></a>内置注解</h3><ul>
+<li><p><code>@Override</code>：定义在<code>java.lang.Override</code>中，此注释只适用于修辞方法，表示一个方法声明打算重写超类中的另一个方法声明。</p>
+</li>
+<li><p><code>@Deprecated</code>：定义在<code>java.lang.Deprecated</code>中，此注释可以用于修辞方法、属性、类，表示<strong>不鼓励程序员使用这样的元素，通常是因为它很危险或者存在更好的选择</strong>。</p>
+</li>
+<li><p><code>@SuppressWarnings</code>：定义在<code>java.lang.Suppresswarnings</code>中，用来<strong>抑制编译时的警告信息</strong>。</p>
+<p>  与前两个注释有所不同，<strong>需要添加一个参数</strong>才能正确使用。这些参数都是已经定义好了的，选择性使用即可：</p>
+<ul>
+<li><code>@SuppressWarnings(&quot;all&quot;)</code>：镇压<strong>全部</strong>警告</li>
+<li><code>@SuppressWarnings(&quot;unchecked&quot;)</code>：镇压未检查的警告</li>
+<li><code>@SuppressWarnings(value = &#123;&quot;unchecked&quot;, &quot;deprecation&quot;&#125;)</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h3><p>元注解的作用就是<strong>负责注解其他注解</strong>，Java定义了<strong>4个</strong>标准的<strong>meta-annotation</strong>类型，他们被用来提供对其他 annotation类型作说明。这些类型和它们所支持的类在<code>java.lang.annotation</code>包中可以找到：</p>
+<ul>
+<li><p><code>@Target</code>：用于描述注解的使用范围</p>
+</li>
+<li><p><code>@Retention</code>：表示需要<strong>在什么级别保存该注释信息</strong>，用于描述注解的生命周期</p>
+<p>  (SOURCE &lt; CLASS &lt; <strong>RUNTIME</strong>)，（<strong>自定义的</strong>注解一般都写在<strong>RUNTIME</strong>）</p>
+</li>
+<li><p><code>@Document</code>：说明该注解将被包含在javadoc中</p>
+</li>
+<li><p><code>@Inherited</code>：说明子类可以继承父类中的该注解</p>
+</li>
+</ul>
+<p>自定义一个注解：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Target</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token class-name">ElementType</span><span class="token punctuation">.</span><span class="token constant">METHOD</span><span class="token punctuation">,</span> <span class="token class-name">ElementType</span><span class="token punctuation">.</span><span class="token constant">TYPE</span><span class="token punctuation">)</span> <span class="token comment">// value 是参数名</span>
+<span class="token annotation punctuation">@Retention</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token class-name">RetentionPolicy</span><span class="token punctuation">.</span><span class="token constant">RUNTIME</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@Document</span>
+<span class="token annotation punctuation">@Inherited</span>
+<span class="token annotation punctuation">@interface</span> <span class="token class-name">MyAnnocation</span> <span class="token punctuation">&#123;</span>
+    
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h3><p>使用<code>@interface</code>自定义注解时，自动继承了<code>java.lang.annotation.Annotation</code>接口。</p>
+<p><strong>分析</strong>：</p>
+<ul>
+<li><code>@interface</code>用来声明一个注解，格式：<code>public @Interface 注解名&#123;定义内容&#125;</code></li>
+<li>其中的<strong>每一个方法实际上是声明了一个配置参数</strong></li>
+<li><strong>方法的名称就是参数的名称</strong></li>
+<li><strong>返回值类型就是参数的类型</strong>(<strong>只能是基本类型</strong>、Class、String、enum)</li>
+<li>可以通过default来声明参数的默认值</li>
+<li>如果只有一个参数成员，一般参数名为value</li>
+<li>注解元素必须要有值，我们<strong>定义注解元素时，经常使用空字符串、0作为默认值</strong>。</li>
+</ul>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Test</span> <span class="token punctuation">&#123;</span>
+    <span class="token annotation punctuation">@MyAnnovation2</span><span class="token punctuation">(</span>age <span class="token operator">=</span> <span class="token number">18</span><span class="token punctuation">,</span> name <span class="token operator">=</span> <span class="token string">"Hunter"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token annotation punctuation">@Target</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token class-name">ElementType</span><span class="token punctuation">.</span><span class="token constant">TYPE</span><span class="token punctuation">,</span> <span class="token class-name">ElementType</span><span class="token punctuation">.</span><span class="token constant">METHOD</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span> <span class="token comment">// 注解可以用在类、方法上</span>
+<span class="token annotation punctuation">@Retention</span><span class="token punctuation">(</span><span class="token class-name">Retentionpolicy</span><span class="token punctuation">.</span><span class="token constant">RUNTIME</span><span class="token punctuation">)</span> <span class="token comment">// 注解在运行时有效</span>
+<span class="token annotation punctuation">@interface</span> <span class="token class-name">Myannotation2</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">//注解的参数：参数类型 参数名();</span>
+    <span class="token class-name">String</span> <span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token string">""</span><span class="token punctuation">;</span> <span class="token comment">//空字符串</span>
+    <span class="token keyword">int</span> <span class="token function">age</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> <span class="token function">id</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">//如果默认值为-1，代表不存在</span>
+    <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">schools</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">&#123;</span><span class="token string">"西南大学"</span><span class="token punctuation">,</span> <span class="token string">"东南大学"</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Reflection-Annovation/" rel="tag"><i class="fa fa-tag"></i> Reflection, Annovation</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/07/25/Java%E5%AE%B9%E5%99%A8/" rel="prev" title="Java容器">
+                  <i class="fa fa-angle-left"></i> Java容器
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/07/26/I-O%E8%AF%A6%E8%A7%A3/" rel="next" title="I/O详解">
+                  I/O详解 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>
