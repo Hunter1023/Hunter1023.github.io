@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hunter1023.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":3,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概念介绍领域驱动设计（Domain-driven Design, DDD）是一种软件设计方法。软件设计方法涵盖了：范式、模型、框架、方法论。主要活动包括建模、测试、工程、开发、部署、维护。 领域驱动设计中，主要有三个主要概念：  战略：建模。领域划分、界限上下文、核心领域。 战术：架构。工程结构、领域对象、领域服务、领域事件。 战役：编码。设计原则、设计模式。  DDD 的战略、战术和战役设计相辅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="领域驱动设计">
+<meta property="og:url" content="https://hunter1023.github.io/2025/04/27/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="概念介绍领域驱动设计（Domain-driven Design, DDD）是一种软件设计方法。软件设计方法涵盖了：范式、模型、框架、方法论。主要活动包括建模、测试、工程、开发、部署、维护。 领域驱动设计中，主要有三个主要概念：  战略：建模。领域划分、界限上下文、核心领域。 战术：架构。工程结构、领域对象、领域服务、领域事件。 战役：编码。设计原则、设计模式。  DDD 的战略、战术和战役设计相辅">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bugstack.cn/images/article/project/big-market/roadmap-ddd-stc-02.png">
+<meta property="og:image" content="https://bugstack.cn/images/article/project/big-market/roadmap-ddd-stc-04.png">
+<meta property="og:image" content="https://bugstack.cn/images/article/project/big-market/roadmap-ddd-stc-05.png">
+<meta property="og:image" content="https://bugstack.cn/images/article/project/big-market/roadmap-ddd-stc-06.png">
+<meta property="og:image" content="https://bugstack.cn/images/article/project/big-market/roadmap-ddd-stc-07.png">
+<meta property="og:image" content="https://s2.loli.net/2025/04/28/jhUSilZDokPFTvg.png">
+<meta property="article:published_time" content="2025-04-27T10:53:34.000Z">
+<meta property="article:modified_time" content="2025-07-29T08:30:29.000Z">
+<meta property="article:author" content="Hunter">
+<meta property="article:tag" content="领域驱动设计">
+<meta property="article:tag" content="DDD">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bugstack.cn/images/article/project/big-market/roadmap-ddd-stc-02.png">
+
+
+<link rel="canonical" href="https://hunter1023.github.io/2025/04/27/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hunter1023.github.io/2025/04/27/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/","path":"2025/04/27/领域驱动设计/","title":"领域驱动设计"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>领域驱动设计 | Talk is cheap</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Talk is cheap</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">概念介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A7%E5%93%81%E9%9C%80%E6%B1%82"><span class="nav-number">2.</span> <span class="nav-text">产品需求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A7%E5%93%81%E8%AF%89%E6%B1%82"><span class="nav-number">2.1.</span> <span class="nav-text">产品诉求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%9A%E5%8A%A1%E6%B5%81%E7%A8%8B"><span class="nav-number">2.2.</span> <span class="nav-text">业务流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">系统架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%9E%B6%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">分布式架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%8A%80%E6%9C%AF"><span class="nav-number">3.2.</span> <span class="nav-text">分布式技术</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%98%E7%95%A5%E8%AE%BE%E8%AE%A1"><span class="nav-number">4.</span> <span class="nav-text">战略设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E4%BE%8B%E5%9B%BE"><span class="nav-number">4.1.</span> <span class="nav-text">用例图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E6%A8%A1%E6%96%B9%E6%B3%95%E8%AE%BA-%E2%80%94%E2%80%94-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4"><span class="nav-number">4.2.</span> <span class="nav-text">建模方法论 —— 事件风暴</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AF%E8%AF%AD"><span class="nav-number">4.2.1.</span> <span class="nav-text">术语</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4"><span class="nav-number">4.2.2.</span> <span class="nav-text">步骤</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E7%A8%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">5.</span> <span class="nav-text">工程实现</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hunter</p>
+  <div class="site-description" itemprop="description">Tough times never last, but tough people do.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">107</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">200</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hunter1023.github.io/2025/04/27/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hunter">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+      <meta itemprop="description" content="Tough times never last, but tough people do.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="领域驱动设计 | Talk is cheap">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          领域驱动设计<a href="https://github.com/Hunter1023/hexo_blog/edit/gh-pages/source/_posts/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-04-27 18:53:34" itemprop="dateCreated datePublished" datetime="2025-04-27T18:53:34+08:00">2025-04-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-07-29 16:30:29" itemprop="dateModified" datetime="2025-07-29T16:30:29+08:00">2025-07-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">软件设计</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="概念介绍"><a href="#概念介绍" class="headerlink" title="概念介绍"></a>概念介绍</h2><p>领域驱动设计（Domain-driven Design, <strong>DDD</strong>）是一种<strong>软件设计方法</strong>。软件设计方法涵盖了：范式、模型、框架、方法论。主要活动包括建模、测试、工程、开发、部署、维护。</p>
+<p>领域驱动设计中，主要有三个主要概念：</p>
+<ul>
+<li><strong>战略：建模</strong>。领域划分、界限上下文、核心领域。</li>
+<li><strong>战术：架构</strong>。工程结构、领域对象、领域服务、领域事件。</li>
+<li><strong>战役：编码</strong>。设计原则、设计模式。</li>
+</ul>
+<p>DDD 的战略、战术和战役设计相辅相成，<strong>战略提供系统的建模作为宏观指导，战术下面有N个战役</strong>。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="产品需求"><a href="#产品需求" class="headerlink" title="产品需求"></a>产品需求</h2><h3 id="产品诉求"><a href="#产品诉求" class="headerlink" title="产品诉求"></a>产品诉求</h3><p>以一个营销平台为例，涵盖：</p>
+<ul>
+<li>活动配置</li>
+<li>签到、奖励</li>
+<li>活动账户</li>
+<li>抽奖策略（责任链+规则树）</li>
+<li>库存扣减</li>
+<li>抽奖满N次后阶梯抽奖</li>
+<li>…</li>
+</ul>
+<p><img src="https://bugstack.cn/images/article/project/big-market/roadmap-ddd-stc-02.png" alt="营销抽奖场景"></p>
+<p>分析需求：</p>
+<ol>
+<li>抽奖为免费抽奖次数+用户消耗个人积分抽奖</li>
+<li>抽奖活动可给用户分配可抽奖次数，通过点击签到发放。</li>
+<li>…</li>
+</ol>
+<hr>
+<h3 id="业务流程"><a href="#业务流程" class="headerlink" title="业务流程"></a>业务流程</h3><p>产品经理提供的<strong>产品需求文档</strong>（<strong>PRD</strong>，Product Requirements Document）通常应包含一个粗略的<strong>产品流程图</strong>，<strong>供研发后期做具体的设计</strong>。产品经理会详细地介绍<strong>整个系统的功能流程</strong>和<strong>需要对接的接口文档</strong>。</p>
+<p><img src="https://bugstack.cn/images/article/project/big-market/roadmap-ddd-stc-04.png" alt="抽奖流程"></p>
+<hr>
+<h2 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h2><p>如果首次承接的是一个新的系统，还需要<strong>对系统进行架构设计</strong>（单体&#x2F;分布式、技术栈）。最好能提供相关的落地案例和DDD脚手架。</p>
+<p>资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://bugstack.cn/md/road-map/ddd.html">DDD 架构设计</a></li>
+<li><a target="_blank" rel="noopener" href="https://bugstack.cn/md/road-map/mvc2ddd.html">MVC2DDD - 架构重构</a></li>
+<li><a target="_blank" rel="noopener" href="https://bugstack.cn/md/road-map/ddd-archetype-maven.html">DDD 脚手架【Maven 在线版】</a></li>
+</ul>
+<hr>
+<h3 id="分布式架构"><a href="#分布式架构" class="headerlink" title="分布式架构"></a>分布式架构</h3><p><img src="https://bugstack.cn/images/article/project/big-market/roadmap-ddd-stc-05.png" alt="roadmap-ddd-stc-05.png (1732×922)"></p>
+<hr>
+<h3 id="分布式技术"><a href="#分布式技术" class="headerlink" title="分布式技术"></a>分布式技术</h3><p><img src="https://bugstack.cn/images/article/project/big-market/roadmap-ddd-stc-06.png" alt="roadmap-ddd-stc-06.png (1782×1028)"></p>
+<hr>
+<h2 id="战略设计"><a href="#战略设计" class="headerlink" title="战略设计"></a>战略设计</h2><h3 id="用例图"><a href="#用例图" class="headerlink" title="用例图"></a>用例图</h3><ul>
+<li>用例图是以<strong>用户与系统交互最简洁的表示形式</strong>，展现了用户与其相关用例之间的关系。</li>
+<li>用例图也等同于<strong>用户故事</strong>（常用术语），提倡用日常或商务用语，<strong>简单表述功能</strong>。<strong>代表客户的需求与方向</strong>，是<strong>搭建系统的蓝图</strong>，<strong>根据产品需求文档进行绘制</strong>。</li>
+</ul>
+<img src="https://bugstack.cn/images/article/project/big-market/roadmap-ddd-stc-07.png" alt="roadmap-ddd-stc-07.png (1344×1126)" style="zoom:80%;" />
+
+<hr>
+<h3 id="建模方法论-——-事件风暴"><a href="#建模方法论-——-事件风暴" class="headerlink" title="建模方法论 —— 事件风暴"></a>建模方法论 —— 事件风暴</h3><p>事件风暴的核心概念是让<strong>领域开发者和领域专家一起讨论学习，专注挖掘领域事件，避免错失流程节点</strong>。</p>
+<p>建模会在宽阔的墙面以及墙面上的大张白纸上进行，便利贴会贴在白纸上。<strong>至少会需要5种不同颜色的便利贴</strong>。</p>
+<hr>
+<h4 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h4><ul>
+<li>黄色 - <strong>领域事件 Domain Event</strong>：在业务流程中发生的事件，都是完成时（下单完成、支付完成、发货完成）。</li>
+<li>蓝色 - <strong>决策命令 Command</strong>：<strong>引发领域事件</strong>的命令（申请下单）。</li>
+<li>紫色 - <strong>业务流程 Business Process</strong>：决策命令和领域事件之间的流程（Service模块），过程比较复杂的话需要存在。</li>
+<li><strong>角色 Actor</strong>：提出决策命令的人。</li>
+<li>黄色 - <strong>领域对象 Entity、Aggregate</strong>：角色<strong>让领域对象通过决策命令，完成领域事件</strong>。</li>
+<li>玫红色 - <strong>外部系统 External System</strong>：<strong>第三方服务提供者</strong>，例如货运公司、收款平台。</li>
+<li>绿色 - <strong>只读模型 Read Model</strong>：读取数据的动作，没有写库操作。</li>
+</ul>
+<p>1个用户通过1个策略命令，使用领域对象，通过业务流程，完成2个领域事件，调用1次外部接口个过程：</p>
+<img src="https://s2.loli.net/2025/04/28/jhUSilZDokPFTvg.png" alt="image-20250428164147482" style="zoom:80%;" />
+
+<hr>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><ol>
+<li><strong>寻找领域事件</strong>。</li>
+<li>为领域事件<strong>添加决策命令</strong>，并<strong>对复杂的流程提供业务流程</strong>。</li>
+<li>为决策命令<strong>添加领域对象</strong>。</li>
+<li>圈出领域后，<strong>划分领域边界</strong>。</li>
+<li>研发<strong>详细设计</strong>。<ol>
+<li>实体对象：对每一个领域对象进行字段的详细设计，并划分上下文关系。提供类图。</li>
+<li>流程设计：<strong>每一步调用的系统、接口、需要执行的动作</strong>。例如提供时序图。</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h2 id="工程实现"><a href="#工程实现" class="headerlink" title="工程实现"></a>工程实现</h2><p>战略设计昨做完，就需要执行战术和战役了。也就是在工程中做编码实现。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" rel="tag"><i class="fa fa-tag"></i> 领域驱动设计</a>
+              <a href="/tags/DDD/" rel="tag"><i class="fa fa-tag"></i> DDD</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/04/26/Jenkins/" rel="prev" title="Jenkins">
+                  <i class="fa fa-angle-left"></i> Jenkins
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hunter</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Hunter1023/Hunter1023.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>
